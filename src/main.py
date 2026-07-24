@@ -38,7 +38,8 @@ def main():
 
     ecos_data = read_json(output_dir / "raw_ecos.json") if (output_dir / "raw_ecos.json").exists() else {}
     kosis_data = read_json(output_dir / "raw_kosis.json") if (output_dir / "raw_kosis.json").exists() else {}
-    snapshot = build_snapshot(ecos_data, kosis_data)
+    us_policy_data = read_json(output_dir / "raw_us_policy.json") if (output_dir / "raw_us_policy.json").exists() else None
+    snapshot = build_snapshot(ecos_data, kosis_data, us_policy_data)
     snapshot["generated_at"] = now.isoformat()
     write_json(output_dir / "korea_rate_fx_outlook.json", snapshot)
     # Keep the old filename for backward compatibility.
