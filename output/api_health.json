@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-25T00:01:24.922378+09:00",
+  "generated_at": "2026-07-25T00:04:54.007135+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -14,19 +14,16 @@
     },
     "ecos": {
       "source": "ecos",
-      "status": "error",
-      "message": "ECOS 데이터 수집 실패",
-      "rows": 0,
-      "latest_observation": null,
+      "status": "ok",
+      "message": "ECOS 국내 금리·환율 수집 완료",
+      "rows": 1479,
+      "latest_observation": "20260724",
       "payload_path": "output/raw_ecos.json",
-      "warnings": [
-        "kr_base_rate: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/722Y001/D/20250619/20260724/0101000/?/?': No host supplied",
-        "usdkrw: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/731Y001/D/20250619/20260724/0000001/?/?': No host supplied",
-        "kr_gov_2y: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20250619/20260724/010195000/?/?': No host supplied",
-        "kr_gov_3y: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20250619/20260724/010200000/?/?': No host supplied",
-        "kr_gov_10y: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20250619/20260724/010210000/?/?': No host supplied"
-      ],
-      "metadata": {}
+      "warnings": [],
+      "metadata": {
+        "resolution_path": "output/ecos_resolution.json",
+        "cache_version": 1
+      }
     },
     "krx": {
       "source": "krx",
@@ -62,9 +59,7 @@
       "metadata": {}
     }
   },
-  "blocking_errors": [
-    "ecos"
-  ],
+  "blocking_errors": [],
   "warnings": [
     "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
     "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
