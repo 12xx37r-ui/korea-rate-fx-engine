@@ -34,13 +34,13 @@
     },
     "usdkrw_mid": 1453.1,
     "usdkrw_range": [
-      1394.9,
-      1511.2
+      1416.7,
+      1489.4
     ],
     "krw_strength_score": 0.1599,
     "krw_strength_grade": "강중립",
     "confidence": 0.55,
-    "confidence_limit": "미국 정책금리 엔진 미연결로 0.55 상한 적용"
+    "confidence_limit": "미국 정책금리 엔진 연결 반영"
   },
   "methodology": {
     "note": "현재 원화 강도는 환율의 절대 수준과 단기 모멘텀을 분리해 계산합니다. 금리 전망은 동결을 기준 시나리오로 두고 시장금리 격차·근원물가·산업생산을 제한적으로 반영한 규칙형 1차 전망입니다.",
@@ -48,7 +48,10 @@
     "fx_3m_change": -0.00756,
     "fx_forecast_bias_pct": -0.01112,
     "policy_market_gap_pctp": 1.051,
-    "us_policy_engine_connected": false
+    "us_policy_engine_connected": true,
+    "us_policy_next_meeting": "2026-07-29",
+    "us_policy_expected_path_rows": 12,
+    "us_policy_schema_version": "3.4.0-meeting-path-stabilized"
   },
-  "generated_at": "2026-07-25T01:38:07.046183+09:00"
+  "generated_at": "2026-07-25T01:45:38.778826+09:00"
 }
