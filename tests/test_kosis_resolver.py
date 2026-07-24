@@ -1,25 +1,18 @@
-from src.core.kosis_resolver import resolve_series, SEARCH_URL, DATA_URL
+from src.core.kosis_resolver import _choose_item, _score_candidate
 
 
-def test_resolve_series_selects_matching_item():
-    def fake_get(url, *, params, timeout, retries):
-        if url == SEARCH_URL:
-            return [{"ORG_ID": "101", "TBL_ID": "T1", "TBL_NM": "근원 소비자물가지수"}]
-        if url == DATA_URL:
-            return [
-                {"ITM_ID": "A", "ITM_NM": "총지수", "DT": "120", "PRD_DE": "202601"},
-                {"ITM_ID": "B", "ITM_NM": "농산물 및 석유류 제외지수", "DT": "118", "PRD_DE": "202601"},
-            ]
-        raise AssertionError(url)
+def test_score_candidate_prefers_matching_table():
+    good = {"TBL_NM": "소비자물가지수(2020=100)", "CONTENTS": "근원물가"}
+    bad = {"TBL_NM": "시도별 소비자물가지수"}
+    assert _score_candidate(good, ["소비자물가지수", "근원"], ["시도별"]) > _score_candidate(
+        bad, ["소비자물가지수", "근원"], ["시도별"]
+    )
 
-    spec = {
-        "search_terms": ["근원물가지수"],
-        "include_terms": ["농산물", "석유류", "제외"],
-        "exclude_terms": [],
-        "period_candidates": ["M"],
-    }
-    result = resolve_series("key", spec, fake_get, 1, 1)
-    assert result is not None
-    resolved, rows = result
-    assert resolved.itmId == "B"
-    assert len(rows) == 1
+
+def test_choose_item():
+    rows = [
+        {"ITM_ID": "T1", "ITM_NM": "총지수"},
+        {"ITM_ID": "T2", "ITM_NM": "농산물 및 석유류 제외 지수"},
+    ]
+    chosen = _choose_item(rows, ["농산물 및 석유류 제외"], [])
+    assert chosen["ITM_ID"] == "T2"
