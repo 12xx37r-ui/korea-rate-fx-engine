@@ -1,15 +1,20 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-25T00:37:27.151112+09:00",
+  "generated_at": "2026-07-25T00:44:52.390800+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
-      "status": "not_configured",
-      "message": "US_POLICY_JSON_URL이 설정되지 않았습니다.",
+      "status": "invalid_schema",
+      "message": "미국 엔진 JSON 필수 필드가 없습니다.",
       "rows": 0,
       "latest_observation": null,
-      "payload_path": null,
-      "warnings": [],
+      "payload_path": "output/us_input.json",
+      "warnings": [
+        "fed.expected_path",
+        "fed.next_meeting",
+        "us_market",
+        "quality"
+      ],
       "metadata": {}
     },
     "ecos": {
@@ -92,9 +97,10 @@
       }
     ]
   },
-  "blocking_errors": [],
+  "blocking_errors": [
+    "us_policy_engine"
+  ],
   "warnings": [
-    "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
     "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
