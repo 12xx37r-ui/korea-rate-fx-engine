@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-07-24T17:22:51.497791+09:00",
+  "status": "model_not_trained",
+  "score": 0.0,
+  "percentile": null,
+  "grade": "약중립",
+  "future_direction_grade": "약중립",
+  "confidence": 0.0,
+  "message": "원자료 검증과 백테스트 완료 후 실제 점수를 생성합니다."
+}

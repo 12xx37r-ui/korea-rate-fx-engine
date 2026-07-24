@@ -1,0 +1,67 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-07-24T17:22:51.497791+09:00",
+  "sources": {
+    "us_policy_engine": {
+      "source": "us_policy_engine",
+      "status": "not_configured",
+      "message": "US_POLICY_JSON_URL이 설정되지 않았습니다.",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": null,
+      "warnings": [],
+      "metadata": {}
+    },
+    "ecos": {
+      "source": "ecos",
+      "status": "missing_secret",
+      "message": "ECOS_API_KEY가 없습니다.",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": null,
+      "warnings": [],
+      "metadata": {}
+    },
+    "krx": {
+      "source": "krx",
+      "status": "missing_secret",
+      "message": "KRX_API_KEY가 없습니다.",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": null,
+      "warnings": [],
+      "metadata": {}
+    },
+    "kosis": {
+      "source": "kosis",
+      "status": "missing_secret",
+      "message": "KOSIS_API_KEY가 없습니다.",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": null,
+      "warnings": [],
+      "metadata": {}
+    },
+    "reb": {
+      "source": "reb",
+      "status": "missing_secret",
+      "message": "REB_API_KEY가 없습니다.",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": null,
+      "warnings": [],
+      "metadata": {}
+    }
+  },
+  "blocking_errors": [
+    "ecos",
+    "krx"
+  ],
+  "warnings": [
+    "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
+    "ecos: ECOS_API_KEY가 없습니다.",
+    "krx: KRX_API_KEY가 없습니다.",
+    "kosis: KOSIS_API_KEY가 없습니다.",
+    "reb: REB_API_KEY가 없습니다."
+  ]
+}
