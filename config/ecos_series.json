@@ -1,0 +1,52 @@
+{
+  "_instructions": [
+    "ECOS StatisticTableList 및 StatisticItemList에서 실제 코드를 확인해 입력하세요."
+  ],
+  "series": {
+    "kr_base_rate": {
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
+      "item_code2": "",
+      "item_code3": "",
+      "frequency": "D",
+      "unit": "%"
+    },
+    "usdkrw": {
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
+      "item_code2": "",
+      "item_code3": "",
+      "frequency": "D",
+      "unit": "KRW/USD"
+    },
+    "kr_gov_2y": {
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
+      "item_code2": "",
+      "item_code3": "",
+      "frequency": "D",
+      "unit": "%"
+    },
+    "kr_gov_3y": {
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
+      "item_code2": "",
+      "item_code3": "",
+      "frequency": "D",
+      "unit": "%"
+    },
+    "kr_gov_10y": {
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
+      "item_code2": "",
+      "item_code3": "",
+      "frequency": "D",
+      "unit": "%"
+    }
+  }
+}

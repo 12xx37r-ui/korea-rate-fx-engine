@@ -1,0 +1,25 @@
+{
+  "_instructions": [
+    "KOSIS 실제 orgId, tblId, itmId 및 분류코드를 입력하세요."
+  ],
+  "series": {
+    "cpi_core": {
+      "enabled": false,
+      "orgId": "",
+      "tblId": "",
+      "itmId": "",
+      "objL1": "",
+      "objL2": "",
+      "prdSe": "M"
+    },
+    "industrial_production": {
+      "enabled": false,
+      "orgId": "",
+      "tblId": "",
+      "itmId": "",
+      "objL1": "",
+      "objL2": "",
+      "prdSe": "M"
+    }
+  }
+}

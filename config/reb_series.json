@@ -1,0 +1,21 @@
+{
+  "_instructions": [
+    "R-ONE 통계코드 검색에서 확인한 실제 STATBL_ID와 분류코드를 입력하세요."
+  ],
+  "series": {
+    "seoul_apartment_sale_index": {
+      "enabled": false,
+      "statbl_id": "",
+      "cycle": "M",
+      "item_filter": {},
+      "unit": "index"
+    },
+    "capital_area_apartment_sale_change": {
+      "enabled": false,
+      "statbl_id": "",
+      "cycle": "W",
+      "item_filter": {},
+      "unit": "%"
+    }
+  }
+}
