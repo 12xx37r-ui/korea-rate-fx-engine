@@ -31,12 +31,16 @@ def _rows(payload: Any) -> list[dict[str, Any]]:
 
 
 def _fetch(key: str, resolution, start_text: str, end_text: str, timeout: int, retries: int) -> list[dict[str, Any]]:
+    # BASE is already a complete URL. Encode only path components; encoding
+    # the scheme/host would turn https:// into https:%2F%2F and produce
+    # requests.exceptions.InvalidURL (No host supplied).
     parts = [
-        BASE, key, "json", "kr", "1", "1000", resolution.stat_code,
+        key, "json", "kr", "1", "1000", resolution.stat_code,
         resolution.cycle, start_text, end_text, resolution.item_code1,
         resolution.item_code2 or "?", resolution.item_code3 or "?",
     ]
-    url = "/".join(quote(str(x).strip("/"), safe="?:") for x in parts)
+    encoded = [quote(str(x).strip("/"), safe="?") for x in parts]
+    url = BASE.rstrip("/") + "/" + "/".join(encoded)
     return _rows(get_json(url, timeout=timeout, retries=retries))
 
 
