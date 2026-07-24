@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-24T23:58:35.257840+09:00",
+  "generated_at": "2026-07-25T00:01:24.922378+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -20,11 +20,11 @@
       "latest_observation": null,
       "payload_path": "output/raw_ecos.json",
       "warnings": [
-        "kr_base_rate: get_json() takes 1 positional argument but 3 were given",
-        "usdkrw: get_json() takes 1 positional argument but 3 were given",
-        "kr_gov_2y: get_json() takes 1 positional argument but 3 were given",
-        "kr_gov_3y: get_json() takes 1 positional argument but 3 were given",
-        "kr_gov_10y: get_json() takes 1 positional argument but 3 were given"
+        "kr_base_rate: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/722Y001/D/20250619/20260724/0101000/?/?': No host supplied",
+        "usdkrw: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/731Y001/D/20250619/20260724/0000001/?/?': No host supplied",
+        "kr_gov_2y: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20250619/20260724/010195000/?/?': No host supplied",
+        "kr_gov_3y: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20250619/20260724/010200000/?/?': No host supplied",
+        "kr_gov_10y: 요청 실패: Invalid URL 'https:%2F%2Fecos.bok.or.kr%2Fapi%2FStatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20250619/20260724/010210000/?/?': No host supplied"
       ],
       "metadata": {}
     },
