@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-24T23:20:06.847362+09:00",
+  "generated_at": "2026-07-24T23:33:59.267872+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -40,14 +40,10 @@
       "latest_observation": null,
       "payload_path": "output/raw_kosis.json",
       "warnings": [
-        "cpi_core: 자동탐색 오류: 요청 실패: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)",
-        "cpi_core: 적합한 KOSIS 통계표 또는 데이터를 찾지 못했습니다.",
-        "industrial_production: 자동탐색 오류: 요청 실패: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)",
-        "industrial_production: 적합한 KOSIS 통계표 또는 데이터를 찾지 못했습니다."
+        "cpi_core: 요청 실패: API가 JSON 대신 HTML을 반환했습니다. 응답 시작: [{\"ORG_ID\":\"101\",\"ORG_NM\":\"국가데이터처\",\"TBL_ID\":\"DT_2OEEO0122\",\"TBL_NM\":\"근원물가지수 증감률\",\"STAT_ID\":\"A10120100427103019\",\"STAT_NM\":\"OECD\",\"VW_CD\":\"MT_RTITLE\",\"MT_ATITLE\":\"국제기구별 통계 > OECD (O",
+        "industrial_production: 요청 실패: API가 JSON 대신 HTML을 반환했습니다. 응답 시작: [{\"ORG_ID\":\"101\",\"ORG_NM\":\"국가데이터처\",\"TBL_ID\":\"DT_1JH20202\",\"TBL_NM\":\"전산업생산지수(계절조정지수)\",\"STAT_ID\":\"2011011\",\"STAT_NM\":\"전산업생산지수\",\"VW_CD\":\"MT_ZTITLE\",\"MT_ATITLE\":\"경제일반ㆍ경기 > 전산업생산지수\",\"FU"
       ],
-      "metadata": {
-        "cache_path": "cache/kosis_resolved.json"
-      }
+      "metadata": {}
     },
     "reb": {
       "source": "reb",
