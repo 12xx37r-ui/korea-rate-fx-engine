@@ -1,13 +1,12 @@
 {
   "_instructions": [
-    "KRX 승인 서비스 상세화면의 실제 API ID와 endpoint를 입력하세요.",
-    "API ID 또는 URL을 추측하지 마세요.",
+    "KRX 승인 서비스 실제 endpoint 설정 완료",
     "AUTH_KEY 요청 헤더는 코드가 자동으로 추가합니다."
   ],
   "futures_daily_non_equity": {
-    "enabled": false,
-    "api_id": "",
-    "endpoint": "",
+    "enabled": true,
+    "api_id": "fut_bydd_trd",
+    "endpoint": "https://data-dbg.krx.co.kr/svc/apis/drv/fut_bydd_trd",
     "description": "선물 일별매매정보(주식선물 외)",
     "required_products": [
       "미국달러선물",
@@ -18,9 +17,9 @@
     ]
   },
   "government_bond_daily": {
-    "enabled": false,
-    "api_id": "",
-    "endpoint": "",
+    "enabled": true,
+    "api_id": "kts_bydd_trd",
+    "endpoint": "https://data-dbg.krx.co.kr/svc/apis/bon/kts_bydd_trd",
     "description": "국채전문유통시장 일별매매정보"
   }
 }
