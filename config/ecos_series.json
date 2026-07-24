@@ -1,22 +1,21 @@
 {
   "_instructions": [
-    "ECOS 실제 통계코드 설정 완료",
-    "국고채 2년 코드는 현재 정확한 공식 항목코드를 추가 확인할 때까지 비활성화"
+    "ECOS StatisticTableList 및 StatisticItemList에서 실제 코드를 확인해 입력하세요."
   ],
   "series": {
     "kr_base_rate": {
-      "enabled": true,
-      "stat_code": "722Y001",
-      "item_code1": "0101000",
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
       "item_code2": "",
       "item_code3": "",
       "frequency": "D",
       "unit": "%"
     },
     "usdkrw": {
-      "enabled": true,
-      "stat_code": "731Y003",
-      "item_code1": "0000003",
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
       "item_code2": "",
       "item_code3": "",
       "frequency": "D",
@@ -32,18 +31,18 @@
       "unit": "%"
     },
     "kr_gov_3y": {
-      "enabled": true,
-      "stat_code": "817Y002",
-      "item_code1": "010200000",
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
       "item_code2": "",
       "item_code3": "",
       "frequency": "D",
       "unit": "%"
     },
     "kr_gov_10y": {
-      "enabled": true,
-      "stat_code": "817Y002",
-      "item_code1": "010210000",
+      "enabled": false,
+      "stat_code": "",
+      "item_code1": "",
       "item_code2": "",
       "item_code3": "",
       "frequency": "D",

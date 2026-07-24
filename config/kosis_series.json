@@ -1,12 +1,24 @@
 {
   "_instructions": [
-    "KOSIS 실제 통계코드 설정"
+    "auto_resolve=true이면 KOSIS 통합검색에서 통계표와 항목 코드를 자동 탐색합니다.",
+    "orgId, tblId, itmId를 직접 입력하면 수동 설정이 자동탐색보다 우선합니다.",
+    "자동탐색 결과는 cache/kosis_resolved.json에 저장되어 다음 실행부터 재사용됩니다."
   ],
   "series": {
     "cpi_core": {
       "enabled": true,
-      "orgId": "101",
-      "tblId": "DT_1J22009",
+      "auto_resolve": true,
+      "search_terms": [
+        "농산물 및 석유류 제외지수",
+        "식료품 및 에너지 제외지수",
+        "근원물가지수"
+      ],
+      "include_terms": ["농산물", "석유류", "제외", "식료품", "에너지", "근원", "소비자물가"],
+      "exclude_terms": ["지역", "시도", "생활물가"],
+      "period_candidates": ["M", "Y"],
+      "newEstPrdCnt": 24,
+      "orgId": "",
+      "tblId": "",
       "itmId": "",
       "objL1": "",
       "objL2": "",
@@ -14,8 +26,18 @@
     },
     "industrial_production": {
       "enabled": true,
-      "orgId": "101",
-      "tblId": "DT_1F02001",
+      "auto_resolve": true,
+      "search_terms": [
+        "광공업생산지수",
+        "전산업생산지수",
+        "산업생산지수"
+      ],
+      "include_terms": ["광공업", "생산지수", "전산업생산"],
+      "exclude_terms": ["지역", "시도", "사업체수"],
+      "period_candidates": ["M", "Q", "Y"],
+      "newEstPrdCnt": 24,
+      "orgId": "",
+      "tblId": "",
       "itmId": "",
       "objL1": "",
       "objL2": "",

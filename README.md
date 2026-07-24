@@ -41,3 +41,9 @@ python -m src.main
 - `config/ecos_series.json`: 실제 ECOS 통계표·항목 코드 입력
 - `config/kosis_series.json`: 실제 KOSIS 통계표·분류 코드 입력
 - `config/reb_series.json`: 실제 R-ONE 통계코드 입력
+
+## KOSIS automatic resolver
+
+The KOSIS collector now searches for enabled indicators when manual codes are empty.
+Resolved mappings are written to `cache/kosis_resolved.json` and reused on later runs.
+The GitHub Actions secret name must be `KOSIS_API_KEY`.
