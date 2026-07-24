@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-24T23:50:19.955618+09:00",
+  "generated_at": "2026-07-24T23:58:35.257840+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -14,12 +14,18 @@
     },
     "ecos": {
       "source": "ecos",
-      "status": "not_configured",
-      "message": "config/ecos_series.json에 실제 ECOS 통계코드를 입력해야 합니다.",
+      "status": "error",
+      "message": "ECOS 데이터 수집 실패",
       "rows": 0,
       "latest_observation": null,
-      "payload_path": null,
-      "warnings": [],
+      "payload_path": "output/raw_ecos.json",
+      "warnings": [
+        "kr_base_rate: get_json() takes 1 positional argument but 3 were given",
+        "usdkrw: get_json() takes 1 positional argument but 3 were given",
+        "kr_gov_2y: get_json() takes 1 positional argument but 3 were given",
+        "kr_gov_3y: get_json() takes 1 positional argument but 3 were given",
+        "kr_gov_10y: get_json() takes 1 positional argument but 3 were given"
+      ],
       "metadata": {}
     },
     "krx": {
@@ -56,10 +62,11 @@
       "metadata": {}
     }
   },
-  "blocking_errors": [],
+  "blocking_errors": [
+    "ecos"
+  ],
   "warnings": [
     "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
-    "ecos: config/ecos_series.json에 실제 ECOS 통계코드를 입력해야 합니다.",
     "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
