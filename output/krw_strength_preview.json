@@ -6,27 +6,49 @@
     "kr_gov_2y_pct": 3.801,
     "kr_gov_3y_pct": 3.959,
     "kr_gov_10y_pct": 4.447,
-    "krw_strength_score": 0.1224,
-    "krw_strength_grade": "강중립"
+    "krw_strength_score": 0.06,
+    "krw_strength_grade": "약중립",
+    "krw_absolute_level_score": -0.0714,
+    "krw_absolute_level_grade": "약중립",
+    "krw_short_term_momentum_score": 0.3042,
+    "krw_short_term_momentum_grade": "강중립",
+    "usdkrw_1y_percentile": 0.5357
   },
   "forecast": {
     "horizon": "향후 1~3개월",
-    "kr_base_rate_direction": "인상 위험",
-    "kr_base_rate_expected_pct": 3.0,
-    "usdkrw_mid": 1463.1,
+    "kr_base_rate_direction": "동결 우세·인상 위험",
+    "kr_base_rate_expected_pct": 2.8,
+    "kr_base_rate_scenarios": {
+      "hold": {
+        "rate_pct": 2.75,
+        "probability": 0.533
+      },
+      "hike_25bp": {
+        "rate_pct": 3.0,
+        "probability": 0.328
+      },
+      "cut_25bp": {
+        "rate_pct": 2.5,
+        "probability": 0.14
+      }
+    },
+    "usdkrw_mid": 1453.1,
     "usdkrw_range": [
-      1419.2,
-      1507.0
+      1394.9,
+      1511.2
     ],
-    "krw_strength_score": 0.1045,
+    "krw_strength_score": 0.1599,
     "krw_strength_grade": "강중립",
-    "confidence": 1.0
+    "confidence": 0.55,
+    "confidence_limit": "미국 정책금리 엔진 미연결로 0.55 상한 적용"
   },
   "methodology": {
-    "note": "시장금리·환율 모멘텀·근원물가·산업생산 기반 규칙형 1차 전망입니다. 미국 정책금리 엔진 연결 전에는 신뢰도를 제한합니다.",
+    "note": "현재 원화 강도는 환율의 절대 수준과 단기 모멘텀을 분리해 계산합니다. 금리 전망은 동결을 기준 시나리오로 두고 시장금리 격차·근원물가·산업생산을 제한적으로 반영한 규칙형 1차 전망입니다.",
     "fx_1m_change": -0.04479,
     "fx_3m_change": -0.00756,
-    "policy_market_gap_pctp": 1.051
+    "fx_forecast_bias_pct": -0.01112,
+    "policy_market_gap_pctp": 1.051,
+    "us_policy_engine_connected": false
   },
-  "generated_at": "2026-07-25T00:04:54.007135+09:00"
+  "generated_at": "2026-07-25T00:11:50.512633+09:00"
 }
