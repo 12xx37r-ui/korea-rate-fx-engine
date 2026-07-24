@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-25T00:11:50.512633+09:00",
+  "generated_at": "2026-07-25T00:18:32.416047+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -22,7 +22,12 @@
       "warnings": [],
       "metadata": {
         "resolution_path": "output/ecos_resolution.json",
-        "cache_version": 1
+        "cache_version": 1,
+        "credential_status": "valid",
+        "secret_name": "ECOS_API_KEY",
+        "action_required": false,
+        "action": "없음",
+        "message": ""
       }
     },
     "krx": {
@@ -45,7 +50,12 @@
       "warnings": [],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
-        "cache_version": 2
+        "cache_version": 2,
+        "credential_status": "valid",
+        "secret_name": "KOSIS_API_KEY",
+        "action_required": false,
+        "action": "없음",
+        "message": ""
       }
     },
     "reb": {
@@ -58,6 +68,29 @@
       "warnings": [],
       "metadata": {}
     }
+  },
+  "api_credentials": {
+    "status": "ok",
+    "action_required": false,
+    "alerts": [],
+    "items": [
+      {
+        "source": "ecos",
+        "secret_name": "ECOS_API_KEY",
+        "status": "valid",
+        "action_required": false,
+        "action": "없음",
+        "message": "ECOS 국내 금리·환율 수집 완료"
+      },
+      {
+        "source": "kosis",
+        "secret_name": "KOSIS_API_KEY",
+        "status": "valid",
+        "action_required": false,
+        "action": "없음",
+        "message": "KOSIS 국내 공식 지표 수집 완료"
+      }
+    ]
   },
   "blocking_errors": [],
   "warnings": [
