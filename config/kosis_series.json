@@ -1,31 +1,50 @@
 {
   "_instructions": [
-    "KOSIS_API_KEY만 등록하면 통계표/항목 코드를 자동 탐색합니다.",
-    "첫 성공 결과는 cache/kosis_resolved.json에 저장되어 다음 실행부터 재사용됩니다.",
-    "자동 선택이 잘못되면 cache/kosis_resolved.json을 삭제하고 검색어를 조정하세요."
+    "국내 공식 KOSIS 통계표를 우선 사용합니다.",
+    "자동 탐색 결과는 cache/kosis_resolved.json에 저장됩니다.",
+    "cache_version이 바뀌면 과거의 잘못된 자동 선택 결과를 무시합니다."
   ],
+  "cache_version": 2,
   "series": {
     "cpi_core": {
       "enabled": true,
-      "search_terms": ["근원물가", "농산물 및 석유류 제외 소비자물가지수", "식료품 및 에너지 제외 지수"],
-      "table_keywords": ["소비자물가지수", "근원", "농산물 및 석유류 제외"],
-      "item_keywords": ["농산물 및 석유류 제외", "식료품 및 에너지 제외", "근원"],
-      "exclude_keywords": ["지역별", "시도별"],
-      "prdSe": "M",
+      "auto_resolve": true,
+      "preferred_tables": [
+        {"orgId": "101", "tblId": "DT_1J22112"},
+        {"orgId": "101", "tblId": "DT_1J22003"},
+        {"orgId": "101", "tblId": "DT_1J22042"}
+      ],
+      "search_terms": [
+        "농산물 및 석유류 제외지수",
+        "식료품 및 에너지 제외지수"
+      ],
+      "table_keywords": ["소비자물가지수", "품목별 소비자물가지수", "국내통계"],
+      "item_keywords": [
+        "농산물 및 석유류 제외지수",
+        "농산물및석유류제외지수",
+        "식료품 및 에너지 제외지수",
+        "식료품및에너지제외지수"
+      ],
+      "exclude_keywords": ["OECD", "국제기구", "지역", "시도", "연도별"],
+      "preferred_org_id": "101",
+      "period_candidates": ["M"],
       "newEstPrdCnt": 24,
-      "result_count": 20,
-      "probe_limit": 10
+      "prdSe": "M"
     },
     "industrial_production": {
       "enabled": true,
-      "search_terms": ["전산업생산지수", "광공업생산지수", "산업생산지수"],
-      "table_keywords": ["전산업생산지수", "광공업생산지수", "산업활동동향"],
-      "item_keywords": ["전산업생산지수", "광공업생산지수", "생산지수"],
-      "exclude_keywords": ["지역별", "시도별"],
-      "prdSe": "M",
+      "auto_resolve": true,
+      "preferred_tables": [
+        {"orgId": "101", "tblId": "DT_1JH20202"}
+      ],
+      "search_terms": ["전산업생산지수 계절조정지수"],
+      "table_keywords": ["전산업생산지수", "계절조정지수"],
+      "item_keywords": ["전산업생산지수", "계절조정지수"],
+      "exclude_keywords": ["광공업", "원지수", "지역", "시도", "OECD"],
+      "preferred_org_id": "101",
+      "period_candidates": ["M"],
       "newEstPrdCnt": 24,
-      "result_count": 20,
-      "probe_limit": 10
+      "prdSe": "M"
     }
   }
 }
