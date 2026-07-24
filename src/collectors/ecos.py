@@ -8,6 +8,7 @@ from urllib.parse import quote
 
 from src.core.ecos_resolver import EcosResolver
 from src.core.http import get_json
+from src.core.credentials import credential_issue, credential_metadata
 from src.core.io import read_json, write_json
 from src.core.result import SourceResult
 
@@ -51,7 +52,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     series = {n: v for n, v in config.get("series", {}).items() if v.get("enabled")}
 
     if not key:
-        return SourceResult("ecos", "missing_secret", "ECOS_API_KEY가 없습니다.")
+        return SourceResult("ecos", "missing_secret", "ECOS_API_KEY가 없습니다.", metadata=credential_metadata("ECOS_API_KEY", "missing", "API 키를 등록해야 합니다."))
     if not series:
         return SourceResult("ecos", "not_configured", "config/ecos_series.json에 활성 지표가 없습니다.")
 
@@ -59,6 +60,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     payloads: dict[str, list[dict[str, Any]]] = {}
     resolution_log: dict[str, Any] = {}
     warnings: list[str] = []
+    auth_failures: list[str] = []
     latest_observation: str | None = None
 
     for name, item in series.items():
@@ -88,7 +90,10 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 latest_observation = latest
             print(f"[ECOS] {name}: table={resolved.stat_code} item={resolved.item_name1} rows={len(rows)} latest={latest}")
         except Exception as exc:
-            warnings.append(f"{name}: {exc}")
+            detail = f"{name}: {exc}"
+            warnings.append(detail)
+            if credential_issue(exc):
+                auth_failures.append(detail)
             print(f"[ECOS] {name}: failed: {exc}")
 
     resolver.save()
@@ -98,9 +103,16 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     write_json(resolution_path, resolution_log)
     total_rows = sum(len(v) for v in payloads.values())
     if not payloads:
-        return SourceResult("ecos", "error", "ECOS 데이터 수집 실패", payload_path=str(path), warnings=warnings)
+        if auth_failures:
+            return SourceResult(
+                "ecos", "credential_error",
+                "ECOS API 키가 만료되었거나 유효하지 않습니다. 새 키로 갱신해야 합니다.",
+                payload_path=str(path), warnings=warnings,
+                metadata=credential_metadata("ECOS_API_KEY", "renewal_required", auth_failures[0]),
+            )
+        return SourceResult("ecos", "error", "ECOS 데이터 수집 실패", payload_path=str(path), warnings=warnings, metadata=credential_metadata("ECOS_API_KEY", "unknown_error"))
     return SourceResult(
         "ecos", "ok" if not warnings else "degraded", "ECOS 국내 금리·환율 수집 완료",
         rows=total_rows, latest_observation=latest_observation, payload_path=str(path), warnings=warnings,
-        metadata={"resolution_path": str(resolution_path), "cache_version": 1},
+        metadata={"resolution_path": str(resolution_path), "cache_version": 1, **credential_metadata("ECOS_API_KEY", "valid")},
     )

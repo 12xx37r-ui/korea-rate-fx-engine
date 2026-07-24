@@ -41,3 +41,14 @@ python -m src.main
 - `config/ecos_series.json`: 실제 ECOS 통계표·항목 코드 입력
 - `config/kosis_series.json`: 실제 KOSIS 통계표·분류 코드 입력
 - `config/reb_series.json`: 실제 R-ONE 통계코드 입력
+
+## API 키 만료·갱신 알림
+
+워크플로 실행 때 ECOS/KOSIS 인증 오류를 감지하면 다음 파일에 명확히 표시됩니다.
+
+- `output/api_health.json` → `api_credentials.status: "action_required"`
+- `output/api_key_status.json` → `status: "API_KEY_RENEWAL_REQUIRED"`
+- 해당 source → `status: "credential_error"`
+- `metadata.secret_name`과 `metadata.action`에 교체할 GitHub Secret 이름과 조치 방법 표시
+
+API 키를 갱신한 뒤 GitHub의 `Settings → Secrets and variables → Actions`에서 기존 Secret 값만 새 키로 교체하고 workflow를 다시 실행하면 됩니다. 소스코드나 통계코드를 다시 수정할 필요는 없습니다.
