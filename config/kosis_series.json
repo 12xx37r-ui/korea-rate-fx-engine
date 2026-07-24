@@ -1,12 +1,12 @@
 {
   "_instructions": [
-    "KOSIS 실제 orgId, tblId, itmId 및 분류코드를 입력하세요."
+    "KOSIS 항목코드와 분류코드를 확인한 뒤 enabled를 true로 변경합니다."
   ],
   "series": {
     "cpi_core": {
       "enabled": false,
-      "orgId": "",
-      "tblId": "",
+      "orgId": "101",
+      "tblId": "DT_1J22009",
       "itmId": "",
       "objL1": "",
       "objL2": "",
@@ -14,8 +14,8 @@
     },
     "industrial_production": {
       "enabled": false,
-      "orgId": "",
-      "tblId": "",
+      "orgId": "101",
+      "tblId": "DT_1F02001",
       "itmId": "",
       "objL1": "",
       "objL2": "",
