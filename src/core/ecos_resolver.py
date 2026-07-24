@@ -80,12 +80,12 @@ class EcosResolver:
 
     def _table_rows(self) -> list[dict[str, Any]]:
         if self._tables is None:
-            payload = get_json(_url("StatisticTableList", self.key, "1", "10000", ""), self.timeout, self.retries)
+            payload = get_json(_url("StatisticTableList", self.key, "1", "10000", ""), timeout=self.timeout, retries=self.retries)
             self._tables = _rows(payload, "StatisticTableList")
         return self._tables
 
     def _item_rows(self, stat_code: str) -> list[dict[str, Any]]:
-        payload = get_json(_url("StatisticItemList", self.key, "1", "10000", stat_code), self.timeout, self.retries)
+        payload = get_json(_url("StatisticItemList", self.key, "1", "10000", stat_code), timeout=self.timeout, retries=self.retries)
         return _rows(payload, "StatisticItemList")
 
     def resolve(self, name: str, cfg: dict[str, Any], force: bool = False) -> EcosResolution:
