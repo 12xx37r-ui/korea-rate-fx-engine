@@ -1,1 +1,13 @@
-{}
+{
+  "industrial_production": {
+    "orgId": "101",
+    "tblId": "DT_1F02011",
+    "itmId": "T10",
+    "objL1": "10",
+    "objL2": "",
+    "prdSe": "M",
+    "table_name": "기본분류 일부항목 제외 광공업생산지수(2020＝100)",
+    "item_name": "산업생산지수(원지수)",
+    "resolved_from": "auto"
+  }
+}
