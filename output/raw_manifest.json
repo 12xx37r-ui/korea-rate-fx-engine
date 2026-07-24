@@ -1,7 +1,8 @@
 {
-  "generated_at": "2026-07-24T21:48:18.263215+09:00",
+  "generated_at": "2026-07-24T22:06:03.991556+09:00",
   "files": [
     "output/raw_ecos.json",
-    "output/raw_krx.json"
+    "output/raw_krx.json",
+    "output/raw_kosis.json"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-24T21:48:18.263215+09:00",
+  "generated_at": "2026-07-24T22:06:03.991556+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -34,12 +34,15 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "not_configured",
-      "message": "config/kosis_series.json에 실제 통계코드를 입력해야 합니다.",
+      "status": "error",
+      "message": "KOSIS 데이터 수집 실패",
       "rows": 0,
       "latest_observation": null,
-      "payload_path": null,
-      "warnings": [],
+      "payload_path": "output/raw_kosis.json",
+      "warnings": [
+        "cpi_core: 요청 실패: API가 JSON 대신 HTML을 반환했습니다.",
+        "industrial_production: 요청 실패: API가 JSON 대신 HTML을 반환했습니다."
+      ],
       "metadata": {}
     },
     "reb": {
@@ -56,7 +59,6 @@
   "blocking_errors": [],
   "warnings": [
     "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
-    "kosis: config/kosis_series.json에 실제 통계코드를 입력해야 합니다.",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }
