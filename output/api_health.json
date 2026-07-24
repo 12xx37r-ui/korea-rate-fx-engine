@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-24T22:06:03.991556+09:00",
+  "generated_at": "2026-07-24T22:56:01.469791+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -40,8 +40,8 @@
       "latest_observation": null,
       "payload_path": "output/raw_kosis.json",
       "warnings": [
-        "cpi_core: 요청 실패: API가 JSON 대신 HTML을 반환했습니다.",
-        "industrial_production: 요청 실패: API가 JSON 대신 HTML을 반환했습니다."
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22009&itmId=&objL1=&prdSe=M&newEstPrdCnt=24&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fe48522faa0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))",
+        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1F02001&itmId=&objL1=&prdSe=M&newEstPrdCnt=24&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fe48522f4a0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))"
       ],
       "metadata": {}
     },
