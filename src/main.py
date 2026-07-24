@@ -6,7 +6,8 @@ from zoneinfo import ZoneInfo
 
 from src.collectors import ecos, kosis, krx, reb, us_policy
 from src.core.io import read_json, write_json
-from src.models.krw_strength import calculate_placeholder
+from src.models.krw_strength import build_snapshot
+
 
 def main():
     settings = read_json("config/settings.json")
@@ -29,37 +30,25 @@ def main():
         "schema_version": settings["schema_version"],
         "generated_at": now.isoformat(),
         "sources": {r.source: r.to_dict() for r in results},
-        "blocking_errors": [
-            r.source for r in results
-            if r.source in settings["required_sources"]
-            and r.status not in {"ok", "degraded", "not_configured"}
-        ],
-        "warnings": [
-            f"{r.source}: {r.message}" for r in results
-            if r.status in {"degraded", "not_configured", "missing_secret"}
-        ]
+        "blocking_errors": [r.source for r in results if r.source in settings["required_sources"] and r.status not in {"ok", "degraded", "not_configured"}],
+        "warnings": [f"{r.source}: {r.message}" for r in results if r.status in {"degraded", "not_configured", "missing_secret"}],
     }
     write_json(output_dir / "api_health.json", health)
-    write_json(output_dir / "raw_manifest.json", {
-        "generated_at": now.isoformat(),
-        "files": [r.payload_path for r in results if r.payload_path]
-    })
+    write_json(output_dir / "raw_manifest.json", {"generated_at": now.isoformat(), "files": [r.payload_path for r in results if r.payload_path]})
 
-    strength = calculate_placeholder()
-    write_json(output_dir / "krw_strength_preview.json", {
-        "generated_at": now.isoformat(),
-        "status": "model_not_trained",
-        "score": strength.score,
-        "percentile": strength.percentile,
-        "grade": strength.grade,
-        "future_direction_grade": strength.direction_grade,
-        "confidence": strength.confidence,
-        "message": "원자료 검증과 백테스트 완료 후 실제 점수를 생성합니다."
-    })
+    ecos_data = read_json(output_dir / "raw_ecos.json") if (output_dir / "raw_ecos.json").exists() else {}
+    kosis_data = read_json(output_dir / "raw_kosis.json") if (output_dir / "raw_kosis.json").exists() else {}
+    snapshot = build_snapshot(ecos_data, kosis_data)
+    snapshot["generated_at"] = now.isoformat()
+    write_json(output_dir / "korea_rate_fx_outlook.json", snapshot)
+    # Keep the old filename for backward compatibility.
+    write_json(output_dir / "krw_strength_preview.json", snapshot)
 
     print("Generated output/api_health.json")
     print("Generated output/raw_manifest.json")
+    print("Generated output/korea_rate_fx_outlook.json")
     print("Generated output/krw_strength_preview.json")
+
 
 if __name__ == "__main__":
     main()
