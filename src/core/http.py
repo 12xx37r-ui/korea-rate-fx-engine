@@ -14,18 +14,16 @@ class HttpError(RuntimeError):
 
 
 def _parse_json_like(text: str) -> Any:
-    """KOSIS처럼 JSONP 또는 작은따옴표 객체를 반환하는 API도 안전하게 해석한다."""
+    """표준 JSON과 JSONP 그리고 작은따옴표 객체 응답을 해석한다."""
     raw = (text or "").lstrip("\ufeff").strip()
     if not raw:
         raise ValueError("빈 응답")
 
-    # 표준 JSON
     try:
         return json.loads(raw)
     except json.JSONDecodeError:
         pass
 
-    # callback({...}) 형태 JSONP
     match = re.fullmatch(r"[A-Za-z_$][\w$\.]*\s*\((.*)\)\s*;?", raw, flags=re.DOTALL)
     if match:
         inner = match.group(1).strip()
@@ -34,7 +32,6 @@ def _parse_json_like(text: str) -> Any:
         except json.JSONDecodeError:
             raw = inner
 
-    # 일부 공공 API가 {'key': 'value'}처럼 Python/JS 유사 객체를 반환하는 경우
     try:
         parsed = ast.literal_eval(raw)
     except (ValueError, SyntaxError) as exc:
@@ -47,16 +44,24 @@ def _parse_json_like(text: str) -> Any:
 
 
 def get_json(url: str, *, headers=None, params=None, timeout=30, retries=3) -> Any:
+    """응답 헤더가 잘못된 API도 본문이 JSON이면 정상 처리한다.
+
+    KOSIS 일부 응답은 실제 본문이 JSON 배열이어도 Content-Type을
+    text/html로 반환한다. 따라서 Content-Type만 보고 차단하지 않고
+    본문을 먼저 파싱한다. 실제 HTML 문서일 때만 명확한 오류로 처리한다.
+    """
     last_error: Exception | None = None
     for attempt in range(1, retries + 1):
         try:
             response = requests.get(url, headers=headers, params=params, timeout=timeout)
             response.raise_for_status()
-            content_type = response.headers.get("content-type", "").lower()
-            if "html" in content_type:
-                preview = response.text[:180].replace("\r", " ").replace("\n", " ")
-                raise HttpError(f"API가 JSON 대신 HTML을 반환했습니다. 응답 시작: {preview}")
-            return _parse_json_like(response.text)
+            raw = (response.text or "").lstrip("\ufeff").strip()
+
+            if raw.startswith("<"):
+                preview = raw[:180].replace("\r", " ").replace("\n", " ")
+                raise HttpError(f"API가 HTML 문서를 반환했습니다. 응답 시작: {preview}")
+
+            return _parse_json_like(raw)
         except (requests.RequestException, ValueError, HttpError) as exc:
             last_error = exc
             if attempt < retries:
