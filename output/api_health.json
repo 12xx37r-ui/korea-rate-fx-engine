@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-24T17:32:01.564705+09:00",
+  "generated_at": "2026-07-24T17:39:38.516518+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -14,8 +14,8 @@
     },
     "ecos": {
       "source": "ecos",
-      "status": "missing_secret",
-      "message": "ECOS_API_KEY가 없습니다.",
+      "status": "not_configured",
+      "message": "config/ecos_series.json에 실제 ECOS 통계코드를 입력해야 합니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -24,8 +24,8 @@
     },
     "krx": {
       "source": "krx",
-      "status": "missing_secret",
-      "message": "KRX_API_KEY가 없습니다.",
+      "status": "not_configured",
+      "message": "config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -34,8 +34,8 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "missing_secret",
-      "message": "KOSIS_API_KEY가 없습니다.",
+      "status": "not_configured",
+      "message": "config/kosis_series.json에 실제 통계코드를 입력해야 합니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -44,8 +44,8 @@
     },
     "reb": {
       "source": "reb",
-      "status": "missing_secret",
-      "message": "REB_API_KEY가 없습니다.",
+      "status": "not_configured",
+      "message": "config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -53,15 +53,12 @@
       "metadata": {}
     }
   },
-  "blocking_errors": [
-    "ecos",
-    "krx"
-  ],
+  "blocking_errors": [],
   "warnings": [
     "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
-    "ecos: ECOS_API_KEY가 없습니다.",
-    "krx: KRX_API_KEY가 없습니다.",
-    "kosis: KOSIS_API_KEY가 없습니다.",
-    "reb: REB_API_KEY가 없습니다."
+    "ecos: config/ecos_series.json에 실제 ECOS 통계코드를 입력해야 합니다.",
+    "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
+    "kosis: config/kosis_series.json에 실제 통계코드를 입력해야 합니다.",
+    "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }
