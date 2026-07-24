@@ -1,10 +1,10 @@
 {
   "_instructions": [
-    "KOSIS 항목코드와 분류코드를 확인한 뒤 enabled를 true로 변경합니다."
+    "KOSIS 실제 통계코드 설정"
   ],
   "series": {
     "cpi_core": {
-      "enabled": false,
+      "enabled": true,
       "orgId": "101",
       "tblId": "DT_1J22009",
       "itmId": "",
@@ -13,7 +13,7 @@
       "prdSe": "M"
     },
     "industrial_production": {
-      "enabled": false,
+      "enabled": true,
       "orgId": "101",
       "tblId": "DT_1F02001",
       "itmId": "",
