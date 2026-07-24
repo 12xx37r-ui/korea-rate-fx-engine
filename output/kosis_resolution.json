@@ -1,13 +1,30 @@
 {
+  "cpi_core": {
+    "orgId": "101",
+    "tblId": "DT_1J22042",
+    "itmId": "T02",
+    "objL1": "3",
+    "prdSe": "M",
+    "objL2": "",
+    "objL3": "",
+    "objL4": "",
+    "table_name": "월별 소비자물가 등락률",
+    "item_name": "전월비 / 농산물및석유류제외지수",
+    "resolved_from": "preferred_table",
+    "cache_version": 2
+  },
   "industrial_production": {
     "orgId": "101",
-    "tblId": "DT_1F02011",
-    "itmId": "T10",
-    "objL1": "10",
-    "objL2": "",
+    "tblId": "DT_1JH20202",
+    "itmId": "T1",
+    "objL1": "1",
     "prdSe": "M",
-    "table_name": "기본분류 일부항목 제외 광공업생산지수(2020＝100)",
-    "item_name": "산업생산지수(원지수)",
-    "resolved_from": "auto"
+    "objL2": "",
+    "objL3": "",
+    "objL4": "",
+    "table_name": "전산업생산지수(계절조정지수)",
+    "item_name": "계절조정지수 / 전산업생산지수",
+    "resolved_from": "preferred_table",
+    "cache_version": 2
   }
 }

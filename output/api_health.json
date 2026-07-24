@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-24T23:41:51.164855+09:00",
+  "generated_at": "2026-07-24T23:50:19.955618+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -34,15 +34,16 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "degraded",
-      "message": "KOSIS 지표 코드 자동 탐색 및 데이터 수집 완료",
-      "rows": 24,
-      "latest_observation": null,
+      "status": "ok",
+      "message": "KOSIS 국내 공식 지표 수집 완료",
+      "rows": 48,
+      "latest_observation": "202606",
       "payload_path": "output/raw_kosis.json",
-      "warnings": [
-        "cpi_core: cpi_core: 적합한 KOSIS 통계표/항목을 자동 탐색하지 못했습니다. DT_2OEEO0122: KOSIS 오류 30: 데이터가 존재하지 않습니다; DT_DEN0006: KOSIS 오류 21: 잘못된 요청 변수를 호출 하였습니다."
-      ],
-      "metadata": {}
+      "warnings": [],
+      "metadata": {
+        "resolution_path": "output/kosis_resolution.json",
+        "cache_version": 2
+      }
     },
     "reb": {
       "source": "reb",
@@ -60,7 +61,6 @@
     "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
     "ecos: config/ecos_series.json에 실제 ECOS 통계코드를 입력해야 합니다.",
     "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
-    "kosis: KOSIS 지표 코드 자동 탐색 및 데이터 수집 완료",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }
