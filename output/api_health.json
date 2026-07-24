@@ -1,21 +1,21 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-25T00:44:52.390800+09:00",
+  "generated_at": "2026-07-25T00:57:53.846968+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
-      "status": "invalid_schema",
-      "message": "미국 엔진 JSON 필수 필드가 없습니다.",
-      "rows": 0,
-      "latest_observation": null,
+      "status": "ok",
+      "message": "미국 정책금리 엔진 JSON을 정상적으로 읽고 호환 구조로 변환했습니다.",
+      "rows": 12,
+      "latest_observation": "2026-07-29",
       "payload_path": "output/us_input.json",
-      "warnings": [
-        "fed.expected_path",
-        "fed.next_meeting",
-        "us_market",
-        "quality"
-      ],
-      "metadata": {}
+      "warnings": [],
+      "metadata": {
+        "schema_version": "3.4.0-meeting-path-stabilized",
+        "source_engine_version": "3.4.0-meeting-path-stabilized",
+        "conversion_applied": true,
+        "next_fomc": "2026-07-29"
+      }
     },
     "ecos": {
       "source": "ecos",
@@ -97,9 +97,7 @@
       }
     ]
   },
-  "blocking_errors": [
-    "us_policy_engine"
-  ],
+  "blocking_errors": [],
   "warnings": [
     "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
