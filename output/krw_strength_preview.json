@@ -17,41 +17,51 @@
   "forecast": {
     "horizon": "향후 1~3개월",
     "kr_base_rate_direction": "동결 우세·인상 위험",
-    "kr_base_rate_expected_pct": 2.8,
+    "kr_base_rate_expected_pct": 2.76,
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.533
+        "probability": 0.517
       },
       "hike_25bp": {
         "rate_pct": 3.0,
-        "probability": 0.328
+        "probability": 0.261
       },
       "cut_25bp": {
         "rate_pct": 2.5,
-        "probability": 0.14
+        "probability": 0.223
       }
     },
-    "usdkrw_mid": 1453.1,
+    "usdkrw_mid": 1448.2,
     "usdkrw_range": [
-      1416.7,
-      1489.4
+      1414.8,
+      1520.0
     ],
-    "krw_strength_score": 0.1599,
+    "krw_strength_score": 0.2146,
     "krw_strength_grade": "강중립",
-    "confidence": 0.55,
+    "confidence": 0.71,
     "confidence_limit": "미국 정책금리 엔진 연결 반영"
   },
   "methodology": {
-    "note": "현재 원화 강도는 환율의 절대 수준과 단기 모멘텀을 분리해 계산합니다. 금리 전망은 동결을 기준 시나리오로 두고 시장금리 격차·근원물가·산업생산을 제한적으로 반영한 규칙형 1차 전망입니다.",
+    "note": "현재 원화 강도는 환율의 절대 수준과 단기 모멘텀을 분리해 계산합니다. 금리 전망은 시장금리 격차, 근원물가의 12개월 상승률, 생산의 3개월 연율과 미국 정책경로를 제한적으로 결합한 확률 앙상블입니다. 환율은 단기·중기 추세와 평균회귀 모형을 워크포워드 오차로 가중하고 과거 예측오차 분포에서 80% 범위를 산출합니다.",
+    "rate_core_cpi_yoy": -0.5,
+    "rate_industrial_3m_annualized": -0.01013,
+    "fx_model_weights": [
+      0.3062,
+      0.3595,
+      0.3343
+    ],
+    "fx_backtest_samples": 11,
+    "fx_backtest_rmse_pct": 3.124,
+    "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
     "fx_1m_change": -0.04479,
     "fx_3m_change": -0.00756,
-    "fx_forecast_bias_pct": -0.01112,
+    "fx_forecast_bias_pct": -0.0144,
     "policy_market_gap_pctp": 1.051,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-07-29",
     "us_policy_expected_path_rows": 12,
     "us_policy_schema_version": "3.4.0-meeting-path-stabilized"
   },
-  "generated_at": "2026-07-25T01:45:38.778826+09:00"
+  "generated_at": "2026-07-25T14:46:53.774780+09:00"
 }
