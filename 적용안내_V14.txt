@@ -1,0 +1,21 @@
+한국 정책금리·환율 엔진 V1.4 적용 안내
+
+1. 압축을 풉니다.
+2. 압축 내부의 .github, config, src, tests, output, README.md 등을
+   korea-rate-fx-engine 저장소 최상단에 그대로 덮어씁니다.
+3. Commit changes를 누릅니다.
+4. Actions > Korea Rate FX Engine > Run workflow를 실행합니다.
+5. output/korea_rate_fx_outlook.json에서 아래 항목을 확인합니다.
+
+필수 정상 항목
+- methodology.rate_core_cpi_valid = true
+- methodology.rate_core_cpi_source_mode = official_yoy 또는 index_derived_yoy 또는 monthly_compounded_yoy
+- methodology.rate_probability_backtest_samples >= 18
+- methodology.rate_probability_brier_score 값 존재
+- methodology.rate_probability_benchmark_brier 값 존재
+- methodology.rate_probability_brier_skill_score 값 존재
+
+주의
+- 미국엔진 코드는 수정하지 않습니다. 한국엔진은 미국엔진 결과를 입력값으로 재사용합니다.
+- 첫 실행에서는 KOSIS cache_version=3으로 기존 잘못된 CPI 선택 캐시를 자동 무효화합니다.
+- Brier Skill Score가 0 이하이면 확률을 역사적 빈도 쪽으로 자동 축소해 과신을 막습니다.

@@ -52,3 +52,12 @@ python -m src.main
 - `metadata.secret_name`과 `metadata.action`에 교체할 GitHub Secret 이름과 조치 방법 표시
 
 API 키를 갱신한 뒤 GitHub의 `Settings → Secrets and variables → Actions`에서 기존 Secret 값만 새 키로 교체하고 workflow를 다시 실행하면 됩니다. 소스코드나 통계코드를 다시 수정할 필요는 없습니다.
+
+## V1.4 최종 검증 강화
+
+- KOSIS 근원 CPI를 공식 전년동월비 우선으로 고정했습니다.
+- 공식 전년동월비가 없으면 지수 수준의 12개월 변화율, 그마저 없으면 전월비 12개월 복리 누적으로 안전하게 복구합니다.
+- KOSIS 선택 캐시 버전을 3으로 올려 과거 잘못 선택된 CPI 항목을 자동 폐기합니다.
+- 한국 기준금리 확률은 과거 월말 기준으로 향후 최대 4개월 내 첫 금리 변경을 평가합니다.
+- 다중분류 Brier Score, 역사적 빈도 벤치마크 Brier, Brier Skill Score, 정확도, 로그손실을 출력합니다.
+- 백테스트 성능이 약하거나 표본이 부족하면 현재 전망 확률을 역사적 빈도 쪽으로 자동 축소하여 과신을 방지합니다.

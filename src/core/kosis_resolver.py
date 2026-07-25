@@ -26,7 +26,7 @@ class ResolvedSeries:
     table_name: str = ""
     item_name: str = ""
     resolved_from: str = "auto"
-    cache_version: int = 2
+    cache_version: int = 3
 
     def to_dict(self) -> dict[str, Any]:
         return {field: getattr(self, field) for field in self.__dataclass_fields__}
@@ -149,7 +149,7 @@ def _resolved_from_row(org_id: str, tbl_id: str, row: dict[str, Any], prd_se: st
 
 
 def resolve_series(name: str, spec: dict[str, Any], api_key: str, timeout: int, retries: int,
-                   cache_path: Path = DEFAULT_CACHE_PATH, cache_version: int = 2) -> ResolvedSeries:
+                   cache_path: Path = DEFAULT_CACHE_PATH, cache_version: int = 3) -> ResolvedSeries:
     cache = read_json(cache_path) if cache_path.exists() else {}
     cached = cache.get("series", {}).get(name)
     if isinstance(cached, dict) and int(cached.get("cache_version", 0)) == cache_version:

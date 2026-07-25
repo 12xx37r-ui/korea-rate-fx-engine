@@ -4,7 +4,7 @@
     "자동 탐색 결과는 cache/kosis_resolved.json에 저장됩니다.",
     "cache_version이 바뀌면 과거의 잘못된 자동 선택 결과를 무시합니다."
   ],
-  "cache_version": 2,
+  "cache_version": 3,
   "series": {
     "cpi_core": {
       "enabled": true,
@@ -35,6 +35,7 @@
       "item_keywords": [
         "농산물 및 석유류 제외지수",
         "농산물및석유류제외지수",
+        "전년동월비",
         "식료품 및 에너지 제외지수",
         "식료품및에너지제외지수"
       ],

@@ -5,6 +5,13 @@ from math import exp, tanh, sqrt, log
 from statistics import mean, median
 from typing import Any
 
+from src.models.rate_validation import (
+    calibrate_probabilities,
+    core_cpi_yoy_series,
+    probability_from_features,
+    rate_probability_backtest,
+)
+
 
 @dataclass
 class KrwStrengthResult:
@@ -353,9 +360,9 @@ def build_snapshot(
         ecos.get("kr_gov_10y", [])
     )
 
-    core_cpi = _values(
-        kosis.get("cpi_core", [])
-    )
+    core_cpi_rows = kosis.get("cpi_core", [])
+    core_cpi_yoy_series_data, core_cpi_meta = core_cpi_yoy_series(core_cpi_rows)
+    core_cpi_yoy_values = [value for _, value in core_cpi_yoy_series_data]
 
     industrial = _values(
         kosis.get(
@@ -457,20 +464,35 @@ def build_snapshot(
         ),
     )
 
-    cpi_yoy_validated, cpi_valid = _validated_macro_yoy(core_cpi, 12, -0.03, 0.12)
+    cpi_yoy_validated = core_cpi_yoy_values[-1] if core_cpi_yoy_values else None
+    cpi_valid = bool(core_cpi_meta.get("valid")) and cpi_yoy_validated is not None
     industrial_3m = _annualized_change(industrial, 3)
     industrial_valid = industrial_3m is not None and -0.40 <= industrial_3m <= 0.40
 
-    rate_prob = _rate_probabilities(
+    # 미국 정책경로는 미국엔진 결과를 재사용하고, 한국의 현재 확률 산식에 제한적으로만 반영한다.
+    base_rate_prob = probability_from_features(
         gap,
-        core_cpi if cpi_valid else [],
-        industrial if industrial_valid else [],
-        us_policy,
+        cpi_yoy_validated if cpi_valid else None,
+        industrial_3m if industrial_valid else None,
     )
+    us_signal = _us_policy_signal(us_policy)
+    raw_rate_prob = {
+        "hold": max(1e-6, base_rate_prob["hold"]),
+        "hike": max(1e-6, base_rate_prob["hike"] * (1.0 + max(0.0, us_signal) * 0.28)),
+        "cut": max(1e-6, base_rate_prob["cut"] * (1.0 + max(0.0, -us_signal) * 0.18)),
+    }
+    raw_total = sum(raw_rate_prob.values()) or 1.0
+    raw_rate_prob = {key: value / raw_total for key, value in raw_rate_prob.items()}
 
-    rate_direction = _rate_label(
-        rate_prob
+    rate_backtest = rate_probability_backtest(
+        ecos.get("kr_base_rate", []),
+        ecos.get("kr_gov_2y", []) or ecos.get("kr_gov_3y", []),
+        core_cpi_yoy_series_data,
+        kosis.get("industrial_production", []),
     )
+    rate_prob, rate_calibration_weight = calibrate_probabilities(raw_rate_prob, rate_backtest)
+
+    rate_direction = _rate_label(rate_prob)
 
     rate_expected = None
 
@@ -557,7 +579,7 @@ def build_snapshot(
                 fx,
                 base,
                 y2 or y3,
-                core_cpi,
+                core_cpi_yoy_values,
                 industrial,
             )
         )
@@ -568,8 +590,11 @@ def build_snapshot(
     bt_rmse = fx_model.get("rmse")
     backtest_quality = min(1.0, bt_samples / 80.0)
     error_quality = max(0.0, min(1.0, 1.0 - ((bt_rmse or 0.08) / 0.08)))
-    confidence_cap = 0.90 if (us_connected and cpi_valid and industrial_valid and bt_samples >= 40) else (0.72 if us_connected else 0.55)
-    confidence = round(min(confidence_cap, 0.30 + coverage * 0.28 + backtest_quality * 0.12 + error_quality * 0.12), 2)
+    rate_bt_samples = int(rate_backtest.get("samples") or 0)
+    rate_skill = rate_backtest.get("brier_skill_score")
+    rate_validation_quality = min(1.0, rate_bt_samples / 60.0) * (0.6 + 0.4 * max(0.0, min(1.0, float(rate_skill or 0.0))))
+    confidence_cap = 0.90 if (us_connected and cpi_valid and industrial_valid and bt_samples >= 40 and rate_bt_samples >= 18) else (0.72 if us_connected else 0.55)
+    confidence = round(min(confidence_cap, 0.26 + coverage * 0.25 + backtest_quality * 0.10 + error_quality * 0.10 + rate_validation_quality * 0.13), 2)
 
     current_grade = grade_from_score(
         score
@@ -791,6 +816,16 @@ def build_snapshot(
             ),
             "rate_core_cpi_yoy": (round(cpi_yoy_validated, 5) if cpi_yoy_validated is not None else None),
             "rate_core_cpi_valid": cpi_valid,
+            "rate_core_cpi_source_mode": core_cpi_meta.get("source_mode"),
+            "rate_core_cpi_rows": core_cpi_meta.get("rows"),
+            "rate_probability_backtest_samples": rate_backtest.get("samples"),
+            "rate_probability_brier_score": rate_backtest.get("brier_score"),
+            "rate_probability_benchmark_brier": rate_backtest.get("benchmark_brier"),
+            "rate_probability_brier_skill_score": rate_backtest.get("brier_skill_score"),
+            "rate_probability_accuracy": rate_backtest.get("accuracy"),
+            "rate_probability_log_loss": rate_backtest.get("log_loss"),
+            "rate_probability_evaluation_horizon": rate_backtest.get("evaluation_horizon"),
+            "rate_probability_calibration_weight": rate_calibration_weight,
             "rate_industrial_valid": industrial_valid,
             "us_policy_rate_pct": round(us_current_rate, 3) if us_current_rate is not None else None,
             "us_kr_policy_gap_pctp": round(us_kr_gap, 3) if us_kr_gap is not None else None,

@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.2.0-institutional-objectivity-fixed",
-  "generated_at": "2026-07-25T15:06:46.506261+09:00",
+  "schema_version": "0.1.0",
+  "generated_at": "2026-07-25T01:45:38.778826+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -21,7 +21,7 @@
       "source": "ecos",
       "status": "ok",
       "message": "ECOS 국내 금리·환율 수집 완료",
-      "rows": 7967,
+      "rows": 1479,
       "latest_observation": "20260724",
       "payload_path": "output/raw_ecos.json",
       "warnings": [],
@@ -49,7 +49,7 @@
       "source": "kosis",
       "status": "ok",
       "message": "KOSIS 국내 공식 지표 수집 완료",
-      "rows": 360,
+      "rows": 48,
       "latest_observation": "202606",
       "payload_path": "output/raw_kosis.json",
       "warnings": [],
