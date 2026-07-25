@@ -1,47 +1,47 @@
 {
   "status": "ok",
   "current": {
-    "kr_base_rate_pct": 3.5,
+    "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
-    "us_kr_policy_gap_pctp": 0.13,
-    "usdkrw": 1382.0,
-    "kr_gov_2y_pct": 2.694,
-    "kr_gov_3y_pct": 2.994,
-    "kr_gov_10y_pct": 3.052,
-    "krw_strength_score": -0.5444,
-    "krw_strength_grade": "약약",
-    "krw_absolute_level_score": -0.8254,
-    "krw_absolute_level_grade": "약약",
-    "krw_short_term_momentum_score": -0.0226,
-    "krw_short_term_momentum_grade": "약중립",
-    "usdkrw_1y_percentile": 0.9127
+    "us_kr_policy_gap_pctp": 0.88,
+    "usdkrw": 1469.4,
+    "kr_gov_2y_pct": 3.801,
+    "kr_gov_3y_pct": 3.959,
+    "kr_gov_10y_pct": 4.447,
+    "krw_strength_score": 0.06,
+    "krw_strength_grade": "약중립",
+    "krw_absolute_level_score": -0.0714,
+    "krw_absolute_level_grade": "약중립",
+    "krw_short_term_momentum_score": 0.3042,
+    "krw_short_term_momentum_grade": "강중립",
+    "usdkrw_1y_percentile": 0.5357
   },
   "forecast": {
     "horizon": "향후 1~3개월",
-    "kr_base_rate_direction": "동결 우세·인하 위험",
-    "kr_base_rate_expected_pct": 3.46,
+    "kr_base_rate_direction": "동결 우세·인상 위험",
+    "kr_base_rate_expected_pct": 2.79,
     "kr_base_rate_scenarios": {
       "hold": {
-        "rate_pct": 3.5,
-        "probability": 0.589
+        "rate_pct": 2.75,
+        "probability": 0.586
       },
       "hike_25bp": {
-        "rate_pct": 3.75,
-        "probability": 0.142
+        "rate_pct": 3.0,
+        "probability": 0.295
       },
       "cut_25bp": {
-        "rate_pct": 3.25,
-        "probability": 0.268
+        "rate_pct": 2.5,
+        "probability": 0.119
       }
     },
-    "usdkrw_mid": 1388.3,
+    "usdkrw_mid": 1461.0,
     "usdkrw_range": [
-      1340.2,
-      1480.4
+      1459.5,
+      1518.1
     ],
-    "krw_strength_score": -0.6331,
-    "krw_strength_grade": "약약",
-    "confidence": 0.72,
+    "krw_strength_score": 0.0859,
+    "krw_strength_grade": "강중립",
+    "confidence": 0.69,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
   },
   "methodology": {
@@ -50,25 +50,25 @@
     "rate_core_cpi_valid": false,
     "rate_industrial_valid": true,
     "us_policy_rate_pct": 3.63,
-    "us_kr_policy_gap_pctp": 0.13,
+    "us_kr_policy_gap_pctp": 0.88,
     "rate_industrial_3m_annualized": -0.01013,
     "fx_model_weights": [
-      0.2355,
-      0.2233,
-      0.2576,
-      0.2836
+      0.201,
+      0.2585,
+      0.3734,
+      0.1671
     ],
-    "fx_backtest_samples": 163,
-    "fx_backtest_rmse_pct": 4.786,
+    "fx_backtest_samples": 17,
+    "fx_backtest_rmse_pct": 2.319,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": 0.00087,
-    "fx_3m_change": 0.0029,
-    "fx_forecast_bias_pct": 0.00458,
-    "policy_market_gap_pctp": -0.806,
+    "fx_1m_change": -0.04479,
+    "fx_3m_change": -0.00756,
+    "fx_forecast_bias_pct": -0.00571,
+    "policy_market_gap_pctp": 1.051,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-07-29",
     "us_policy_expected_path_rows": 12,
     "us_policy_schema_version": "3.4.0-meeting-path-stabilized"
   },
-  "generated_at": "2026-07-25T14:59:20.711717+09:00"
+  "generated_at": "2026-07-25T14:56:06.306239+09:00"
 }

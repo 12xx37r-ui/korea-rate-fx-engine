@@ -31,18 +31,54 @@ def _rows(payload: Any) -> list[dict[str, Any]]:
     return rows if isinstance(rows, list) else []
 
 
-def _fetch(key: str, resolution, start_text: str, end_text: str, timeout: int, retries: int) -> list[dict[str, Any]]:
+def _fetch_page(key: str, resolution, start_text: str, end_text: str, start_row: int, end_row: int, timeout: int, retries: int) -> list[dict[str, Any]]:
     # BASE is already a complete URL. Encode only path components; encoding
     # the scheme/host would turn https:// into https:%2F%2F and produce
     # requests.exceptions.InvalidURL (No host supplied).
     parts = [
-        key, "json", "kr", "1", "1000", resolution.stat_code,
+        key, "json", "kr", str(start_row), str(end_row), resolution.stat_code,
         resolution.cycle, start_text, end_text, resolution.item_code1,
         resolution.item_code2 or "?", resolution.item_code3 or "?",
     ]
     encoded = [quote(str(x).strip("/"), safe="?") for x in parts]
     url = BASE.rstrip("/") + "/" + "/".join(encoded)
     return _rows(get_json(url, timeout=timeout, retries=retries))
+
+
+def _fetch(key: str, resolution, start_text: str, end_text: str, timeout: int, retries: int) -> list[dict[str, Any]]:
+    """ECOS StatisticSearch를 페이지 단위로 끝까지 수집한다.
+
+    기존 1~1000 고정 호출은 장기 일별 시계열에서 가장 오래된 1000건만
+    받아 최신 금리·환율이 수년 전 값으로 잘리는 치명적 오류가 있었다.
+    """
+    page_size = 1000
+    start_row = 1
+    all_rows: list[dict[str, Any]] = []
+    seen_periods: set[str] = set()
+
+    for _ in range(10):  # 최대 10,000건 안전 한도
+        rows = _fetch_page(
+            key, resolution, start_text, end_text,
+            start_row, start_row + page_size - 1, timeout, retries,
+        )
+        if not rows:
+            break
+        for row in rows:
+            period = str(row.get("TIME", ""))
+            identity = "|".join([
+                period,
+                str(row.get("ITEM_CODE1", "")),
+                str(row.get("ITEM_CODE2", "")),
+                str(row.get("DATA_VALUE", "")),
+            ])
+            if identity not in seen_periods:
+                seen_periods.add(identity)
+                all_rows.append(row)
+        if len(rows) < page_size:
+            break
+        start_row += page_size
+
+    return all_rows
 
 
 def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
