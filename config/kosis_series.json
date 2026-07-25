@@ -10,40 +10,80 @@
       "enabled": true,
       "auto_resolve": true,
       "preferred_tables": [
-        {"orgId": "101", "tblId": "DT_1J22112"},
-        {"orgId": "101", "tblId": "DT_1J22003"},
-        {"orgId": "101", "tblId": "DT_1J22042"}
+        {
+          "orgId": "101",
+          "tblId": "DT_1J22112"
+        },
+        {
+          "orgId": "101",
+          "tblId": "DT_1J22003"
+        },
+        {
+          "orgId": "101",
+          "tblId": "DT_1J22042"
+        }
       ],
       "search_terms": [
         "농산물 및 석유류 제외지수",
         "식료품 및 에너지 제외지수"
       ],
-      "table_keywords": ["소비자물가지수", "품목별 소비자물가지수", "국내통계"],
+      "table_keywords": [
+        "소비자물가지수",
+        "품목별 소비자물가지수",
+        "국내통계"
+      ],
       "item_keywords": [
         "농산물 및 석유류 제외지수",
         "농산물및석유류제외지수",
         "식료품 및 에너지 제외지수",
         "식료품및에너지제외지수"
       ],
-      "exclude_keywords": ["OECD", "국제기구", "지역", "시도", "연도별"],
+      "exclude_keywords": [
+        "OECD",
+        "국제기구",
+        "지역",
+        "시도",
+        "연도별"
+      ],
       "preferred_org_id": "101",
-      "period_candidates": ["M"],
-      "newEstPrdCnt": 24,
+      "period_candidates": [
+        "M"
+      ],
+      "newEstPrdCnt": 180,
       "prdSe": "M"
     },
     "industrial_production": {
       "enabled": true,
       "auto_resolve": true,
       "preferred_tables": [
-        {"orgId": "101", "tblId": "DT_1JH20202"}
+        {
+          "orgId": "101",
+          "tblId": "DT_1JH20202"
+        }
       ],
-      "search_terms": ["전산업생산지수 계절조정지수"],
-      "table_keywords": ["전산업생산지수", "계절조정지수"],
-      "item_keywords": ["전산업생산지수", "계절조정지수"],
-      "exclude_keywords": ["광공업", "원지수", "지역", "시도", "OECD"],
+      "search_terms": [
+        "전산업생산지수 계절조정지수"
+      ],
+      "table_keywords": [
+        "전산업생산지수",
+        "계절조정지수"
+      ],
+      "item_keywords": [
+        "전산업생산지수",
+        "계절조정지수"
+      ],
+      "exclude_keywords": [
+        "광공업",
+        "원지수",
+        "지역",
+        "시도",
+        "OECD"
+      ],
       "preferred_org_id": "101",
-      "period_candidates": ["M"],
-      "newEstPrdCnt": 24,
+      "period_candidates": [
+        "M"
+      ],
+      "newEstPrdCnt": 180,
       "prdSe": "M"
     }
   }

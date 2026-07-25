@@ -4,43 +4,80 @@
     "kr_base_rate": {
       "enabled": true,
       "frequency": "D",
-      "table_keywords": ["한국은행 기준금리", "기준금리"],
-      "item_keywords": ["한국은행 기준금리", "기준금리"],
+      "table_keywords": [
+        "한국은행 기준금리",
+        "기준금리"
+      ],
+      "item_keywords": [
+        "한국은행 기준금리",
+        "기준금리"
+      ],
       "unit": "%",
-      "lookback_days": 400
+      "lookback_days": 2200
     },
     "usdkrw": {
       "enabled": true,
       "frequency": "D",
-      "table_keywords": ["환율", "주요국 통화의 대원화환율"],
-      "item_keywords": ["원/미국달러", "미국 달러", "USD"],
-      "exclude_keywords": ["재정환율", "매매기준율 이외"],
+      "table_keywords": [
+        "환율",
+        "주요국 통화의 대원화환율"
+      ],
+      "item_keywords": [
+        "원/미국달러",
+        "미국 달러",
+        "USD"
+      ],
+      "exclude_keywords": [
+        "재정환율",
+        "매매기준율 이외"
+      ],
       "unit": "KRW/USD",
-      "lookback_days": 400
+      "lookback_days": 2200
     },
     "kr_gov_2y": {
       "enabled": true,
       "frequency": "D",
-      "table_keywords": ["시장금리", "국고채"],
-      "item_keywords": ["국고채(2년)", "국고채 2년", "국고채2년"],
+      "table_keywords": [
+        "시장금리",
+        "국고채"
+      ],
+      "item_keywords": [
+        "국고채(2년)",
+        "국고채 2년",
+        "국고채2년"
+      ],
       "unit": "%",
-      "lookback_days": 400
+      "lookback_days": 2200
     },
     "kr_gov_3y": {
       "enabled": true,
       "frequency": "D",
-      "table_keywords": ["시장금리", "국고채"],
-      "item_keywords": ["국고채(3년)", "국고채 3년", "국고채3년"],
+      "table_keywords": [
+        "시장금리",
+        "국고채"
+      ],
+      "item_keywords": [
+        "국고채(3년)",
+        "국고채 3년",
+        "국고채3년"
+      ],
       "unit": "%",
-      "lookback_days": 400
+      "lookback_days": 2200
     },
     "kr_gov_10y": {
       "enabled": true,
       "frequency": "D",
-      "table_keywords": ["시장금리", "국고채"],
-      "item_keywords": ["국고채(10년)", "국고채 10년", "국고채10년"],
+      "table_keywords": [
+        "시장금리",
+        "국고채"
+      ],
+      "item_keywords": [
+        "국고채(10년)",
+        "국고채 10년",
+        "국고채10년"
+      ],
       "unit": "%",
-      "lookback_days": 400
+      "lookback_days": 2200
     }
   }
 }

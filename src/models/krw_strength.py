@@ -29,25 +29,35 @@ def grade_from_score(score: float) -> str:
     return "약약"
 
 
+def _row_period(row: dict[str, Any]) -> str:
+    for key in ("TIME", "PRD_DE", "TIME_PERIOD", "DATE", "baseYm", "WRTTIME"): 
+        value = row.get(key)
+        if value not in (None, ""):
+            text = str(value).replace("-", "").replace(".", "")
+            return text.zfill(14) if text.isdigit() else text
+    return ""
+
+
 def _values(
     rows: list[dict[str, Any]],
     keys: tuple[str, ...] = ("DATA_VALUE", "DT"),
 ) -> list[float]:
-    out: list[float] = []
-
-    for row in rows:
+    """날짜 오름차순 정렬·중복 제거 후 값만 반환한다. API 역순 응답으로 YoY가 뒤집히는 오류를 방지한다."""
+    pairs: list[tuple[str, float]] = []
+    for idx, row in enumerate(rows):
         for key in keys:
             try:
                 value = row.get(key)
-
                 if value not in (None, "", "-"):
-                    out.append(float(value))
+                    period = _row_period(row) or f"{idx:08d}"
+                    pairs.append((period, float(str(value).replace(",", ""))))
                     break
-
             except (TypeError, ValueError):
                 continue
-
-    return out
+    dedup: dict[str, float] = {}
+    for period, value in pairs:
+        dedup[period] = value
+    return [dedup[k] for k in sorted(dedup)]
 
 
 def _pct(
@@ -146,43 +156,46 @@ def _us_policy_signal(us_policy: dict[str, Any] | None) -> float:
 
 
 def _fx_ensemble(values: list[float], horizon: int = 60) -> dict[str, Any]:
-    """Walk-forward weighted trend/mean-reversion ensemble using only information available at each vintage."""
-    if len(values) < 140:
+    """다중 모형 워크포워드 앙상블. 최소 5년 수집을 전제로 주간 재예측 표본을 만든다."""
+    if len(values) < 180:
         latest = values[-1] if values else None
-        return {"mid": latest, "errors": [], "weights": [0.4, 0.35, 0.25], "samples": 0}
+        return {"mid": latest, "errors": [], "weights": [0.25]*4, "samples": 0, "rmse": None}
+
+    def clip(x: float, lo: float, hi: float) -> float:
+        return max(lo, min(hi, x))
 
     def forecasts(hist: list[float]) -> list[float]:
         x = hist[-1]
         med = median(hist[-252:])
-        r20 = hist[-1] / hist[-21] - 1.0 if len(hist) > 21 else 0.0
-        r60 = hist[-1] / hist[-61] - 1.0 if len(hist) > 61 else r20
-        f1 = x * (1.0 + max(-0.06, min(0.06, r20 * 1.25)))
-        f2 = x * (1.0 + max(-0.06, min(0.06, r60 * 0.65)))
-        reversion = max(-0.05, min(0.05, (med / x - 1.0) * 0.45)) if x and med else 0.0
-        f3 = x * (1.0 + reversion)
-        return [f1, f2, f3]
+        r20 = hist[-1] / hist[-21] - 1.0
+        r60 = hist[-1] / hist[-61] - 1.0
+        r120 = hist[-1] / hist[-121] - 1.0 if len(hist) > 121 else r60
+        f1 = x * (1.0 + clip(r20 * 1.05, -0.07, 0.07))
+        f2 = x * (1.0 + clip(r60 * 0.55, -0.07, 0.07))
+        f3 = x * (1.0 + clip(r120 * 0.30, -0.06, 0.06))
+        f4 = x * (1.0 + clip((med / x - 1.0) * 0.40, -0.06, 0.06))
+        return [f1, f2, f3, f4]
 
-    errors_by_model = [[], [], []]
-    start = max(100, len(values) - 360)
-    for t in range(start, len(values) - horizon, 10):
+    errors_by_model = [[] for _ in range(4)]
+    start = max(126, len(values) - 1260)
+    for t in range(start, len(values) - horizon, 5):
         fs = forecasts(values[:t])
         actual = values[t + horizon - 1]
+        if not actual:
+            continue
         for i, pred in enumerate(fs):
-            errors_by_model[i].append((pred / actual - 1.0) if actual else 0.0)
+            errors_by_model[i].append(pred / actual - 1.0)
 
-    rmses = []
-    for errs in errors_by_model:
-        rmses.append(sqrt(mean([e * e for e in errs])) if errs else 0.05)
-    inv = [1.0 / max(0.005, r) for r in rmses]
+    rmses = [sqrt(mean([e*e for e in errs])) if errs else 0.08 for errs in errors_by_model]
+    inv = [1.0 / max(0.008, r) for r in rmses]
     total = sum(inv) or 1.0
     weights = [x / total for x in inv]
     current_fs = forecasts(values)
-    mid = sum(w * f for w, f in zip(weights, current_fs))
-    combined_errors = []
-    n = min(len(x) for x in errors_by_model) if all(errors_by_model) else 0
-    for j in range(n):
-        combined_errors.append(sum(weights[i] * errors_by_model[i][j] for i in range(3)))
-    return {"mid": mid, "errors": combined_errors, "weights": weights, "samples": n, "rmse": sqrt(mean([e*e for e in combined_errors])) if combined_errors else None}
+    mid = sum(w*f for w,f in zip(weights,current_fs))
+    n = min((len(x) for x in errors_by_model), default=0)
+    combined = [sum(weights[i]*errors_by_model[i][j] for i in range(4)) for j in range(n)]
+    rmse = sqrt(mean([e*e for e in combined])) if combined else None
+    return {"mid": mid, "errors": combined, "weights": weights, "samples": n, "rmse": rmse}
 
 
 def _rate_probabilities(
@@ -295,6 +308,25 @@ def _us_policy_connected(
 
     return True
 
+
+
+def _validated_macro_yoy(values: list[float], periods: int, lo: float, hi: float) -> tuple[float | None, bool]:
+    value = _pct(values, periods)
+    if value is None or not (lo <= value <= hi):
+        return None, False
+    return value, True
+
+
+def _current_us_rate(us_policy: dict[str, Any] | None) -> float | None:
+    if not isinstance(us_policy, dict):
+        return None
+    for candidate in (us_policy.get("current_effective_rate"), (us_policy.get("fed") or {}).get("current_effective_rate")):
+        try:
+            if candidate is not None:
+                return float(candidate)
+        except (TypeError, ValueError):
+            pass
+    return None
 
 def build_snapshot(
     ecos: dict[str, list[dict[str, Any]]],
@@ -425,10 +457,14 @@ def build_snapshot(
         ),
     )
 
+    cpi_yoy_validated, cpi_valid = _validated_macro_yoy(core_cpi, 12, -0.03, 0.12)
+    industrial_3m = _annualized_change(industrial, 3)
+    industrial_valid = industrial_3m is not None and -0.40 <= industrial_3m <= 0.40
+
     rate_prob = _rate_probabilities(
         gap,
-        core_cpi,
-        industrial,
+        core_cpi if cpi_valid else [],
+        industrial if industrial_valid else [],
         us_policy,
     )
 
@@ -511,6 +547,9 @@ def build_snapshot(
         ),
     )
 
+    us_current_rate = _current_us_rate(us_policy)
+    us_kr_gap = (us_current_rate - latest_rate) if (us_current_rate is not None and latest_rate is not None) else None
+
     coverage = (
         sum(
             bool(value)
@@ -527,9 +566,9 @@ def build_snapshot(
 
     bt_samples = int(fx_model.get("samples", 0) or 0)
     bt_rmse = fx_model.get("rmse")
-    backtest_quality = min(1.0, bt_samples / 24.0)
+    backtest_quality = min(1.0, bt_samples / 80.0)
     error_quality = max(0.0, min(1.0, 1.0 - ((bt_rmse or 0.08) / 0.08)))
-    confidence_cap = 0.82 if us_connected else 0.55
+    confidence_cap = 0.90 if (us_connected and cpi_valid and industrial_valid and bt_samples >= 40) else (0.72 if us_connected else 0.55)
     confidence = round(min(confidence_cap, 0.30 + coverage * 0.28 + backtest_quality * 0.12 + error_quality * 0.12), 2)
 
     current_grade = grade_from_score(
@@ -604,6 +643,8 @@ def build_snapshot(
         ),
         "current": {
             "kr_base_rate_pct": latest_rate,
+            "us_policy_rate_pct": round(us_current_rate, 3) if us_current_rate is not None else None,
+            "us_kr_policy_gap_pctp": round(us_kr_gap, 3) if us_kr_gap is not None else None,
             "usdkrw": latest_fx,
             "kr_gov_2y_pct": (
                 y2[-1]
@@ -731,7 +772,7 @@ def build_snapshot(
             ),
             "confidence": confidence,
             "confidence_limit": (
-                "미국 정책금리 엔진 연결 반영"
+                "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
                 if us_connected
                 else (
                     "미국 정책금리 엔진 "
@@ -748,8 +789,12 @@ def build_snapshot(
                 "환율은 단기·중기 추세와 평균회귀 모형을 워크포워드 오차로 가중하고 "
                 "과거 예측오차 분포에서 80% 범위를 산출합니다."
             ),
-            "rate_core_cpi_yoy": (round(_yoy(core_cpi, 12), 5) if _yoy(core_cpi, 12) is not None else None),
-            "rate_industrial_3m_annualized": (round(_annualized_change(industrial, 3), 5) if _annualized_change(industrial, 3) is not None else None),
+            "rate_core_cpi_yoy": (round(cpi_yoy_validated, 5) if cpi_yoy_validated is not None else None),
+            "rate_core_cpi_valid": cpi_valid,
+            "rate_industrial_valid": industrial_valid,
+            "us_policy_rate_pct": round(us_current_rate, 3) if us_current_rate is not None else None,
+            "us_kr_policy_gap_pctp": round(us_kr_gap, 3) if us_kr_gap is not None else None,
+            "rate_industrial_3m_annualized": (round(industrial_3m, 5) if industrial_valid else None),
             "fx_model_weights": [round(float(w), 4) for w in fx_model.get("weights", [])],
             "fx_backtest_samples": int(fx_model.get("samples", 0) or 0),
             "fx_backtest_rmse_pct": (round(float(fx_model.get("rmse")) * 100, 3) if fx_model.get("rmse") is not None else None),

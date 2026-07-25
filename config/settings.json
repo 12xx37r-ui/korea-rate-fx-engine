@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1.0-institutional-free-ensemble",
+  "schema_version": "1.2.0-institutional-objectivity-fixed",
   "timezone": "Asia/Seoul",
   "request_timeout_seconds": 30,
   "max_retries": 3,
