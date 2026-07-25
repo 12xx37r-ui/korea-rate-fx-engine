@@ -1,0 +1,4 @@
+이 폴더의 내용물을 새 공개 저장소 12xx37r-ui/korea-rate-fx-engine의 루트에 업로드하세요.
+중요: korea-rate-fx-engine-main 폴더째 올리지 말고 .github, config, src, output 등이 저장소 최상단에 보여야 합니다.
+Actions에서 Korea Rate FX Engine을 실행한 뒤 아래 주소가 브라우저에서 JSON으로 열려야 합니다.
+https://raw.githubusercontent.com/12xx37r-ui/korea-rate-fx-engine/main/output/korea_rate_fx_outlook.json
