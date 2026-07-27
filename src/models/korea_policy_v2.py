@@ -53,30 +53,77 @@ def _pct_change(series: list[tuple[str, float]], periods: int) -> float | None:
     return new / old - 1.0
 
 
-def _us_path(us_policy: dict[str, Any] | None) -> tuple[float | None, list[float]]:
+def _us_path(us_policy: dict[str, Any] | None) -> tuple[float | None, list[float], dict[str, Any]]:
+    """Return a stabilized U.S. path without modifying the U.S. engine.
+
+    The U.S. JSON can contain meeting-day reconstruction spikes even when the
+    underlying monthly ZQ/SOFR curve is smooth.  Korea V2 therefore uses the
+    monthly-average curve as the preferred read-only signal and rejects
+    implausible meeting jumps (>35 bp) or values far from the contract average.
+    """
+    meta: dict[str, Any] = {
+        "mode": "unavailable",
+        "accepted": 0,
+        "rejected": 0,
+        "warnings": [],
+    }
     if not isinstance(us_policy, dict):
-        return None, []
+        return None, [], meta
     fed = us_policy.get("fed") if isinstance(us_policy.get("fed"), dict) else {}
     current = us_policy.get("current_effective_rate", fed.get("current_effective_rate"))
     try:
         current_f = float(current)
     except (TypeError, ValueError):
         current_f = None
+
     path = us_policy.get("meeting_path")
     if not isinstance(path, list) or not path:
         path = fed.get("expected_path", [])
-    result: list[float] = []
+
+    stabilized: list[float] = []
+    previous = current_f
     for row in path:
         if not isinstance(row, dict):
             continue
-        for key in ("expected_post_meeting_rate", "expected_rate", "rate"):
-            try:
-                if row.get(key) is not None:
-                    result.append(float(row[key]))
-                    break
-            except (TypeError, ValueError):
-                continue
-    return current_f, result
+        monthly = row.get("monthly_average_rate")
+        expected = row.get("expected_post_meeting_rate", row.get("expected_rate", row.get("rate")))
+        try:
+            monthly_f = float(monthly) if monthly is not None else None
+        except (TypeError, ValueError):
+            monthly_f = None
+        try:
+            expected_f = float(expected) if expected is not None else None
+        except (TypeError, ValueError):
+            expected_f = None
+
+        chosen = None
+        # Prefer the directly implied monthly contract average.  It is smoother
+        # and less sensitive to a bad meeting-day weighting reconstruction.
+        if monthly_f is not None:
+            chosen = monthly_f
+            if expected_f is not None and abs(expected_f - monthly_f) > 0.35:
+                meta["rejected"] += 1
+                meta["warnings"].append(
+                    f"rejected meeting reconstruction {expected_f:.3f}; monthly average {monthly_f:.3f} used"
+                )
+        elif expected_f is not None:
+            chosen = expected_f
+
+        if chosen is None:
+            continue
+        if previous is not None and abs(chosen - previous) > 0.35:
+            meta["rejected"] += 1
+            meta["warnings"].append(
+                f"rejected implausible sequential jump {previous:.3f}->{chosen:.3f}"
+            )
+            continue
+        stabilized.append(chosen)
+        previous = chosen
+        meta["accepted"] += 1
+
+    if stabilized:
+        meta["mode"] = "monthly_curve_stabilized"
+    return current_f, stabilized, meta
 
 
 def _regime(
@@ -165,30 +212,50 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
     samples = int(backtest.get("samples") or 0)
     skill = backtest.get("brier_skill_score")
     accuracy = backtest.get("accuracy")
-    passed = (
+    strict_pass = (
+        samples >= 72
+        and skill is not None
+        and float(skill) >= 0.08
+        and accuracy is not None
+        and float(accuracy) >= 0.52
+        and data_coverage >= 0.85
+    )
+    candidate = (
         samples >= 48
         and skill is not None
         and float(skill) > 0.0
         and accuracy is not None
         and float(accuracy) >= 0.48
-        and data_coverage >= 0.80
+        and data_coverage >= 0.70
     )
-    level = "준기관급" if passed else ("검증중" if samples >= 24 else "자료부족")
+    level = "준기관급" if strict_pass else ("준기관급 후보" if candidate else ("검증중" if samples >= 24 else "자료부족"))
     return {
-        "passed": passed,
+        "passed": strict_pass,
+        "candidate": candidate,
         "level": level,
         "requirements": {
-            "samples_min": 48,
-            "positive_brier_skill": True,
-            "accuracy_min": 0.48,
-            "data_coverage_min": 0.80,
+            "samples_min": 72,
+            "brier_skill_score_min": 0.08,
+            "accuracy_min": 0.52,
+            "data_coverage_min": 0.85,
+            "vintage_backtest_required": True,
         },
         "observed": {
             "samples": samples,
             "brier_skill_score": skill,
             "accuracy": accuracy,
             "data_coverage": round(data_coverage, 3),
+            "vintage_backtest": False,
         },
+        "reasons": [
+            reason for condition, reason in (
+                (samples < 72, "검증 표본이 72개 미만입니다."),
+                (skill is None or float(skill) < 0.08, "Brier skill이 8% 기준에 미달합니다."),
+                (accuracy is None or float(accuracy) < 0.52, "방향 정확도가 52% 기준에 미달합니다."),
+                (data_coverage < 0.85, "실제 데이터 축 완전성이 85% 미만입니다."),
+                (True, "실시간 빈티지 백테스트가 아직 없습니다."),
+            ) if condition
+        ],
     }
 
 
@@ -196,6 +263,7 @@ def build_rate_forecast_v2(
     ecos: dict[str, list[dict[str, Any]]],
     kosis: dict[str, list[dict[str, Any]]],
     us_policy: dict[str, Any] | None,
+    source_status: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     base = numeric_series(ecos.get("kr_base_rate", []))
     y2 = numeric_series(ecos.get("kr_gov_2y", []))
@@ -210,7 +278,7 @@ def build_rate_forecast_v2(
     inflation = _latest(cpi_series)
     growth = _annualized(industrial, 3)
     fx_3m = _pct_change(fx, min(60, max(1, len(fx) - 1))) if len(fx) > 1 else None
-    us_current, us_rates = _us_path(us_policy)
+    us_current, us_rates, us_path_meta = _us_path(us_policy)
     us_change = (mean(us_rates[:3]) - us_current) if us_current is not None and us_rates else None
 
     raw = probability_from_features(policy_gap, inflation, growth)
@@ -224,8 +292,16 @@ def build_rate_forecast_v2(
     regime, regime_scores = _regime(inflation, growth, policy_gap, us_change, fx_3m)
     first = _regime_adjust(calibrated, regime, us_change, fx_3m)
 
-    coverage_items = [bool(base), bool(y2 or y3), bool(fx), bool(cpi_series), bool(industrial), bool(us_rates)]
-    coverage = sum(coverage_items) / len(coverage_items)
+    source_status = source_status or {}
+    coverage_axes = {
+        "ecos_rates_fx": 0.35 if (bool(base) and bool(y2 or y3) and bool(fx)) else 0.0,
+        "kosis_macro": 0.20 if (bool(cpi_series) and bool(industrial)) else 0.0,
+        "us_policy": 0.20 if bool(us_rates) else 0.0,
+        "krx_market": 0.10 if source_status.get("krx") in {"ok", "degraded"} else 0.0,
+        "reb_financial_stability": 0.10 if source_status.get("reb") in {"ok", "degraded"} else 0.0,
+        "other": 0.05,
+    }
+    coverage = sum(coverage_axes.values())
     gate = _quality_gate(backtest, coverage)
 
     meetings = []
@@ -260,6 +336,7 @@ def build_rate_forecast_v2(
             "industrial_3m_annualized": round(growth, 5) if growth is not None else None,
             "usdkrw_3m_change": round(fx_3m, 5) if fx_3m is not None else None,
             "us_3meeting_rate_change_pctp": round(us_change, 3) if us_change is not None else None,
+            "us_path_filter": us_path_meta,
         },
         "regime": {
             "name": regime,
@@ -270,6 +347,7 @@ def build_rate_forecast_v2(
             **backtest,
             "calibration_weight": calibration_weight,
             "quality_gate": gate,
+            "data_coverage_axes": coverage_axes,
             "core_cpi": cpi_meta,
         },
         "limitations": [
@@ -307,11 +385,48 @@ def build_fx_forecast_v2(
 
     samples = int(method.get("fx_backtest_samples") or 0)
     rmse = method.get("fx_backtest_rmse_pct")
+    direction = method.get("fx_backtest_direction_accuracy")
+    benchmark_skill = method.get("fx_backtest_persistence_skill_pct")
+    interval_coverage = method.get("fx_interval_80_coverage")
+    candidate = samples >= 120 and rmse is not None and float(rmse) <= 6.0
+    strict_pass = (
+        samples >= 180
+        and rmse is not None
+        and float(rmse) <= 5.5
+        and direction is not None
+        and float(direction) >= 0.52
+        and benchmark_skill is not None
+        and float(benchmark_skill) > 0.0
+        and interval_coverage is not None
+        and 0.72 <= float(interval_coverage) <= 0.88
+    )
     fx_gate = {
-        "passed": samples >= 120 and rmse is not None and float(rmse) <= 6.0,
-        "level": "준기관급" if samples >= 120 and rmse is not None and float(rmse) <= 6.0 else "검증중",
-        "observed": {"samples": samples, "rmse_pct": rmse},
-        "requirements": {"samples_min": 120, "rmse_pct_max": 6.0},
+        "passed": strict_pass,
+        "candidate": candidate,
+        "level": "준기관급" if strict_pass else ("준기관급 후보" if candidate else "검증중"),
+        "observed": {
+            "samples": samples,
+            "rmse_pct": rmse,
+            "direction_accuracy": direction,
+            "persistence_skill_pct": benchmark_skill,
+            "interval_80_coverage": interval_coverage,
+        },
+        "requirements": {
+            "samples_min": 180,
+            "rmse_pct_max": 5.5,
+            "direction_accuracy_min": 0.52,
+            "positive_persistence_skill": True,
+            "interval_80_coverage_range": [0.72, 0.88],
+            "horizon_specific_oos_required": True,
+        },
+        "reasons": [
+            reason for condition, reason in (
+                (direction is None, "환율 방향 적중률이 아직 산출되지 않았습니다."),
+                (benchmark_skill is None, "지속성·랜덤워크 기준모형 대비 skill이 아직 없습니다."),
+                (interval_coverage is None, "80% 예측구간의 실제 포함률이 아직 검증되지 않았습니다."),
+                (True, "1·3·6·12개월별 독립 OOS 검증이 아직 없습니다."),
+            ) if condition
+        ],
     }
     return {
         "schema_version": "2.0.0",
