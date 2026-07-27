@@ -1,58 +1,35 @@
 {
   "schema_version": "2.0.0",
-  "generated_at": "2026-07-28T00:42:42.948168+09:00",
+  "generated_at": "2026-07-27T23:48:57.068333+09:00",
   "rate": {
     "samples": 65,
-    "brier_score": 0.5217,
-    "benchmark_brier": 0.6088,
-    "brier_skill_score": 0.1431,
-    "accuracy": 0.5846,
-    "log_loss": 0.8427,
+    "brier_score": 0.5647,
+    "benchmark_brier": 0.6244,
+    "brier_skill_score": 0.0955,
+    "accuracy": 0.5231,
+    "log_loss": 0.8988,
     "class_frequency": {
-      "hold": 0.4923,
-      "hike": 0.3538,
-      "cut": 0.1538
+      "hold": 0.4462,
+      "hike": 0.3846,
+      "cut": 0.1692
     },
-    "evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
-    "release_lag_backtest": true,
-    "release_lags": {
-      "core_cpi_months": 1,
-      "industrial_production_months": 2
-    },
-    "real_time_vintage": false,
-    "calibration_weight": 0.636,
+    "evaluation_horizon": "월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
+    "calibration_weight": 0.607,
     "quality_gate": {
-      "passed": false,
-      "candidate": true,
-      "level": "준기관급 후보",
+      "passed": true,
+      "level": "준기관급",
       "requirements": {
-        "samples_min": 72,
-        "brier_skill_score_min": 0.08,
-        "accuracy_min": 0.52,
-        "data_coverage_min": 0.85,
-        "vintage_backtest_required": true
+        "samples_min": 48,
+        "positive_brier_skill": true,
+        "accuracy_min": 0.48,
+        "data_coverage_min": 0.8
       },
       "observed": {
         "samples": 65,
-        "brier_skill_score": 0.1431,
-        "accuracy": 0.5846,
-        "data_coverage": 0.8,
-        "release_lag_backtest": true,
-        "real_time_vintage": false
-      },
-      "reasons": [
-        "검증 표본이 72개 미만입니다.",
-        "실제 데이터 축 완전성이 85% 미만입니다.",
-        "실시간 빈티지 백테스트가 아직 없습니다."
-      ]
-    },
-    "data_coverage_axes": {
-      "ecos_rates_fx": 0.35,
-      "kosis_macro": 0.2,
-      "us_policy": 0.2,
-      "krx_market": 0.0,
-      "reb_financial_stability": 0.0,
-      "other": 0.05
+        "brier_skill_score": 0.0955,
+        "accuracy": 0.5231,
+        "data_coverage": 1.0
+      }
     },
     "core_cpi": {
       "source_mode": "official_yoy",
@@ -61,79 +38,19 @@
     }
   },
   "fx": {
-    "samples": 232,
-    "rmse_pct": 5.19,
-    "mae_pct": 4.042,
-    "direction_accuracy": 0.4181,
-    "persistence_skill_pct": -14.063,
-    "interval_80_coverage": 0.8147,
-    "horizon_specific_oos": true,
-    "oos_by_horizon": {
-      "1m": {
-        "samples": 240,
-        "rmse_pct": 2.637,
-        "mae_pct": 2.024,
-        "random_walk_rmse_pct": 2.577,
-        "persistence_skill_pct": -2.297,
-        "direction_accuracy": 0.3458,
-        "interval_80_coverage": 0.8
-      },
-      "3m": {
-        "samples": 232,
-        "rmse_pct": 5.19,
-        "mae_pct": 4.042,
-        "random_walk_rmse_pct": 4.55,
-        "persistence_skill_pct": -14.063,
-        "direction_accuracy": 0.4181,
-        "interval_80_coverage": 0.8147
-      },
-      "6m": {
-        "samples": 219,
-        "rmse_pct": 7.037,
-        "mae_pct": 5.788,
-        "random_walk_rmse_pct": 5.435,
-        "persistence_skill_pct": -29.488,
-        "direction_accuracy": 0.4521,
-        "interval_80_coverage": 0.7717
-      },
-      "12m": {
-        "samples": 170,
-        "rmse_pct": 7.372,
-        "mae_pct": 6.011,
-        "random_walk_rmse_pct": 5.397,
-        "persistence_skill_pct": -36.597,
-        "direction_accuracy": 0.4412,
-        "interval_80_coverage": 0.7588
-      }
-    },
-    "validation_method": "expanding_walk_forward_weekly_origins",
+    "samples": 240,
+    "rmse_pct": 4.713,
     "quality_gate": {
-      "passed": false,
-      "candidate": true,
-      "level": "준기관급 후보",
+      "passed": true,
+      "level": "준기관급",
       "observed": {
-        "samples": 232,
-        "rmse_pct": 5.19,
-        "direction_accuracy": 0.4181,
-        "persistence_skill_pct": -14.063,
-        "interval_80_coverage": 0.8147,
-        "horizon_specific_oos": true
+        "samples": 240,
+        "rmse_pct": 4.713
       },
       "requirements": {
-        "samples_min": 180,
-        "rmse_pct_max": 5.5,
-        "direction_accuracy_min": 0.52,
-        "positive_persistence_skill": true,
-        "interval_80_coverage_range": [
-          0.72,
-          0.88
-        ],
-        "horizon_specific_oos_required": true
-      },
-      "reasons": [
-        "환율 방향 적중률이 52% 기준에 미달합니다.",
-        "지속성·랜덤워크 기준모형 대비 skill이 양수가 아닙니다."
-      ]
+        "samples_min": 120,
+        "rmse_pct_max": 6.0
+      }
     }
   },
   "us_engine_modified": false,

@@ -41,8 +41,10 @@ def test_fx_v2_uses_legacy_without_mutating_it():
     out = build_fx_forecast_v2(legacy, {"regime": {"name": "growth_support"}})
     assert len(out["forecast_path"]) == 4
     assert out["validation"]["quality_gate"]["passed"] is False
-    assert out["validation"]["quality_gate"]["candidate"] is True
-    assert out["validation"]["quality_gate"]["level"] == "준기관급 후보"
+    assert out["validation"]["quality_gate"]["candidate"] is False
+    assert out["production_model"] == "random_walk_fallback"
+    assert out["active_model_blocked"] is True
+    assert out["validation"]["quality_gate"]["level"] == "검증미달·기준모형 사용"
     assert repr(legacy) == before
 
 

@@ -13,7 +13,7 @@
         "기준금리"
       ],
       "unit": "%",
-      "lookback_days": 2200
+      "lookback_days": 5000
     },
     "usdkrw": {
       "enabled": true,
@@ -32,7 +32,7 @@
         "매매기준율 이외"
       ],
       "unit": "KRW/USD",
-      "lookback_days": 2200
+      "lookback_days": 5000
     },
     "kr_gov_2y": {
       "enabled": true,
@@ -47,7 +47,7 @@
         "국고채2년"
       ],
       "unit": "%",
-      "lookback_days": 2200
+      "lookback_days": 5000
     },
     "kr_gov_3y": {
       "enabled": true,
@@ -62,7 +62,7 @@
         "국고채3년"
       ],
       "unit": "%",
-      "lookback_days": 2200
+      "lookback_days": 5000
     },
     "kr_gov_10y": {
       "enabled": true,
@@ -77,7 +77,7 @@
         "국고채10년"
       ],
       "unit": "%",
-      "lookback_days": 2200
+      "lookback_days": 5000
     }
   }
 }

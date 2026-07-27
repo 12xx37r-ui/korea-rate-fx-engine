@@ -400,7 +400,46 @@ def build_fx_forecast_v2(
     benchmark_skill = fx_oos.get("persistence_skill_pct")
     interval_coverage = fx_oos.get("interval_80_coverage")
     horizon_specific = bool(fx_oos.get("horizon_specific_oos"))
-    candidate = samples >= 120 and rmse is not None and float(rmse) <= 6.0
+
+    # Production safety: never deploy a model that loses to a no-change
+    # random-walk benchmark.  When OOS skill is non-positive or directional
+    # accuracy is below 50%, publish the benchmark center (spot) and use the
+    # benchmark residual distribution for uncertainty bands.  The weaker model
+    # remains visible in validation for auditability, but it cannot drive the
+    # live dashboard forecast.
+    fallback_to_benchmark = (
+        benchmark_skill is None
+        or float(benchmark_skill) <= 0.0
+        or direction is None
+        or float(direction) < 0.50
+    )
+    if fallback_to_benchmark and isinstance(spot, (int, float)):
+        safe_horizons = []
+        horizon_map = fx_oos.get("horizons", {}) if isinstance(fx_oos, dict) else {}
+        for months, label in ((1, "1m"), (3, "3m"), (6, "6m"), (12, "12m")):
+            row = horizon_map.get(label, {}) if isinstance(horizon_map, dict) else {}
+            bench_rmse = row.get("random_walk_rmse_pct")
+            sigma = float(bench_rmse or (3.0 * sqrt(max(1.0, months / 3.0)))) / 100.0
+            half = 1.2816 * sigma
+            safe_horizons.append({
+                "months": months,
+                "mid": round(float(spot), 1),
+                "range_80": [
+                    round(float(spot) * (1.0 - half), 1),
+                    round(float(spot) * (1.0 + half), 1),
+                ],
+                "production_model": "random_walk_fallback",
+            })
+        horizons = safe_horizons
+    candidate = (
+        samples >= 120
+        and rmse is not None
+        and float(rmse) <= 6.0
+        and direction is not None
+        and float(direction) >= 0.48
+        and benchmark_skill is not None
+        and float(benchmark_skill) > 0.0
+    )
     strict_pass = (
         samples >= 180
         and rmse is not None
@@ -416,7 +455,7 @@ def build_fx_forecast_v2(
     fx_gate = {
         "passed": strict_pass,
         "candidate": candidate,
-        "level": "준기관급" if strict_pass else ("준기관급 후보" if candidate else "검증중"),
+        "level": "준기관급" if strict_pass else ("준기관급 후보" if candidate else "검증미달·기준모형 사용"),
         "observed": {
             "samples": samples,
             "rmse_pct": rmse,
@@ -450,6 +489,8 @@ def build_fx_forecast_v2(
         "legacy_3m_center": base_mid,
         "legacy_3m_range": base_range,
         "forecast_path": horizons,
+        "production_model": "random_walk_fallback" if fallback_to_benchmark else "v2_active_model",
+        "active_model_blocked": bool(fallback_to_benchmark),
         "validation": {
             "samples": samples,
             "rmse_pct": rmse,
@@ -464,6 +505,7 @@ def build_fx_forecast_v2(
         },
         "rate_regime_link": rate_v2.get("regime"),
         "limitations": [
-            "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다."
+            "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다.",
+            "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다."
         ],
     }
