@@ -19,6 +19,7 @@ from src.models.rate_validation import (
     probability_from_features,
     rate_probability_backtest,
     fx_walk_forward_validation,
+    _fx_selective_forecast,
 )
 
 
@@ -377,21 +378,10 @@ def build_fx_forecast_v2(
     base_mid = forecast.get("usdkrw_mid")
     base_range = forecast.get("usdkrw_range")
 
-    # Multi-horizon fan around the already walk-forward weighted legacy center.
+    fx_rows = (ecos or {}).get("usdkrw", [])
+    fx_values = [v for _, v in numeric_series(fx_rows) if v > 0]
+    fx_oos = fx_walk_forward_validation(fx_rows)
     horizons = []
-    if isinstance(spot, (int, float)) and isinstance(base_mid, (int, float)):
-        drift = base_mid / spot - 1.0
-        rmse = float(method.get("fx_backtest_rmse_pct") or 6.0) / 100.0
-        for months, scale in ((1, 0.35), (3, 1.0), (6, 1.35), (12, 1.70)):
-            mid = spot * (1.0 + drift * scale)
-            band = rmse * sqrt(max(1.0, months / 3.0))
-            horizons.append({
-                "months": months,
-                "mid": round(mid, 1),
-                "range_80": [round(mid * (1.0 - band), 1), round(mid * (1.0 + band), 1)],
-            })
-
-    fx_oos = fx_walk_forward_validation((ecos or {}).get("usdkrw", []))
     samples = int(fx_oos.get("samples") or method.get("fx_backtest_samples") or 0)
     rmse = fx_oos.get("rmse_pct")
     if rmse is None:
@@ -400,6 +390,7 @@ def build_fx_forecast_v2(
     benchmark_skill = fx_oos.get("persistence_skill_pct")
     interval_coverage = fx_oos.get("interval_80_coverage")
     horizon_specific = bool(fx_oos.get("horizon_specific_oos"))
+    active_coverage = fx_oos.get("active_signal_coverage")
 
     # Production safety: never deploy a model that loses to a no-change
     # random-walk benchmark.  When OOS skill is non-positive or directional
@@ -411,26 +402,39 @@ def build_fx_forecast_v2(
         benchmark_skill is None
         or float(benchmark_skill) <= 0.0
         or direction is None
-        or float(direction) < 0.50
+        or float(direction) < 0.52
+        or active_coverage is None
+        or float(active_coverage) < 0.30
     )
-    if fallback_to_benchmark and isinstance(spot, (int, float)):
-        safe_horizons = []
+    if isinstance(spot, (int, float)):
+        production_horizons = []
         horizon_map = fx_oos.get("horizons", {}) if isinstance(fx_oos, dict) else {}
-        for months, label in ((1, "1m"), (3, "3m"), (6, "6m"), (12, "12m")):
+        for months, label, obs in ((1, "1m", 21), (3, "3m", 63), (6, "6m", 126), (12, "12m", 252)):
             row = horizon_map.get(label, {}) if isinstance(horizon_map, dict) else {}
             bench_rmse = row.get("random_walk_rmse_pct")
+            if fallback_to_benchmark or not fx_values:
+                mid = float(spot)
+                active = False
+                model_name = "random_walk_fallback"
+                signal_meta = {"signal_60d": None, "drift": 0.0}
+            else:
+                mid, active, signal_meta = _fx_selective_forecast(fx_values, obs)
+                model_name = "selective_60d_contrarian_shrunk" if active else "random_walk_abstention"
             sigma = float(bench_rmse or (3.0 * sqrt(max(1.0, months / 3.0)))) / 100.0
             half = 1.2816 * sigma
-            safe_horizons.append({
+            production_horizons.append({
                 "months": months,
-                "mid": round(float(spot), 1),
+                "mid": round(float(mid), 1),
                 "range_80": [
-                    round(float(spot) * (1.0 - half), 1),
-                    round(float(spot) * (1.0 + half), 1),
+                    round(float(mid) * (1.0 - half), 1),
+                    round(float(mid) * (1.0 + half), 1),
                 ],
-                "production_model": "random_walk_fallback",
+                "production_model": model_name,
+                "signal_active": bool(active),
+                "signal_60d": round(float(signal_meta.get("signal_60d")), 5) if signal_meta.get("signal_60d") is not None else None,
+                "forecast_drift": round(float(signal_meta.get("drift") or 0.0), 5),
             })
-        horizons = safe_horizons
+        horizons = production_horizons
     candidate = (
         samples >= 120
         and rmse is not None
@@ -439,6 +443,8 @@ def build_fx_forecast_v2(
         and float(direction) >= 0.48
         and benchmark_skill is not None
         and float(benchmark_skill) > 0.0
+        and active_coverage is not None
+        and float(active_coverage) >= 0.25
     )
     strict_pass = (
         samples >= 180
@@ -448,6 +454,8 @@ def build_fx_forecast_v2(
         and float(direction) >= 0.52
         and benchmark_skill is not None
         and float(benchmark_skill) > 0.0
+        and active_coverage is not None
+        and float(active_coverage) >= 0.30
         and interval_coverage is not None
         and 0.72 <= float(interval_coverage) <= 0.88
         and horizon_specific
@@ -461,6 +469,7 @@ def build_fx_forecast_v2(
             "rmse_pct": rmse,
             "direction_accuracy": direction,
             "persistence_skill_pct": benchmark_skill,
+            "active_signal_coverage": active_coverage,
             "interval_80_coverage": interval_coverage,
             "horizon_specific_oos": horizon_specific,
         },
@@ -469,6 +478,7 @@ def build_fx_forecast_v2(
             "rmse_pct_max": 5.5,
             "direction_accuracy_min": 0.52,
             "positive_persistence_skill": True,
+            "active_signal_coverage_min": 0.30,
             "interval_80_coverage_range": [0.72, 0.88],
             "horizon_specific_oos_required": True,
         },
@@ -476,6 +486,7 @@ def build_fx_forecast_v2(
             reason for condition, reason in (
                 (direction is None or float(direction) < 0.52, "환율 방향 적중률이 52% 기준에 미달합니다."),
                 (benchmark_skill is None or float(benchmark_skill) <= 0, "지속성·랜덤워크 기준모형 대비 skill이 양수가 아닙니다."),
+                (active_coverage is None or float(active_coverage) < 0.30, "활성 신호 표본 비중이 30% 기준에 미달합니다."),
                 (interval_coverage is None or not 0.72 <= float(interval_coverage) <= 0.88, "80% 예측구간 포함률이 허용범위를 벗어납니다."),
                 (not horizon_specific, "1·3·6·12개월별 독립 OOS 표본이 부족합니다."),
             ) if condition
@@ -489,7 +500,7 @@ def build_fx_forecast_v2(
         "legacy_3m_center": base_mid,
         "legacy_3m_range": base_range,
         "forecast_path": horizons,
-        "production_model": "random_walk_fallback" if fallback_to_benchmark else "v2_active_model",
+        "production_model": "random_walk_fallback" if fallback_to_benchmark else "selective_60d_contrarian_shrunk",
         "active_model_blocked": bool(fallback_to_benchmark),
         "validation": {
             "samples": samples,
@@ -497,15 +508,18 @@ def build_fx_forecast_v2(
             "mae_pct": fx_oos.get("mae_pct"),
             "direction_accuracy": direction,
             "persistence_skill_pct": benchmark_skill,
+            "active_signal_coverage": active_coverage,
             "interval_80_coverage": interval_coverage,
             "horizon_specific_oos": horizon_specific,
             "oos_by_horizon": fx_oos.get("horizons", {}),
             "validation_method": fx_oos.get("method"),
+            "model_specification": fx_oos.get("model_specification"),
             "quality_gate": fx_gate,
         },
         "rate_regime_link": rate_v2.get("regime"),
         "limitations": [
             "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다.",
-            "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다."
+            "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
+            "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
         ],
     }

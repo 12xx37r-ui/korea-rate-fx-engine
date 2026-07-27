@@ -39,3 +39,19 @@ def test_calibration_shrinks_unvalidated_probability():
     )
     assert alpha == 0.55
     assert probs["hold"] > 0.4
+
+
+def test_selective_fx_validation_reports_active_signal_metrics():
+    from src.models.rate_validation import fx_walk_forward_validation
+
+    rows = []
+    value = 1200.0
+    for i in range(1100):
+        # Alternating medium-term swings create both active and abstention periods.
+        phase = (i // 80) % 2
+        value += 1.1 if phase == 0 else -0.9
+        rows.append({"TIME": f"2020{i//250+1:04d}{i%250+1:04d}", "DATA_VALUE": value})
+    out = fx_walk_forward_validation(rows)
+    assert "active_signal_coverage" in out
+    assert out["model_specification"]["activation_threshold_abs_return"] == 0.03
+    assert out["horizons"]["3m"]["model"] == "selective_60d_contrarian_shrunk"

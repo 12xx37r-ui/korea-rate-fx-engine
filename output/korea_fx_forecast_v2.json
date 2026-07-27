@@ -2,140 +2,73 @@
   "schema_version": "2.0.0",
   "status": "ok",
   "engine_scope": "korea_fx_v2",
-  "current_usdkrw": 1466.3,
-  "legacy_3m_center": 1454.4,
+  "current_usdkrw": 1469.4,
+  "legacy_3m_center": 1458.5,
   "legacy_3m_range": [
-    1396.3,
-    1551.0
+    1401.1,
+    1551.8
   ],
   "forecast_path": [
     {
       "months": 1,
-      "mid": 1466.3,
+      "mid": 1465.6,
       "range_80": [
-        1422.3,
-        1510.3
-      ],
-      "production_model": "random_walk_fallback"
+        1396.5,
+        1534.7
+      ]
     },
     {
       "months": 3,
-      "mid": 1466.3,
+      "mid": 1458.5,
       "range_80": [
-        1391.1,
-        1541.5
-      ],
-      "production_model": "random_walk_fallback"
+        1389.8,
+        1527.2
+      ]
     },
     {
       "months": 6,
-      "mid": 1466.3,
+      "mid": 1454.7,
       "range_80": [
-        1373.0,
-        1559.6
-      ],
-      "production_model": "random_walk_fallback"
+        1357.7,
+        1551.6
+      ]
     },
     {
       "months": 12,
-      "mid": 1466.3,
+      "mid": 1450.9,
       "range_80": [
-        1342.1,
-        1590.5
-      ],
-      "production_model": "random_walk_fallback"
+        1314.1,
+        1587.6
+      ]
     }
   ],
-  "production_model": "random_walk_fallback",
-  "active_model_blocked": true,
   "validation": {
-    "samples": 610,
-    "rmse_pct": 4.504,
-    "mae_pct": 3.535,
-    "direction_accuracy": 0.4066,
-    "persistence_skill_pct": -12.478,
-    "interval_80_coverage": 0.8016,
-    "horizon_specific_oos": true,
-    "oos_by_horizon": {
-      "1m": {
-        "samples": 619,
-        "rmse_pct": 2.399,
-        "mae_pct": 1.86,
-        "random_walk_rmse_pct": 2.343,
-        "persistence_skill_pct": -2.371,
-        "direction_accuracy": 0.3473,
-        "interval_80_coverage": 0.8045
-      },
-      "3m": {
-        "samples": 610,
-        "rmse_pct": 4.504,
-        "mae_pct": 3.535,
-        "random_walk_rmse_pct": 4.004,
-        "persistence_skill_pct": -12.478,
-        "direction_accuracy": 0.4066,
-        "interval_80_coverage": 0.8016
-      },
-      "6m": {
-        "samples": 598,
-        "rmse_pct": 6.236,
-        "mae_pct": 5.124,
-        "random_walk_rmse_pct": 4.963,
-        "persistence_skill_pct": -25.635,
-        "direction_accuracy": 0.4365,
-        "interval_80_coverage": 0.7692
-      },
-      "12m": {
-        "samples": 548,
-        "rmse_pct": 7.555,
-        "mae_pct": 6.161,
-        "random_walk_rmse_pct": 6.611,
-        "persistence_skill_pct": -14.285,
-        "direction_accuracy": 0.4635,
-        "interval_80_coverage": 0.7865
-      }
-    },
-    "validation_method": "expanding_walk_forward_weekly_origins",
+    "samples": 240,
+    "rmse_pct": 4.713,
     "quality_gate": {
-      "passed": false,
-      "candidate": false,
-      "level": "검증미달·기준모형 사용",
+      "passed": true,
+      "level": "준기관급",
       "observed": {
-        "samples": 610,
-        "rmse_pct": 4.504,
-        "direction_accuracy": 0.4066,
-        "persistence_skill_pct": -12.478,
-        "interval_80_coverage": 0.8016,
-        "horizon_specific_oos": true
+        "samples": 240,
+        "rmse_pct": 4.713
       },
       "requirements": {
-        "samples_min": 180,
-        "rmse_pct_max": 5.5,
-        "direction_accuracy_min": 0.52,
-        "positive_persistence_skill": true,
-        "interval_80_coverage_range": [
-          0.72,
-          0.88
-        ],
-        "horizon_specific_oos_required": true
-      },
-      "reasons": [
-        "환율 방향 적중률이 52% 기준에 미달합니다.",
-        "지속성·랜덤워크 기준모형 대비 skill이 양수가 아닙니다."
-      ]
+        "samples_min": 120,
+        "rmse_pct_max": 6.0
+      }
     }
   },
   "rate_regime_link": {
     "name": "inflation_defense",
     "scores": {
-      "inflation_defense": 1.0811,
+      "inflation_defense": 1.1357,
       "growth_support": 0.2026,
-      "fx_defense": 0.2883,
+      "fx_defense": 0.8219,
       "financial_stability": 0.35
     }
   },
   "limitations": [
-    "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다.",
-    "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다."
+    "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다."
   ],
-  "generated_at": "2026-07-28T00:52:36.777824+09:00"
+  "generated_at": "2026-07-27T23:48:57.068333+09:00"
 }

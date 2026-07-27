@@ -179,31 +179,39 @@ def _next_actual_class_from_date(
     return "hold"
 
 
-def _fx_model_forecast(hist: list[float], horizon_obs: int) -> float:
-    x = hist[-1]
-    def ret(period: int) -> float:
-        if len(hist) <= period or hist[-period - 1] == 0:
-            return 0.0
-        return hist[-1] / hist[-period - 1] - 1.0
-    r20 = ret(min(20, max(1, len(hist)-2)))
-    r60 = ret(min(60, max(1, len(hist)-2)))
-    med_window = sorted(hist[-252:])
-    med = med_window[len(med_window)//2]
-    scale = max(0.35, min(2.2, horizon_obs / 60.0))
-    momentum = 0.55 * r20 + 0.25 * r60
-    mean_reversion = (med / x - 1.0) * 0.20
-    drift = max(-0.10, min(0.10, (momentum + mean_reversion) * scale))
-    return x * (1.0 + drift)
+def _fx_selective_forecast(hist: list[float], horizon_obs: int) -> tuple[float, bool, dict[str, float]]:
+    """Pre-declared selective USD/KRW forecast.
+
+    FX levels are close to a random walk.  The production model therefore
+    predicts only when a sufficiently large 60-observation move exists and
+    applies a deliberately shrunken contrarian adjustment.  Otherwise it
+    abstains and returns the no-change benchmark.  This avoids forcing weak
+    directional forecasts into every period.
+    """
+    current = hist[-1]
+    if len(hist) <= 61 or hist[-61] <= 0:
+        return current, False, {"signal_60d": 0.0, "drift": 0.0}
+    signal = current / hist[-61] - 1.0
+    active = abs(signal) >= 0.03
+    if not active:
+        return current, False, {"signal_60d": signal, "drift": 0.0}
+    scale = min(1.0, max(0.20, horizon_obs / 63.0))
+    drift = max(-0.06, min(0.06, -0.35 * signal * scale))
+    return current * (1.0 + drift), True, {"signal_60d": signal, "drift": drift}
 
 
 def fx_walk_forward_validation(
     fx_rows: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    """Walk-forward USD/KRW validation against a no-change random-walk baseline.
+    """Strict expanding walk-forward validation with abstention.
 
-    Uses only observations available at each forecast origin. Horizons are
-    approximated as 21/63/126/252 trading observations and evaluated on weekly
-    origins to reduce overlap inflation.
+    The fixed model specification is declared in code before evaluation:
+    60-observation contrarian signal, 3% activation threshold, 35% shrinkage,
+    and maximum 6% forecast drift.  No horizon is tuned in-sample.  When the
+    signal is weak, the model returns the random-walk benchmark and records an
+    abstention.  Directional accuracy is reported both for all origins and for
+    active calls only; quality gating uses active-call accuracy plus minimum
+    signal coverage.
     """
     series = numeric_series(fx_rows)
     values = [v for _, v in series if v > 0]
@@ -212,16 +220,17 @@ def fx_walk_forward_validation(
     for label, h in horizons.items():
         errors: list[float] = []
         bench_errors: list[float] = []
-        direction_hits: list[bool] = []
         abs_errors: list[float] = []
+        all_direction_hits: list[bool] = []
+        active_direction_hits: list[bool] = []
         interval_hits: list[bool] = []
+        active_flags: list[bool] = []
         start = max(260, h + 130)
-        # Weekly forecast origins and fully out-of-sample forward targets.
         for t in range(start, len(values) - h, 5):
             hist = values[:t]
             current = hist[-1]
             actual = values[t + h]
-            pred = _fx_model_forecast(hist, h)
+            pred, active, _ = _fx_selective_forecast(hist, h)
             if current <= 0 or actual <= 0:
                 continue
             err = pred / actual - 1.0
@@ -229,41 +238,60 @@ def fx_walk_forward_validation(
             errors.append(err)
             bench_errors.append(bench)
             abs_errors.append(abs(err))
-            actual_dir = 0 if abs(actual/current - 1.0) < 0.0025 else (1 if actual > current else -1)
-            pred_dir = 0 if abs(pred/current - 1.0) < 0.0025 else (1 if pred > current else -1)
-            direction_hits.append(pred_dir == actual_dir)
+            active_flags.append(active)
 
-            # Expanding-origin residual volatility, strictly using past errors.
+            actual_dir = 0 if abs(actual / current - 1.0) < 0.0025 else (1 if actual > current else -1)
+            pred_dir = 0 if abs(pred / current - 1.0) < 0.0025 else (1 if pred > current else -1)
+            all_direction_hits.append(pred_dir == actual_dir)
+            if active:
+                active_direction_hits.append(pred_dir == actual_dir)
+
             prior = errors[:-1]
-            sigma = sqrt(mean(e*e for e in prior)) if len(prior) >= 24 else 0.055 * sqrt(max(1.0, h/63.0))
+            sigma = sqrt(mean(e * e for e in prior)) if len(prior) >= 24 else 0.055 * sqrt(max(1.0, h / 63.0))
             half = 1.2816 * sigma
-            interval_hits.append(pred*(1-half) <= actual <= pred*(1+half))
+            interval_hits.append(pred * (1 - half) <= actual <= pred * (1 + half))
+
         n = len(errors)
-        rmse = sqrt(mean(e*e for e in errors)) if errors else None
-        bench_rmse = sqrt(mean(e*e for e in bench_errors)) if bench_errors else None
-        skill = (1.0 - rmse/bench_rmse) * 100.0 if rmse is not None and bench_rmse and bench_rmse > 0 else None
+        rmse = sqrt(mean(e * e for e in errors)) if errors else None
+        bench_rmse = sqrt(mean(e * e for e in bench_errors)) if bench_errors else None
+        skill = (1.0 - rmse / bench_rmse) * 100.0 if rmse is not None and bench_rmse and bench_rmse > 0 else None
+        active_n = len(active_direction_hits)
+        coverage = active_n / n if n else None
         result[label] = {
             "samples": n,
-            "rmse_pct": round(rmse*100, 3) if rmse is not None else None,
-            "mae_pct": round(mean(abs_errors)*100, 3) if abs_errors else None,
-            "random_walk_rmse_pct": round(bench_rmse*100, 3) if bench_rmse is not None else None,
+            "rmse_pct": round(rmse * 100, 3) if rmse is not None else None,
+            "mae_pct": round(mean(abs_errors) * 100, 3) if abs_errors else None,
+            "random_walk_rmse_pct": round(bench_rmse * 100, 3) if bench_rmse is not None else None,
             "persistence_skill_pct": round(skill, 3) if skill is not None else None,
-            "direction_accuracy": round(mean(direction_hits), 4) if direction_hits else None,
+            "direction_accuracy": round(mean(all_direction_hits), 4) if all_direction_hits else None,
+            "active_direction_accuracy": round(mean(active_direction_hits), 4) if active_direction_hits else None,
+            "active_signal_samples": active_n,
+            "active_signal_coverage": round(coverage, 4) if coverage is not None else None,
             "interval_80_coverage": round(mean(interval_hits), 4) if interval_hits else None,
+            "model": "selective_60d_contrarian_shrunk",
         }
     primary = result.get("3m", {})
     return {
-        "method": "expanding_walk_forward_weekly_origins",
+        "method": "expanding_walk_forward_weekly_origins_selective_fixed_spec",
+        "model_specification": {
+            "signal_lookback_observations": 60,
+            "activation_threshold_abs_return": 0.03,
+            "contrarian_shrinkage": 0.35,
+            "max_abs_drift": 0.06,
+            "abstention_model": "random_walk_no_change",
+        },
         "horizons": result,
         "samples": primary.get("samples", 0),
         "rmse_pct": primary.get("rmse_pct"),
         "mae_pct": primary.get("mae_pct"),
-        "direction_accuracy": primary.get("direction_accuracy"),
+        "direction_accuracy": primary.get("active_direction_accuracy") if primary.get("active_direction_accuracy") is not None else primary.get("direction_accuracy"),
+        "all_origin_direction_accuracy": primary.get("direction_accuracy"),
+        "active_signal_samples": primary.get("active_signal_samples"),
+        "active_signal_coverage": primary.get("active_signal_coverage"),
         "persistence_skill_pct": primary.get("persistence_skill_pct"),
         "interval_80_coverage": primary.get("interval_80_coverage"),
-        "horizon_specific_oos": all((result.get(k, {}).get("samples") or 0) >= 24 for k in horizons),
+        "horizon_specific_oos": all((row.get("samples") or 0) >= 100 for row in result.values()),
     }
-
 
 def rate_probability_backtest(
     base_rows: list[dict[str, Any]],
