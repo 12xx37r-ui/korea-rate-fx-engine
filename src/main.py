@@ -227,7 +227,7 @@ def main():
         source_status=source_status,
     )
     rate_v2["generated_at"] = now.isoformat()
-    fx_v2 = build_fx_forecast_v2(snapshot, rate_v2)
+    fx_v2 = build_fx_forecast_v2(snapshot, rate_v2, ecos_data)
     fx_v2["generated_at"] = now.isoformat()
 
     write_json(output_dir / "korea_rate_forecast_v2.json", rate_v2)
@@ -241,6 +241,23 @@ def main():
             "fx": fx_v2.get("validation", {}),
             "us_engine_modified": False,
             "legacy_outputs_preserved": True,
+        },
+    )
+
+    # 오늘 시점의 실제 입력·예측을 누적 보관한다. 이 아카이브는 앞으로
+    # 실시간 빈티지 백테스트를 가능하게 하며 기존 출력과 완전히 분리된다.
+    vintage_dir = output_dir / "vintages"
+    vintage_dir.mkdir(parents=True, exist_ok=True)
+    vintage_path = vintage_dir / f"{now.date().isoformat()}.json"
+    write_json(
+        vintage_path,
+        {
+            "schema_version": "2.2.0",
+            "captured_at": now.isoformat(),
+            "rate_forecast": rate_v2,
+            "fx_forecast": fx_v2,
+            "source_status": source_status,
+            "us_engine_modified": False,
         },
     )
 
@@ -262,6 +279,7 @@ def main():
     print("Generated output/korea_rate_forecast_v2.json")
     print("Generated output/korea_fx_forecast_v2.json")
     print("Generated output/korea_validation_v2.json")
+    print(f"Generated {vintage_path}")
 
 
 if __name__ == "__main__":

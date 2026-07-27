@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from bisect import bisect_right
-from math import exp, log
+from math import exp, log, sqrt
 from statistics import mean
 from typing import Any
 
@@ -151,6 +151,120 @@ def _next_actual_class(base: list[tuple[str, float]], index: int, horizon_days_a
     return "hold"
 
 
+
+def _shift_month(date: str, months: int) -> str:
+    year = int(date[:4])
+    month = int(date[4:6])
+    total = year * 12 + (month - 1) + months
+    y, m0 = divmod(total, 12)
+    return f"{y:04d}{m0 + 1:02d}01"
+
+
+def _next_actual_class_from_date(
+    base: list[tuple[str, float]],
+    date: str,
+    horizon_months: int = 4,
+) -> str:
+    current_rate = _latest_at(base, date)
+    if current_rate is None:
+        return "hold"
+    end_date = _shift_month(date, horizon_months)
+    for future_date, rate in base:
+        if future_date <= date:
+            continue
+        if future_date > end_date:
+            break
+        if abs(rate - current_rate) >= 0.10:
+            return "hike" if rate > current_rate else "cut"
+    return "hold"
+
+
+def _fx_model_forecast(hist: list[float], horizon_obs: int) -> float:
+    x = hist[-1]
+    def ret(period: int) -> float:
+        if len(hist) <= period or hist[-period - 1] == 0:
+            return 0.0
+        return hist[-1] / hist[-period - 1] - 1.0
+    r20 = ret(min(20, max(1, len(hist)-2)))
+    r60 = ret(min(60, max(1, len(hist)-2)))
+    med_window = sorted(hist[-252:])
+    med = med_window[len(med_window)//2]
+    scale = max(0.35, min(2.2, horizon_obs / 60.0))
+    momentum = 0.55 * r20 + 0.25 * r60
+    mean_reversion = (med / x - 1.0) * 0.20
+    drift = max(-0.10, min(0.10, (momentum + mean_reversion) * scale))
+    return x * (1.0 + drift)
+
+
+def fx_walk_forward_validation(
+    fx_rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Walk-forward USD/KRW validation against a no-change random-walk baseline.
+
+    Uses only observations available at each forecast origin. Horizons are
+    approximated as 21/63/126/252 trading observations and evaluated on weekly
+    origins to reduce overlap inflation.
+    """
+    series = numeric_series(fx_rows)
+    values = [v for _, v in series if v > 0]
+    horizons = {"1m": 21, "3m": 63, "6m": 126, "12m": 252}
+    result: dict[str, Any] = {}
+    for label, h in horizons.items():
+        errors: list[float] = []
+        bench_errors: list[float] = []
+        direction_hits: list[bool] = []
+        abs_errors: list[float] = []
+        interval_hits: list[bool] = []
+        start = max(260, h + 130)
+        # Weekly forecast origins and fully out-of-sample forward targets.
+        for t in range(start, len(values) - h, 5):
+            hist = values[:t]
+            current = hist[-1]
+            actual = values[t + h]
+            pred = _fx_model_forecast(hist, h)
+            if current <= 0 or actual <= 0:
+                continue
+            err = pred / actual - 1.0
+            bench = current / actual - 1.0
+            errors.append(err)
+            bench_errors.append(bench)
+            abs_errors.append(abs(err))
+            actual_dir = 0 if abs(actual/current - 1.0) < 0.0025 else (1 if actual > current else -1)
+            pred_dir = 0 if abs(pred/current - 1.0) < 0.0025 else (1 if pred > current else -1)
+            direction_hits.append(pred_dir == actual_dir)
+
+            # Expanding-origin residual volatility, strictly using past errors.
+            prior = errors[:-1]
+            sigma = sqrt(mean(e*e for e in prior)) if len(prior) >= 24 else 0.055 * sqrt(max(1.0, h/63.0))
+            half = 1.2816 * sigma
+            interval_hits.append(pred*(1-half) <= actual <= pred*(1+half))
+        n = len(errors)
+        rmse = sqrt(mean(e*e for e in errors)) if errors else None
+        bench_rmse = sqrt(mean(e*e for e in bench_errors)) if bench_errors else None
+        skill = (1.0 - rmse/bench_rmse) * 100.0 if rmse is not None and bench_rmse and bench_rmse > 0 else None
+        result[label] = {
+            "samples": n,
+            "rmse_pct": round(rmse*100, 3) if rmse is not None else None,
+            "mae_pct": round(mean(abs_errors)*100, 3) if abs_errors else None,
+            "random_walk_rmse_pct": round(bench_rmse*100, 3) if bench_rmse is not None else None,
+            "persistence_skill_pct": round(skill, 3) if skill is not None else None,
+            "direction_accuracy": round(mean(direction_hits), 4) if direction_hits else None,
+            "interval_80_coverage": round(mean(interval_hits), 4) if interval_hits else None,
+        }
+    primary = result.get("3m", {})
+    return {
+        "method": "expanding_walk_forward_weekly_origins",
+        "horizons": result,
+        "samples": primary.get("samples", 0),
+        "rmse_pct": primary.get("rmse_pct"),
+        "mae_pct": primary.get("mae_pct"),
+        "direction_accuracy": primary.get("direction_accuracy"),
+        "persistence_skill_pct": primary.get("persistence_skill_pct"),
+        "interval_80_coverage": primary.get("interval_80_coverage"),
+        "horizon_specific_oos": all((result.get(k, {}).get("samples") or 0) >= 24 for k in horizons),
+    }
+
+
 def rate_probability_backtest(
     base_rows: list[dict[str, Any]],
     market_rows: list[dict[str, Any]],
@@ -163,28 +277,30 @@ def rate_probability_backtest(
     if len(base) < 120 or len(market) < 120 or len(cpi_yoy) < 12 or len(industrial) < 16:
         return {"samples": 0, "brier_score": None, "benchmark_brier": None, "brier_skill_score": None, "accuracy": None, "log_loss": None, "class_frequency": {"hold": 1.0, "hike": 0.0, "cut": 0.0}}
 
-    # 월말에 가까운 마지막 관측만 남겨 중복·과대 표본 문제를 줄인다.
-    monthly_indices: list[int] = []
-    seen: dict[str, int] = {}
-    for i, (date, _) in enumerate(base[:-1]):
-        seen[date[:6]] = i
-    monthly_indices = sorted(seen.values())
+    # 시장금리 월말 관측을 예측 원점으로 사용한다. 기준금리 변경일만
+    # 원점으로 쓰던 이전 방식보다 실제 월별 의사결정 표본을 온전히 보존한다.
+    monthly_dates: list[str] = []
+    seen: dict[str, str] = {}
+    for date, _ in market:
+        seen[date[:6]] = date
+    monthly_dates = sorted(seen.values())
 
     samples: list[tuple[dict[str, float], str]] = []
-    for i in monthly_indices:
-        date, rate = base[i]
+    for date in monthly_dates:
+        rate = _latest_at(base, date)
         yld = _latest_at(market, date)
-        cpi = _latest_at(cpi_yoy, date)
-        hist_ind = _history_at(industrial, date)
+        # 발표시차 보수 반영: CPI 1개월, 산업생산 2개월 지연.
+        cpi = _latest_at(cpi_yoy, _shift_month(date, -1))
+        hist_ind = _history_at(industrial, _shift_month(date, -2))
         ind = None
         if len(hist_ind) >= 4 and hist_ind[-4] > 0 and hist_ind[-1] > 0:
             ind = (hist_ind[-1] / hist_ind[-4]) ** 4 - 1.0
             if not (-0.40 <= ind <= 0.40):
                 ind = None
-        if yld is None or cpi is None:
+        if rate is None or yld is None or cpi is None:
             continue
         probs = probability_from_features(yld - rate, cpi, ind)
-        actual = _next_actual_class(base, i)
+        actual = _next_actual_class_from_date(base, date)
         samples.append((probs, actual))
 
     if len(samples) < 18:
@@ -208,7 +324,10 @@ def rate_probability_backtest(
         "accuracy": round(mean(hits), 4),
         "log_loss": round(mean(logs), 4),
         "class_frequency": {k: round(v, 4) for k, v in freq.items()},
-        "evaluation_horizon": "월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
+        "evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
+        "release_lag_backtest": True,
+        "release_lags": {"core_cpi_months": 1, "industrial_production_months": 2},
+        "real_time_vintage": False,
     }
 
 

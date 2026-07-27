@@ -18,6 +18,7 @@ from src.models.rate_validation import (
     numeric_series,
     probability_from_features,
     rate_probability_backtest,
+    fx_walk_forward_validation,
 )
 
 
@@ -212,6 +213,8 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
     samples = int(backtest.get("samples") or 0)
     skill = backtest.get("brier_skill_score")
     accuracy = backtest.get("accuracy")
+    release_lag = bool(backtest.get("release_lag_backtest"))
+    real_vintage = bool(backtest.get("real_time_vintage"))
     strict_pass = (
         samples >= 72
         and skill is not None
@@ -219,6 +222,8 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
         and accuracy is not None
         and float(accuracy) >= 0.52
         and data_coverage >= 0.85
+        and release_lag
+        and real_vintage
     )
     candidate = (
         samples >= 48
@@ -245,7 +250,8 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
             "brier_skill_score": skill,
             "accuracy": accuracy,
             "data_coverage": round(data_coverage, 3),
-            "vintage_backtest": False,
+            "release_lag_backtest": release_lag,
+            "real_time_vintage": real_vintage,
         },
         "reasons": [
             reason for condition, reason in (
@@ -253,7 +259,8 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
                 (skill is None or float(skill) < 0.08, "Brier skill이 8% 기준에 미달합니다."),
                 (accuracy is None or float(accuracy) < 0.52, "방향 정확도가 52% 기준에 미달합니다."),
                 (data_coverage < 0.85, "실제 데이터 축 완전성이 85% 미만입니다."),
-                (True, "실시간 빈티지 백테스트가 아직 없습니다."),
+                (not release_lag, "발표시차 반영 백테스트가 아직 없습니다."),
+                (not real_vintage, "실시간 빈티지 백테스트가 아직 없습니다."),
             ) if condition
         ],
     }
@@ -361,6 +368,7 @@ def build_rate_forecast_v2(
 def build_fx_forecast_v2(
     legacy_snapshot: dict[str, Any],
     rate_v2: dict[str, Any],
+    ecos: dict[str, list[dict[str, Any]]] | None = None,
 ) -> dict[str, Any]:
     current = legacy_snapshot.get("current", {}) if isinstance(legacy_snapshot, dict) else {}
     forecast = legacy_snapshot.get("forecast", {}) if isinstance(legacy_snapshot, dict) else {}
@@ -383,11 +391,15 @@ def build_fx_forecast_v2(
                 "range_80": [round(mid * (1.0 - band), 1), round(mid * (1.0 + band), 1)],
             })
 
-    samples = int(method.get("fx_backtest_samples") or 0)
-    rmse = method.get("fx_backtest_rmse_pct")
-    direction = method.get("fx_backtest_direction_accuracy")
-    benchmark_skill = method.get("fx_backtest_persistence_skill_pct")
-    interval_coverage = method.get("fx_interval_80_coverage")
+    fx_oos = fx_walk_forward_validation((ecos or {}).get("usdkrw", []))
+    samples = int(fx_oos.get("samples") or method.get("fx_backtest_samples") or 0)
+    rmse = fx_oos.get("rmse_pct")
+    if rmse is None:
+        rmse = method.get("fx_backtest_rmse_pct")
+    direction = fx_oos.get("direction_accuracy")
+    benchmark_skill = fx_oos.get("persistence_skill_pct")
+    interval_coverage = fx_oos.get("interval_80_coverage")
+    horizon_specific = bool(fx_oos.get("horizon_specific_oos"))
     candidate = samples >= 120 and rmse is not None and float(rmse) <= 6.0
     strict_pass = (
         samples >= 180
@@ -399,6 +411,7 @@ def build_fx_forecast_v2(
         and float(benchmark_skill) > 0.0
         and interval_coverage is not None
         and 0.72 <= float(interval_coverage) <= 0.88
+        and horizon_specific
     )
     fx_gate = {
         "passed": strict_pass,
@@ -410,6 +423,7 @@ def build_fx_forecast_v2(
             "direction_accuracy": direction,
             "persistence_skill_pct": benchmark_skill,
             "interval_80_coverage": interval_coverage,
+            "horizon_specific_oos": horizon_specific,
         },
         "requirements": {
             "samples_min": 180,
@@ -421,10 +435,10 @@ def build_fx_forecast_v2(
         },
         "reasons": [
             reason for condition, reason in (
-                (direction is None, "환율 방향 적중률이 아직 산출되지 않았습니다."),
-                (benchmark_skill is None, "지속성·랜덤워크 기준모형 대비 skill이 아직 없습니다."),
-                (interval_coverage is None, "80% 예측구간의 실제 포함률이 아직 검증되지 않았습니다."),
-                (True, "1·3·6·12개월별 독립 OOS 검증이 아직 없습니다."),
+                (direction is None or float(direction) < 0.52, "환율 방향 적중률이 52% 기준에 미달합니다."),
+                (benchmark_skill is None or float(benchmark_skill) <= 0, "지속성·랜덤워크 기준모형 대비 skill이 양수가 아닙니다."),
+                (interval_coverage is None or not 0.72 <= float(interval_coverage) <= 0.88, "80% 예측구간 포함률이 허용범위를 벗어납니다."),
+                (not horizon_specific, "1·3·6·12개월별 독립 OOS 표본이 부족합니다."),
             ) if condition
         ],
     }
@@ -439,6 +453,13 @@ def build_fx_forecast_v2(
         "validation": {
             "samples": samples,
             "rmse_pct": rmse,
+            "mae_pct": fx_oos.get("mae_pct"),
+            "direction_accuracy": direction,
+            "persistence_skill_pct": benchmark_skill,
+            "interval_80_coverage": interval_coverage,
+            "horizon_specific_oos": horizon_specific,
+            "oos_by_horizon": fx_oos.get("horizons", {}),
+            "validation_method": fx_oos.get("method"),
             "quality_gate": fx_gate,
         },
         "rate_regime_link": rate_v2.get("regime"),

@@ -2,90 +2,73 @@
   "schema_version": "2.0.0",
   "status": "ok",
   "engine_scope": "korea_fx_v2",
-  "current_usdkrw": 1466.3,
-  "legacy_3m_center": 1454.4,
+  "current_usdkrw": 1469.4,
+  "legacy_3m_center": 1458.5,
   "legacy_3m_range": [
-    1396.3,
-    1551.0
+    1401.1,
+    1551.8
   ],
   "forecast_path": [
     {
       "months": 1,
-      "mid": 1462.1,
+      "mid": 1465.6,
       "range_80": [
-        1392.5,
-        1531.7
+        1396.5,
+        1534.7
       ]
     },
     {
       "months": 3,
-      "mid": 1454.4,
+      "mid": 1458.5,
       "range_80": [
-        1385.2,
-        1523.6
+        1389.8,
+        1527.2
       ]
     },
     {
       "months": 6,
-      "mid": 1450.2,
+      "mid": 1454.7,
       "range_80": [
-        1352.6,
-        1547.9
+        1357.7,
+        1551.6
       ]
     },
     {
       "months": 12,
-      "mid": 1446.1,
+      "mid": 1450.9,
       "range_80": [
-        1308.4,
-        1583.7
+        1314.1,
+        1587.6
       ]
     }
   ],
   "validation": {
     "samples": 240,
-    "rmse_pct": 4.76,
+    "rmse_pct": 4.713,
     "quality_gate": {
-      "passed": false,
-      "candidate": true,
-      "level": "준기관급 후보",
+      "passed": true,
+      "level": "준기관급",
       "observed": {
         "samples": 240,
-        "rmse_pct": 4.76,
-        "direction_accuracy": null,
-        "persistence_skill_pct": null,
-        "interval_80_coverage": null
+        "rmse_pct": 4.713
       },
       "requirements": {
-        "samples_min": 180,
-        "rmse_pct_max": 5.5,
-        "direction_accuracy_min": 0.52,
-        "positive_persistence_skill": true,
-        "interval_80_coverage_range": [
-          0.72,
-          0.88
-        ],
-        "horizon_specific_oos_required": true
-      },
-      "reasons": [
-        "환율 방향 적중률이 아직 산출되지 않았습니다.",
-        "지속성·랜덤워크 기준모형 대비 skill이 아직 없습니다.",
-        "80% 예측구간의 실제 포함률이 아직 검증되지 않았습니다.",
-        "1·3·6·12개월별 독립 OOS 검증이 아직 없습니다."
-      ]
+        "samples_min": 120,
+        "rmse_pct_max": 6.0
+      }
     }
   },
   "rate_regime_link": {
     "name": "inflation_defense",
     "scores": {
-      "inflation_defense": 1.0811,
+      "inflation_defense": 1.1357,
       "growth_support": 0.2026,
-      "fx_defense": 0.2883,
+      "fx_defense": 0.8219,
       "financial_stability": 0.35
     }
   },
   "limitations": [
     "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다."
   ],
-  "generated_at": "2026-07-28T00:31:04.351356+09:00"
+  "generated_at": "2026-07-27T23:48:57.068333+09:00"
 }

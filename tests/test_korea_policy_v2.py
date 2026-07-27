@@ -67,3 +67,22 @@ def test_us_meeting_spike_is_filtered_by_monthly_curve():
     assert out["current"]["us_3meeting_rate_change_pctp"] < 0.25
     assert out["current"]["us_path_filter"]["rejected"] >= 1
     assert out["validation"]["quality_gate"]["observed"]["data_coverage"] == 0.8
+
+
+def test_fx_oos_metrics_are_computed_from_ecos_history():
+    n = 900
+    ecos = {"usdkrw": _rows([1200 + 0.15*i + 18*((i % 40)/40.0) for i in range(n)])}
+    legacy = {
+        "status": "ok",
+        "current": {"usdkrw": ecos["usdkrw"][-1]["DATA_VALUE"]},
+        "forecast": {"usdkrw_mid": 1340.0, "usdkrw_range": [1250.0, 1450.0]},
+        "methodology": {"fx_backtest_samples": 0, "fx_backtest_rmse_pct": None},
+    }
+    legacy["current"]["usdkrw"] = float(legacy["current"]["usdkrw"])
+    out = build_fx_forecast_v2(legacy, {"regime": {"name": "growth_support"}}, ecos)
+    v = out["validation"]
+    assert v["samples"] > 0
+    assert v["direction_accuracy"] is not None
+    assert v["persistence_skill_pct"] is not None
+    assert v["interval_80_coverage"] is not None
+    assert set(v["oos_by_horizon"]) == {"1m", "3m", "6m", "12m"}
