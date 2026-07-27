@@ -435,62 +435,91 @@ def build_fx_forecast_v2(
                 "forecast_drift": round(float(signal_meta.get("drift") or 0.0), 5),
             })
         horizons = production_horizons
-    candidate = (
-        samples >= 120
-        and rmse is not None
-        and float(rmse) <= 6.0
-        and direction is not None
-        and float(direction) >= 0.48
-        and benchmark_skill is not None
-        and float(benchmark_skill) > 0.0
-        and active_coverage is not None
-        and float(active_coverage) >= 0.25
-    )
-    strict_pass = (
-        samples >= 180
-        and rmse is not None
-        and float(rmse) <= 5.5
-        and direction is not None
-        and float(direction) >= 0.52
-        and benchmark_skill is not None
-        and float(benchmark_skill) > 0.0
-        and active_coverage is not None
-        and float(active_coverage) >= 0.30
-        and interval_coverage is not None
-        and 0.72 <= float(interval_coverage) <= 0.88
-        and horizon_specific
+    horizon_map = fx_oos.get("horizons", {}) if isinstance(fx_oos, dict) else {}
+    horizon_requirements = {
+        "1m": {"samples_min": 180, "rmse_pct_max": 3.0, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 0.0},
+        "3m": {"samples_min": 180, "rmse_pct_max": 5.5, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 0.0},
+        "6m": {"samples_min": 180, "rmse_pct_max": 7.0, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 0.0},
+        "12m": {"samples_min": 150, "rmse_pct_max": 8.5, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 2.0},
+    }
+    horizon_gates: dict[str, Any] = {}
+    for label, req in horizon_requirements.items():
+        row = horizon_map.get(label, {}) if isinstance(horizon_map, dict) else {}
+        row_samples = int(row.get("samples") or 0)
+        row_rmse = row.get("rmse_pct")
+        row_active_acc = row.get("active_direction_accuracy")
+        row_skill = row.get("persistence_skill_pct")
+        row_signal_cov = row.get("active_signal_coverage")
+        row_interval_cov = row.get("interval_80_coverage")
+        passed = (
+            row_samples >= req["samples_min"]
+            and row_rmse is not None and float(row_rmse) <= req["rmse_pct_max"]
+            and row_active_acc is not None and float(row_active_acc) >= req["active_direction_accuracy_min"]
+            and row_skill is not None and float(row_skill) > req["persistence_skill_pct_min"]
+            and row_signal_cov is not None and float(row_signal_cov) >= 0.30
+            and row_interval_cov is not None and 0.72 <= float(row_interval_cov) <= 0.88
+        )
+        reasons = []
+        if row_samples < req["samples_min"]:
+            reasons.append(f"표본이 {req['samples_min']}개 미만입니다.")
+        if row_rmse is None or float(row_rmse) > req["rmse_pct_max"]:
+            reasons.append(f"RMSE가 {req['rmse_pct_max']}% 기준을 초과합니다.")
+        if row_active_acc is None or float(row_active_acc) < req["active_direction_accuracy_min"]:
+            reasons.append("활성 신호 방향 적중률이 52% 기준에 미달합니다.")
+        if row_skill is None or float(row_skill) <= req["persistence_skill_pct_min"]:
+            reasons.append(f"랜덤워크 대비 skill이 {req['persistence_skill_pct_min']}% 기준을 넘지 못했습니다.")
+        if row_signal_cov is None or float(row_signal_cov) < 0.30:
+            reasons.append("활성 신호 표본 비중이 30% 기준에 미달합니다.")
+        if row_interval_cov is None or not 0.72 <= float(row_interval_cov) <= 0.88:
+            reasons.append("80% 예측구간 포함률이 허용범위를 벗어납니다.")
+        horizon_gates[label] = {
+            "passed": passed,
+            "level": "준기관급" if passed else ("참고용" if row_samples >= req["samples_min"] else "자료부족"),
+            "observed": {
+                "samples": row_samples,
+                "rmse_pct": row_rmse,
+                "active_direction_accuracy": row_active_acc,
+                "all_origin_direction_accuracy": row.get("direction_accuracy"),
+                "persistence_skill_pct": row_skill,
+                "active_signal_coverage": row_signal_cov,
+                "interval_80_coverage": row_interval_cov,
+            },
+            "requirements": req | {
+                "active_signal_coverage_min": 0.30,
+                "interval_80_coverage_range": [0.72, 0.88],
+            },
+            "reasons": reasons,
+        }
+
+    passed_horizons = [label for label, gate in horizon_gates.items() if gate["passed"]]
+    primary_gate = horizon_gates.get("3m", {})
+    strict_pass = bool(primary_gate.get("passed"))
+    candidate = (not strict_pass) and any(
+        gate.get("level") == "참고용" for gate in horizon_gates.values()
     )
     fx_gate = {
         "passed": strict_pass,
         "candidate": candidate,
-        "level": "준기관급" if strict_pass else ("준기관급 후보" if candidate else "검증미달·기준모형 사용"),
+        "level": "준기관급(3개월)" if strict_pass else ("준기관급 후보" if candidate else "검증미달·기준모형 사용"),
+        "primary_horizon": "3m",
+        "passed_horizons": passed_horizons,
         "observed": {
             "samples": samples,
             "rmse_pct": rmse,
-            "direction_accuracy": direction,
+            "active_direction_accuracy": direction,
+            "all_origin_direction_accuracy": fx_oos.get("all_origin_direction_accuracy"),
             "persistence_skill_pct": benchmark_skill,
             "active_signal_coverage": active_coverage,
             "interval_80_coverage": interval_coverage,
             "horizon_specific_oos": horizon_specific,
         },
         "requirements": {
-            "samples_min": 180,
-            "rmse_pct_max": 5.5,
-            "direction_accuracy_min": 0.52,
-            "positive_persistence_skill": True,
-            "active_signal_coverage_min": 0.30,
-            "interval_80_coverage_range": [0.72, 0.88],
+            "primary_horizon": "3m",
             "horizon_specific_oos_required": True,
+            "see_horizon_quality_gates": True,
         },
-        "reasons": [
-            reason for condition, reason in (
-                (direction is None or float(direction) < 0.52, "환율 방향 적중률이 52% 기준에 미달합니다."),
-                (benchmark_skill is None or float(benchmark_skill) <= 0, "지속성·랜덤워크 기준모형 대비 skill이 양수가 아닙니다."),
-                (active_coverage is None or float(active_coverage) < 0.30, "활성 신호 표본 비중이 30% 기준에 미달합니다."),
-                (interval_coverage is None or not 0.72 <= float(interval_coverage) <= 0.88, "80% 예측구간 포함률이 허용범위를 벗어납니다."),
-                (not horizon_specific, "1·3·6·12개월별 독립 OOS 표본이 부족합니다."),
-            ) if condition
-        ],
+        "horizon_quality_gates": horizon_gates,
+        "reasons": list(primary_gate.get("reasons") or []),
     }
     return {
         "schema_version": "2.0.0",
@@ -506,7 +535,8 @@ def build_fx_forecast_v2(
             "samples": samples,
             "rmse_pct": rmse,
             "mae_pct": fx_oos.get("mae_pct"),
-            "direction_accuracy": direction,
+            "active_direction_accuracy": direction,
+            "all_origin_direction_accuracy": fx_oos.get("all_origin_direction_accuracy"),
             "persistence_skill_pct": benchmark_skill,
             "active_signal_coverage": active_coverage,
             "interval_80_coverage": interval_coverage,
@@ -518,7 +548,8 @@ def build_fx_forecast_v2(
         },
         "rate_regime_link": rate_v2.get("regime"),
         "limitations": [
-            "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다.",
+            "1·3·6·12개월 OOS를 각각 검증하며, 기간별 품질 게이트 결과를 따로 표시합니다.",
+            "12개월 OOS는 수행됐지만 랜덤워크 대비 개선폭이 2% 이하이면 참고용으로 제한합니다.",
             "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
             "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
         ],

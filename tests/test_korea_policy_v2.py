@@ -84,7 +84,29 @@ def test_fx_oos_metrics_are_computed_from_ecos_history():
     out = build_fx_forecast_v2(legacy, {"regime": {"name": "growth_support"}}, ecos)
     v = out["validation"]
     assert v["samples"] > 0
-    assert v["direction_accuracy"] is not None
+    assert v["active_direction_accuracy"] is not None
+    assert v["all_origin_direction_accuracy"] is not None
     assert v["persistence_skill_pct"] is not None
     assert v["interval_80_coverage"] is not None
     assert set(v["oos_by_horizon"]) == {"1m", "3m", "6m", "12m"}
+
+
+def test_fx_quality_gate_is_horizon_specific_and_labels_active_accuracy():
+    n = 900
+    values = [1200 + 0.15*i + 18*((i % 40)/40.0) for i in range(n)]
+    ecos = {"usdkrw": _rows(values)}
+    legacy = {
+        "status": "ok",
+        "current": {"usdkrw": float(values[-1])},
+        "forecast": {"usdkrw_mid": float(values[-1]), "usdkrw_range": [1200.0, 1500.0]},
+        "methodology": {},
+    }
+    out = build_fx_forecast_v2(legacy, {"regime": {"name": "growth_support"}}, ecos)
+    gate = out["validation"]["quality_gate"]
+    assert gate["primary_horizon"] == "3m"
+    assert "horizon_quality_gates" in gate
+    assert set(gate["horizon_quality_gates"]) == {"1m", "3m", "6m", "12m"}
+    assert "active_direction_accuracy" in gate["observed"]
+    assert "direction_accuracy" not in gate["observed"]
+    if gate["passed"]:
+        assert gate["candidate"] is False
