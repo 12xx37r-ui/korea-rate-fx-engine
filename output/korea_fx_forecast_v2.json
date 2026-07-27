@@ -2,55 +2,55 @@
   "schema_version": "2.0.0",
   "status": "ok",
   "engine_scope": "korea_fx_v2",
-  "current_usdkrw": 1469.4,
-  "legacy_3m_center": 1458.5,
+  "current_usdkrw": 1466.3,
+  "legacy_3m_center": 1454.4,
   "legacy_3m_range": [
-    1401.1,
-    1551.8
+    1396.3,
+    1551.0
   ],
   "forecast_path": [
     {
       "months": 1,
-      "mid": 1465.6,
+      "mid": 1462.1,
       "range_80": [
-        1396.5,
-        1534.7
+        1392.5,
+        1531.7
       ]
     },
     {
       "months": 3,
-      "mid": 1458.5,
+      "mid": 1454.4,
       "range_80": [
-        1389.8,
-        1527.2
+        1385.2,
+        1523.6
       ]
     },
     {
       "months": 6,
-      "mid": 1454.7,
+      "mid": 1450.2,
       "range_80": [
-        1357.7,
-        1551.6
+        1352.6,
+        1547.9
       ]
     },
     {
       "months": 12,
-      "mid": 1450.9,
+      "mid": 1446.1,
       "range_80": [
-        1314.1,
-        1587.6
+        1308.4,
+        1583.7
       ]
     }
   ],
   "validation": {
     "samples": 240,
-    "rmse_pct": 4.713,
+    "rmse_pct": 4.76,
     "quality_gate": {
       "passed": true,
       "level": "준기관급",
       "observed": {
         "samples": 240,
-        "rmse_pct": 4.713
+        "rmse_pct": 4.76
       },
       "requirements": {
         "samples_min": 120,
@@ -61,14 +61,14 @@
   "rate_regime_link": {
     "name": "inflation_defense",
     "scores": {
-      "inflation_defense": 1.1357,
+      "inflation_defense": 1.0811,
       "growth_support": 0.2026,
-      "fx_defense": 0.8219,
+      "fx_defense": 0.8106,
       "financial_stability": 0.35
     }
   },
   "limitations": [
     "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다."
   ],
-  "generated_at": "2026-07-27T23:48:57.068333+09:00"
+  "generated_at": "2026-07-27T23:56:12.630171+09:00"
 }
