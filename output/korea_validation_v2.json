@@ -1,0 +1,58 @@
+{
+  "schema_version": "2.0.0",
+  "generated_at": "2026-07-27T23:48:57.068333+09:00",
+  "rate": {
+    "samples": 65,
+    "brier_score": 0.5647,
+    "benchmark_brier": 0.6244,
+    "brier_skill_score": 0.0955,
+    "accuracy": 0.5231,
+    "log_loss": 0.8988,
+    "class_frequency": {
+      "hold": 0.4462,
+      "hike": 0.3846,
+      "cut": 0.1692
+    },
+    "evaluation_horizon": "월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
+    "calibration_weight": 0.607,
+    "quality_gate": {
+      "passed": true,
+      "level": "준기관급",
+      "requirements": {
+        "samples_min": 48,
+        "positive_brier_skill": true,
+        "accuracy_min": 0.48,
+        "data_coverage_min": 0.8
+      },
+      "observed": {
+        "samples": 65,
+        "brier_skill_score": 0.0955,
+        "accuracy": 0.5231,
+        "data_coverage": 1.0
+      }
+    },
+    "core_cpi": {
+      "source_mode": "official_yoy",
+      "valid": true,
+      "rows": 180
+    }
+  },
+  "fx": {
+    "samples": 240,
+    "rmse_pct": 4.713,
+    "quality_gate": {
+      "passed": true,
+      "level": "준기관급",
+      "observed": {
+        "samples": 240,
+        "rmse_pct": 4.713
+      },
+      "requirements": {
+        "samples_min": 120,
+        "rmse_pct_max": 6.0
+      }
+    }
+  },
+  "us_engine_modified": false,
+  "legacy_outputs_preserved": true
+}

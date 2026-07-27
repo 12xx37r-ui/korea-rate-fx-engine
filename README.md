@@ -61,3 +61,16 @@ API 키를 갱신한 뒤 GitHub의 `Settings → Secrets and variables → Actio
 - 한국 기준금리 확률은 과거 월말 기준으로 향후 최대 4개월 내 첫 금리 변경을 평가합니다.
 - 다중분류 Brier Score, 역사적 빈도 벤치마크 Brier, Brier Skill Score, 정확도, 로그손실을 출력합니다.
 - 백테스트 성능이 약하거나 표본이 부족하면 현재 전망 확률을 역사적 빈도 쪽으로 자동 축소하여 과신을 방지합니다.
+
+## V2 한국 금리·환율 독립 예측 계층
+
+기존 `output/korea_rate_fx_outlook.json`과 `output/krw_strength_preview.json`은 그대로 유지한다.
+미국 엔진은 수정하지 않으며 `output/us_input.json`을 읽기 전용으로만 사용한다.
+
+추가 출력:
+
+- `output/korea_rate_forecast_v2.json`: 금통위 1·2·3회 앞 모형 추정확률, 예상금리, 정책국면
+- `output/korea_fx_forecast_v2.json`: 1·3·6·12개월 USD/KRW 경로와 80% 범위
+- `output/korea_validation_v2.json`: Brier score, benchmark skill, accuracy, RMSE, 표본수, 품질 게이트
+
+`quality_gate.passed`가 거짓이면 화면에서 "준기관급"으로 표시하지 않아야 한다.

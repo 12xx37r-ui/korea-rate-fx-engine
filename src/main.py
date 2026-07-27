@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 from src.collectors import ecos, kosis, krx, reb, us_policy
 from src.core.io import read_json, write_json
 from src.models.krw_strength import build_snapshot
+from src.models.korea_policy_v2 import build_fx_forecast_v2, build_rate_forecast_v2
 
 
 def main():
@@ -220,6 +221,31 @@ def main():
         snapshot,
     )
 
+    # V2는 기존 한국 엔진 출력과 병행되는 독립 예측·검증 계층이다.
+    # 미국 엔진 파일은 읽기 전용 입력으로만 사용한다.
+    rate_v2 = build_rate_forecast_v2(
+        ecos_data,
+        kosis_data,
+        us_policy_data,
+    )
+    rate_v2["generated_at"] = now.isoformat()
+    fx_v2 = build_fx_forecast_v2(snapshot, rate_v2)
+    fx_v2["generated_at"] = now.isoformat()
+
+    write_json(output_dir / "korea_rate_forecast_v2.json", rate_v2)
+    write_json(output_dir / "korea_fx_forecast_v2.json", fx_v2)
+    write_json(
+        output_dir / "korea_validation_v2.json",
+        {
+            "schema_version": "2.0.0",
+            "generated_at": now.isoformat(),
+            "rate": rate_v2.get("validation", {}),
+            "fx": fx_v2.get("validation", {}),
+            "us_engine_modified": False,
+            "legacy_outputs_preserved": True,
+        },
+    )
+
     print(
         "Generated output/api_health.json"
     )
@@ -235,6 +261,9 @@ def main():
     print(
         "Generated output/krw_strength_preview.json"
     )
+    print("Generated output/korea_rate_forecast_v2.json")
+    print("Generated output/korea_fx_forecast_v2.json")
+    print("Generated output/korea_validation_v2.json")
 
 
 if __name__ == "__main__":
