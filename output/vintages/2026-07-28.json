@@ -1,0 +1,277 @@
+{
+  "schema_version": "2.2.0",
+  "captured_at": "2026-07-28T00:42:42.948168+09:00",
+  "rate_forecast": {
+    "schema_version": "2.0.0",
+    "status": "ok",
+    "engine_scope": "korea_only_us_engine_read_only",
+    "current": {
+      "kr_base_rate_pct": 2.75,
+      "market_reference_rate_pct": 3.723,
+      "market_policy_gap_pctp": 0.973,
+      "core_cpi_yoy": 0.024,
+      "industrial_3m_annualized": -0.01013,
+      "usdkrw_3m_change": -0.01119,
+      "us_3meeting_rate_change_pctp": 0.144,
+      "us_path_filter": {
+        "mode": "monthly_curve_stabilized",
+        "accepted": 12,
+        "rejected": 1,
+        "warnings": [
+          "rejected meeting reconstruction 4.570; monthly average 3.895 used"
+        ]
+      }
+    },
+    "regime": {
+      "name": "inflation_defense",
+      "scores": {
+        "inflation_defense": 1.0811,
+        "growth_support": 0.2026,
+        "fx_defense": 0.2883,
+        "financial_stability": 0.35
+      }
+    },
+    "meeting_path": [
+      {
+        "meeting_ahead": 1,
+        "probabilities": {
+          "hold": 0.547,
+          "hike": 0.349,
+          "cut": 0.103
+        },
+        "expected_rate_pct": 2.811,
+        "most_likely_action": "hold",
+        "probability_type": "model_estimate"
+      },
+      {
+        "meeting_ahead": 2,
+        "probabilities": {
+          "hold": 0.505,
+          "hike": 0.265,
+          "cut": 0.23
+        },
+        "expected_rate_pct": 2.82,
+        "most_likely_action": "hold",
+        "probability_type": "model_estimate"
+      },
+      {
+        "meeting_ahead": 3,
+        "probabilities": {
+          "hold": 0.501,
+          "hike": 0.256,
+          "cut": 0.242
+        },
+        "expected_rate_pct": 2.824,
+        "most_likely_action": "hold",
+        "probability_type": "model_estimate"
+      }
+    ],
+    "validation": {
+      "samples": 65,
+      "brier_score": 0.5217,
+      "benchmark_brier": 0.6088,
+      "brier_skill_score": 0.1431,
+      "accuracy": 0.5846,
+      "log_loss": 0.8427,
+      "class_frequency": {
+        "hold": 0.4923,
+        "hike": 0.3538,
+        "cut": 0.1538
+      },
+      "evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
+      "release_lag_backtest": true,
+      "release_lags": {
+        "core_cpi_months": 1,
+        "industrial_production_months": 2
+      },
+      "real_time_vintage": false,
+      "calibration_weight": 0.636,
+      "quality_gate": {
+        "passed": false,
+        "candidate": true,
+        "level": "준기관급 후보",
+        "requirements": {
+          "samples_min": 72,
+          "brier_skill_score_min": 0.08,
+          "accuracy_min": 0.52,
+          "data_coverage_min": 0.85,
+          "vintage_backtest_required": true
+        },
+        "observed": {
+          "samples": 65,
+          "brier_skill_score": 0.1431,
+          "accuracy": 0.5846,
+          "data_coverage": 0.8,
+          "release_lag_backtest": true,
+          "real_time_vintage": false
+        },
+        "reasons": [
+          "검증 표본이 72개 미만입니다.",
+          "실제 데이터 축 완전성이 85% 미만입니다.",
+          "실시간 빈티지 백테스트가 아직 없습니다."
+        ]
+      },
+      "data_coverage_axes": {
+        "ecos_rates_fx": 0.35,
+        "kosis_macro": 0.2,
+        "us_policy": 0.2,
+        "krx_market": 0.0,
+        "reb_financial_stability": 0.0,
+        "other": 0.05
+      },
+      "core_cpi": {
+        "source_mode": "official_yoy",
+        "valid": true,
+        "rows": 180
+      }
+    },
+    "limitations": [
+      "금통위별 직접 선물가격이 없어 확률은 모형 추정치입니다.",
+      "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
+      "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
+    ],
+    "generated_at": "2026-07-28T00:42:42.948168+09:00"
+  },
+  "fx_forecast": {
+    "schema_version": "2.0.0",
+    "status": "ok",
+    "engine_scope": "korea_fx_v2",
+    "current_usdkrw": 1466.3,
+    "legacy_3m_center": 1454.4,
+    "legacy_3m_range": [
+      1396.3,
+      1551.0
+    ],
+    "forecast_path": [
+      {
+        "months": 1,
+        "mid": 1462.1,
+        "range_80": [
+          1392.5,
+          1531.7
+        ]
+      },
+      {
+        "months": 3,
+        "mid": 1454.4,
+        "range_80": [
+          1385.2,
+          1523.6
+        ]
+      },
+      {
+        "months": 6,
+        "mid": 1450.2,
+        "range_80": [
+          1352.6,
+          1547.9
+        ]
+      },
+      {
+        "months": 12,
+        "mid": 1446.1,
+        "range_80": [
+          1308.4,
+          1583.7
+        ]
+      }
+    ],
+    "validation": {
+      "samples": 232,
+      "rmse_pct": 5.19,
+      "mae_pct": 4.042,
+      "direction_accuracy": 0.4181,
+      "persistence_skill_pct": -14.063,
+      "interval_80_coverage": 0.8147,
+      "horizon_specific_oos": true,
+      "oos_by_horizon": {
+        "1m": {
+          "samples": 240,
+          "rmse_pct": 2.637,
+          "mae_pct": 2.024,
+          "random_walk_rmse_pct": 2.577,
+          "persistence_skill_pct": -2.297,
+          "direction_accuracy": 0.3458,
+          "interval_80_coverage": 0.8
+        },
+        "3m": {
+          "samples": 232,
+          "rmse_pct": 5.19,
+          "mae_pct": 4.042,
+          "random_walk_rmse_pct": 4.55,
+          "persistence_skill_pct": -14.063,
+          "direction_accuracy": 0.4181,
+          "interval_80_coverage": 0.8147
+        },
+        "6m": {
+          "samples": 219,
+          "rmse_pct": 7.037,
+          "mae_pct": 5.788,
+          "random_walk_rmse_pct": 5.435,
+          "persistence_skill_pct": -29.488,
+          "direction_accuracy": 0.4521,
+          "interval_80_coverage": 0.7717
+        },
+        "12m": {
+          "samples": 170,
+          "rmse_pct": 7.372,
+          "mae_pct": 6.011,
+          "random_walk_rmse_pct": 5.397,
+          "persistence_skill_pct": -36.597,
+          "direction_accuracy": 0.4412,
+          "interval_80_coverage": 0.7588
+        }
+      },
+      "validation_method": "expanding_walk_forward_weekly_origins",
+      "quality_gate": {
+        "passed": false,
+        "candidate": true,
+        "level": "준기관급 후보",
+        "observed": {
+          "samples": 232,
+          "rmse_pct": 5.19,
+          "direction_accuracy": 0.4181,
+          "persistence_skill_pct": -14.063,
+          "interval_80_coverage": 0.8147,
+          "horizon_specific_oos": true
+        },
+        "requirements": {
+          "samples_min": 180,
+          "rmse_pct_max": 5.5,
+          "direction_accuracy_min": 0.52,
+          "positive_persistence_skill": true,
+          "interval_80_coverage_range": [
+            0.72,
+            0.88
+          ],
+          "horizon_specific_oos_required": true
+        },
+        "reasons": [
+          "환율 방향 적중률이 52% 기준에 미달합니다.",
+          "지속성·랜덤워크 기준모형 대비 skill이 양수가 아닙니다."
+        ]
+      }
+    },
+    "rate_regime_link": {
+      "name": "inflation_defense",
+      "scores": {
+        "inflation_defense": 1.0811,
+        "growth_support": 0.2026,
+        "fx_defense": 0.2883,
+        "financial_stability": 0.35
+      }
+    },
+    "limitations": [
+      "장기 구간은 단기 워크포워드 중심값의 확장 경로이며 별도 12개월 OOS 검증 전에는 참고용입니다."
+    ],
+    "generated_at": "2026-07-28T00:42:42.948168+09:00"
+  },
+  "source_status": {
+    "us_policy_engine": "ok",
+    "ecos": "ok",
+    "krx": "not_configured",
+    "kosis": "ok",
+    "reb": "not_configured"
+  },
+  "us_engine_modified": false
+}
