@@ -11,7 +11,7 @@ permissions:
 jobs:
   collect-and-validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -36,7 +36,8 @@ jobs:
           US_REPO_READ_TOKEN: ${{ secrets.US_REPO_READ_TOKEN }}
           US_POLICY_JSON_URL: ${{ secrets.US_POLICY_JSON_URL }}
           MODEL_TIMEZONE: Asia/Seoul
-        run: python -m src.main
+          PYTHONUNBUFFERED: "1"
+        run: python -u -m src.main
 
       - name: Commit outputs
         run: |
