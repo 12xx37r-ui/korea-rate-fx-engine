@@ -85,32 +85,32 @@
     "forecast_path": [
       {
         "months": 1,
-        "point_forecast": 1466.9,
-        "change_pct": 0.1,
+        "point_forecast": 1465.7,
+        "change_pct": 0.02,
         "up_probability": 0.505,
         "down_probability": 0.495,
         "range_50": [
-          1441.9,
-          1491.9
+          1441.3,
+          1490.1
         ],
         "range_80": [
           1421.4,
-          1512.3
+          1510.1
         ]
       },
       {
         "months": 3,
-        "point_forecast": 1466.9,
-        "change_pct": 0.1,
+        "point_forecast": 1466.4,
+        "change_pct": 0.07,
         "up_probability": 0.505,
         "down_probability": 0.495,
         "range_50": [
-          1424.7,
-          1509.0
+          1424.5,
+          1508.3
         ],
         "range_80": [
           1390.2,
-          1543.5
+          1542.6
         ]
       },
       {
@@ -146,6 +146,14 @@
     ],
     "factor_score": 0.0377,
     "quality_gate": {
+      "passed": false,
+      "candidate": false,
+      "level": "V3 그림자 검증중",
+      "reasons": [
+        "V3 다요인 점예측의 자체 순차검증이 완료되지 않아 실전 인증에 사용하지 않습니다."
+      ]
+    },
+    "legacy_v2_quality_gate": {
       "passed": true,
       "candidate": false,
       "level": "준기관급(3개월)",
@@ -277,7 +285,8 @@
       },
       "reasons": []
     },
-    "point_forecast_is_not_spot_copy": true
+    "point_forecast_is_not_spot_copy": false,
+    "production_use": false
   },
   "factor_panel": {
     "coverage_ratio": 0.609,
@@ -337,10 +346,12 @@
     }
   },
   "certification": {
-    "level": "준기관급(3·6개월)",
+    "level": "V3 그림자 검증중",
     "rate_level": "준기관급 후보",
-    "fx_level": "준기관급(3개월)",
-    "note": "등급은 실제 과거 시점 순차검증 결과만 사용하며 자료가 늘었다는 이유로 자동 상향하지 않습니다."
+    "fx_level": "V2.5 검증등급 유지",
+    "production_model": "V2.5",
+    "v3_production_enabled": false,
+    "note": "V3는 자료수집·요인진단용 그림자 계층이며 자체 순차검증 통과 전에는 대시보드 실전 예측에 사용하지 않습니다."
   },
-  "generated_at": "2026-07-29T01:41:41.793401+09:00"
+  "generated_at": "2026-07-29T02:12:17.334483+09:00"
 }
