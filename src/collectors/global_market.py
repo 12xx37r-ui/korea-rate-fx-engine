@@ -6,7 +6,7 @@ from typing import Any
 import requests
 
 from src.core.io import write_json
-from src.core.result import CollectorResult
+from src.core.result import SourceResult
 
 FRED = {
     'broad_dollar':'DTWEXBGS','us_2y':'DGS2','us_10y':'DGS10','us_breakeven_10y':'T10YIE',
@@ -27,7 +27,7 @@ def _fred_csv(series_id:str, timeout:int)->list[dict[str,Any]]:
         rows.append({'date':row['DATE'].replace('-',''),'value':x,'source':'FRED','series_id':series_id})
     return rows[-5000:]
 
-def collect(output_dir:Path, timeout:int, retries:int)->CollectorResult:
+def collect(output_dir:Path, timeout:int, retries:int)->SourceResult:
     payload={}; errors={}
     for key,sid in FRED.items():
         for attempt in range(max(1,retries+1)):
@@ -39,4 +39,4 @@ def collect(output_dir:Path, timeout:int, retries:int)->CollectorResult:
     path=output_dir/'raw_global_market.json'; write_json(path,payload)
     ok=sum(bool(v) for v in payload.values())
     status='ok' if ok>=8 else ('degraded' if ok>=4 else 'error')
-    return CollectorResult(source='GLOBAL_MARKET',status=status,message=f'{ok}/{len(FRED)} public series collected',payload_path=str(path),metadata={'series_ok':ok,'series_total':len(FRED),'errors':errors,'credential_status':'not_required','action_required':False})
+    return SourceResult(source='GLOBAL_MARKET',status=status,message=f'{ok}/{len(FRED)} public series collected',payload_path=str(path),metadata={'series_ok':ok,'series_total':len(FRED),'errors':errors,'credential_status':'not_required','action_required':False})
