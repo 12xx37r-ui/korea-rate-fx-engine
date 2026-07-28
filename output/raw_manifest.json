@@ -1,9 +1,8 @@
 {
-  "generated_at": "2026-07-29T02:12:17.334483+09:00",
+  "generated_at": "2026-07-25T15:19:12.508817+09:00",
   "files": [
     "output/us_input.json",
     "output/raw_ecos.json",
-    "output/raw_kosis.json",
-    "output/raw_global_market.json"
+    "output/raw_kosis.json"
   ]
 }
