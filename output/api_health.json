@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2.0-institutional-objectivity-fixed",
-  "generated_at": "2026-07-25T15:19:12.508817+09:00",
+  "generated_at": "2026-07-29T01:41:41.793401+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -21,8 +21,8 @@
       "source": "ecos",
       "status": "ok",
       "message": "ECOS 국내 금리·환율 수집 완료",
-      "rows": 7967,
-      "latest_observation": "20260724",
+      "rows": 16439,
+      "latest_observation": "20260728",
       "payload_path": "output/raw_ecos.json",
       "warnings": [],
       "metadata": {
@@ -72,6 +72,37 @@
       "payload_path": null,
       "warnings": [],
       "metadata": {}
+    },
+    "GLOBAL_MARKET": {
+      "source": "GLOBAL_MARKET",
+      "status": "error",
+      "message": "0/11 public series collected",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": "output/raw_global_market.json",
+      "warnings": [],
+      "metadata": {
+        "series_ok": 0,
+        "series_total": 11,
+        "errors": {
+          "broad_dollar": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=12)",
+          "us_2y": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=12)",
+          "us_10y": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=12)",
+          "us_breakeven_10y": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=12)",
+          "vix": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=12)",
+          "hy_oas": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=12)",
+          "wti": "전체 수집 제한시간 초과로 건너뜀",
+          "commodity_index": "전체 수집 제한시간 초과로 건너뜀",
+          "usd_cny": "전체 수집 제한시간 초과로 건너뜀",
+          "usd_jpy": "전체 수집 제한시간 초과로 건너뜀",
+          "usd_krw_fred": "전체 수집 제한시간 초과로 건너뜀"
+        },
+        "credential_status": "not_required",
+        "action_required": false,
+        "connect_timeout_seconds": 5,
+        "read_timeout_seconds": 12,
+        "total_deadline_seconds": 150
+      }
     }
   },
   "api_credentials": {
@@ -94,6 +125,14 @@
         "action_required": false,
         "action": "없음",
         "message": "KOSIS 국내 공식 지표 수집 완료"
+      },
+      {
+        "source": "GLOBAL_MARKET",
+        "secret_name": null,
+        "status": "not_required",
+        "action_required": false,
+        "action": null,
+        "message": "0/11 public series collected"
       }
     ]
   },

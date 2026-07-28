@@ -1,0 +1,346 @@
+{
+  "schema_version": "3.0.0",
+  "status": "ok",
+  "engine_scope": "korea_rate_fx_comprehensive_v3",
+  "us_engine_modified": false,
+  "rate": {
+    "current_rate_pct": 2.75,
+    "next_meeting_expected_rate_pct": 2.811,
+    "meeting_path": [
+      {
+        "meeting_ahead": 1,
+        "label": "1회 뒤 금통위 직후",
+        "expected_rate_pct": 2.811,
+        "probabilities": {
+          "hold": 0.547,
+          "hike": 0.349,
+          "cut": 0.103
+        },
+        "most_likely_action": "hold"
+      },
+      {
+        "meeting_ahead": 2,
+        "label": "2회 뒤 금통위 직후",
+        "expected_rate_pct": 2.82,
+        "probabilities": {
+          "hold": 0.505,
+          "hike": 0.265,
+          "cut": 0.23
+        },
+        "most_likely_action": "hold"
+      },
+      {
+        "meeting_ahead": 3,
+        "label": "3회 뒤 금통위 직후",
+        "expected_rate_pct": 2.824,
+        "probabilities": {
+          "hold": 0.501,
+          "hike": 0.256,
+          "cut": 0.242
+        },
+        "most_likely_action": "hold"
+      },
+      {
+        "meeting_ahead": 4,
+        "label": "4회 뒤 금통위 직후",
+        "expected_rate_pct": 2.824,
+        "probabilities": null,
+        "most_likely_action": "hold"
+      }
+    ],
+    "calendar_horizon_estimates": {
+      "3m": 2.82,
+      "6m": 2.824,
+      "12m": 2.824
+    },
+    "quality_gate": {
+      "passed": false,
+      "candidate": true,
+      "level": "준기관급 후보",
+      "requirements": {
+        "samples_min": 72,
+        "brier_skill_score_min": 0.08,
+        "accuracy_min": 0.52,
+        "data_coverage_min": 0.85,
+        "vintage_backtest_required": true
+      },
+      "observed": {
+        "samples": 65,
+        "brier_skill_score": 0.1431,
+        "accuracy": 0.5846,
+        "data_coverage": 0.8,
+        "release_lag_backtest": true,
+        "real_time_vintage": false
+      },
+      "reasons": [
+        "검증 표본이 72개 미만입니다.",
+        "실제 데이터 축 완전성이 85% 미만입니다.",
+        "실시간 빈티지 백테스트가 아직 없습니다."
+      ]
+    },
+    "explanation": "예상금리는 실제 결정값이 아니라 동결·인상·인하 확률을 합친 확률가중 평균입니다."
+  },
+  "fx": {
+    "current_usdkrw": 1465.4,
+    "forecast_path": [
+      {
+        "months": 1,
+        "point_forecast": 1466.9,
+        "change_pct": 0.1,
+        "up_probability": 0.505,
+        "down_probability": 0.495,
+        "range_50": [
+          1441.9,
+          1491.9
+        ],
+        "range_80": [
+          1421.4,
+          1512.3
+        ]
+      },
+      {
+        "months": 3,
+        "point_forecast": 1466.9,
+        "change_pct": 0.1,
+        "up_probability": 0.505,
+        "down_probability": 0.495,
+        "range_50": [
+          1424.7,
+          1509.0
+        ],
+        "range_80": [
+          1390.2,
+          1543.5
+        ]
+      },
+      {
+        "months": 6,
+        "point_forecast": 1467.2,
+        "change_pct": 0.12,
+        "up_probability": 0.505,
+        "down_probability": 0.495,
+        "range_50": [
+          1414.9,
+          1519.4
+        ],
+        "range_80": [
+          1372.2,
+          1562.1
+        ]
+      },
+      {
+        "months": 12,
+        "point_forecast": 1468.2,
+        "change_pct": 0.19,
+        "up_probability": 0.505,
+        "down_probability": 0.495,
+        "range_50": [
+          1398.3,
+          1538.0
+        ],
+        "range_80": [
+          1341.2,
+          1595.1
+        ]
+      }
+    ],
+    "factor_score": 0.0377,
+    "quality_gate": {
+      "passed": true,
+      "candidate": false,
+      "level": "준기관급(3개월)",
+      "primary_horizon": "3m",
+      "passed_horizons": [
+        "3m",
+        "6m"
+      ],
+      "observed": {
+        "samples": 610,
+        "rmse_pct": 3.874,
+        "active_direction_accuracy": 0.5399,
+        "all_origin_direction_accuracy": 0.2607,
+        "persistence_skill_pct": 3.258,
+        "active_signal_coverage": 0.4311,
+        "interval_80_coverage": 0.7902,
+        "horizon_specific_oos": true
+      },
+      "requirements": {
+        "primary_horizon": "3m",
+        "horizon_specific_oos_required": true,
+        "see_horizon_quality_gates": true
+      },
+      "horizon_quality_gates": {
+        "1m": {
+          "passed": false,
+          "level": "참고용",
+          "observed": {
+            "samples": 619,
+            "rmse_pct": 2.322,
+            "active_direction_accuracy": 0.4794,
+            "all_origin_direction_accuracy": 0.2633,
+            "persistence_skill_pct": 0.894,
+            "active_signal_coverage": 0.4313,
+            "interval_80_coverage": 0.7884
+          },
+          "requirements": {
+            "samples_min": 180,
+            "rmse_pct_max": 3.0,
+            "active_direction_accuracy_min": 0.52,
+            "persistence_skill_pct_min": 0.0,
+            "active_signal_coverage_min": 0.3,
+            "interval_80_coverage_range": [
+              0.72,
+              0.88
+            ]
+          },
+          "reasons": [
+            "활성 신호 방향 적중률이 52% 기준에 미달합니다."
+          ]
+        },
+        "3m": {
+          "passed": true,
+          "level": "준기관급",
+          "observed": {
+            "samples": 610,
+            "rmse_pct": 3.874,
+            "active_direction_accuracy": 0.5399,
+            "all_origin_direction_accuracy": 0.2607,
+            "persistence_skill_pct": 3.258,
+            "active_signal_coverage": 0.4311,
+            "interval_80_coverage": 0.7902
+          },
+          "requirements": {
+            "samples_min": 180,
+            "rmse_pct_max": 5.5,
+            "active_direction_accuracy_min": 0.52,
+            "persistence_skill_pct_min": 0.0,
+            "active_signal_coverage_min": 0.3,
+            "interval_80_coverage_range": [
+              0.72,
+              0.88
+            ]
+          },
+          "reasons": []
+        },
+        "6m": {
+          "passed": true,
+          "level": "준기관급",
+          "observed": {
+            "samples": 598,
+            "rmse_pct": 4.835,
+            "active_direction_accuracy": 0.5802,
+            "all_origin_direction_accuracy": 0.2709,
+            "persistence_skill_pct": 2.595,
+            "active_signal_coverage": 0.4381,
+            "interval_80_coverage": 0.8027
+          },
+          "requirements": {
+            "samples_min": 180,
+            "rmse_pct_max": 7.0,
+            "active_direction_accuracy_min": 0.52,
+            "persistence_skill_pct_min": 0.0,
+            "active_signal_coverage_min": 0.3,
+            "interval_80_coverage_range": [
+              0.72,
+              0.88
+            ]
+          },
+          "reasons": []
+        },
+        "12m": {
+          "passed": false,
+          "level": "참고용",
+          "observed": {
+            "samples": 548,
+            "rmse_pct": 6.54,
+            "active_direction_accuracy": 0.5244,
+            "all_origin_direction_accuracy": 0.25,
+            "persistence_skill_pct": 1.069,
+            "active_signal_coverage": 0.4489,
+            "interval_80_coverage": 0.812
+          },
+          "requirements": {
+            "samples_min": 150,
+            "rmse_pct_max": 8.5,
+            "active_direction_accuracy_min": 0.52,
+            "persistence_skill_pct_min": 2.0,
+            "active_signal_coverage_min": 0.3,
+            "interval_80_coverage_range": [
+              0.72,
+              0.88
+            ]
+          },
+          "reasons": [
+            "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
+          ]
+        }
+      },
+      "reasons": []
+    },
+    "point_forecast_is_not_spot_copy": true
+  },
+  "factor_panel": {
+    "coverage_ratio": 0.609,
+    "components": {
+      "policy_path_gap": 0.2695,
+      "nominal_2y_gap": 0.0,
+      "nominal_10y_gap": 0.0,
+      "real_rate_gap": 0.0,
+      "broad_dollar": 0.0,
+      "yuan": 0.0,
+      "yen": 0.0,
+      "risk_vix": 0.0,
+      "credit_proxy": 0.0,
+      "oil": 0.0,
+      "commodity": 0.0,
+      "technical_trend": 0.0,
+      "mean_reversion": -0.0
+    },
+    "optional_axes": {
+      "foreign_equity_flow": false,
+      "foreign_bond_flow": false,
+      "current_account": false,
+      "trade_balance": false,
+      "semiconductor_exports": false,
+      "fx_reserves": false,
+      "ndf_or_forward_proxy": true,
+      "korea_cds_or_credit_proxy": false,
+      "ppp_equilibrium_proxy": false,
+      "volatility_regime": false
+    },
+    "weights": {
+      "policy_path_gap": 0.14,
+      "nominal_2y_gap": 0.08,
+      "nominal_10y_gap": 0.05,
+      "real_rate_gap": 0.08,
+      "broad_dollar": 0.13,
+      "yuan": 0.09,
+      "yen": 0.05,
+      "risk_vix": 0.08,
+      "credit_proxy": 0.07,
+      "oil": 0.04,
+      "commodity": 0.03,
+      "technical_trend": 0.08,
+      "mean_reversion": 0.08
+    },
+    "sources_used": [
+      "한국은행 ECOS",
+      "통계청 KOSIS",
+      "KRX(연결 시 직접 사용)",
+      "미국 정책금리 엔진",
+      "FRED 공개 시계열"
+    ],
+    "proxy_rules": {
+      "ndf": "한·미 예상금리차 기반 선도환 대체",
+      "korea_cds": "미국 하이일드 스프레드와 변동성지수 결합 대체",
+      "ppp": "장기 원달러 중심값 기반 균형환율 대체"
+    }
+  },
+  "certification": {
+    "level": "준기관급(3·6개월)",
+    "rate_level": "준기관급 후보",
+    "fx_level": "준기관급(3개월)",
+    "note": "등급은 실제 과거 시점 순차검증 결과만 사용하며 자료가 늘었다는 이유로 자동 상향하지 않습니다."
+  },
+  "generated_at": "2026-07-29T01:41:41.793401+09:00"
+}

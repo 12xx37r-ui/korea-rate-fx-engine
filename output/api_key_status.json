@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-25T15:19:12.508817+09:00",
+  "generated_at": "2026-07-29T01:41:41.793401+09:00",
   "status": "OK",
   "renewal_required": false,
   "alerts": [],
@@ -19,6 +19,14 @@
       "action_required": false,
       "action": "없음",
       "message": "KOSIS 국내 공식 지표 수집 완료"
+    },
+    {
+      "source": "GLOBAL_MARKET",
+      "secret_name": null,
+      "status": "not_required",
+      "action_required": false,
+      "action": null,
+      "message": "0/11 public series collected"
     }
   ]
 }
