@@ -1,6 +1,6 @@
 {
   "schema_version": "2.2.0",
-  "captured_at": "2026-07-28T01:13:16.946184+09:00",
+  "captured_at": "2026-07-28T17:00:49.279556+09:00",
   "rate_forecast": {
     "schema_version": "2.0.0",
     "status": "ok",
@@ -11,14 +11,14 @@
       "market_policy_gap_pctp": 0.973,
       "core_cpi_yoy": 0.024,
       "industrial_3m_annualized": -0.01013,
-      "usdkrw_3m_change": -0.01119,
-      "us_3meeting_rate_change_pctp": 0.144,
+      "usdkrw_3m_change": -0.00523,
+      "us_3meeting_rate_change_pctp": 0.152,
       "us_path_filter": {
         "mode": "monthly_curve_stabilized",
         "accepted": 12,
         "rejected": 1,
         "warnings": [
-          "rejected meeting reconstruction 4.570; monthly average 3.895 used"
+          "rejected meeting reconstruction 4.546; monthly average 3.905 used"
         ]
       }
     },
@@ -27,7 +27,7 @@
       "scores": {
         "inflation_defense": 1.0811,
         "growth_support": 0.2026,
-        "fx_defense": 0.2883,
+        "fx_defense": 0.3047,
         "financial_stability": 0.35
       }
     },
@@ -35,11 +35,11 @@
       {
         "meeting_ahead": 1,
         "probabilities": {
-          "hold": 0.547,
+          "hold": 0.548,
           "hike": 0.349,
           "cut": 0.103
         },
-        "expected_rate_pct": 2.811,
+        "expected_rate_pct": 2.812,
         "most_likely_action": "hold",
         "probability_type": "model_estimate"
       },
@@ -130,65 +130,65 @@
       "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
       "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
     ],
-    "generated_at": "2026-07-28T01:13:16.946184+09:00"
+    "generated_at": "2026-07-28T17:00:49.279556+09:00"
   },
   "fx_forecast": {
     "schema_version": "2.0.0",
     "status": "ok",
     "engine_scope": "korea_fx_v2",
-    "current_usdkrw": 1466.3,
-    "legacy_3m_center": 1454.4,
+    "current_usdkrw": 1465.4,
+    "legacy_3m_center": 1454.0,
     "legacy_3m_range": [
-      1396.3,
-      1551.0
+      1398.6,
+      1549.8
     ],
     "forecast_path": [
       {
         "months": 1,
-        "mid": 1466.3,
+        "mid": 1465.4,
         "range_80": [
-          1422.3,
-          1510.3
+          1421.4,
+          1509.4
         ],
         "production_model": "random_walk_abstention",
         "signal_active": false,
-        "signal_60d": -0.01119,
+        "signal_60d": -0.00523,
         "forecast_drift": 0.0
       },
       {
         "months": 3,
-        "mid": 1466.3,
+        "mid": 1465.4,
         "range_80": [
-          1391.1,
-          1541.5
+          1390.2,
+          1540.6
         ],
         "production_model": "random_walk_abstention",
         "signal_active": false,
-        "signal_60d": -0.01119,
+        "signal_60d": -0.00523,
         "forecast_drift": 0.0
       },
       {
         "months": 6,
-        "mid": 1466.3,
+        "mid": 1465.4,
         "range_80": [
-          1373.0,
-          1559.6
+          1372.2,
+          1558.6
         ],
         "production_model": "random_walk_abstention",
         "signal_active": false,
-        "signal_60d": -0.01119,
+        "signal_60d": -0.00523,
         "forecast_drift": 0.0
       },
       {
         "months": 12,
-        "mid": 1466.3,
+        "mid": 1465.4,
         "range_80": [
-          1342.1,
-          1590.5
+          1341.2,
+          1589.6
         ],
         "production_model": "random_walk_abstention",
         "signal_active": false,
-        "signal_60d": -0.01119,
+        "signal_60d": -0.00523,
         "forecast_drift": 0.0
       }
     ],
@@ -404,7 +404,7 @@
       "scores": {
         "inflation_defense": 1.0811,
         "growth_support": 0.2026,
-        "fx_defense": 0.2883,
+        "fx_defense": 0.3047,
         "financial_stability": 0.35
       }
     },
@@ -414,7 +414,7 @@
       "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
       "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
     ],
-    "generated_at": "2026-07-28T01:13:16.946184+09:00"
+    "generated_at": "2026-07-28T17:00:49.279556+09:00"
   },
   "source_status": {
     "us_policy_engine": "ok",

@@ -8,14 +8,14 @@
     "market_policy_gap_pctp": 0.973,
     "core_cpi_yoy": 0.024,
     "industrial_3m_annualized": -0.01013,
-    "usdkrw_3m_change": -0.01119,
-    "us_3meeting_rate_change_pctp": 0.144,
+    "usdkrw_3m_change": -0.00523,
+    "us_3meeting_rate_change_pctp": 0.152,
     "us_path_filter": {
       "mode": "monthly_curve_stabilized",
       "accepted": 12,
       "rejected": 1,
       "warnings": [
-        "rejected meeting reconstruction 4.570; monthly average 3.895 used"
+        "rejected meeting reconstruction 4.546; monthly average 3.905 used"
       ]
     }
   },
@@ -24,7 +24,7 @@
     "scores": {
       "inflation_defense": 1.0811,
       "growth_support": 0.2026,
-      "fx_defense": 0.2883,
+      "fx_defense": 0.3047,
       "financial_stability": 0.35
     }
   },
@@ -32,11 +32,11 @@
     {
       "meeting_ahead": 1,
       "probabilities": {
-        "hold": 0.547,
+        "hold": 0.548,
         "hike": 0.349,
         "cut": 0.103
       },
-      "expected_rate_pct": 2.811,
+      "expected_rate_pct": 2.812,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     },
@@ -127,5 +127,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-07-28T01:13:16.946184+09:00"
+  "generated_at": "2026-07-28T17:00:49.279556+09:00"
 }

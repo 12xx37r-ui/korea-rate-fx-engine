@@ -2,59 +2,59 @@
   "schema_version": "2.0.0",
   "status": "ok",
   "engine_scope": "korea_fx_v2",
-  "current_usdkrw": 1466.3,
-  "legacy_3m_center": 1454.4,
+  "current_usdkrw": 1465.4,
+  "legacy_3m_center": 1454.0,
   "legacy_3m_range": [
-    1396.3,
-    1551.0
+    1398.6,
+    1549.8
   ],
   "forecast_path": [
     {
       "months": 1,
-      "mid": 1466.3,
+      "mid": 1465.4,
       "range_80": [
-        1422.3,
-        1510.3
+        1421.4,
+        1509.4
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
-      "signal_60d": -0.01119,
+      "signal_60d": -0.00523,
       "forecast_drift": 0.0
     },
     {
       "months": 3,
-      "mid": 1466.3,
+      "mid": 1465.4,
       "range_80": [
-        1391.1,
-        1541.5
+        1390.2,
+        1540.6
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
-      "signal_60d": -0.01119,
+      "signal_60d": -0.00523,
       "forecast_drift": 0.0
     },
     {
       "months": 6,
-      "mid": 1466.3,
+      "mid": 1465.4,
       "range_80": [
-        1373.0,
-        1559.6
+        1372.2,
+        1558.6
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
-      "signal_60d": -0.01119,
+      "signal_60d": -0.00523,
       "forecast_drift": 0.0
     },
     {
       "months": 12,
-      "mid": 1466.3,
+      "mid": 1465.4,
       "range_80": [
-        1342.1,
-        1590.5
+        1341.2,
+        1589.6
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
-      "signal_60d": -0.01119,
+      "signal_60d": -0.00523,
       "forecast_drift": 0.0
     }
   ],
@@ -270,7 +270,7 @@
     "scores": {
       "inflation_defense": 1.0811,
       "growth_support": 0.2026,
-      "fx_defense": 0.2883,
+      "fx_defense": 0.3047,
       "financial_stability": 0.35
     }
   },
@@ -280,5 +280,5 @@
     "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
     "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
   ],
-  "generated_at": "2026-07-28T01:13:16.946184+09:00"
+  "generated_at": "2026-07-28T17:00:49.279556+09:00"
 }
