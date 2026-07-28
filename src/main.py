@@ -6,10 +6,11 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from src.collectors import ecos, kosis, krx, reb, us_policy
+from src.collectors import ecos, kosis, krx, reb, us_policy, global_market
 from src.core.io import read_json, write_json
 from src.models.krw_strength import build_snapshot
 from src.models.korea_policy_v2 import build_fx_forecast_v2, build_rate_forecast_v2
+from src.models.korea_outlook_v3 import build_v3
 
 
 def run_collector(name, collector, output_dir, timeout, retries):
@@ -51,6 +52,7 @@ def main():
         run_collector("KRX", krx, output_dir, timeout, retries),
         run_collector("KOSIS", kosis, output_dir, timeout, retries),
         run_collector("REB", reb, output_dir, timeout, retries),
+        run_collector("GLOBAL_MARKET", global_market, output_dir, timeout, retries),
     ]
 
 
@@ -177,6 +179,8 @@ def main():
     ecos_path = output_dir / "raw_ecos.json"
     kosis_path = output_dir / "raw_kosis.json"
     us_policy_path = output_dir / "us_input.json"
+    krx_path = output_dir / "raw_krx.json"
+    global_path = output_dir / "raw_global_market.json"
 
     ecos_data = (
         read_json(ecos_path)
@@ -195,6 +199,8 @@ def main():
         if us_policy_path.exists()
         else None
     )
+    krx_data = read_json(krx_path) if krx_path.exists() else {}
+    global_data = read_json(global_path) if global_path.exists() else {}
 
     snapshot = build_snapshot(
         ecos_data,
@@ -244,6 +250,10 @@ def main():
         },
     )
 
+    v3 = build_v3(rate_v2, fx_v2, ecos_data, kosis_data, krx_data, global_data, us_policy_data)
+    v3["generated_at"] = now.isoformat()
+    write_json(output_dir / "korea_rate_fx_outlook_v3.json", v3)
+
     # 오늘 시점의 실제 입력·예측을 누적 보관한다. 이 아카이브는 앞으로
     # 실시간 빈티지 백테스트를 가능하게 하며 기존 출력과 완전히 분리된다.
     vintage_dir = output_dir / "vintages"
@@ -279,6 +289,7 @@ def main():
     print("Generated output/korea_rate_forecast_v2.json")
     print("Generated output/korea_fx_forecast_v2.json")
     print("Generated output/korea_validation_v2.json")
+    print("Generated output/korea_rate_fx_outlook_v3.json")
     print(f"Generated {vintage_path}")
 
 
