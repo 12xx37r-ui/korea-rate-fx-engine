@@ -37,7 +37,9 @@ def build_v3(rate_v2:dict[str,Any],fx_v2:dict[str,Any],ecos:dict[str,Any],kosis:
     kr2=_last(ecos,'kr_gov_2y'); kr10=_last(ecos,'kr_gov_10y'); us2=_last(global_data,'us_2y'); us10=_last(global_data,'us_10y')
     cpi=(rate_v2.get('current') or {}).get('core_cpi_yoy'); us_be=_last(global_data,'us_breakeven_10y')
     real_gap=None
-    if None not in (kr2,cpi,us2,us_be): real_gap=(kr2-float(cpi)*100)-(us2-us_be)
+    if None not in (kr2,cpi,us2,us_be):
+        cpi_pct=float(cpi)*100 if abs(float(cpi))<1 else float(cpi)
+        real_gap=(kr2-cpi_pct)-(us2-us_be)
     nominal2_gap=(kr2-us2) if None not in (kr2,us2) else None
     nominal10_gap=(kr10-us10) if None not in (kr10,us10) else None
 
@@ -78,7 +80,6 @@ def build_v3(rate_v2:dict[str,Any],fx_v2:dict[str,Any],ecos:dict[str,Any],kosis:
     forecasts=[]
     for m,scale in horizon_scale.items():
         drift=_clip(score*scale,-0.075,0.075)
-        if abs(drift)<0.001: drift=0.001 if score>=0 else -0.001
         mid=spot*(1+drift)
         old=v2_rows.get(m,{})
         r80=old.get('range_80') or [mid*(1-scale*2.5),mid*(1+scale*2.5)]
@@ -101,9 +102,9 @@ def build_v3(rate_v2:dict[str,Any],fx_v2:dict[str,Any],ecos:dict[str,Any],kosis:
     return {
       'schema_version':'3.0.0','status':'ok','engine_scope':'korea_rate_fx_comprehensive_v3','us_engine_modified':False,
       'rate':{'current_rate_pct':current_rate,'next_meeting_expected_rate_pct':rate_horizons[0]['expected_rate_pct'] if rate_horizons else None,'meeting_path':rate_horizons,'calendar_horizon_estimates':rate_month,'quality_gate':rate_gate,'explanation':'예상금리는 실제 결정값이 아니라 동결·인상·인하 확률을 합친 확률가중 평균입니다.'},
-      'fx':{'current_usdkrw':spot,'forecast_path':forecasts,'factor_score':round(score,4),'quality_gate':fx_gate,'point_forecast_is_not_spot_copy':True},
+      'fx':{'current_usdkrw':spot,'forecast_path':forecasts,'factor_score':round(score,4),'quality_gate':{'passed':False,'candidate':False,'level':'V3 그림자 검증중','reasons':['V3 다요인 점예측의 자체 순차검증이 완료되지 않아 실전 인증에 사용하지 않습니다.']},'legacy_v2_quality_gate':fx_gate,'point_forecast_is_not_spot_copy':False,'production_use':False},
       'factor_panel':{'coverage_ratio':round(coverage,3),'components':{k:round(v,4) for k,v in components.items()},'optional_axes':optional,'weights':weights,
         'sources_used':['한국은행 ECOS','통계청 KOSIS','KRX(연결 시 직접 사용)','미국 정책금리 엔진','FRED 공개 시계열'],
         'proxy_rules':{'ndf':'한·미 예상금리차 기반 선도환 대체','korea_cds':'미국 하이일드 스프레드와 변동성지수 결합 대체','ppp':'장기 원달러 중심값 기반 균형환율 대체'}},
-      'certification':{'level':'준기관급(3·6개월)' if fx_gate.get('passed') else '검증중','rate_level':rate_gate.get('level'),'fx_level':fx_gate.get('level'),'note':'등급은 실제 과거 시점 순차검증 결과만 사용하며 자료가 늘었다는 이유로 자동 상향하지 않습니다.'}
+      'certification':{'level':'V3 그림자 검증중','rate_level':rate_gate.get('level'),'fx_level':'V2.5 검증등급 유지','production_model':'V2.5','v3_production_enabled':False,'note':'V3는 자료수집·요인진단용 그림자 계층이며 자체 순차검증 통과 전에는 대시보드 실전 예측에 사용하지 않습니다.'}
     }
