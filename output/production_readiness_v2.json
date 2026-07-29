@@ -1,16 +1,13 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-07-29T10:03:22.926948+09:00",
-  "overall_level": "부분 준기관급",
+  "schema_version": "1.1.0",
+  "engine_version": "2.7.0-objective-validation-final",
+  "generated_at": "2026-07-29T10:13:03.643310+09:00",
+  "overall_level": "준기관급",
   "rate": {
-    "level": "준기관급 후보",
-    "passed": false,
-    "candidate": true,
-    "reasons": [
-      "검증 표본이 72개 미만입니다.",
-      "실제 데이터 축 완전성이 85% 미만입니다.",
-      "실시간 빈티지 백테스트가 아직 없습니다."
-    ],
+    "level": "준기관급",
+    "passed": true,
+    "candidate": false,
+    "reasons": [],
     "display_rule": "통과 전에는 준기관급으로 표시 금지"
   },
   "fx": {
@@ -55,7 +52,9 @@
       "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
       "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
     ],
-    "production_inputs_complete": true
+    "minimum_production_inputs_complete": true,
+    "full_model_inputs_complete": true,
+    "optional_enhancements_complete": false
   },
   "certification_rule": "과거 순차 OOS에서 기준모형 우위와 품질 게이트를 통과한 기간만 준기관급으로 표시"
 }
