@@ -244,6 +244,50 @@ def main():
         },
     )
 
+    rate_gate = (rate_v2.get("validation") or {}).get("quality_gate") or {}
+    fx_gate = (fx_v2.get("validation") or {}).get("quality_gate") or {}
+    fx_horizon_gates = fx_gate.get("horizon_quality_gates") or {}
+    production_readiness = {
+        "schema_version": "1.0.0",
+        "generated_at": now.isoformat(),
+        "overall_level": (
+            "준기관급"
+            if rate_gate.get("passed") and fx_gate.get("passed")
+            else "부분 준기관급"
+            if fx_gate.get("passed") or rate_gate.get("passed")
+            else "검증 중"
+        ),
+        "rate": {
+            "level": rate_gate.get("level", "검증 중"),
+            "passed": bool(rate_gate.get("passed")),
+            "candidate": bool(rate_gate.get("candidate")),
+            "reasons": rate_gate.get("reasons", []),
+            "display_rule": "통과 전에는 준기관급으로 표시 금지",
+        },
+        "fx": {
+            "primary_level": fx_gate.get("level", "검증 중"),
+            "primary_passed": bool(fx_gate.get("passed")),
+            "passed_horizons": fx_gate.get("passed_horizons", []),
+            "horizon_levels": {
+                key: {
+                    "passed": bool(value.get("passed")),
+                    "level": value.get("level"),
+                    "reasons": value.get("reasons", []),
+                }
+                for key, value in fx_horizon_gates.items()
+            },
+            "signal_active": any(bool(row.get("signal_active")) for row in fx_v2.get("forecast_path", [])),
+            "display_rule": "기간별 게이트와 현재 신호 활성 여부를 분리 표시",
+        },
+        "source_health": {
+            "blocking_errors": health.get("blocking_errors", []),
+            "warnings": health.get("warnings", []),
+            "production_inputs_complete": not bool(health.get("blocking_errors")),
+        },
+        "certification_rule": "과거 순차 OOS에서 기준모형 우위와 품질 게이트를 통과한 기간만 준기관급으로 표시",
+    }
+    write_json(output_dir / "production_readiness_v2.json", production_readiness)
+
     # 오늘 시점의 실제 입력·예측을 누적 보관한다. 이 아카이브는 앞으로
     # 실시간 빈티지 백테스트를 가능하게 하며 기존 출력과 완전히 분리된다.
     vintage_dir = output_dir / "vintages"
@@ -279,6 +323,7 @@ def main():
     print("Generated output/korea_rate_forecast_v2.json")
     print("Generated output/korea_fx_forecast_v2.json")
     print("Generated output/korea_validation_v2.json")
+    print("Generated output/production_readiness_v2.json")
     print(f"Generated {vintage_path}")
 
 
