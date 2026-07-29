@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29T10:03:22.926948+09:00",
+  "overall_level": "부분 준기관급",
+  "rate": {
+    "level": "준기관급 후보",
+    "passed": false,
+    "candidate": true,
+    "reasons": [
+      "검증 표본이 72개 미만입니다.",
+      "실제 데이터 축 완전성이 85% 미만입니다.",
+      "실시간 빈티지 백테스트가 아직 없습니다."
+    ],
+    "display_rule": "통과 전에는 준기관급으로 표시 금지"
+  },
+  "fx": {
+    "primary_level": "준기관급(3개월)",
+    "primary_passed": true,
+    "passed_horizons": [
+      "3m",
+      "6m"
+    ],
+    "horizon_levels": {
+      "1m": {
+        "passed": false,
+        "level": "참고용",
+        "reasons": [
+          "활성 신호 방향 적중률이 52% 기준에 미달합니다."
+        ]
+      },
+      "3m": {
+        "passed": true,
+        "level": "준기관급",
+        "reasons": []
+      },
+      "6m": {
+        "passed": true,
+        "level": "준기관급",
+        "reasons": []
+      },
+      "12m": {
+        "passed": false,
+        "level": "참고용",
+        "reasons": [
+          "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
+        ]
+      }
+    },
+    "signal_active": false,
+    "display_rule": "기간별 게이트와 현재 신호 활성 여부를 분리 표시"
+  },
+  "source_health": {
+    "blocking_errors": [],
+    "warnings": [
+      "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
+      "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
+    ],
+    "production_inputs_complete": true
+  },
+  "certification_rule": "과거 순차 OOS에서 기준모형 우위와 품질 게이트를 통과한 기간만 준기관급으로 표시"
+}
