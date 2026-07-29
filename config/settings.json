@@ -1,15 +1,15 @@
 {
-  "schema_version": "1.2.0-institutional-objectivity-fixed",
+  "schema_version": "1.3.0-objective-validation-final",
   "timezone": "Asia/Seoul",
   "request_timeout_seconds": 30,
   "max_retries": 3,
   "required_sources": [
     "us_policy_engine",
     "ecos",
-    "krx"
+    "kosis"
   ],
   "optional_sources": [
-    "kosis",
+    "krx",
     "reb",
     "data_go_kr"
   ]

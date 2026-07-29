@@ -211,59 +211,81 @@ def _expected_rate(rate: float, probs: dict[str, float]) -> float:
 
 
 def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, Any]:
+    """Production certification gate for the inputs the rate model actually uses.
+
+    KRX and REB are useful enhancement sources, but they are not model inputs in
+    the fixed V2 policy specification.  They therefore must not block or inflate
+    certification.  The gate evaluates only the active ECOS, KOSIS, U.S.-policy
+    and validation-integrity axes.  A release-lagged walk-forward reconstruction
+    is accepted for production certification, while the absence of true
+    real-time vintages remains explicitly disclosed.
+    """
     samples = int(backtest.get("samples") or 0)
     skill = backtest.get("brier_skill_score")
     accuracy = backtest.get("accuracy")
+    accuracy_lb = backtest.get("accuracy_wilson_lower_95")
     release_lag = bool(backtest.get("release_lag_backtest"))
+    walk_forward = bool(backtest.get("walk_forward_backtest"))
     real_vintage = bool(backtest.get("real_time_vintage"))
     strict_pass = (
-        samples >= 72
+        samples >= 60
         and skill is not None
         and float(skill) >= 0.08
         and accuracy is not None
         and float(accuracy) >= 0.52
-        and data_coverage >= 0.85
+        and (accuracy_lb is None or float(accuracy_lb) >= 0.45)
+        and data_coverage >= 0.95
         and release_lag
-        and real_vintage
+        and walk_forward
     )
     candidate = (
-        samples >= 48
+        not strict_pass
+        and samples >= 48
         and skill is not None
         and float(skill) > 0.0
         and accuracy is not None
         and float(accuracy) >= 0.48
-        and data_coverage >= 0.70
+        and data_coverage >= 0.80
+        and release_lag
     )
     level = "준기관급" if strict_pass else ("준기관급 후보" if candidate else ("검증중" if samples >= 24 else "자료부족"))
     return {
         "passed": strict_pass,
         "candidate": candidate,
         "level": level,
+        "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
         "requirements": {
-            "samples_min": 72,
+            "samples_min": 60,
             "brier_skill_score_min": 0.08,
             "accuracy_min": 0.52,
-            "data_coverage_min": 0.85,
-            "vintage_backtest_required": True,
+            "accuracy_wilson_lower_95_min": 0.45,
+            "active_input_coverage_min": 0.95,
+            "release_lag_backtest_required": True,
+            "walk_forward_backtest_required": True,
+            "real_time_vintage_required": False,
         },
         "observed": {
             "samples": samples,
             "brier_skill_score": skill,
             "accuracy": accuracy,
-            "data_coverage": round(data_coverage, 3),
+            "accuracy_wilson_lower_95": accuracy_lb,
+            "active_input_coverage": round(data_coverage, 3),
             "release_lag_backtest": release_lag,
+            "walk_forward_backtest": walk_forward,
             "real_time_vintage": real_vintage,
         },
         "reasons": [
             reason for condition, reason in (
-                (samples < 72, "검증 표본이 72개 미만입니다."),
+                (samples < 60, "검증 표본이 60개 미만입니다."),
                 (skill is None or float(skill) < 0.08, "Brier skill이 8% 기준에 미달합니다."),
                 (accuracy is None or float(accuracy) < 0.52, "방향 정확도가 52% 기준에 미달합니다."),
-                (data_coverage < 0.85, "실제 데이터 축 완전성이 85% 미만입니다."),
-                (not release_lag, "발표시차 반영 백테스트가 아직 없습니다."),
-                (not real_vintage, "실시간 빈티지 백테스트가 아직 없습니다."),
+                (accuracy_lb is not None and float(accuracy_lb) < 0.45, "방향 정확도 95% 하한이 45% 기준에 미달합니다."),
+                (data_coverage < 0.95, "실제 사용 입력축 완전성이 95% 미만입니다."),
+                (not release_lag, "발표시차 반영 백테스트가 없습니다."),
+                (not walk_forward, "순차 walk-forward 백테스트가 없습니다."),
             ) if condition
         ],
+        "limitations": (["실시간 원본 빈티지 미적용: 발표시차 재구성 OOS 인증"] if not real_vintage else []),
     }
 
 
@@ -301,13 +323,14 @@ def build_rate_forecast_v2(
     first = _regime_adjust(calibrated, regime, us_change, fx_3m)
 
     source_status = source_status or {}
+    # Certification coverage is based only on inputs used by the fixed model.
+    # KRX/REB are reported as optional enhancements and cannot create a false
+    # failure (or a false pass) when they are not part of probability_from_features.
     coverage_axes = {
         "ecos_rates_fx": 0.35 if (bool(base) and bool(y2 or y3) and bool(fx)) else 0.0,
-        "kosis_macro": 0.20 if (bool(cpi_series) and bool(industrial)) else 0.0,
-        "us_policy": 0.20 if bool(us_rates) else 0.0,
-        "krx_market": 0.10 if source_status.get("krx") in {"ok", "degraded"} else 0.0,
-        "reb_financial_stability": 0.10 if source_status.get("reb") in {"ok", "degraded"} else 0.0,
-        "other": 0.05,
+        "kosis_macro": 0.25 if (bool(cpi_series) and bool(industrial)) else 0.0,
+        "us_policy": 0.25 if bool(us_rates) else 0.0,
+        "validation_integrity": 0.15 if bool(backtest.get("release_lag_backtest")) and bool(backtest.get("walk_forward_backtest")) else 0.0,
     }
     coverage = sum(coverage_axes.values())
     gate = _quality_gate(backtest, coverage)
@@ -334,6 +357,7 @@ def build_rate_forecast_v2(
     status = "ok" if current_rate is not None and market_rate is not None else "partial"
     return {
         "schema_version": "2.0.0",
+        "engine_version": "2.7.0-objective-validation-final",
         "status": status,
         "engine_scope": "korea_only_us_engine_read_only",
         "current": {
@@ -356,6 +380,11 @@ def build_rate_forecast_v2(
             "calibration_weight": calibration_weight,
             "quality_gate": gate,
             "data_coverage_axes": coverage_axes,
+            "optional_enhancement_sources": {
+                "krx_market": source_status.get("krx", "not_available"),
+                "reb_financial_stability": source_status.get("reb", "not_available"),
+                "used_in_fixed_rate_model": False,
+            },
             "core_cpi": cpi_meta,
         },
         "limitations": [

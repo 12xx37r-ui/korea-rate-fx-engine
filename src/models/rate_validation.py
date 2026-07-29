@@ -293,31 +293,43 @@ def fx_walk_forward_validation(
         "horizon_specific_oos": all((row.get("samples") or 0) >= 100 for row in result.values()),
     }
 
+def _wilson_lower(successes: int, n: int, z: float = 1.959963984540054) -> float | None:
+    if n <= 0:
+        return None
+    phat = successes / n
+    denom = 1.0 + z * z / n
+    centre = phat + z * z / (2.0 * n)
+    margin = z * sqrt((phat * (1.0 - phat) + z * z / (4.0 * n)) / n)
+    return max(0.0, (centre - margin) / denom)
+
+
 def rate_probability_backtest(
     base_rows: list[dict[str, Any]],
     market_rows: list[dict[str, Any]],
     cpi_yoy: list[tuple[str, float]],
     industrial_rows: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    """Release-lagged expanding walk-forward probability validation.
+
+    The benchmark is generated sequentially from outcomes available before each
+    origin with Laplace smoothing.  This removes the full-sample class-frequency
+    look-ahead present in the earlier benchmark and makes Brier skill auditable.
+    """
     base = numeric_series(base_rows)
     market = numeric_series(market_rows)
     industrial = numeric_series(industrial_rows)
     if len(base) < 120 or len(market) < 120 or len(cpi_yoy) < 12 or len(industrial) < 16:
-        return {"samples": 0, "brier_score": None, "benchmark_brier": None, "brier_skill_score": None, "accuracy": None, "log_loss": None, "class_frequency": {"hold": 1.0, "hike": 0.0, "cut": 0.0}}
+        return {"samples": 0, "brier_score": None, "benchmark_brier": None, "brier_skill_score": None, "accuracy": None, "accuracy_wilson_lower_95": None, "log_loss": None, "class_frequency": {"hold": 1.0, "hike": 0.0, "cut": 0.0}, "walk_forward_backtest": False}
 
-    # 시장금리 월말 관측을 예측 원점으로 사용한다. 기준금리 변경일만
-    # 원점으로 쓰던 이전 방식보다 실제 월별 의사결정 표본을 온전히 보존한다.
-    monthly_dates: list[str] = []
     seen: dict[str, str] = {}
     for date, _ in market:
         seen[date[:6]] = date
     monthly_dates = sorted(seen.values())
 
-    samples: list[tuple[dict[str, float], str]] = []
+    samples: list[tuple[str, dict[str, float], str]] = []
     for date in monthly_dates:
         rate = _latest_at(base, date)
         yld = _latest_at(market, date)
-        # 발표시차 보수 반영: CPI 1개월, 산업생산 2개월 지연.
         cpi = _latest_at(cpi_yoy, _shift_month(date, -1))
         hist_ind = _history_at(industrial, _shift_month(date, -2))
         ind = None
@@ -329,33 +341,53 @@ def rate_probability_backtest(
             continue
         probs = probability_from_features(yld - rate, cpi, ind)
         actual = _next_actual_class_from_date(base, date)
-        samples.append((probs, actual))
+        samples.append((date, probs, actual))
 
     if len(samples) < 18:
-        return {"samples": len(samples), "brier_score": None, "benchmark_brier": None, "brier_skill_score": None, "accuracy": None, "log_loss": None, "class_frequency": {"hold": 1.0, "hike": 0.0, "cut": 0.0}}
+        return {"samples": len(samples), "brier_score": None, "benchmark_brier": None, "brier_skill_score": None, "accuracy": None, "accuracy_wilson_lower_95": None, "log_loss": None, "class_frequency": {"hold": 1.0, "hike": 0.0, "cut": 0.0}, "walk_forward_backtest": False}
 
     classes = ("hold", "hike", "cut")
-    freq = {c: sum(a == c for _, a in samples) / len(samples) for c in classes}
-    briers, bench, logs, hits = [], [], [], []
-    for probs, actual in samples:
-        briers.append(sum((probs[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes))
-        bench.append(sum((freq[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes))
+    counts = {c: 1 for c in classes}  # Laplace prior, fixed before evaluation.
+    briers: list[float] = []
+    bench: list[float] = []
+    logs: list[float] = []
+    hits: list[bool] = []
+    rows: list[dict[str, Any]] = []
+    for date, probs, actual in samples:
+        total_prior = sum(counts.values())
+        benchmark = {c: counts[c] / total_prior for c in classes}
+        model_bs = sum((probs[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes)
+        bench_bs = sum((benchmark[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes)
+        hit = max(probs, key=probs.get) == actual
+        briers.append(model_bs)
+        bench.append(bench_bs)
         logs.append(-log(max(1e-9, probs[actual])))
-        hits.append(max(probs, key=probs.get) == actual)
+        hits.append(hit)
+        rows.append({"origin": date, "probabilities": {k: round(v, 6) for k, v in probs.items()}, "benchmark_probabilities": {k: round(v, 6) for k, v in benchmark.items()}, "actual": actual, "hit": hit, "brier": round(model_bs, 6), "benchmark_brier": round(bench_bs, 6)})
+        counts[actual] += 1
+
+    n = len(samples)
+    freq = {c: sum(a == c for _, _, a in samples) / n for c in classes}
     bs, bb = mean(briers), mean(bench)
     skill = 1.0 - bs / bb if bb > 0 else None
+    successes = sum(hits)
     return {
-        "samples": len(samples),
+        "samples": n,
         "brier_score": round(bs, 4),
         "benchmark_brier": round(bb, 4),
         "brier_skill_score": round(skill, 4) if skill is not None else None,
         "accuracy": round(mean(hits), 4),
+        "accuracy_wilson_lower_95": round(_wilson_lower(successes, n), 4),
         "log_loss": round(mean(logs), 4),
         "class_frequency": {k: round(v, 4) for k, v in freq.items()},
         "evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
+        "validation_method": "release_lagged_expanding_walk_forward_fixed_spec",
+        "benchmark_method": "expanding_prior_class_frequency_laplace",
         "release_lag_backtest": True,
+        "walk_forward_backtest": True,
         "release_lags": {"core_cpi_months": 1, "industrial_production_months": 2},
         "real_time_vintage": False,
+        "rows": rows,
     }
 
 

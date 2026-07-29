@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2.0-institutional-objectivity-fixed",
-  "generated_at": "2026-07-29T10:03:22.926948+09:00",
+  "generated_at": "2026-07-25T15:19:12.508817+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -11,8 +11,8 @@
       "payload_path": "output/us_input.json",
       "warnings": [],
       "metadata": {
-        "schema_version": "3.6.0-objective-validation",
-        "source_engine_version": "3.6.0-objective-validation",
+        "schema_version": "3.4.0-meeting-path-stabilized",
+        "source_engine_version": "3.4.0-meeting-path-stabilized",
         "conversion_applied": true,
         "next_fomc": "2026-07-29"
       }
@@ -21,8 +21,8 @@
       "source": "ecos",
       "status": "ok",
       "message": "ECOS 국내 금리·환율 수집 완료",
-      "rows": 16441,
-      "latest_observation": "20260729",
+      "rows": 7967,
+      "latest_observation": "20260724",
       "payload_path": "output/raw_ecos.json",
       "warnings": [],
       "metadata": {

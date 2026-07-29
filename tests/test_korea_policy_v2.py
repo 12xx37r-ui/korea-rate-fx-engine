@@ -68,7 +68,7 @@ def test_us_meeting_spike_is_filtered_by_monthly_curve():
     out = build_rate_forecast_v2(ecos, kosis, us, source_status={"krx": "not_configured", "reb": "not_configured"})
     assert out["current"]["us_3meeting_rate_change_pctp"] < 0.25
     assert out["current"]["us_path_filter"]["rejected"] >= 1
-    assert out["validation"]["quality_gate"]["observed"]["data_coverage"] == 0.8
+    assert out["validation"]["quality_gate"]["observed"]["active_input_coverage"] == 1.0
 
 
 def test_fx_oos_metrics_are_computed_from_ecos_history():

@@ -236,6 +236,7 @@ def main():
         output_dir / "korea_validation_v2.json",
         {
             "schema_version": "2.0.0",
+            "engine_version": "2.7.0-objective-validation-final",
             "generated_at": now.isoformat(),
             "rate": rate_v2.get("validation", {}),
             "fx": fx_v2.get("validation", {}),
@@ -248,7 +249,8 @@ def main():
     fx_gate = (fx_v2.get("validation") or {}).get("quality_gate") or {}
     fx_horizon_gates = fx_gate.get("horizon_quality_gates") or {}
     production_readiness = {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
+        "engine_version": "2.7.0-objective-validation-final",
         "generated_at": now.isoformat(),
         "overall_level": (
             "준기관급"
@@ -282,7 +284,13 @@ def main():
         "source_health": {
             "blocking_errors": health.get("blocking_errors", []),
             "warnings": health.get("warnings", []),
-            "production_inputs_complete": not bool(health.get("blocking_errors")),
+            "minimum_production_inputs_complete": not bool(health.get("blocking_errors")),
+            "full_model_inputs_complete": not bool(health.get("blocking_errors")) and all(
+                source_status.get(name) in {"ok", "degraded"} for name in ("ecos", "kosis", "us_policy_engine")
+            ),
+            "optional_enhancements_complete": all(
+                source_status.get(name) in {"ok", "degraded"} for name in ("krx", "reb")
+            ),
         },
         "certification_rule": "과거 순차 OOS에서 기준모형 우위와 품질 게이트를 통과한 기간만 준기관급으로 표시",
     }
