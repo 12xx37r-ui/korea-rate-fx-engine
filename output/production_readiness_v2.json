@@ -1,13 +1,20 @@
 {
   "schema_version": "1.1.0",
   "engine_version": "2.7.0-objective-validation-final",
-  "generated_at": "2026-07-29T17:08:14.345978+09:00",
-  "overall_level": "준기관급",
+  "generated_at": "2026-07-30T16:43:31.288108+09:00",
+  "overall_level": "부분 준기관급",
   "rate": {
-    "level": "준기관급",
-    "passed": true,
+    "level": "자료부족",
+    "passed": false,
     "candidate": false,
-    "reasons": [],
+    "reasons": [
+      "검증 표본이 60개 미만입니다.",
+      "Brier skill이 8% 기준에 미달합니다.",
+      "방향 정확도가 52% 기준에 미달합니다.",
+      "실제 사용 입력축 완전성이 95% 미만입니다.",
+      "발표시차 반영 백테스트가 없습니다.",
+      "순차 walk-forward 백테스트가 없습니다."
+    ],
     "display_rule": "통과 전에는 준기관급으로 표시 금지"
   },
   "fx": {
@@ -47,13 +54,16 @@
     "display_rule": "기간별 게이트와 현재 신호 활성 여부를 분리 표시"
   },
   "source_health": {
-    "blocking_errors": [],
+    "blocking_errors": [
+      "kosis"
+    ],
     "warnings": [
       "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
+      "kosis: KOSIS API 키가 만료되었거나 유효하지 않습니다. 새 키로 갱신해야 합니다.",
       "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
     ],
-    "minimum_production_inputs_complete": true,
-    "full_model_inputs_complete": true,
+    "minimum_production_inputs_complete": false,
+    "full_model_inputs_complete": false,
     "optional_enhancements_complete": false
   },
   "certification_rule": "과거 순차 OOS에서 기준모형 우위와 품질 게이트를 통과한 기간만 준기관급으로 표시"
