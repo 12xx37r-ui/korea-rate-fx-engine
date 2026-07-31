@@ -268,7 +268,7 @@
   "rate_regime_link": {
     "name": "inflation_defense",
     "scores": {
-      "inflation_defense": 1.2232,
+      "inflation_defense": 1.2022,
       "growth_support": 0.0,
       "fx_defense": 0.37,
       "financial_stability": 0.35
@@ -280,5 +280,5 @@
     "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
     "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
   ],
-  "generated_at": "2026-07-31T16:46:26.373270+09:00"
+  "generated_at": "2026-07-31T18:54:53.561879+09:00"
 }
