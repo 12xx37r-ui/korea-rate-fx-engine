@@ -7,6 +7,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from src.collectors import ecos, kosis, krx, reb, us_policy
+from src.collectors import korea_asset_fundamentals
 from src.core.io import read_json, write_json
 from src.models.krw_strength import build_snapshot
 from src.models.korea_policy_v2 import build_fx_forecast_v2, build_rate_forecast_v2
@@ -53,6 +54,10 @@ def main():
         run_collector("REB", reb, output_dir, timeout, retries),
     ]
 
+    try:
+        korea_asset_fundamentals.collect(output_dir, timeout=min(timeout, 20))
+    except Exception as exc:
+        print(f"[WARN] KOREA_ASSET_FUNDAMENTALS | {type(exc).__name__}: {exc}", flush=True)
 
     credential_items = []
 
@@ -332,6 +337,7 @@ def main():
     print("Generated output/korea_fx_forecast_v2.json")
     print("Generated output/korea_validation_v2.json")
     print("Generated output/production_readiness_v2.json")
+    print("Generated output/korea_asset_fundamentals.json")
     print(f"Generated {vintage_path}")
 
 
