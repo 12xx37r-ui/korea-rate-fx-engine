@@ -5,7 +5,7 @@ import os
 import re
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import requests
 
@@ -15,33 +15,51 @@ INDEX_CONFIG = {
     "kospi200": {
         "name": "코스피 200",
         "ticker": "1028",
-        "indexergo": {"per": "20405", "pbr": "20406", "dividend_yield": "20407"},
+        "representative_etfs": ["069500.KS", "102110.KS"],
     },
     "kosdaq150": {
         "name": "코스닥 150",
         "ticker": "2203",
-        "indexergo": {"per": "20505", "pbr": "20506", "dividend_yield": "20507"},
+        "representative_etfs": ["229200.KS", "232080.KS"],
     },
 }
+
 REIT_CODE = "329200"
-INDEXERGO_BASE = "https://www.indexergo.com/series/?frq=D&idxDetail={}"
+REIT_ISIN = "KR7329200000"
+TIGER_REIT_URL = (
+    "https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=" + REIT_ISIN
+)
+FUNETF_REIT_URL = "https://www.funetf.co.kr/product/etf/view/" + REIT_ISIN
 FNGUIDE_REIT_URL = (
     "https://comp.fnguide.com/SVO2/ASP/etf_snapshot.asp?NewMenuID=401&gicode=A329200"
 )
 NAVER_REIT_URL = "https://finance.naver.com/item/main.naver?code=329200"
+YAHOO_QUOTE_URLS = (
+    "https://query1.finance.yahoo.com/v7/finance/quote",
+    "https://query2.finance.yahoo.com/v7/finance/quote",
+)
 
 
 def _num(value: Any) -> float | None:
     if value is None:
         return None
     raw = str(value).strip().replace(",", "").replace("%", "")
-    if not raw or raw in {"-", "--", "N/A", "null", "None"}:
+    if not raw or raw in {"-", "--", "N/A", "null", "None", "nan", "NaN"}:
         return None
     try:
         out = float(raw)
     except (TypeError, ValueError):
         return None
     return out if math.isfinite(out) else None
+
+
+def _positive_num(value: Any) -> float | None:
+    out = _num(value)
+    return out if out is not None and out > 0 else None
+
+
+def _round(value: float | None, digits: int = 4) -> float | None:
+    return round(float(value), digits) if value is not None else None
 
 
 def _business_dates(days: int = 14) -> list[str]:
@@ -70,19 +88,25 @@ def _latest_dataframe_row(df: Any) -> tuple[str, dict[str, Any]] | None:
     return as_of, {str(k): row[k] for k in df.columns}
 
 
-def _pykrx_index(cfg: dict[str, Any]) -> dict[str, Any]:
-    """Primary source. pykrx v1.2.8 handles the 2026 KRX login/session policy.
+def _find_metric(row: dict[str, Any], keys: list[str]) -> float | None:
+    for key in keys:
+        value = _positive_num(row.get(key))
+        if value is not None:
+            return value
+    return None
 
-    KRX_ID/KRX_PW are optional. With current KRX policy they are usually required;
-    failures are retained in diagnostics and public-data fallbacks continue.
-    """
+
+def _pykrx_index(cfg: dict[str, Any]) -> dict[str, Any]:
+    """KRX current valuation metrics through pykrx authenticated session."""
     diagnostics: list[str] = []
     try:
         from pykrx import stock  # type: ignore
     except Exception as exc:
-        return {"available": False, "diagnostics": [f"pykrx_import:{type(exc).__name__}:{exc}"]}
+        return {
+            "available": False,
+            "diagnostics": [f"pykrx_import:{type(exc).__name__}:{exc}"],
+        }
 
-    # pykrx reads KRX_ID/KRX_PW itself. Do not log secret values.
     has_login = bool(os.getenv("KRX_ID") and os.getenv("KRX_PW"))
     for end in _business_dates(12):
         start = (datetime.strptime(end, "%Y%m%d") - timedelta(days=10)).strftime("%Y%m%d")
@@ -93,225 +117,338 @@ def _pykrx_index(cfg: dict[str, Any]) -> dict[str, Any]:
                 diagnostics.append(f"{end}:pykrx_empty")
                 continue
             as_of, row = latest
-            # KRX column names can vary by pykrx/KRX response version.
-            def find_metric(keys: list[str]) -> float | None:
-                for key in keys:
-                    value = _num(row.get(key))
-                    if value is not None and value > 0:
-                        return value
-                return None
+            columns = list(row.keys())
+            diagnostics.append(f"{end}:pykrx_columns:{columns}")
 
-            diagnostics.append(f"{end}:pykrx_columns:{list(row.keys())}")
+            per = _find_metric(row, ["PER", "지수PER", "PER(배)", "PER(배율)"])
+            pbr = _find_metric(row, ["PBR", "지수PBR", "PBR(배)", "PBR(배율)"])
+            dividend_yield = _find_metric(
+                row, ["배당수익률", "배당수익률(%)", "배당률"]
+            )
 
-            per = find_metric(["PER", "지수PER", "PER(배)", "PER(배율)"])
-            forward_per = find_metric(["선행PER", "Forward PER", "12M PER", "12개월선행PER"])
-            pbr = find_metric(["PBR", "지수PBR", "PBR(배)", "PBR(배율)"])
-            dy = find_metric(["배당수익률", "배당수익률(%)", "배당률"])
-            if any(v is not None and v > 0 for v in (per, pbr, dy)):
+            if any(v is not None for v in (per, pbr, dividend_yield)):
                 return {
-                    "per": per,
-                    "forward_per": forward_per,
-                    "pbr": pbr,
-                    "dividend_yield": dy,
+                    "per": _round(per),
+                    "pbr": _round(pbr),
+                    "dividend_yield": _round(dividend_yield),
                     "as_of": as_of,
                     "source": "KRX 지수 투자지표 (pykrx 세션)",
                     "source_url": "https://data.krx.co.kr/",
-                    "source_method": "pykrx_authenticated" if has_login else "pykrx_session",
+                    "source_method": (
+                        "pykrx_authenticated" if has_login else "pykrx_session"
+                    ),
                     "available": True,
                     "stale": False,
-                    "diagnostics": diagnostics,
+                    "diagnostics": diagnostics[-10:],
                 }
-            diagnostics.append(f"{end}:pykrx_fields_empty:{list(row)}")
+            diagnostics.append(f"{end}:pykrx_fields_empty:{columns}")
         except Exception as exc:
             diagnostics.append(f"{end}:pykrx:{type(exc).__name__}:{str(exc)[:180]}")
-    return {"available": False, "diagnostics": diagnostics[-10:]}
+    return {"available": False, "diagnostics": diagnostics[-12:]}
 
 
-def _extract_indexergo_value(html: str, metric_ko: str) -> tuple[float | None, str | None]:
-    text = re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>", " ", html, flags=re.I)
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = re.sub(r"&nbsp;|&#37;|&percnt;", " ", text)
-    text = re.sub(r"\s+", " ", text).strip()
-    # Page header pattern: "PER (22.47)" / "PBR (1.94)" / "배당수익률 (1.09%)"
-    patterns = [
-        rf"{re.escape(metric_ko)}\s*\(\s*([0-9]+(?:\.[0-9]+)?)\s*%?\s*\)",
-        rf"{re.escape(metric_ko)}\s+([0-9]+(?:\.[0-9]+)?)\s*%?\s+(?:전기대비|전일대비|3M|6M|1Y)",
-    ]
-    value = None
-    for pattern in patterns:
-        m = re.search(pattern, text, re.I)
-        if m:
-            value = _num(m.group(1))
-            break
-    date_matches = re.findall(r"(20\d{2})[.\-/](\d{1,2})[.\-/](\d{1,2})", text)
-    as_of = None
-    if date_matches:
-        y, m, d = date_matches[0]
-        as_of = f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
-    return value, as_of
+def _yahoo_forward_proxy(
+    session: requests.Session, cfg: dict[str, Any], timeout: int
+) -> dict[str, Any]:
+    """Optional representative-ETF proxy for forward PER and EPS growth.
 
-
-def _indexergo_index(session: requests.Session, cfg: dict[str, Any], timeout: int) -> dict[str, Any]:
-    values: dict[str, float | None] = {"per": None, "pbr": None, "dividend_yield": None}
-    dates: list[str] = []
+    This is never labelled as an official index value. Missing values remain null.
+    """
     diagnostics: list[str] = []
-    labels = {"per": "PER", "pbr": "PBR", "dividend_yield": "배당수익률"}
-    urls: list[str] = []
-    for field, detail in cfg["indexergo"].items():
-        url = INDEXERGO_BASE.format(detail)
-        urls.append(url)
+    results: list[dict[str, Any]] = []
+    symbols = ",".join(cfg.get("representative_etfs") or [])
+    if not symbols:
+        return {"available": False, "diagnostics": ["yahoo:no_symbols"]}
+
+    for base_url in YAHOO_QUOTE_URLS:
         try:
-            r = session.get(
-                url,
+            response = session.get(
+                base_url,
+                params={"symbols": symbols},
                 timeout=timeout,
                 headers={
-                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
-                    "Accept": "text/html,application/xhtml+xml",
+                    "User-Agent": "Mozilla/5.0",
+                    "Accept": "application/json,text/plain,*/*",
                 },
             )
-            r.raise_for_status()
-            value, as_of = _extract_indexergo_value(_safe_text(r), labels[field])
-            values[field] = value
-            if as_of:
-                dates.append(as_of)
-            if value is None:
-                diagnostics.append(f"indexergo_no_value:{field}:{detail}")
+            response.raise_for_status()
+            payload = response.json()
+            results = ((payload.get("quoteResponse") or {}).get("result") or [])
+            if results:
+                break
+            diagnostics.append(f"yahoo_empty:{base_url}")
         except Exception as exc:
-            diagnostics.append(f"indexergo:{field}:{type(exc).__name__}:{str(exc)[:160]}")
-    available = any(v is not None for v in values.values())
+            diagnostics.append(f"yahoo:{type(exc).__name__}:{str(exc)[:160]}")
+
+    forward_pes: list[float] = []
+    growth_rates: list[float] = []
+    used_symbols: list[str] = []
+    for row in results:
+        forward_pe = _positive_num(row.get("forwardPE"))
+        eps_forward = _positive_num(row.get("epsForward"))
+        eps_trailing = _positive_num(row.get("epsTrailingTwelveMonths"))
+        if forward_pe is not None:
+            forward_pes.append(forward_pe)
+            used_symbols.append(str(row.get("symbol") or ""))
+        if eps_forward is not None and eps_trailing is not None:
+            growth = (eps_forward / eps_trailing - 1.0) * 100.0
+            if math.isfinite(growth) and -80 <= growth <= 300:
+                growth_rates.append(growth)
+
+    def median(values: list[float]) -> float | None:
+        if not values:
+            return None
+        ordered = sorted(values)
+        middle = len(ordered) // 2
+        if len(ordered) % 2:
+            return ordered[middle]
+        return (ordered[middle - 1] + ordered[middle]) / 2.0
+
+    forward_per = median(forward_pes)
+    eps_growth_pct = median(growth_rates)
+    available = forward_per is not None or eps_growth_pct is not None
     return {
-        **values,
-        "forward_per": None,
-        "as_of": max(dates) if dates else date.today().isoformat(),
-        "source": "INDEXerGO 공개 KRX·KOFIA 재배포자료" if available else None,
-        "source_url": urls[0] if available else None,
-        "source_method": "public_secondary_fallback" if available else None,
+        "forward_per": _round(forward_per),
+        "eps_growth_pct": _round(eps_growth_pct),
         "available": available,
-        "stale": False,
-        "diagnostics": diagnostics,
+        "source": "대표 ETF Yahoo 공개지표 대용치" if available else None,
+        "source_url": "https://finance.yahoo.com/" if available else None,
+        "source_method": "representative_etf_proxy" if available else None,
+        "proxy_symbols": sorted(set(x for x in used_symbols if x)),
+        "diagnostics": diagnostics[-8:],
     }
 
 
-def _merge_sources(*sources: dict[str, Any]) -> dict[str, Any]:
-    fields = ("per", "forward_per", "pbr", "dividend_yield")
-    out: dict[str, Any] = {field: None for field in fields}
-    used: list[dict[str, Any]] = []
-    diagnostics: list[str] = []
-    for src in sources:
-        diagnostics.extend(src.get("diagnostics") or [])
-        contributed = False
-        for field in fields:
-            if out[field] is None and src.get(field) is not None:
-                out[field] = src[field]
-                contributed = True
-        if contributed:
-            used.append(src)
-    out["available"] = any(out[k] is not None for k in ("per", "pbr", "dividend_yield"))
-    out["coverage"] = sum(out[k] is not None for k in ("per", "pbr", "dividend_yield")) / 3
-    out["as_of"] = max((str(s.get("as_of")) for s in used if s.get("as_of")), default=date.today().isoformat())
-    out["source"] = " + ".join(dict.fromkeys(str(s.get("source")) for s in used if s.get("source"))) or None
-    out["source_url"] = next((s.get("source_url") for s in used if s.get("source_url")), None)
-    methods = [str(s.get("source_method")) for s in used if s.get("source_method")]
-    out["source_method"] = "+".join(dict.fromkeys(methods)) or None
-    out["stale"] = False
-    out["diagnostics"] = diagnostics[-16:]
-    return out
+def _merge_index_sources(
+    current: dict[str, Any], forward_proxy: dict[str, Any]
+) -> dict[str, Any]:
+    per = _positive_num(current.get("per"))
+    pbr = _positive_num(current.get("pbr"))
+    dividend_yield = _positive_num(current.get("dividend_yield"))
+    forward_per = _positive_num(forward_proxy.get("forward_per"))
+    eps_growth_pct = _num(forward_proxy.get("eps_growth_pct"))
+    if eps_growth_pct is not None and not (-80 <= eps_growth_pct <= 300):
+        eps_growth_pct = None
+
+    growth_adjusted_per = None
+    if forward_per is not None and eps_growth_pct is not None and eps_growth_pct > 0:
+        growth_adjusted_per = forward_per / eps_growth_pct
+
+    coverage_fields = (per, pbr, dividend_yield)
+    diagnostics = (current.get("diagnostics") or []) + (
+        forward_proxy.get("diagnostics") or []
+    )
+    sources = [current.get("source"), forward_proxy.get("source")]
+    methods = [current.get("source_method"), forward_proxy.get("source_method")]
+
+    return {
+        "per": _round(per),
+        "forward_per": _round(forward_per),
+        "eps_growth_pct": _round(eps_growth_pct),
+        "growth_adjusted_per": _round(growth_adjusted_per),
+        "pbr": _round(pbr),
+        "dividend_yield": _round(dividend_yield),
+        "available": any(v is not None for v in coverage_fields),
+        "coverage": sum(v is not None for v in coverage_fields) / 3,
+        "forward_data_available": forward_per is not None or eps_growth_pct is not None,
+        "as_of": current.get("as_of") or date.today().isoformat(),
+        "source": " + ".join(dict.fromkeys(str(x) for x in sources if x)) or None,
+        "source_url": current.get("source_url") or forward_proxy.get("source_url"),
+        "source_method": "+".join(dict.fromkeys(str(x) for x in methods if x)) or None,
+        "proxy_symbols": forward_proxy.get("proxy_symbols") or [],
+        "stale": False,
+        "diagnostics": diagnostics[-16:],
+    }
 
 
 def _naver_price(session: requests.Session, timeout: int) -> float | None:
     try:
-        r = session.get(NAVER_REIT_URL, timeout=timeout, headers={"User-Agent": "Mozilla/5.0"})
-        r.raise_for_status()
-        text = _safe_text(r)
-        m = re.search(r'<p class="no_today">[\s\S]*?<span class="blind">([0-9,]+)</span>', text)
-        return _num(m.group(1)) if m else None
+        response = session.get(
+            NAVER_REIT_URL,
+            timeout=timeout,
+            headers={"User-Agent": "Mozilla/5.0"},
+        )
+        response.raise_for_status()
+        text = _safe_text(response)
+        match = re.search(
+            r'<p class="no_today">[\s\S]*?<span class="blind">([0-9,]+)</span>',
+            text,
+        )
+        return _positive_num(match.group(1)) if match else None
     except Exception:
         return None
 
 
 def _extract_distributions(html: str) -> list[dict[str, Any]]:
-    """Parse FnGuide ETF distribution rows without relying on one CSS id."""
+    """Parse date/amount rows used by official ETF and public ETF pages."""
     rows: list[dict[str, Any]] = []
-    # Common table form: date followed by amount. Keep only plausible ETF distributions.
     normalized = re.sub(r"<br\s*/?>", " ", html, flags=re.I)
     tr_blocks = re.findall(r"<tr[^>]*>([\s\S]*?)</tr>", normalized, flags=re.I)
+
     for block in tr_blocks:
-        text = re.sub(r"<[^>]+>", " ", block)
+        cells = [
+            re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", cell)).strip()
+            for cell in re.findall(r"<t[dh][^>]*>([\s\S]*?)</t[dh]>", block, flags=re.I)
+        ]
+        text = " | ".join(cells) if cells else re.sub(r"<[^>]+>", " ", block)
         text = re.sub(r"\s+", " ", text).strip()
-        dm = re.search(r"(20\d{2})[./-](\d{1,2})[./-](\d{1,2})", text)
-        if not dm:
+        date_match = re.search(r"(20\d{2})[./-](\d{1,2})[./-](\d{1,2})", text)
+        if not date_match:
             continue
-        nums = [_num(x) for x in re.findall(r"(?<!\d)([0-9]{1,4}(?:\.[0-9]+)?)(?!\d)", text)]
-        nums = [x for x in nums if x is not None]
-        # Remove date fragments and accept an amount of 1~1000 won.
-        amount = next((x for x in reversed(nums) if 1 <= x <= 1000 and x not in {20, 2020, 2021, 2022, 2023, 2024, 2025, 2026}), None)
+
+        # Prefer the last table cell because ETF distribution tables put the
+        # cash amount after the distribution rate.
+        candidates: list[float] = []
+        for cell in reversed(cells):
+            values = [_positive_num(x) for x in re.findall(r"[0-9,]+(?:\.[0-9]+)?", cell)]
+            candidates.extend(x for x in values if x is not None)
+        if not candidates:
+            values = [_positive_num(x) for x in re.findall(r"[0-9,]+(?:\.[0-9]+)?", text)]
+            candidates.extend(x for x in values if x is not None)
+
+        amount = next((x for x in candidates if 1 <= x <= 5000), None)
         if amount is None:
             continue
-        dt = date(int(dm.group(1)), int(dm.group(2)), int(dm.group(3)))
-        rows.append({"date": dt.isoformat(), "amount": amount})
-    # Deduplicate date/amount pairs.
-    unique = {(x["date"], x["amount"]): x for x in rows}
-    return sorted(unique.values(), key=lambda x: x["date"])
+        try:
+            dt = date(
+                int(date_match.group(1)),
+                int(date_match.group(2)),
+                int(date_match.group(3)),
+            )
+        except ValueError:
+            continue
+        rows.append({"date": dt.isoformat(), "amount": float(amount)})
+
+    unique = {(item["date"], item["amount"]): item for item in rows}
+    return sorted(unique.values(), key=lambda item: item["date"])
 
 
-def _fnguide_reit(session: requests.Session, timeout: int) -> dict[str, Any]:
-    diagnostics: list[str] = []
-    price = _naver_price(session, timeout)
+def _parse_current_price(html: str) -> float | None:
+    text = re.sub(r"<[^>]+>", " ", html)
+    text = re.sub(r"\s+", " ", text)
+    patterns = [
+        r"현재가\s*([0-9,]+)\s*원",
+        r"현재가[\s\S]{0,80}?([0-9,]+)\s*원",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text, re.I)
+        if match:
+            value = _positive_num(match.group(1))
+            if value is not None:
+                return value
+    return None
+
+
+def _fetch_distribution_source(
+    session: requests.Session,
+    url: str,
+    label: str,
+    method: str,
+    timeout: int,
+) -> dict[str, Any]:
     try:
-        r = session.get(
-            FNGUIDE_REIT_URL,
+        response = session.get(
+            url,
             timeout=timeout,
-            headers={"User-Agent": "Mozilla/5.0", "Referer": "https://comp.fnguide.com/"},
+            headers={
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml",
+                "Referer": url,
+            },
         )
-        r.raise_for_status()
-        html = _safe_text(r)
-        distributions = _extract_distributions(html)
-        cutoff = date.today() - timedelta(days=370)
-        trailing = [x for x in distributions if date.fromisoformat(x["date"]) >= cutoff]
-        ttm = sum(float(x["amount"]) for x in trailing) if trailing else None
-        dy = (ttm / price * 100) if ttm is not None and price else None
-        # FnGuide sometimes exposes only the latest distribution in visible HTML.
-        if not trailing:
-            m_amount = re.search(r"최근\s*분배금\s*\(원\)[\s\S]{0,220}?([0-9,]+)", re.sub(r"<[^>]+>", " ", html), re.I)
-            m_date = re.search(r"최근\s*분배금\s*지급기준일[\s\S]{0,220}?(20\d{2}[./-]\d{1,2}[./-]\d{1,2})", re.sub(r"<[^>]+>", " ", html), re.I)
-            latest_amount = _num(m_amount.group(1)) if m_amount else None
-            diagnostics.append("full_12m_distribution_table_not_found")
-        else:
-            latest_amount = trailing[-1]["amount"]
-            m_date = None
+        response.raise_for_status()
+        html = _safe_text(response)
+        rows = _extract_distributions(html)
         return {
-            "ticker": REIT_CODE,
-            "current_price": price,
-            "distribution_yield": dy,
-            "trailing_12m_distribution": ttm,
-            "distribution_count_12m": len(trailing),
-            "latest_distribution": latest_amount,
-            "distribution_history_12m": trailing,
-            "yield_method": "trailing_12m_cash_distributions/current_price" if dy is not None else "unavailable",
-            "as_of": date.today().isoformat(),
-            "source": "FnGuide ETF 분배금현황 + NAVER 현재가격",
-            "source_url": FNGUIDE_REIT_URL,
-            "available": dy is not None,
-            "stale": False,
-            "diagnostics": diagnostics,
+            "rows": rows,
+            "price": _parse_current_price(html),
+            "source": label,
+            "source_url": url,
+            "source_method": method,
+            "available": bool(rows),
+            "diagnostics": [] if rows else [f"{method}:distribution_rows_not_found"],
         }
     except Exception as exc:
         return {
-            "ticker": REIT_CODE,
-            "current_price": price,
-            "distribution_yield": None,
-            "trailing_12m_distribution": None,
-            "yield_method": "unavailable",
-            "as_of": date.today().isoformat(),
+            "rows": [],
+            "price": None,
             "source": None,
-            "source_url": FNGUIDE_REIT_URL,
+            "source_url": url,
+            "source_method": None,
             "available": False,
-            "stale": False,
-            "diagnostics": [f"fnguide:{type(exc).__name__}:{str(exc)[:180]}"],
+            "diagnostics": [f"{method}:{type(exc).__name__}:{str(exc)[:160]}"],
         }
 
 
-def _reuse_last_good(current: dict[str, Any], old: dict[str, Any], label: str) -> tuple[dict[str, Any], bool]:
+def _collect_reit(session: requests.Session, timeout: int) -> dict[str, Any]:
+    diagnostics: list[str] = []
+    sources = [
+        _fetch_distribution_source(
+            session,
+            TIGER_REIT_URL,
+            "TIGER 공식 상품정보",
+            "tiger_official_distribution",
+            timeout,
+        ),
+        _fetch_distribution_source(
+            session,
+            FUNETF_REIT_URL,
+            "FunETF 공개 분배금 정보",
+            "funetf_distribution_fallback",
+            timeout,
+        ),
+        _fetch_distribution_source(
+            session,
+            FNGUIDE_REIT_URL,
+            "FnGuide ETF 분배금현황",
+            "fnguide_distribution_fallback",
+            timeout,
+        ),
+    ]
+    selected = next((src for src in sources if src.get("available")), None)
+    for src in sources:
+        diagnostics.extend(src.get("diagnostics") or [])
+
+    price = _naver_price(session, timeout)
+    if price is None:
+        price = next(
+            (_positive_num(src.get("price")) for src in sources if src.get("price")),
+            None,
+        )
+
+    rows = list((selected or {}).get("rows") or [])
+    cutoff = date.today() - timedelta(days=370)
+    trailing = [item for item in rows if date.fromisoformat(item["date"]) >= cutoff]
+    ttm = sum(float(item["amount"]) for item in trailing) if trailing else None
+    distribution_yield = (ttm / price * 100.0) if ttm is not None and price else None
+    latest = trailing[-1]["amount"] if trailing else None
+
+    return {
+        "ticker": REIT_CODE,
+        "current_price": _round(price, 2),
+        "distribution_yield": _round(distribution_yield),
+        "trailing_12m_distribution": _round(ttm, 2),
+        "distribution_count_12m": len(trailing),
+        "latest_distribution": _round(latest, 2),
+        "distribution_history_12m": trailing,
+        "yield_method": (
+            "trailing_12m_cash_distributions/current_price"
+            if distribution_yield is not None
+            else "unavailable"
+        ),
+        "as_of": date.today().isoformat(),
+        "source": (selected or {}).get("source"),
+        "source_url": (selected or {}).get("source_url") or TIGER_REIT_URL,
+        "source_method": (selected or {}).get("source_method"),
+        "available": distribution_yield is not None,
+        "stale": False,
+        "diagnostics": diagnostics[-12:],
+    }
+
+
+def _reuse_last_good(
+    current: dict[str, Any], old: dict[str, Any], label: str
+) -> tuple[dict[str, Any], bool]:
     if current.get("available"):
         return current, False
     if old.get("available"):
@@ -319,7 +456,9 @@ def _reuse_last_good(current: dict[str, Any], old: dict[str, Any], label: str) -
         reused["stale"] = True
         reused["source_method"] = "last_good_reuse"
         reused["live_diagnostics"] = current.get("diagnostics") or []
-        reused["diagnostics"] = (reused.get("diagnostics") or []) + [f"{label}:live_failed_last_good_reused"]
+        reused["diagnostics"] = (reused.get("diagnostics") or []) + [
+            f"{label}:live_failed_last_good_reused"
+        ]
         return reused, True
     return current, False
 
@@ -332,55 +471,70 @@ def collect(output_dir: Path, timeout: int = 25) -> dict[str, Any]:
 
     indices: dict[str, Any] = {}
     errors: list[str] = []
+    warnings: list[str] = []
     used_previous = False
+
     for key, cfg in INDEX_CONFIG.items():
-        primary = _pykrx_index(cfg)
-        secondary = _indexergo_index(session, cfg, timeout)
-        row = _merge_sources(primary, secondary)
-        row, reused = _reuse_last_good(row, ((previous.get("indices") or {}).get(key) or {}), key)
+        current = _pykrx_index(cfg)
+        forward_proxy = _yahoo_forward_proxy(session, cfg, timeout)
+        row = _merge_index_sources(current, forward_proxy)
+        row, reused = _reuse_last_good(
+            row,
+            ((previous.get("indices") or {}).get(key) or {}),
+            key,
+        )
         used_previous = used_previous or reused
         if not row.get("available"):
             errors.append(f"{key}: PER/PBR/dividend_yield unavailable")
+        if not row.get("forward_data_available"):
+            warnings.append(f"{key}: forward_per/eps_growth proxy unavailable")
         indices[key] = row
 
-    reit_live = _fnguide_reit(session, timeout)
+    reit_live = _collect_reit(session, timeout)
     reit, reused = _reuse_last_good(reit_live, previous.get("reit") or {}, "reit")
     used_previous = used_previous or reused
     if not reit.get("available"):
         errors.append("reit: trailing_12m distribution_yield unavailable")
 
     result = {
-        "schema_version": "1.1.0",
-        "engine_version": "korea-asset-fundamentals-v1.1",
+        "schema_version": "1.2.0",
+        "engine_version": "korea-asset-fundamentals-v1.2",
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "indices": indices,
         "reit": reit,
         "source_status": {
             "krx_pykrx_attempted": True,
             "krx_login_configured": bool(os.getenv("KRX_ID") and os.getenv("KRX_PW")),
-            "indexergo_public_fallback_attempted": True,
-            "fnguide_reit_distribution_attempted": True,
+            "yahoo_forward_proxy_attempted": True,
+            "tiger_official_reit_attempted": True,
+            "funetf_reit_fallback_attempted": True,
+            "fnguide_reit_fallback_attempted": True,
             "used_previous_results": used_previous,
             "paid_api_required": False,
         },
         "limitations": [
-            "KRX 최신값은 pykrx 세션을 우선 사용합니다. 2026년 KRX 정책상 KRX_ID/KRX_PW가 필요할 수 있습니다.",
-            "KRX 실패 시 INDEXerGO가 공개하는 KRX·KOFIA 재배포자료를 보조값으로 사용하고 출처·기준일을 표시합니다.",
+            "현재 PER·PBR·배당수익률은 KRX 인증 세션의 공식 지수 투자지표를 사용합니다.",
+            "선행 PER·EPS 성장률은 공식 지수값이 아니라 대표 ETF 공개지표 대용치이며, 확보되지 않으면 null을 유지합니다.",
+            "리츠 분배수익률은 대표 ETF 329200의 최근 12개월 실제 현금분배금 합계 ÷ 현재가격으로 계산합니다.",
             "당일 모든 경로 실패 시 마지막 정상값만 stale=true로 재사용합니다.",
-            "리츠 분배수익률은 대표 ETF 329200의 최근 12개월 현금분배금 합계 ÷ 현재가격으로 계산합니다.",
         ],
+        "warnings": warnings,
         "errors": errors,
     }
     write_json(previous_path, result)
+
     print(f"wrote {previous_path} (indices={len(indices)}, errors={len(errors)})")
     for key, row in indices.items():
         print(
             f"{key} available={str(bool(row.get('available'))).lower()} "
-            f"coverage={float(row.get('coverage') or 0):.2f} source={row.get('source_method')} stale={row.get('stale')}"
+            f"coverage={float(row.get('coverage') or 0):.2f} "
+            f"forward_available={str(bool(row.get('forward_data_available'))).lower()} "
+            f"source={row.get('source_method')} stale={row.get('stale')}"
         )
     print(
         f"reit available={str(bool(reit.get('available'))).lower()} "
-        f"distribution_count_12m={reit.get('distribution_count_12m', 0)} stale={reit.get('stale')}"
+        f"distribution_count_12m={reit.get('distribution_count_12m', 0)} "
+        f"source={reit.get('source_method')} stale={reit.get('stale')}"
     )
-    print(f"korea_asset_fundamentals errors={len(errors)}")
+    print(f"korea_asset_fundamentals warnings={len(warnings)} errors={len(errors)}")
     return result
