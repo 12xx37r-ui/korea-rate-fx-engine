@@ -26,11 +26,13 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
 
-      - name: Run collectors
+           - name: Run collectors
         env:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
           KOSIS_API_KEY: ${{ secrets.KOSIS_API_KEY }}
           KRX_API_KEY: ${{ secrets.KRX_API_KEY }}
+          KRX_ID: ${{ secrets.KRX_ID }}
+          KRX_PW: ${{ secrets.KRX_PW }}
           DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
           REB_API_KEY: ${{ secrets.REB_API_KEY }}
           US_REPO_READ_TOKEN: ${{ secrets.US_REPO_READ_TOKEN }}
