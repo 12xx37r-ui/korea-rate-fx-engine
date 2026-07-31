@@ -5,7 +5,7 @@
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
     "usdkrw": 1441.1,
-    "kr_gov_2y_pct": 3.68,
+    "kr_gov_2y_pct": 3.65,
     "kr_gov_3y_pct": 3.758,
     "kr_gov_10y_pct": 4.261,
     "krw_strength_score": 0.4236,
@@ -19,19 +19,19 @@
   "forecast": {
     "horizon": "향후 1~3개월",
     "kr_base_rate_direction": "동결 우세",
-    "kr_base_rate_expected_pct": 2.78,
+    "kr_base_rate_expected_pct": 2.77,
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.756
+        "probability": 0.794
       },
       "hike_25bp": {
         "rate_pct": 3.0,
-        "probability": 0.186
+        "probability": 0.139
       },
       "cut_25bp": {
         "rate_pct": 2.5,
-        "probability": 0.059
+        "probability": 0.066
       }
     },
     "usdkrw_mid": 1418.8,
@@ -41,15 +41,15 @@
     ],
     "krw_strength_score": 0.4408,
     "krw_strength_grade": "강약",
-    "confidence": 0.65,
+    "confidence": 0.55,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
   },
   "methodology": {
     "note": "현재 원화 강도는 환율의 절대 수준과 단기 모멘텀을 분리해 계산합니다. 금리 전망은 시장금리 격차, 근원물가의 12개월 상승률, 생산의 3개월 연율과 미국 정책경로를 제한적으로 결합한 확률 앙상블입니다. 환율은 단기·중기 추세와 평균회귀 모형을 워크포워드 오차로 가중하고 과거 예측오차 분포에서 80% 범위를 산출합니다.",
-    "rate_core_cpi_yoy": 0.024,
-    "rate_core_cpi_valid": true,
-    "rate_core_cpi_source_mode": "official_yoy",
-    "rate_core_cpi_rows": 180,
+    "rate_core_cpi_yoy": null,
+    "rate_core_cpi_valid": false,
+    "rate_core_cpi_source_mode": "unavailable",
+    "rate_core_cpi_rows": 0,
     "rate_probability_backtest_samples": 0,
     "rate_probability_brier_score": null,
     "rate_probability_benchmark_brier": null,
@@ -58,10 +58,10 @@
     "rate_probability_log_loss": null,
     "rate_probability_evaluation_horizon": null,
     "rate_probability_calibration_weight": 0.55,
-    "rate_industrial_valid": true,
+    "rate_industrial_valid": false,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "rate_industrial_3m_annualized": 0.05511,
+    "rate_industrial_3m_annualized": null,
     "fx_model_weights": [
       0.2381,
       0.2251,
@@ -74,11 +74,11 @@
     "fx_1m_change": -0.07289,
     "fx_3m_change": -0.02943,
     "fx_forecast_bias_pct": -0.01547,
-    "policy_market_gap_pctp": 0.93,
+    "policy_market_gap_pctp": 0.9,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "3.6.0-objective-validation"
   },
-  "generated_at": "2026-07-31T16:46:26.373270+09:00"
+  "generated_at": "2026-07-31T18:41:05.765913+09:00"
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": "2.2.0",
-  "captured_at": "2026-07-31T16:46:26.373270+09:00",
+  "captured_at": "2026-07-31T18:41:05.765913+09:00",
   "rate_forecast": {
     "schema_version": "2.0.0",
     "engine_version": "2.7.0-objective-validation-final",
@@ -8,10 +8,10 @@
     "engine_scope": "korea_only_us_engine_read_only",
     "current": {
       "kr_base_rate_pct": 2.75,
-      "market_reference_rate_pct": 3.68,
-      "market_policy_gap_pctp": 0.93,
-      "core_cpi_yoy": 0.024,
-      "industrial_3m_annualized": 0.05511,
+      "market_reference_rate_pct": 3.65,
+      "market_policy_gap_pctp": 0.9,
+      "core_cpi_yoy": null,
+      "industrial_3m_annualized": null,
       "usdkrw_3m_change": -0.02943,
       "us_3meeting_rate_change_pctp": 0.185,
       "us_path_filter": {
@@ -24,7 +24,7 @@
     "regime": {
       "name": "inflation_defense",
       "scores": {
-        "inflation_defense": 1.2232,
+        "inflation_defense": 0.63,
         "growth_support": 0.0,
         "fx_defense": 0.37,
         "financial_stability": 0.35
@@ -34,33 +34,33 @@
       {
         "meeting_ahead": 1,
         "probabilities": {
-          "hold": 0.748,
-          "hike": 0.205,
-          "cut": 0.047
+          "hold": 0.793,
+          "hike": 0.154,
+          "cut": 0.053
         },
-        "expected_rate_pct": 2.789,
+        "expected_rate_pct": 2.775,
         "most_likely_action": "hold",
         "probability_type": "model_estimate"
       },
       {
         "meeting_ahead": 2,
         "probabilities": {
-          "hold": 0.532,
-          "hike": 0.245,
+          "hold": 0.539,
+          "hike": 0.239,
           "cut": 0.223
         },
-        "expected_rate_pct": 2.795,
+        "expected_rate_pct": 2.779,
         "most_likely_action": "hold",
         "probability_type": "model_estimate"
       },
       {
         "meeting_ahead": 3,
         "probabilities": {
-          "hold": 0.505,
+          "hold": 0.506,
           "hike": 0.253,
-          "cut": 0.242
+          "cut": 0.241
         },
-        "expected_rate_pct": 2.798,
+        "expected_rate_pct": 2.782,
         "most_likely_action": "hold",
         "probability_type": "model_estimate"
       }
@@ -100,7 +100,7 @@
           "brier_skill_score": null,
           "accuracy": null,
           "accuracy_wilson_lower_95": null,
-          "active_input_coverage": 0.85,
+          "active_input_coverage": 0.6,
           "release_lag_backtest": false,
           "walk_forward_backtest": false,
           "real_time_vintage": false
@@ -119,7 +119,7 @@
       },
       "data_coverage_axes": {
         "ecos_rates_fx": 0.35,
-        "kosis_macro": 0.25,
+        "kosis_macro": 0.0,
         "us_policy": 0.25,
         "validation_integrity": 0.0
       },
@@ -129,9 +129,9 @@
         "used_in_fixed_rate_model": false
       },
       "core_cpi": {
-        "source_mode": "official_yoy",
-        "valid": true,
-        "rows": 180
+        "source_mode": "unavailable",
+        "valid": false,
+        "rows": 0
       }
     },
     "limitations": [
@@ -139,7 +139,7 @@
       "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
       "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
     ],
-    "generated_at": "2026-07-31T16:46:26.373270+09:00"
+    "generated_at": "2026-07-31T18:41:05.765913+09:00"
   },
   "fx_forecast": {
     "schema_version": "2.0.0",
@@ -411,7 +411,7 @@
     "rate_regime_link": {
       "name": "inflation_defense",
       "scores": {
-        "inflation_defense": 1.2232,
+        "inflation_defense": 0.63,
         "growth_support": 0.0,
         "fx_defense": 0.37,
         "financial_stability": 0.35
@@ -423,13 +423,13 @@
       "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
       "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
     ],
-    "generated_at": "2026-07-31T16:46:26.373270+09:00"
+    "generated_at": "2026-07-31T18:41:05.765913+09:00"
   },
   "source_status": {
     "us_policy_engine": "ok",
     "ecos": "ok",
     "krx": "not_configured",
-    "kosis": "ok",
+    "kosis": "credential_error",
     "reb": "not_configured"
   },
   "us_engine_modified": false
