@@ -1,42 +1,54 @@
 {
-  "schema_version": "1.1.0",
-  "engine_version": "korea-asset-fundamentals-v1.1",
-  "generated_at_utc": "2026-07-31T07:48:06.114274+00:00",
+  "schema_version": "1.2.0",
+  "engine_version": "korea-asset-fundamentals-v1.2",
+  "generated_at_utc": "2026-07-31T10:09:13.384701+00:00",
   "indices": {
     "kospi200": {
-      "per": 0.0,
+      "per": 14.8,
       "forward_per": null,
-      "pbr": 0.0,
-      "dividend_yield": 0.0,
+      "eps_growth_pct": null,
+      "growth_adjusted_per": null,
+      "pbr": 1.82,
+      "dividend_yield": 1.04,
       "available": true,
       "coverage": 1.0,
-      "as_of": "2026-07-31",
+      "forward_data_available": false,
+      "as_of": "2026-07-30",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
       "source_method": "pykrx_authenticated",
+      "proxy_symbols": [],
       "stale": false,
       "diagnostics": [
-        "indexergo:per:HTTPError:403 Client Error: Forbidden for url: https://www.indexergo.com/series/?frq=D&idxDetail=20405",
-        "indexergo:pbr:HTTPError:403 Client Error: Forbidden for url: https://www.indexergo.com/series/?frq=D&idxDetail=20406",
-        "indexergo:dividend_yield:HTTPError:403 Client Error: Forbidden for url: https://www.indexergo.com/series/?frq=D&idxDetail=20407"
+        "20260731:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260731:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260730:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "yahoo:HTTPError:401 Client Error: Unauthorized for url: https://query1.finance.yahoo.com/v7/finance/quote?symbols=069500.KS%2C102110.KS",
+        "yahoo:HTTPError:401 Client Error: Unauthorized for url: https://query2.finance.yahoo.com/v7/finance/quote?symbols=069500.KS%2C102110.KS"
       ]
     },
     "kosdaq150": {
-      "per": 0.0,
+      "per": 46.2,
       "forward_per": null,
-      "pbr": 0.0,
-      "dividend_yield": 0.0,
+      "eps_growth_pct": null,
+      "growth_adjusted_per": null,
+      "pbr": 3.14,
+      "dividend_yield": 0.5,
       "available": true,
       "coverage": 1.0,
-      "as_of": "2026-07-31",
+      "forward_data_available": false,
+      "as_of": "2026-07-30",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
       "source_method": "pykrx_authenticated",
+      "proxy_symbols": [],
       "stale": false,
       "diagnostics": [
-        "indexergo:per:HTTPError:403 Client Error: Forbidden for url: https://www.indexergo.com/series/?frq=D&idxDetail=20505",
-        "indexergo:pbr:HTTPError:403 Client Error: Forbidden for url: https://www.indexergo.com/series/?frq=D&idxDetail=20506",
-        "indexergo:dividend_yield:HTTPError:403 Client Error: Forbidden for url: https://www.indexergo.com/series/?frq=D&idxDetail=20507"
+        "20260731:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260731:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260730:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "yahoo:HTTPError:401 Client Error: Unauthorized for url: https://query1.finance.yahoo.com/v7/finance/quote?symbols=229200.KS%2C232080.KS",
+        "yahoo:HTTPError:401 Client Error: Unauthorized for url: https://query2.finance.yahoo.com/v7/finance/quote?symbols=229200.KS%2C232080.KS"
       ]
     }
   },
@@ -50,27 +62,36 @@
     "distribution_history_12m": [],
     "yield_method": "unavailable",
     "as_of": "2026-07-31",
-    "source": "FnGuide ETF 분배금현황 + NAVER 현재가격",
-    "source_url": "https://comp.fnguide.com/SVO2/ASP/etf_snapshot.asp?NewMenuID=401&gicode=A329200",
+    "source": null,
+    "source_url": "https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7329200000",
+    "source_method": null,
     "available": false,
     "stale": false,
     "diagnostics": [
-      "full_12m_distribution_table_not_found"
+      "tiger_official_distribution:HTTPError:403 Client Error: Forbidden for url: https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7329200000",
+      "funetf_distribution_fallback:distribution_rows_not_found",
+      "fnguide_distribution_fallback:distribution_rows_not_found"
     ]
   },
   "source_status": {
     "krx_pykrx_attempted": true,
     "krx_login_configured": true,
-    "indexergo_public_fallback_attempted": true,
-    "fnguide_reit_distribution_attempted": true,
+    "yahoo_forward_proxy_attempted": true,
+    "tiger_official_reit_attempted": true,
+    "funetf_reit_fallback_attempted": true,
+    "fnguide_reit_fallback_attempted": true,
     "used_previous_results": false,
     "paid_api_required": false
   },
   "limitations": [
-    "KRX 최신값은 pykrx 세션을 우선 사용합니다. 2026년 KRX 정책상 KRX_ID/KRX_PW가 필요할 수 있습니다.",
-    "KRX 실패 시 INDEXerGO가 공개하는 KRX·KOFIA 재배포자료를 보조값으로 사용하고 출처·기준일을 표시합니다.",
-    "당일 모든 경로 실패 시 마지막 정상값만 stale=true로 재사용합니다.",
-    "리츠 분배수익률은 대표 ETF 329200의 최근 12개월 현금분배금 합계 ÷ 현재가격으로 계산합니다."
+    "현재 PER·PBR·배당수익률은 KRX 인증 세션의 공식 지수 투자지표를 사용합니다.",
+    "선행 PER·EPS 성장률은 공식 지수값이 아니라 대표 ETF 공개지표 대용치이며, 확보되지 않으면 null을 유지합니다.",
+    "리츠 분배수익률은 대표 ETF 329200의 최근 12개월 실제 현금분배금 합계 ÷ 현재가격으로 계산합니다.",
+    "당일 모든 경로 실패 시 마지막 정상값만 stale=true로 재사용합니다."
+  ],
+  "warnings": [
+    "kospi200: forward_per/eps_growth proxy unavailable",
+    "kosdaq150: forward_per/eps_growth proxy unavailable"
   ],
   "errors": [
     "reit: trailing_12m distribution_yield unavailable"
