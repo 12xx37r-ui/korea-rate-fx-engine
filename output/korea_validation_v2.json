@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "engine_version": "2.7.0-objective-validation-final",
-  "generated_at": "2026-07-31T18:41:05.765913+09:00",
+  "generated_at": "2026-07-31T16:46:26.373270+09:00",
   "rate": {
     "samples": 0,
     "brier_score": null,
@@ -37,7 +37,7 @@
         "brier_skill_score": null,
         "accuracy": null,
         "accuracy_wilson_lower_95": null,
-        "active_input_coverage": 0.6,
+        "active_input_coverage": 0.85,
         "release_lag_backtest": false,
         "walk_forward_backtest": false,
         "real_time_vintage": false
@@ -56,7 +56,7 @@
     },
     "data_coverage_axes": {
       "ecos_rates_fx": 0.35,
-      "kosis_macro": 0.0,
+      "kosis_macro": 0.25,
       "us_policy": 0.25,
       "validation_integrity": 0.0
     },
@@ -66,9 +66,9 @@
       "used_in_fixed_rate_model": false
     },
     "core_cpi": {
-      "source_mode": "unavailable",
-      "valid": false,
-      "rows": 0
+      "source_mode": "official_yoy",
+      "valid": true,
+      "rows": 180
     }
   },
   "fx": {
