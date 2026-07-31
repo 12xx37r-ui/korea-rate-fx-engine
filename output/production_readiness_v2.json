@@ -1,13 +1,20 @@
 {
   "schema_version": "1.1.0",
   "engine_version": "2.7.0-objective-validation-final",
-  "generated_at": "2026-07-31T18:32:57.926085+09:00",
-  "overall_level": "준기관급",
+  "generated_at": "2026-07-31T16:46:26.373270+09:00",
+  "overall_level": "부분 준기관급",
   "rate": {
-    "level": "준기관급",
-    "passed": true,
+    "level": "자료부족",
+    "passed": false,
     "candidate": false,
-    "reasons": [],
+    "reasons": [
+      "검증 표본이 60개 미만입니다.",
+      "Brier skill이 8% 기준에 미달합니다.",
+      "방향 정확도가 52% 기준에 미달합니다.",
+      "실제 사용 입력축 완전성이 95% 미만입니다.",
+      "발표시차 반영 백테스트가 없습니다.",
+      "순차 walk-forward 백테스트가 없습니다."
+    ],
     "display_rule": "통과 전에는 준기관급으로 표시 금지"
   },
   "fx": {
