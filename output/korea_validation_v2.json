@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "engine_version": "2.7.0-objective-validation-final",
-  "generated_at": "2026-07-31T19:07:17.176083+09:00",
+  "generated_at": "2026-07-31T19:30:48.412752+09:00",
   "rate": {
     "samples": 65,
     "brier_score": 0.5217,
