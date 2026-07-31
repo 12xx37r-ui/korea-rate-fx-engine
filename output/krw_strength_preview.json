@@ -4,81 +4,81 @@
     "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1450.1,
+    "usdkrw": 1441.1,
     "kr_gov_2y_pct": 3.713,
     "kr_gov_3y_pct": 3.831,
     "kr_gov_10y_pct": 4.311,
-    "krw_strength_score": 0.3025,
-    "krw_strength_grade": "강중립",
-    "krw_absolute_level_score": 0.2222,
-    "krw_absolute_level_grade": "강중립",
-    "krw_short_term_momentum_score": 0.4515,
+    "krw_strength_score": 0.4236,
+    "krw_strength_grade": "강약",
+    "krw_absolute_level_score": 0.3571,
+    "krw_absolute_level_grade": "강약",
+    "krw_short_term_momentum_score": 0.5469,
     "krw_short_term_momentum_grade": "강약",
-    "usdkrw_1y_percentile": 0.3889
+    "usdkrw_1y_percentile": 0.3214
   },
   "forecast": {
     "horizon": "향후 1~3개월",
-    "kr_base_rate_direction": "동결 우세",
-    "kr_base_rate_expected_pct": 2.77,
+    "kr_base_rate_direction": "동결 우세·인상 위험",
+    "kr_base_rate_expected_pct": 2.81,
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.796
+        "probability": 0.531
       },
       "hike_25bp": {
         "rate_pct": 3.0,
-        "probability": 0.138
+        "probability": 0.347
       },
       "cut_25bp": {
         "rate_pct": 2.5,
-        "probability": 0.066
+        "probability": 0.122
       }
     },
-    "usdkrw_mid": 1429.2,
+    "usdkrw_mid": 1418.8,
     "usdkrw_range": [
-      1371.8,
-      1520.6
+      1362.9,
+      1509.5
     ],
-    "krw_strength_score": 0.3592,
+    "krw_strength_score": 0.4408,
     "krw_strength_grade": "강약",
-    "confidence": 0.55,
+    "confidence": 0.74,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
   },
   "methodology": {
     "note": "현재 원화 강도는 환율의 절대 수준과 단기 모멘텀을 분리해 계산합니다. 금리 전망은 시장금리 격차, 근원물가의 12개월 상승률, 생산의 3개월 연율과 미국 정책경로를 제한적으로 결합한 확률 앙상블입니다. 환율은 단기·중기 추세와 평균회귀 모형을 워크포워드 오차로 가중하고 과거 예측오차 분포에서 80% 범위를 산출합니다.",
-    "rate_core_cpi_yoy": null,
-    "rate_core_cpi_valid": false,
-    "rate_core_cpi_source_mode": "unavailable",
-    "rate_core_cpi_rows": 0,
-    "rate_probability_backtest_samples": 0,
-    "rate_probability_brier_score": null,
-    "rate_probability_benchmark_brier": null,
-    "rate_probability_brier_skill_score": null,
-    "rate_probability_accuracy": null,
-    "rate_probability_log_loss": null,
-    "rate_probability_evaluation_horizon": null,
-    "rate_probability_calibration_weight": 0.55,
-    "rate_industrial_valid": false,
+    "rate_core_cpi_yoy": 0.024,
+    "rate_core_cpi_valid": true,
+    "rate_core_cpi_source_mode": "official_yoy",
+    "rate_core_cpi_rows": 180,
+    "rate_probability_backtest_samples": 65,
+    "rate_probability_brier_score": 0.5218,
+    "rate_probability_benchmark_brier": 0.6367,
+    "rate_probability_brier_skill_score": 0.1804,
+    "rate_probability_accuracy": 0.5846,
+    "rate_probability_log_loss": 0.8429,
+    "rate_probability_evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
+    "rate_probability_calibration_weight": 0.658,
+    "rate_industrial_valid": true,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "rate_industrial_3m_annualized": null,
+    "rate_industrial_3m_annualized": 0.05511,
     "fx_model_weights": [
-      0.24,
-      0.2249,
-      0.2493,
-      0.2858
+      0.2381,
+      0.2251,
+      0.2499,
+      0.2869
     ],
     "fx_backtest_samples": 240,
-    "fx_backtest_rmse_pct": 4.672,
+    "fx_backtest_rmse_pct": 4.703,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.06348,
-    "fx_3m_change": -0.01761,
-    "fx_forecast_bias_pct": -0.01444,
+    "fx_1m_change": -0.07289,
+    "fx_3m_change": -0.02943,
+    "fx_forecast_bias_pct": -0.01547,
     "policy_market_gap_pctp": 0.963,
     "us_policy_engine_connected": true,
-    "us_policy_next_meeting": "2026-07-29",
-    "us_policy_expected_path_rows": 12,
+    "us_policy_next_meeting": "2026-09-16",
+    "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "3.6.0-objective-validation"
   },
-  "generated_at": "2026-07-30T16:43:31.288108+09:00"
+  "generated_at": "2026-07-31T16:12:05.541439+09:00"
 }

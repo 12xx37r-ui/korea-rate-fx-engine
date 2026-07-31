@@ -1,17 +1,8 @@
 {
-  "generated_at": "2026-07-30T16:43:31.288108+09:00",
-  "status": "API_KEY_RENEWAL_REQUIRED",
-  "renewal_required": true,
-  "alerts": [
-    {
-      "source": "kosis",
-      "secret_name": "KOSIS_API_KEY",
-      "status": "renewal_required",
-      "action_required": true,
-      "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-      "message": "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=180&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fa6084423c0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))"
-    }
-  ],
+  "generated_at": "2026-07-31T16:12:05.541439+09:00",
+  "status": "OK",
+  "renewal_required": false,
+  "alerts": [],
   "items": [
     {
       "source": "ecos",
@@ -24,10 +15,10 @@
     {
       "source": "kosis",
       "secret_name": "KOSIS_API_KEY",
-      "status": "renewal_required",
-      "action_required": true,
-      "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-      "message": "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=180&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fa6084423c0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))"
+      "status": "valid",
+      "action_required": false,
+      "action": "없음",
+      "message": "KOSIS 국내 공식 지표 수집 완료"
     }
   ]
 }
