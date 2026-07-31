@@ -93,14 +93,21 @@ def _pykrx_index(cfg: dict[str, Any]) -> dict[str, Any]:
                 diagnostics.append(f"{end}:pykrx_empty")
                 continue
             as_of, row = latest
-            per = _num(row.get("PER"))
-            forward_per = _num(row.get("선행PER"))
-            pbr = _num(row.get("PBR"))
-            dy = _num(row.get("배당수익률"))
-            # KRX occasionally encodes unavailable forward PER as 0.
-            if forward_per == 0:
-                forward_per = None
-            if any(v is not None for v in (per, pbr, dy)):
+            # KRX column names can vary by pykrx/KRX response version.
+            def find_metric(keys: list[str]) -> float | None:
+                for key in keys:
+                    value = _num(row.get(key))
+                    if value is not None and value > 0:
+                        return value
+                return None
+
+            diagnostics.append(f"{end}:pykrx_columns:{list(row.keys())}")
+
+            per = find_metric(["PER", "지수PER", "PER(배)", "PER(배율)"])
+            forward_per = find_metric(["선행PER", "Forward PER", "12M PER", "12개월선행PER"])
+            pbr = find_metric(["PBR", "지수PBR", "PBR(배)", "PBR(배율)"])
+            dy = find_metric(["배당수익률", "배당수익률(%)", "배당률"])
+            if any(v is not None and v > 0 for v in (per, pbr, dy)):
                 return {
                     "per": per,
                     "forward_per": forward_per,
