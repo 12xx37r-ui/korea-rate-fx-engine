@@ -1,23 +1,42 @@
-from src.collectors.korea_asset_fundamentals import _merge, _num, _rows
+from src.collectors.korea_asset_fundamentals import (
+    _extract_distributions,
+    _extract_indexergo_value,
+    _merge_sources,
+    _num,
+)
 
 
-def test_num_parses_commas_and_percent():
-    assert _num("1,234.5") == 1234.5
-    assert _num("3.25%") == 3.25
+def test_num():
+    assert _num("1,234.5%") == 1234.5
     assert _num("-") is None
 
 
-def test_rows_extracts_list_blocks():
-    payload = {"OutBlock_1": [{"IDX_NM": "코스피 200"}], "other": "x"}
-    assert _rows(payload)[0]["IDX_NM"] == "코스피 200"
-
-
-def test_merge_uses_fallback_per_field():
-    out = _merge(
-        {"available": True, "per": 12.0, "pbr": None, "dividend_yield": None, "source": "KRX"},
-        {"available": True, "per": 13.0, "pbr": 1.2, "dividend_yield": 2.1, "source": "NAVER"},
+def test_indexergo_header_parser():
+    value, as_of = _extract_indexergo_value(
+        "<title>PER (22.47)</title><div>2026.02.13 | KOSPI 200</div>", "PER"
     )
-    assert out["per"] == 12.0
-    assert out["pbr"] == 1.2
+    assert value == 22.47
+    assert as_of == "2026-02-13"
+
+
+def test_distribution_parser():
+    html = """
+    <table><tr><td>2026/06/30</td><td>33</td></tr>
+    <tr><td>2026/05/30</td><td>33</td></tr></table>
+    """
+    rows = _extract_distributions(html)
+    assert rows == [
+        {"date": "2026-05-30", "amount": 33.0},
+        {"date": "2026-06-30", "amount": 33.0},
+    ]
+
+
+def test_merge_sources_keeps_primary_and_fills_missing():
+    out = _merge_sources(
+        {"per": 11.0, "pbr": None, "available": True, "as_of": "2026-07-30", "source": "KRX", "source_method": "primary", "diagnostics": []},
+        {"per": 12.0, "pbr": 0.9, "dividend_yield": 2.1, "available": True, "as_of": "2026-07-29", "source": "fallback", "source_method": "secondary", "diagnostics": []},
+    )
+    assert out["per"] == 11.0
+    assert out["pbr"] == 0.9
     assert out["dividend_yield"] == 2.1
-    assert out["available"] is True
+    assert out["coverage"] == 1.0
