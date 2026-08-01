@@ -23,23 +23,23 @@
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.537
+        "probability": 0.535
       },
       "hike_25bp": {
         "rate_pct": 3.0,
-        "probability": 0.34
+        "probability": 0.342
       },
       "cut_25bp": {
         "rate_pct": 2.5,
         "probability": 0.123
       }
     },
-    "usdkrw_mid": 1418.8,
+    "usdkrw_mid": 1419.2,
     "usdkrw_range": [
-      1362.9,
-      1509.5
+      1363.3,
+      1510.0
     ],
-    "krw_strength_score": 0.4408,
+    "krw_strength_score": 0.4345,
     "krw_strength_grade": "강약",
     "confidence": 0.74,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -73,12 +73,12 @@
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
     "fx_1m_change": -0.07289,
     "fx_3m_change": -0.02943,
-    "fx_forecast_bias_pct": -0.01547,
+    "fx_forecast_bias_pct": -0.01519,
     "policy_market_gap_pctp": 0.9,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "3.6.0-objective-validation"
   },
-  "generated_at": "2026-07-31T19:30:48.412752+09:00"
+  "generated_at": "2026-08-01T16:38:21.996641+09:00"
 }

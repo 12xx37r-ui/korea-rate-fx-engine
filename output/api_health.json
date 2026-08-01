@@ -1,6 +1,6 @@
 {
   "schema_version": "1.3.0-objective-validation-final",
-  "generated_at": "2026-07-31T19:30:48.412752+09:00",
+  "generated_at": "2026-08-01T16:38:21.996641+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -21,7 +21,7 @@
       "source": "ecos",
       "status": "ok",
       "message": "ECOS 국내 금리·환율 수집 완료",
-      "rows": 16448,
+      "rows": 16445,
       "latest_observation": "20260731",
       "payload_path": "output/raw_ecos.json",
       "warnings": [],

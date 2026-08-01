@@ -3,18 +3,18 @@
   "status": "ok",
   "engine_scope": "korea_fx_v2",
   "current_usdkrw": 1441.1,
-  "legacy_3m_center": 1418.8,
+  "legacy_3m_center": 1419.2,
   "legacy_3m_range": [
-    1362.9,
-    1509.5
+    1363.3,
+    1510.0
   ],
   "forecast_path": [
     {
       "months": 1,
       "mid": 1441.1,
       "range_80": [
-        1397.8,
-        1484.4
+        1397.5,
+        1484.7
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
@@ -25,8 +25,8 @@
       "months": 3,
       "mid": 1441.1,
       "range_80": [
-        1366.3,
-        1515.9
+        1366.6,
+        1515.6
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
@@ -37,8 +37,8 @@
       "months": 6,
       "mid": 1441.1,
       "range_80": [
-        1348.8,
-        1533.4
+        1349.9,
+        1532.3
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
@@ -49,8 +49,8 @@
       "months": 12,
       "mid": 1441.1,
       "range_80": [
-        1319.1,
-        1563.1
+        1319.6,
+        1562.6
       ],
       "production_model": "random_walk_abstention",
       "signal_active": false,
@@ -61,66 +61,66 @@
   "production_model": "selective_60d_contrarian_shrunk",
   "active_model_blocked": false,
   "validation": {
-    "samples": 611,
-    "rmse_pct": 3.934,
-    "mae_pct": 3.168,
-    "active_direction_accuracy": 0.5318,
-    "all_origin_direction_accuracy": 0.2553,
-    "persistence_skill_pct": 2.829,
-    "active_signal_coverage": 0.437,
-    "interval_80_coverage": 0.7807,
+    "samples": 610,
+    "rmse_pct": 3.926,
+    "mae_pct": 3.146,
+    "active_direction_accuracy": 0.5349,
+    "all_origin_direction_accuracy": 0.241,
+    "persistence_skill_pct": 2.708,
+    "active_signal_coverage": 0.423,
+    "interval_80_coverage": 0.782,
     "horizon_specific_oos": true,
     "oos_by_horizon": {
       "1m": {
         "samples": 619,
-        "rmse_pct": 2.328,
-        "mae_pct": 1.829,
-        "random_walk_rmse_pct": 2.344,
-        "persistence_skill_pct": 0.654,
-        "direction_accuracy": 0.273,
-        "active_direction_accuracy": 0.4815,
-        "active_signal_samples": 270,
-        "active_signal_coverage": 0.4362,
-        "interval_80_coverage": 0.79,
+        "rmse_pct": 2.345,
+        "mae_pct": 1.852,
+        "random_walk_rmse_pct": 2.358,
+        "persistence_skill_pct": 0.543,
+        "direction_accuracy": 0.2601,
+        "active_direction_accuracy": 0.4713,
+        "active_signal_samples": 261,
+        "active_signal_coverage": 0.4216,
+        "interval_80_coverage": 0.7835,
         "model": "selective_60d_contrarian_shrunk"
       },
       "3m": {
-        "samples": 611,
-        "rmse_pct": 3.934,
-        "mae_pct": 3.168,
-        "random_walk_rmse_pct": 4.048,
-        "persistence_skill_pct": 2.829,
-        "direction_accuracy": 0.2553,
-        "active_direction_accuracy": 0.5318,
-        "active_signal_samples": 267,
-        "active_signal_coverage": 0.437,
-        "interval_80_coverage": 0.7807,
+        "samples": 610,
+        "rmse_pct": 3.926,
+        "mae_pct": 3.146,
+        "random_walk_rmse_pct": 4.036,
+        "persistence_skill_pct": 2.708,
+        "direction_accuracy": 0.241,
+        "active_direction_accuracy": 0.5349,
+        "active_signal_samples": 258,
+        "active_signal_coverage": 0.423,
+        "interval_80_coverage": 0.782,
         "model": "selective_60d_contrarian_shrunk"
       },
       "6m": {
         "samples": 598,
-        "rmse_pct": 4.86,
-        "mae_pct": 4.062,
-        "random_walk_rmse_pct": 4.996,
-        "persistence_skill_pct": 2.729,
-        "direction_accuracy": 0.2508,
-        "active_direction_accuracy": 0.5472,
-        "active_signal_samples": 265,
-        "active_signal_coverage": 0.4431,
+        "rmse_pct": 4.805,
+        "mae_pct": 4.006,
+        "random_walk_rmse_pct": 4.937,
+        "persistence_skill_pct": 2.678,
+        "direction_accuracy": 0.2709,
+        "active_direction_accuracy": 0.5859,
+        "active_signal_samples": 256,
+        "active_signal_coverage": 0.4281,
         "interval_80_coverage": 0.7893,
         "model": "selective_60d_contrarian_shrunk"
       },
       "12m": {
         "samples": 548,
-        "rmse_pct": 6.53,
-        "mae_pct": 5.377,
-        "random_walk_rmse_pct": 6.603,
-        "persistence_skill_pct": 1.103,
-        "direction_accuracy": 0.2573,
-        "active_direction_accuracy": 0.5333,
-        "active_signal_samples": 240,
-        "active_signal_coverage": 0.438,
-        "interval_80_coverage": 0.8157,
+        "rmse_pct": 6.509,
+        "mae_pct": 5.368,
+        "random_walk_rmse_pct": 6.581,
+        "persistence_skill_pct": 1.099,
+        "direction_accuracy": 0.2482,
+        "active_direction_accuracy": 0.5289,
+        "active_signal_samples": 242,
+        "active_signal_coverage": 0.4416,
+        "interval_80_coverage": 0.8193,
         "model": "selective_60d_contrarian_shrunk"
       }
     },
@@ -142,13 +142,13 @@
         "6m"
       ],
       "observed": {
-        "samples": 611,
-        "rmse_pct": 3.934,
-        "active_direction_accuracy": 0.5318,
-        "all_origin_direction_accuracy": 0.2553,
-        "persistence_skill_pct": 2.829,
-        "active_signal_coverage": 0.437,
-        "interval_80_coverage": 0.7807,
+        "samples": 610,
+        "rmse_pct": 3.926,
+        "active_direction_accuracy": 0.5349,
+        "all_origin_direction_accuracy": 0.241,
+        "persistence_skill_pct": 2.708,
+        "active_signal_coverage": 0.423,
+        "interval_80_coverage": 0.782,
         "horizon_specific_oos": true
       },
       "requirements": {
@@ -162,12 +162,12 @@
           "level": "참고용",
           "observed": {
             "samples": 619,
-            "rmse_pct": 2.328,
-            "active_direction_accuracy": 0.4815,
-            "all_origin_direction_accuracy": 0.273,
-            "persistence_skill_pct": 0.654,
-            "active_signal_coverage": 0.4362,
-            "interval_80_coverage": 0.79
+            "rmse_pct": 2.345,
+            "active_direction_accuracy": 0.4713,
+            "all_origin_direction_accuracy": 0.2601,
+            "persistence_skill_pct": 0.543,
+            "active_signal_coverage": 0.4216,
+            "interval_80_coverage": 0.7835
           },
           "requirements": {
             "samples_min": 180,
@@ -188,13 +188,13 @@
           "passed": true,
           "level": "준기관급",
           "observed": {
-            "samples": 611,
-            "rmse_pct": 3.934,
-            "active_direction_accuracy": 0.5318,
-            "all_origin_direction_accuracy": 0.2553,
-            "persistence_skill_pct": 2.829,
-            "active_signal_coverage": 0.437,
-            "interval_80_coverage": 0.7807
+            "samples": 610,
+            "rmse_pct": 3.926,
+            "active_direction_accuracy": 0.5349,
+            "all_origin_direction_accuracy": 0.241,
+            "persistence_skill_pct": 2.708,
+            "active_signal_coverage": 0.423,
+            "interval_80_coverage": 0.782
           },
           "requirements": {
             "samples_min": 180,
@@ -214,11 +214,11 @@
           "level": "준기관급",
           "observed": {
             "samples": 598,
-            "rmse_pct": 4.86,
-            "active_direction_accuracy": 0.5472,
-            "all_origin_direction_accuracy": 0.2508,
-            "persistence_skill_pct": 2.729,
-            "active_signal_coverage": 0.4431,
+            "rmse_pct": 4.805,
+            "active_direction_accuracy": 0.5859,
+            "all_origin_direction_accuracy": 0.2709,
+            "persistence_skill_pct": 2.678,
+            "active_signal_coverage": 0.4281,
             "interval_80_coverage": 0.7893
           },
           "requirements": {
@@ -239,12 +239,12 @@
           "level": "참고용",
           "observed": {
             "samples": 548,
-            "rmse_pct": 6.53,
-            "active_direction_accuracy": 0.5333,
-            "all_origin_direction_accuracy": 0.2573,
-            "persistence_skill_pct": 1.103,
-            "active_signal_coverage": 0.438,
-            "interval_80_coverage": 0.8157
+            "rmse_pct": 6.509,
+            "active_direction_accuracy": 0.5289,
+            "all_origin_direction_accuracy": 0.2482,
+            "persistence_skill_pct": 1.099,
+            "active_signal_coverage": 0.4416,
+            "interval_80_coverage": 0.8193
           },
           "requirements": {
             "samples_min": 150,
@@ -270,7 +270,7 @@
     "scores": {
       "inflation_defense": 1.2022,
       "growth_support": 0.0,
-      "fx_defense": 0.3733,
+      "fx_defense": 0.4133,
       "financial_stability": 0.35
     }
   },
@@ -280,5 +280,5 @@
     "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
     "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
   ],
-  "generated_at": "2026-07-31T19:30:48.412752+09:00"
+  "generated_at": "2026-08-01T16:38:21.996641+09:00"
 }
