@@ -1194,19 +1194,19 @@
     ],
     "calibration_weight": 0.658,
     "quality_gate": {
-      "passed": true,
-      "candidate": false,
-      "level": "준기관급",
+      "passed": false,
+      "candidate": true,
+      "level": "재구성 OOS 후보",
       "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
       "requirements": {
-        "samples_min": 60,
-        "brier_skill_score_min": 0.08,
-        "accuracy_min": 0.52,
-        "accuracy_wilson_lower_95_min": 0.45,
+        "samples_min": 80,
+        "brier_skill_score_min": 0.1,
+        "accuracy_min": 0.55,
+        "accuracy_wilson_lower_95_min_exclusive": 0.5,
         "active_input_coverage_min": 0.95,
         "release_lag_backtest_required": true,
         "walk_forward_backtest_required": true,
-        "real_time_vintage_required": false
+        "real_time_vintage_required": true
       },
       "observed": {
         "samples": 65,
@@ -1218,9 +1218,13 @@
         "walk_forward_backtest": true,
         "real_time_vintage": false
       },
-      "reasons": [],
+      "reasons": [
+        "검증 표본이 80개 미만입니다.",
+        "방향 정확도 95% 하한이 50%를 넘지 못했습니다.",
+        "실시간 원본 빈티지 검증이 아직 없습니다."
+      ],
       "limitations": [
-        "실시간 원본 빈티지 미적용: 발표시차 재구성 OOS 인증"
+        "실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"
       ]
     },
     "data_coverage_axes": {
@@ -1245,5 +1249,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-01T16:38:21.996641+09:00"
+  "generated_at": "2026-08-04T05:41:46.836973+09:00"
 }

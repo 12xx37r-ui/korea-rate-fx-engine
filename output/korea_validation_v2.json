@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.0.0",
-  "engine_version": "2.7.0-objective-validation-final",
-  "generated_at": "2026-08-01T16:38:21.996641+09:00",
+  "schema_version": "2.1.0",
+  "engine_version": "2.8.0-point-in-time-gated",
+  "generated_at": "2026-08-04T05:41:46.836973+09:00",
   "rate": {
     "samples": 65,
     "brier_score": 0.5217,
@@ -1134,19 +1134,19 @@
     ],
     "calibration_weight": 0.658,
     "quality_gate": {
-      "passed": true,
-      "candidate": false,
-      "level": "준기관급",
+      "passed": false,
+      "candidate": true,
+      "level": "재구성 OOS 후보",
       "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
       "requirements": {
-        "samples_min": 60,
-        "brier_skill_score_min": 0.08,
-        "accuracy_min": 0.52,
-        "accuracy_wilson_lower_95_min": 0.45,
+        "samples_min": 80,
+        "brier_skill_score_min": 0.1,
+        "accuracy_min": 0.55,
+        "accuracy_wilson_lower_95_min_exclusive": 0.5,
         "active_input_coverage_min": 0.95,
         "release_lag_backtest_required": true,
         "walk_forward_backtest_required": true,
-        "real_time_vintage_required": false
+        "real_time_vintage_required": true
       },
       "observed": {
         "samples": 65,
@@ -1158,9 +1158,13 @@
         "walk_forward_backtest": true,
         "real_time_vintage": false
       },
-      "reasons": [],
+      "reasons": [
+        "검증 표본이 80개 미만입니다.",
+        "방향 정확도 95% 하한이 50%를 넘지 못했습니다.",
+        "실시간 원본 빈티지 검증이 아직 없습니다."
+      ],
       "limitations": [
-        "실시간 원본 빈티지 미적용: 발표시차 재구성 OOS 인증"
+        "실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"
       ]
     },
     "data_coverage_axes": {
@@ -1199,6 +1203,7 @@
         "persistence_skill_pct": 0.543,
         "direction_accuracy": 0.2601,
         "active_direction_accuracy": 0.4713,
+        "active_direction_wilson_lower_95": 0.4116,
         "active_signal_samples": 261,
         "active_signal_coverage": 0.4216,
         "interval_80_coverage": 0.7835,
@@ -1212,6 +1217,7 @@
         "persistence_skill_pct": 2.708,
         "direction_accuracy": 0.241,
         "active_direction_accuracy": 0.5349,
+        "active_direction_wilson_lower_95": 0.474,
         "active_signal_samples": 258,
         "active_signal_coverage": 0.423,
         "interval_80_coverage": 0.782,
@@ -1225,6 +1231,7 @@
         "persistence_skill_pct": 2.678,
         "direction_accuracy": 0.2709,
         "active_direction_accuracy": 0.5859,
+        "active_direction_wilson_lower_95": 0.5248,
         "active_signal_samples": 256,
         "active_signal_coverage": 0.4281,
         "interval_80_coverage": 0.7893,
@@ -1238,6 +1245,7 @@
         "persistence_skill_pct": 1.099,
         "direction_accuracy": 0.2482,
         "active_direction_accuracy": 0.5289,
+        "active_direction_wilson_lower_95": 0.4661,
         "active_signal_samples": 242,
         "active_signal_coverage": 0.4416,
         "interval_80_coverage": 0.8193,
@@ -1253,12 +1261,11 @@
       "abstention_model": "random_walk_no_change"
     },
     "quality_gate": {
-      "passed": true,
-      "candidate": false,
-      "level": "준기관급(3개월)",
+      "passed": false,
+      "candidate": true,
+      "level": "연구 후보/관망",
       "primary_horizon": "3m",
       "passed_horizons": [
-        "3m",
         "6m"
       ],
       "observed": {
@@ -1279,11 +1286,12 @@
       "horizon_quality_gates": {
         "1m": {
           "passed": false,
-          "level": "참고용",
+          "level": "참고용/관망",
           "observed": {
             "samples": 619,
             "rmse_pct": 2.345,
             "active_direction_accuracy": 0.4713,
+            "active_direction_wilson_lower_95": 0.4116,
             "all_origin_direction_accuracy": 0.2601,
             "persistence_skill_pct": 0.543,
             "active_signal_coverage": 0.4216,
@@ -1292,8 +1300,9 @@
           "requirements": {
             "samples_min": 180,
             "rmse_pct_max": 3.0,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 0.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 2.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
@@ -1301,16 +1310,19 @@
             ]
           },
           "reasons": [
-            "활성 신호 방향 적중률이 52% 기준에 미달합니다."
+            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+            "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
           ]
         },
         "3m": {
-          "passed": true,
-          "level": "준기관급",
+          "passed": false,
+          "level": "참고용/관망",
           "observed": {
             "samples": 610,
             "rmse_pct": 3.926,
             "active_direction_accuracy": 0.5349,
+            "active_direction_wilson_lower_95": 0.474,
             "all_origin_direction_accuracy": 0.241,
             "persistence_skill_pct": 2.708,
             "active_signal_coverage": 0.423,
@@ -1319,23 +1331,28 @@
           "requirements": {
             "samples_min": 180,
             "rmse_pct_max": 5.5,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 0.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 2.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
               0.88
             ]
           },
-          "reasons": []
+          "reasons": [
+            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+          ]
         },
         "6m": {
           "passed": true,
-          "level": "준기관급",
+          "level": "통계검증 통과",
           "observed": {
             "samples": 598,
             "rmse_pct": 4.805,
             "active_direction_accuracy": 0.5859,
+            "active_direction_wilson_lower_95": 0.5248,
             "all_origin_direction_accuracy": 0.2709,
             "persistence_skill_pct": 2.678,
             "active_signal_coverage": 0.4281,
@@ -1344,8 +1361,9 @@
           "requirements": {
             "samples_min": 180,
             "rmse_pct_max": 7.0,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 0.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 2.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
@@ -1356,11 +1374,12 @@
         },
         "12m": {
           "passed": false,
-          "level": "참고용",
+          "level": "참고용/관망",
           "observed": {
             "samples": 548,
             "rmse_pct": 6.509,
             "active_direction_accuracy": 0.5289,
+            "active_direction_wilson_lower_95": 0.4661,
             "all_origin_direction_accuracy": 0.2482,
             "persistence_skill_pct": 1.099,
             "active_signal_coverage": 0.4416,
@@ -1369,8 +1388,9 @@
           "requirements": {
             "samples_min": 150,
             "rmse_pct_max": 8.5,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 2.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 3.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
@@ -1378,11 +1398,16 @@
             ]
           },
           "reasons": [
-            "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
+            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+            "랜덤워크 대비 skill이 3.0% 기준을 넘지 못했습니다."
           ]
         }
       },
-      "reasons": []
+      "reasons": [
+        "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+        "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+      ]
     }
   },
   "us_engine_modified": false,

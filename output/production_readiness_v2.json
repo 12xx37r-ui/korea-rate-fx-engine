@@ -1,60 +1,69 @@
 {
-  "schema_version": "1.1.0",
-  "engine_version": "2.7.0-objective-validation-final",
-  "generated_at": "2026-08-01T16:38:21.996641+09:00",
-  "overall_level": "준기관급",
+  "schema_version": "1.2.0",
+  "engine_version": "2.8.0-point-in-time-gated",
+  "generated_at": "2026-08-04T05:41:46.836973+09:00",
+  "overall_level": "??? ?? ??",
   "rate": {
-    "level": "준기관급",
-    "passed": true,
-    "candidate": false,
-    "reasons": [],
-    "display_rule": "통과 전에는 준기관급으로 표시 금지"
+    "level": "재구성 OOS 후보",
+    "passed": false,
+    "candidate": true,
+    "reasons": [
+      "검증 표본이 80개 미만입니다.",
+      "방향 정확도 95% 하한이 50%를 넘지 못했습니다.",
+      "실시간 원본 빈티지 검증이 아직 없습니다."
+    ],
+    "display_rule": "??? ???????? ?? ? ??? ?? ??"
   },
   "fx": {
-    "primary_level": "준기관급(3개월)",
-    "primary_passed": true,
+    "primary_level": "연구 후보/관망",
+    "primary_passed": false,
     "passed_horizons": [
-      "3m",
       "6m"
     ],
     "horizon_levels": {
       "1m": {
         "passed": false,
-        "level": "참고용",
+        "level": "참고용/관망",
         "reasons": [
-          "활성 신호 방향 적중률이 52% 기준에 미달합니다."
+          "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+          "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+          "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
         ]
       },
       "3m": {
-        "passed": true,
-        "level": "준기관급",
-        "reasons": []
+        "passed": false,
+        "level": "참고용/관망",
+        "reasons": [
+          "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+          "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+        ]
       },
       "6m": {
         "passed": true,
-        "level": "준기관급",
+        "level": "통계검증 통과",
         "reasons": []
       },
       "12m": {
         "passed": false,
-        "level": "참고용",
+        "level": "참고용/관망",
         "reasons": [
-          "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
+          "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+          "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+          "랜덤워크 대비 skill이 3.0% 기준을 넘지 못했습니다."
         ]
       }
     },
     "signal_active": false,
-    "display_rule": "기간별 게이트와 현재 신호 활성 여부를 분리 표시"
+    "display_rule": "??? ???? ?? ?? ?? ?? ??"
   },
   "source_health": {
     "blocking_errors": [],
     "warnings": [
-      "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
-      "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
+      "KRX?REB? ?? ???? ?? endpoint ?? ? production? ???? ??"
     ],
     "minimum_production_inputs_complete": true,
     "full_model_inputs_complete": true,
     "optional_enhancements_complete": false
   },
-  "certification_rule": "과거 순차 OOS에서 기준모형 우위와 품질 게이트를 통과한 기간만 준기관급으로 표시"
+  "certification_rule": "??? ??? OOS????? ???95% ????? ?? ???? production"
 }

@@ -255,12 +255,12 @@ def main():
     fx_horizon_gates = fx_gate.get("horizon_quality_gates") or {}
     production_readiness = {
         "schema_version": "1.1.0",
-        "engine_version": "2.7.0-objective-validation-final",
+        "engine_version": "2.8.0-point-in-time-gated",
         "generated_at": now.isoformat(),
         "overall_level": (
-            "준기관급"
+            "실시간 독립검증 통과"
             if rate_gate.get("passed") and fx_gate.get("passed")
-            else "부분 준기관급"
+            else "부분 통계검증 통과"
             if fx_gate.get("passed") or rate_gate.get("passed")
             else "검증 중"
         ),
@@ -269,7 +269,7 @@ def main():
             "passed": bool(rate_gate.get("passed")),
             "candidate": bool(rate_gate.get("candidate")),
             "reasons": rate_gate.get("reasons", []),
-            "display_rule": "통과 전에는 준기관급으로 표시 금지",
+            "display_rule": "실시간 빈티지·신뢰구간 기준 통과 전에는 기관급 표현 금지",
         },
         "fx": {
             "primary_level": fx_gate.get("level", "검증 중"),
@@ -297,7 +297,7 @@ def main():
                 source_status.get(name) in {"ok", "degraded"} for name in ("krx", "reb")
             ),
         },
-        "certification_rule": "과거 순차 OOS에서 기준모형 우위와 품질 게이트를 통과한 기간만 준기관급으로 표시",
+        "certification_rule": "실시간 빈티지 OOS, 기준모형 우위, 95% 신뢰하한을 모두 통과한 기간만 production으로 표시",
     }
     write_json(output_dir / "production_readiness_v2.json", production_readiness)
 

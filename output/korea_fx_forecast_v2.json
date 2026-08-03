@@ -79,6 +79,7 @@
         "persistence_skill_pct": 0.543,
         "direction_accuracy": 0.2601,
         "active_direction_accuracy": 0.4713,
+        "active_direction_wilson_lower_95": 0.4116,
         "active_signal_samples": 261,
         "active_signal_coverage": 0.4216,
         "interval_80_coverage": 0.7835,
@@ -92,6 +93,7 @@
         "persistence_skill_pct": 2.708,
         "direction_accuracy": 0.241,
         "active_direction_accuracy": 0.5349,
+        "active_direction_wilson_lower_95": 0.474,
         "active_signal_samples": 258,
         "active_signal_coverage": 0.423,
         "interval_80_coverage": 0.782,
@@ -105,6 +107,7 @@
         "persistence_skill_pct": 2.678,
         "direction_accuracy": 0.2709,
         "active_direction_accuracy": 0.5859,
+        "active_direction_wilson_lower_95": 0.5248,
         "active_signal_samples": 256,
         "active_signal_coverage": 0.4281,
         "interval_80_coverage": 0.7893,
@@ -118,6 +121,7 @@
         "persistence_skill_pct": 1.099,
         "direction_accuracy": 0.2482,
         "active_direction_accuracy": 0.5289,
+        "active_direction_wilson_lower_95": 0.4661,
         "active_signal_samples": 242,
         "active_signal_coverage": 0.4416,
         "interval_80_coverage": 0.8193,
@@ -133,12 +137,11 @@
       "abstention_model": "random_walk_no_change"
     },
     "quality_gate": {
-      "passed": true,
-      "candidate": false,
-      "level": "준기관급(3개월)",
+      "passed": false,
+      "candidate": true,
+      "level": "연구 후보/관망",
       "primary_horizon": "3m",
       "passed_horizons": [
-        "3m",
         "6m"
       ],
       "observed": {
@@ -159,11 +162,12 @@
       "horizon_quality_gates": {
         "1m": {
           "passed": false,
-          "level": "참고용",
+          "level": "참고용/관망",
           "observed": {
             "samples": 619,
             "rmse_pct": 2.345,
             "active_direction_accuracy": 0.4713,
+            "active_direction_wilson_lower_95": 0.4116,
             "all_origin_direction_accuracy": 0.2601,
             "persistence_skill_pct": 0.543,
             "active_signal_coverage": 0.4216,
@@ -172,8 +176,9 @@
           "requirements": {
             "samples_min": 180,
             "rmse_pct_max": 3.0,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 0.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 2.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
@@ -181,16 +186,19 @@
             ]
           },
           "reasons": [
-            "활성 신호 방향 적중률이 52% 기준에 미달합니다."
+            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+            "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
           ]
         },
         "3m": {
-          "passed": true,
-          "level": "준기관급",
+          "passed": false,
+          "level": "참고용/관망",
           "observed": {
             "samples": 610,
             "rmse_pct": 3.926,
             "active_direction_accuracy": 0.5349,
+            "active_direction_wilson_lower_95": 0.474,
             "all_origin_direction_accuracy": 0.241,
             "persistence_skill_pct": 2.708,
             "active_signal_coverage": 0.423,
@@ -199,23 +207,28 @@
           "requirements": {
             "samples_min": 180,
             "rmse_pct_max": 5.5,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 0.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 2.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
               0.88
             ]
           },
-          "reasons": []
+          "reasons": [
+            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+          ]
         },
         "6m": {
           "passed": true,
-          "level": "준기관급",
+          "level": "통계검증 통과",
           "observed": {
             "samples": 598,
             "rmse_pct": 4.805,
             "active_direction_accuracy": 0.5859,
+            "active_direction_wilson_lower_95": 0.5248,
             "all_origin_direction_accuracy": 0.2709,
             "persistence_skill_pct": 2.678,
             "active_signal_coverage": 0.4281,
@@ -224,8 +237,9 @@
           "requirements": {
             "samples_min": 180,
             "rmse_pct_max": 7.0,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 0.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 2.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
@@ -236,11 +250,12 @@
         },
         "12m": {
           "passed": false,
-          "level": "참고용",
+          "level": "참고용/관망",
           "observed": {
             "samples": 548,
             "rmse_pct": 6.509,
             "active_direction_accuracy": 0.5289,
+            "active_direction_wilson_lower_95": 0.4661,
             "all_origin_direction_accuracy": 0.2482,
             "persistence_skill_pct": 1.099,
             "active_signal_coverage": 0.4416,
@@ -249,8 +264,9 @@
           "requirements": {
             "samples_min": 150,
             "rmse_pct_max": 8.5,
-            "active_direction_accuracy_min": 0.52,
-            "persistence_skill_pct_min": 2.0,
+            "active_direction_accuracy_min": 0.55,
+            "active_direction_wilson_lower_95_min": 0.5,
+            "persistence_skill_pct_min": 3.0,
             "active_signal_coverage_min": 0.3,
             "interval_80_coverage_range": [
               0.72,
@@ -258,11 +274,16 @@
             ]
           },
           "reasons": [
-            "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
+            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+            "랜덤워크 대비 skill이 3.0% 기준을 넘지 못했습니다."
           ]
         }
       },
-      "reasons": []
+      "reasons": [
+        "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+        "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+      ]
     }
   },
   "rate_regime_link": {
@@ -280,5 +301,5 @@
     "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
     "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
   ],
-  "generated_at": "2026-08-01T16:38:21.996641+09:00"
+  "generated_at": "2026-08-04T05:41:46.836973+09:00"
 }

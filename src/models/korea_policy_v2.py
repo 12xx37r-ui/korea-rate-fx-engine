@@ -216,9 +216,8 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
     KRX and REB are useful enhancement sources, but they are not model inputs in
     the fixed V2 policy specification.  They therefore must not block or inflate
     certification.  The gate evaluates only the active ECOS, KOSIS, U.S.-policy
-    and validation-integrity axes.  A release-lagged walk-forward reconstruction
-    is accepted for production certification, while the absence of true
-    real-time vintages remains explicitly disclosed.
+    and validation-integrity axes. A release-lagged reconstruction is research
+    evidence; only true point-in-time vintages can receive production status.
     """
     samples = int(backtest.get("samples") or 0)
     skill = backtest.get("brier_skill_score")
@@ -228,41 +227,42 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
     walk_forward = bool(backtest.get("walk_forward_backtest"))
     real_vintage = bool(backtest.get("real_time_vintage"))
     strict_pass = (
-        samples >= 60
+        samples >= 80
         and skill is not None
-        and float(skill) >= 0.08
+        and float(skill) >= 0.10
         and accuracy is not None
-        and float(accuracy) >= 0.52
-        and (accuracy_lb is None or float(accuracy_lb) >= 0.45)
+        and float(accuracy) >= 0.55
+        and accuracy_lb is not None and float(accuracy_lb) > 0.50
         and data_coverage >= 0.95
         and release_lag
         and walk_forward
+        and real_vintage
     )
     candidate = (
         not strict_pass
-        and samples >= 48
+        and samples >= 60
         and skill is not None
         and float(skill) > 0.0
         and accuracy is not None
-        and float(accuracy) >= 0.48
+        and float(accuracy) >= 0.52
         and data_coverage >= 0.80
         and release_lag
     )
-    level = "준기관급" if strict_pass else ("준기관급 후보" if candidate else ("검증중" if samples >= 24 else "자료부족"))
+    level = "실시간 독립검증 통과" if strict_pass else ("재구성 OOS 후보" if candidate else ("검증중" if samples >= 24 else "자료부족"))
     return {
         "passed": strict_pass,
         "candidate": candidate,
         "level": level,
         "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
         "requirements": {
-            "samples_min": 60,
-            "brier_skill_score_min": 0.08,
-            "accuracy_min": 0.52,
-            "accuracy_wilson_lower_95_min": 0.45,
+            "samples_min": 80,
+            "brier_skill_score_min": 0.10,
+            "accuracy_min": 0.55,
+            "accuracy_wilson_lower_95_min_exclusive": 0.50,
             "active_input_coverage_min": 0.95,
             "release_lag_backtest_required": True,
             "walk_forward_backtest_required": True,
-            "real_time_vintage_required": False,
+            "real_time_vintage_required": True,
         },
         "observed": {
             "samples": samples,
@@ -276,16 +276,17 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
         },
         "reasons": [
             reason for condition, reason in (
-                (samples < 60, "검증 표본이 60개 미만입니다."),
-                (skill is None or float(skill) < 0.08, "Brier skill이 8% 기준에 미달합니다."),
-                (accuracy is None or float(accuracy) < 0.52, "방향 정확도가 52% 기준에 미달합니다."),
-                (accuracy_lb is not None and float(accuracy_lb) < 0.45, "방향 정확도 95% 하한이 45% 기준에 미달합니다."),
+                (samples < 80, "검증 표본이 80개 미만입니다."),
+                (skill is None or float(skill) < 0.10, "Brier skill이 10% 기준에 미달합니다."),
+                (accuracy is None or float(accuracy) < 0.55, "방향 정확도가 55% 기준에 미달합니다."),
+                (accuracy_lb is None or float(accuracy_lb) <= 0.50, "방향 정확도 95% 하한이 50%를 넘지 못했습니다."),
                 (data_coverage < 0.95, "실제 사용 입력축 완전성이 95% 미만입니다."),
                 (not release_lag, "발표시차 반영 백테스트가 없습니다."),
                 (not walk_forward, "순차 walk-forward 백테스트가 없습니다."),
+                (not real_vintage, "실시간 원본 빈티지 검증이 아직 없습니다."),
             ) if condition
         ],
-        "limitations": (["실시간 원본 빈티지 미적용: 발표시차 재구성 OOS 인증"] if not real_vintage else []),
+        "limitations": (["실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"] if not real_vintage else []),
     }
 
 
@@ -466,10 +467,10 @@ def build_fx_forecast_v2(
         horizons = production_horizons
     horizon_map = fx_oos.get("horizons", {}) if isinstance(fx_oos, dict) else {}
     horizon_requirements = {
-        "1m": {"samples_min": 180, "rmse_pct_max": 3.0, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 0.0},
-        "3m": {"samples_min": 180, "rmse_pct_max": 5.5, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 0.0},
-        "6m": {"samples_min": 180, "rmse_pct_max": 7.0, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 0.0},
-        "12m": {"samples_min": 150, "rmse_pct_max": 8.5, "active_direction_accuracy_min": 0.52, "persistence_skill_pct_min": 2.0},
+        "1m": {"samples_min": 180, "rmse_pct_max": 3.0, "active_direction_accuracy_min": 0.55, "active_direction_wilson_lower_95_min": 0.50, "persistence_skill_pct_min": 2.0},
+        "3m": {"samples_min": 180, "rmse_pct_max": 5.5, "active_direction_accuracy_min": 0.55, "active_direction_wilson_lower_95_min": 0.50, "persistence_skill_pct_min": 2.0},
+        "6m": {"samples_min": 180, "rmse_pct_max": 7.0, "active_direction_accuracy_min": 0.55, "active_direction_wilson_lower_95_min": 0.50, "persistence_skill_pct_min": 2.0},
+        "12m": {"samples_min": 150, "rmse_pct_max": 8.5, "active_direction_accuracy_min": 0.55, "active_direction_wilson_lower_95_min": 0.50, "persistence_skill_pct_min": 3.0},
     }
     horizon_gates: dict[str, Any] = {}
     for label, req in horizon_requirements.items():
@@ -477,6 +478,7 @@ def build_fx_forecast_v2(
         row_samples = int(row.get("samples") or 0)
         row_rmse = row.get("rmse_pct")
         row_active_acc = row.get("active_direction_accuracy")
+        row_active_lb = row.get("active_direction_wilson_lower_95")
         row_skill = row.get("persistence_skill_pct")
         row_signal_cov = row.get("active_signal_coverage")
         row_interval_cov = row.get("interval_80_coverage")
@@ -484,6 +486,7 @@ def build_fx_forecast_v2(
             row_samples >= req["samples_min"]
             and row_rmse is not None and float(row_rmse) <= req["rmse_pct_max"]
             and row_active_acc is not None and float(row_active_acc) >= req["active_direction_accuracy_min"]
+            and row_active_lb is not None and float(row_active_lb) > req["active_direction_wilson_lower_95_min"]
             and row_skill is not None and float(row_skill) > req["persistence_skill_pct_min"]
             and row_signal_cov is not None and float(row_signal_cov) >= 0.30
             and row_interval_cov is not None and 0.72 <= float(row_interval_cov) <= 0.88
@@ -494,7 +497,9 @@ def build_fx_forecast_v2(
         if row_rmse is None or float(row_rmse) > req["rmse_pct_max"]:
             reasons.append(f"RMSE가 {req['rmse_pct_max']}% 기준을 초과합니다.")
         if row_active_acc is None or float(row_active_acc) < req["active_direction_accuracy_min"]:
-            reasons.append("활성 신호 방향 적중률이 52% 기준에 미달합니다.")
+            reasons.append(f"활성 신호 방향 적중률이 {req['active_direction_accuracy_min']:.0%} 기준에 미달합니다.")
+        if row_active_lb is None or float(row_active_lb) <= req["active_direction_wilson_lower_95_min"]:
+            reasons.append("활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.")
         if row_skill is None or float(row_skill) <= req["persistence_skill_pct_min"]:
             reasons.append(f"랜덤워크 대비 skill이 {req['persistence_skill_pct_min']}% 기준을 넘지 못했습니다.")
         if row_signal_cov is None or float(row_signal_cov) < 0.30:
@@ -503,11 +508,12 @@ def build_fx_forecast_v2(
             reasons.append("80% 예측구간 포함률이 허용범위를 벗어납니다.")
         horizon_gates[label] = {
             "passed": passed,
-            "level": "준기관급" if passed else ("참고용" if row_samples >= req["samples_min"] else "자료부족"),
+            "level": "통계검증 통과" if passed else ("참고용/관망" if row_samples >= req["samples_min"] else "자료부족"),
             "observed": {
                 "samples": row_samples,
                 "rmse_pct": row_rmse,
                 "active_direction_accuracy": row_active_acc,
+                "active_direction_wilson_lower_95": row_active_lb,
                 "all_origin_direction_accuracy": row.get("direction_accuracy"),
                 "persistence_skill_pct": row_skill,
                 "active_signal_coverage": row_signal_cov,
@@ -523,13 +529,11 @@ def build_fx_forecast_v2(
     passed_horizons = [label for label, gate in horizon_gates.items() if gate["passed"]]
     primary_gate = horizon_gates.get("3m", {})
     strict_pass = bool(primary_gate.get("passed"))
-    candidate = (not strict_pass) and any(
-        gate.get("level") == "참고용" for gate in horizon_gates.values()
-    )
+    candidate = (not strict_pass) and any(gate.get("level") == "참고용/관망" for gate in horizon_gates.values())
     fx_gate = {
         "passed": strict_pass,
         "candidate": candidate,
-        "level": "준기관급(3개월)" if strict_pass else ("준기관급 후보" if candidate else "검증미달·기준모형 사용"),
+        "level": "통계검증 통과(3개월)" if strict_pass else ("연구 후보/관망" if candidate else "검증미달·기준모형 사용"),
         "primary_horizon": "3m",
         "passed_horizons": passed_horizons,
         "observed": {

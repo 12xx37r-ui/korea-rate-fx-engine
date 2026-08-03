@@ -257,6 +257,8 @@ def fx_walk_forward_validation(
         skill = (1.0 - rmse / bench_rmse) * 100.0 if rmse is not None and bench_rmse and bench_rmse > 0 else None
         active_n = len(active_direction_hits)
         coverage = active_n / n if n else None
+        active_successes = sum(active_direction_hits)
+        active_wilson = _wilson_lower(active_successes, active_n) if active_n else None
         result[label] = {
             "samples": n,
             "rmse_pct": round(rmse * 100, 3) if rmse is not None else None,
@@ -265,6 +267,7 @@ def fx_walk_forward_validation(
             "persistence_skill_pct": round(skill, 3) if skill is not None else None,
             "direction_accuracy": round(mean(all_direction_hits), 4) if all_direction_hits else None,
             "active_direction_accuracy": round(mean(active_direction_hits), 4) if active_direction_hits else None,
+            "active_direction_wilson_lower_95": round(active_wilson, 4) if active_wilson is not None else None,
             "active_signal_samples": active_n,
             "active_signal_coverage": round(coverage, 4) if coverage is not None else None,
             "interval_80_coverage": round(mean(interval_hits), 4) if interval_hits else None,
@@ -285,6 +288,7 @@ def fx_walk_forward_validation(
         "rmse_pct": primary.get("rmse_pct"),
         "mae_pct": primary.get("mae_pct"),
         "direction_accuracy": primary.get("active_direction_accuracy") if primary.get("active_direction_accuracy") is not None else primary.get("direction_accuracy"),
+        "active_direction_wilson_lower_95": primary.get("active_direction_wilson_lower_95"),
         "all_origin_direction_accuracy": primary.get("direction_accuracy"),
         "active_signal_samples": primary.get("active_signal_samples"),
         "active_signal_coverage": primary.get("active_signal_coverage"),
