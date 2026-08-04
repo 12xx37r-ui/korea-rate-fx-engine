@@ -5,12 +5,12 @@
   "engine_scope": "korea_only_us_engine_read_only",
   "current": {
     "kr_base_rate_pct": 2.75,
-    "market_reference_rate_pct": 3.65,
-    "market_policy_gap_pctp": 0.9,
-    "core_cpi_yoy": 0.024,
+    "market_reference_rate_pct": 3.603,
+    "market_policy_gap_pctp": 0.853,
+    "core_cpi_yoy": 0.025,
     "industrial_3m_annualized": 0.05511,
-    "usdkrw_3m_change": -0.02943,
-    "us_3meeting_rate_change_pctp": 0.207,
+    "usdkrw_3m_change": -0.01847,
+    "us_3meeting_rate_change_pctp": 0.192,
     "us_path_filter": {
       "mode": "monthly_curve_stabilized",
       "accepted": 11,
@@ -21,9 +21,9 @@
   "regime": {
     "name": "inflation_defense",
     "scores": {
-      "inflation_defense": 1.2022,
+      "inflation_defense": 1.2693,
       "growth_support": 0.0,
-      "fx_defense": 0.4133,
+      "fx_defense": 0.3833,
       "financial_stability": 0.35
     }
   },
@@ -31,8 +31,8 @@
     {
       "meeting_ahead": 1,
       "probabilities": {
-        "hold": 0.527,
-        "hike": 0.378,
+        "hold": 0.53,
+        "hike": 0.376,
         "cut": 0.094
       },
       "expected_rate_pct": 2.821,
@@ -43,10 +43,10 @@
       "meeting_ahead": 2,
       "probabilities": {
         "hold": 0.502,
-        "hike": 0.269,
+        "hike": 0.268,
         "cut": 0.229
       },
-      "expected_rate_pct": 2.831,
+      "expected_rate_pct": 2.83,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     },
@@ -63,17 +63,17 @@
     }
   ],
   "validation": {
-    "samples": 65,
-    "brier_score": 0.5217,
-    "benchmark_brier": 0.6367,
-    "brier_skill_score": 0.1806,
-    "accuracy": 0.5846,
-    "accuracy_wilson_lower_95": 0.4634,
-    "log_loss": 0.8427,
+    "samples": 66,
+    "brier_score": 0.5181,
+    "benchmark_brier": 0.6333,
+    "brier_skill_score": 0.182,
+    "accuracy": 0.5909,
+    "accuracy_wilson_lower_95": 0.4705,
+    "log_loss": 0.8382,
     "class_frequency": {
-      "hold": 0.4923,
-      "hike": 0.3538,
-      "cut": 0.1538
+      "hold": 0.5,
+      "hike": 0.3485,
+      "cut": 0.1515
     },
     "evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
     "validation_method": "release_lagged_expanding_walk_forward_fixed_spec",
@@ -1190,9 +1190,26 @@
         "hit": true,
         "brier": 0.229125,
         "benchmark_brier": 0.428158
+      },
+      {
+        "origin": "20260804",
+        "probabilities": {
+          "hold": 0.580852,
+          "hike": 0.307596,
+          "cut": 0.111553
+        },
+        "benchmark_probabilities": {
+          "hold": 0.485294,
+          "hike": 0.352941,
+          "cut": 0.161765
+        },
+        "actual": "hold",
+        "hit": true,
+        "brier": 0.282744,
+        "benchmark_brier": 0.415657
       }
     ],
-    "calibration_weight": 0.658,
+    "calibration_weight": 0.659,
     "quality_gate": {
       "passed": false,
       "candidate": true,
@@ -1209,10 +1226,10 @@
         "real_time_vintage_required": true
       },
       "observed": {
-        "samples": 65,
-        "brier_skill_score": 0.1806,
-        "accuracy": 0.5846,
-        "accuracy_wilson_lower_95": 0.4634,
+        "samples": 66,
+        "brier_skill_score": 0.182,
+        "accuracy": 0.5909,
+        "accuracy_wilson_lower_95": 0.4705,
         "active_input_coverage": 1.0,
         "release_lag_backtest": true,
         "walk_forward_backtest": true,
@@ -1249,5 +1266,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-04T05:41:46.836973+09:00"
+  "generated_at": "2026-08-04T17:03:10.568820+09:00"
 }

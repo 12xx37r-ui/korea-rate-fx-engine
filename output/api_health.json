@@ -1,6 +1,6 @@
 {
   "schema_version": "1.3.0-objective-validation-final",
-  "generated_at": "2026-08-01T16:38:21.996641+09:00",
+  "generated_at": "2026-08-04T17:03:10.568820+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -11,8 +11,8 @@
       "payload_path": "output/us_input.json",
       "warnings": [],
       "metadata": {
-        "schema_version": "3.6.0-objective-validation",
-        "source_engine_version": "3.6.0-objective-validation",
+        "schema_version": "3.7.0-secure-point-in-time-gated",
+        "source_engine_version": "3.7.0-secure-point-in-time-gated",
         "conversion_applied": true,
         "next_fomc": "2026-09-16"
       }
@@ -21,8 +21,8 @@
       "source": "ecos",
       "status": "ok",
       "message": "ECOS 국내 금리·환율 수집 완료",
-      "rows": 16445,
-      "latest_observation": "20260731",
+      "rows": 16448,
+      "latest_observation": "20260804",
       "payload_path": "output/raw_ecos.json",
       "warnings": [],
       "metadata": {
@@ -50,7 +50,7 @@
       "status": "ok",
       "message": "KOSIS 국내 공식 지표 수집 완료",
       "rows": 360,
-      "latest_observation": "202606",
+      "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
       "warnings": [],
       "metadata": {
