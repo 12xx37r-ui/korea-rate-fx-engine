@@ -4,17 +4,17 @@
     "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1428.2,
-    "kr_gov_2y_pct": 3.545,
-    "kr_gov_3y_pct": 3.669,
-    "kr_gov_10y_pct": 4.15,
-    "krw_strength_score": 0.4917,
+    "usdkrw": 1424.8,
+    "kr_gov_2y_pct": 3.587,
+    "kr_gov_3y_pct": 3.742,
+    "kr_gov_10y_pct": 4.195,
+    "krw_strength_score": 0.5308,
     "krw_strength_grade": "강약",
-    "krw_absolute_level_score": 0.5079,
+    "krw_absolute_level_score": 0.5397,
     "krw_absolute_level_grade": "강약",
-    "krw_short_term_momentum_score": 0.4615,
+    "krw_short_term_momentum_score": 0.5144,
     "krw_short_term_momentum_grade": "강약",
-    "usdkrw_1y_percentile": 0.246
+    "usdkrw_1y_percentile": 0.2302
   },
   "forecast": {
     "horizon": "향후 1~3개월",
@@ -23,23 +23,23 @@
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.545
+        "probability": 0.542
       },
       "hike_25bp": {
         "rate_pct": 3.0,
-        "probability": 0.331
+        "probability": 0.335
       },
       "cut_25bp": {
         "rate_pct": 2.5,
-        "probability": 0.124
+        "probability": 0.123
       }
     },
-    "usdkrw_mid": 1407.4,
+    "usdkrw_mid": 1401.1,
     "usdkrw_range": [
-      1355.3,
-      1497.6
+      1344.8,
+      1490.7
     ],
-    "krw_strength_score": 0.4579,
+    "krw_strength_score": 0.492,
     "krw_strength_grade": "강약",
     "confidence": 0.74,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -51,11 +51,11 @@
     "rate_core_cpi_source_mode": "official_yoy",
     "rate_core_cpi_rows": 180,
     "rate_probability_backtest_samples": 66,
-    "rate_probability_brier_score": 0.5179,
+    "rate_probability_brier_score": 0.518,
     "rate_probability_benchmark_brier": 0.6333,
-    "rate_probability_brier_skill_score": 0.1822,
+    "rate_probability_brier_skill_score": 0.182,
     "rate_probability_accuracy": 0.5909,
-    "rate_probability_log_loss": 0.838,
+    "rate_probability_log_loss": 0.8382,
     "rate_probability_evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
     "rate_probability_calibration_weight": 0.659,
     "rate_industrial_valid": true,
@@ -63,22 +63,22 @@
     "us_kr_policy_gap_pctp": 0.88,
     "rate_industrial_3m_annualized": 0.05511,
     "fx_model_weights": [
-      0.2415,
-      0.2251,
-      0.2484,
-      0.2851
+      0.2403,
+      0.2247,
+      0.2491,
+      0.2858
     ],
     "fx_backtest_samples": 240,
-    "fx_backtest_rmse_pct": 4.635,
+    "fx_backtest_rmse_pct": 4.665,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.06763,
-    "fx_3m_change": -0.01558,
-    "fx_forecast_bias_pct": -0.01459,
-    "policy_market_gap_pctp": 0.795,
+    "fx_1m_change": -0.06668,
+    "fx_3m_change": -0.0281,
+    "fx_forecast_bias_pct": -0.01663,
+    "policy_market_gap_pctp": 0.837,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "3.7.0-secure-point-in-time-gated"
   },
-  "generated_at": "2026-08-05T17:04:35.179697+09:00"
+  "generated_at": "2026-08-06T17:02:10.632144+09:00"
 }

@@ -5,12 +5,12 @@
   "engine_scope": "korea_only_us_engine_read_only",
   "current": {
     "kr_base_rate_pct": 2.75,
-    "market_reference_rate_pct": 3.545,
-    "market_policy_gap_pctp": 0.795,
+    "market_reference_rate_pct": 3.587,
+    "market_policy_gap_pctp": 0.837,
     "core_cpi_yoy": 0.025,
     "industrial_3m_annualized": 0.05511,
-    "usdkrw_3m_change": -0.01558,
-    "us_3meeting_rate_change_pctp": 0.17,
+    "usdkrw_3m_change": -0.0281,
+    "us_3meeting_rate_change_pctp": 0.167,
     "us_path_filter": {
       "mode": "monthly_curve_stabilized",
       "accepted": 11,
@@ -21,9 +21,9 @@
   "regime": {
     "name": "inflation_defense",
     "scores": {
-      "inflation_defense": 1.2287,
+      "inflation_defense": 1.2581,
       "growth_support": 0.0,
-      "fx_defense": 0.34,
+      "fx_defense": 0.3333,
       "financial_stability": 0.35
     }
   },
@@ -31,11 +31,11 @@
     {
       "meeting_ahead": 1,
       "probabilities": {
-        "hold": 0.535,
-        "hike": 0.37,
+        "hold": 0.532,
+        "hike": 0.374,
         "cut": 0.095
       },
-      "expected_rate_pct": 2.819,
+      "expected_rate_pct": 2.82,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     },
@@ -43,10 +43,10 @@
       "meeting_ahead": 2,
       "probabilities": {
         "hold": 0.503,
-        "hike": 0.267,
+        "hike": 0.268,
         "cut": 0.229
       },
-      "expected_rate_pct": 2.828,
+      "expected_rate_pct": 2.829,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     },
@@ -57,19 +57,19 @@
         "hike": 0.257,
         "cut": 0.242
       },
-      "expected_rate_pct": 2.832,
+      "expected_rate_pct": 2.833,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     }
   ],
   "validation": {
     "samples": 66,
-    "brier_score": 0.5179,
+    "brier_score": 0.518,
     "benchmark_brier": 0.6333,
-    "brier_skill_score": 0.1822,
+    "brier_skill_score": 0.182,
     "accuracy": 0.5909,
     "accuracy_wilson_lower_95": 0.4705,
-    "log_loss": 0.838,
+    "log_loss": 0.8382,
     "class_frequency": {
       "hold": 0.5,
       "hike": 0.3485,
@@ -1192,11 +1192,11 @@
         "benchmark_brier": 0.428158
       },
       {
-        "origin": "20260805",
+        "origin": "20260806",
         "probabilities": {
-          "hold": 0.588049,
-          "hike": 0.299017,
-          "cut": 0.112935
+          "hold": 0.582849,
+          "hike": 0.305215,
+          "cut": 0.111936
         },
         "benchmark_probabilities": {
           "hold": 0.485294,
@@ -1205,7 +1205,7 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.271869,
+        "brier": 0.279701,
         "benchmark_brier": 0.415657
       }
     ],
@@ -1227,7 +1227,7 @@
       },
       "observed": {
         "samples": 66,
-        "brier_skill_score": 0.1822,
+        "brier_skill_score": 0.182,
         "accuracy": 0.5909,
         "accuracy_wilson_lower_95": 0.4705,
         "active_input_coverage": 1.0,
@@ -1266,5 +1266,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-05T17:04:35.179697+09:00"
+  "generated_at": "2026-08-06T17:02:10.632144+09:00"
 }
