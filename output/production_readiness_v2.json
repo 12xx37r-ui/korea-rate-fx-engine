@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1.0",
   "engine_version": "2.8.0-point-in-time-gated",
-  "generated_at": "2026-08-06T17:02:10.632144+09:00",
+  "generated_at": "2026-08-07T14:06:46.912076+09:00",
   "overall_level": "검증 중",
   "rate": {
     "level": "재구성 OOS 후보",
@@ -17,9 +17,7 @@
   "fx": {
     "primary_level": "연구 후보/관망",
     "primary_passed": false,
-    "passed_horizons": [
-      "6m"
-    ],
+    "passed_horizons": [],
     "horizon_levels": {
       "1m": {
         "passed": false,
@@ -39,9 +37,12 @@
         ]
       },
       "6m": {
-        "passed": true,
-        "level": "통계검증 통과",
-        "reasons": []
+        "passed": false,
+        "level": "참고용/관망",
+        "reasons": [
+          "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+          "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+        ]
       },
       "12m": {
         "passed": false,
@@ -53,7 +54,7 @@
         ]
       }
     },
-    "signal_active": false,
+    "signal_active": true,
     "display_rule": "기간별 게이트와 현재 신호 활성 여부를 분리 표시"
   },
   "source_health": {

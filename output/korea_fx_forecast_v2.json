@@ -2,129 +2,129 @@
   "schema_version": "2.0.0",
   "status": "ok",
   "engine_scope": "korea_fx_v2",
-  "current_usdkrw": 1424.8,
-  "legacy_3m_center": 1401.1,
+  "current_usdkrw": 1418.8,
+  "legacy_3m_center": 1396.1,
   "legacy_3m_range": [
-    1344.8,
-    1490.7
+    1341.1,
+    1485.4
   ],
   "forecast_path": [
     {
       "months": 1,
-      "mid": 1424.8,
+      "mid": 1424.9,
       "range_80": [
-        1381.9,
-        1467.7
+        1381.6,
+        1468.2
       ],
-      "production_model": "random_walk_abstention",
-      "signal_active": false,
-      "signal_60d": -0.0281,
-      "forecast_drift": 0.0
+      "production_model": "selective_60d_contrarian_shrunk",
+      "signal_active": true,
+      "signal_60d": -0.0368,
+      "forecast_drift": 0.00429
     },
     {
       "months": 3,
-      "mid": 1424.8,
+      "mid": 1437.1,
       "range_80": [
-        1351.3,
-        1498.3
+        1362.5,
+        1511.7
       ],
-      "production_model": "random_walk_abstention",
-      "signal_active": false,
-      "signal_60d": -0.0281,
-      "forecast_drift": 0.0
+      "production_model": "selective_60d_contrarian_shrunk",
+      "signal_active": true,
+      "signal_60d": -0.0368,
+      "forecast_drift": 0.01288
     },
     {
       "months": 6,
-      "mid": 1424.8,
+      "mid": 1437.1,
       "range_80": [
-        1333.8,
-        1515.8
+        1345.1,
+        1529.0
       ],
-      "production_model": "random_walk_abstention",
-      "signal_active": false,
-      "signal_60d": -0.0281,
-      "forecast_drift": 0.0
+      "production_model": "selective_60d_contrarian_shrunk",
+      "signal_active": true,
+      "signal_60d": -0.0368,
+      "forecast_drift": 0.01288
     },
     {
       "months": 12,
-      "mid": 1424.8,
+      "mid": 1437.1,
       "range_80": [
-        1304.1,
-        1545.5
+        1315.6,
+        1558.5
       ],
-      "production_model": "random_walk_abstention",
-      "signal_active": false,
-      "signal_60d": -0.0281,
-      "forecast_drift": 0.0
+      "production_model": "selective_60d_contrarian_shrunk",
+      "signal_active": true,
+      "signal_60d": -0.0368,
+      "forecast_drift": 0.01288
     }
   ],
   "production_model": "selective_60d_contrarian_shrunk",
   "active_model_blocked": false,
   "validation": {
     "samples": 611,
-    "rmse_pct": 3.896,
-    "mae_pct": 3.133,
-    "active_direction_accuracy": 0.5303,
-    "all_origin_direction_accuracy": 0.252,
-    "persistence_skill_pct": 3.251,
-    "active_signal_coverage": 0.4321,
-    "interval_80_coverage": 0.7791,
+    "rmse_pct": 3.936,
+    "mae_pct": 3.174,
+    "active_direction_accuracy": 0.5301,
+    "all_origin_direction_accuracy": 0.2537,
+    "persistence_skill_pct": 2.82,
+    "active_signal_coverage": 0.4354,
+    "interval_80_coverage": 0.7807,
     "horizon_specific_oos": true,
     "oos_by_horizon": {
       "1m": {
         "samples": 619,
-        "rmse_pct": 2.339,
-        "mae_pct": 1.836,
-        "random_walk_rmse_pct": 2.349,
-        "persistence_skill_pct": 0.409,
-        "direction_accuracy": 0.2569,
-        "active_direction_accuracy": 0.4607,
-        "active_direction_wilson_lower_95": 0.4019,
-        "active_signal_samples": 267,
-        "active_signal_coverage": 0.4313,
-        "interval_80_coverage": 0.7851,
+        "rmse_pct": 2.353,
+        "mae_pct": 1.842,
+        "random_walk_rmse_pct": 2.37,
+        "persistence_skill_pct": 0.732,
+        "direction_accuracy": 0.273,
+        "active_direction_accuracy": 0.4815,
+        "active_direction_wilson_lower_95": 0.4226,
+        "active_signal_samples": 270,
+        "active_signal_coverage": 0.4362,
+        "interval_80_coverage": 0.7884,
         "model": "selective_60d_contrarian_shrunk"
       },
       "3m": {
         "samples": 611,
-        "rmse_pct": 3.896,
-        "mae_pct": 3.133,
-        "random_walk_rmse_pct": 4.027,
-        "persistence_skill_pct": 3.251,
-        "direction_accuracy": 0.252,
-        "active_direction_accuracy": 0.5303,
+        "rmse_pct": 3.936,
+        "mae_pct": 3.174,
+        "random_walk_rmse_pct": 4.051,
+        "persistence_skill_pct": 2.82,
+        "direction_accuracy": 0.2537,
+        "active_direction_accuracy": 0.5301,
         "active_direction_wilson_lower_95": 0.4701,
-        "active_signal_samples": 264,
-        "active_signal_coverage": 0.4321,
-        "interval_80_coverage": 0.7791,
+        "active_signal_samples": 266,
+        "active_signal_coverage": 0.4354,
+        "interval_80_coverage": 0.7807,
         "model": "selective_60d_contrarian_shrunk"
       },
       "6m": {
         "samples": 598,
-        "rmse_pct": 4.842,
-        "mae_pct": 4.024,
-        "random_walk_rmse_pct": 4.983,
-        "persistence_skill_pct": 2.822,
-        "direction_accuracy": 0.2742,
-        "active_direction_accuracy": 0.5824,
-        "active_direction_wilson_lower_95": 0.5218,
-        "active_signal_samples": 261,
-        "active_signal_coverage": 0.4365,
+        "rmse_pct": 4.856,
+        "mae_pct": 4.055,
+        "random_walk_rmse_pct": 4.994,
+        "persistence_skill_pct": 2.769,
+        "direction_accuracy": 0.2508,
+        "active_direction_accuracy": 0.5492,
+        "active_direction_wilson_lower_95": 0.4889,
+        "active_signal_samples": 264,
+        "active_signal_coverage": 0.4415,
         "interval_80_coverage": 0.791,
         "model": "selective_60d_contrarian_shrunk"
       },
       "12m": {
         "samples": 548,
-        "rmse_pct": 6.535,
-        "mae_pct": 5.412,
-        "random_walk_rmse_pct": 6.61,
-        "persistence_skill_pct": 1.129,
-        "direction_accuracy": 0.2427,
-        "active_direction_accuracy": 0.5274,
-        "active_direction_wilson_lower_95": 0.4639,
-        "active_signal_samples": 237,
-        "active_signal_coverage": 0.4325,
-        "interval_80_coverage": 0.8084,
+        "rmse_pct": 6.523,
+        "mae_pct": 5.369,
+        "random_walk_rmse_pct": 6.593,
+        "persistence_skill_pct": 1.056,
+        "direction_accuracy": 0.2555,
+        "active_direction_accuracy": 0.5314,
+        "active_direction_wilson_lower_95": 0.4681,
+        "active_signal_samples": 239,
+        "active_signal_coverage": 0.4361,
+        "interval_80_coverage": 0.8139,
         "model": "selective_60d_contrarian_shrunk"
       }
     },
@@ -141,17 +141,15 @@
       "candidate": true,
       "level": "연구 후보/관망",
       "primary_horizon": "3m",
-      "passed_horizons": [
-        "6m"
-      ],
+      "passed_horizons": [],
       "observed": {
         "samples": 611,
-        "rmse_pct": 3.896,
-        "active_direction_accuracy": 0.5303,
-        "all_origin_direction_accuracy": 0.252,
-        "persistence_skill_pct": 3.251,
-        "active_signal_coverage": 0.4321,
-        "interval_80_coverage": 0.7791,
+        "rmse_pct": 3.936,
+        "active_direction_accuracy": 0.5301,
+        "all_origin_direction_accuracy": 0.2537,
+        "persistence_skill_pct": 2.82,
+        "active_signal_coverage": 0.4354,
+        "interval_80_coverage": 0.7807,
         "horizon_specific_oos": true
       },
       "requirements": {
@@ -165,13 +163,13 @@
           "level": "참고용/관망",
           "observed": {
             "samples": 619,
-            "rmse_pct": 2.339,
-            "active_direction_accuracy": 0.4607,
-            "active_direction_wilson_lower_95": 0.4019,
-            "all_origin_direction_accuracy": 0.2569,
-            "persistence_skill_pct": 0.409,
-            "active_signal_coverage": 0.4313,
-            "interval_80_coverage": 0.7851
+            "rmse_pct": 2.353,
+            "active_direction_accuracy": 0.4815,
+            "active_direction_wilson_lower_95": 0.4226,
+            "all_origin_direction_accuracy": 0.273,
+            "persistence_skill_pct": 0.732,
+            "active_signal_coverage": 0.4362,
+            "interval_80_coverage": 0.7884
           },
           "requirements": {
             "samples_min": 180,
@@ -196,13 +194,13 @@
           "level": "참고용/관망",
           "observed": {
             "samples": 611,
-            "rmse_pct": 3.896,
-            "active_direction_accuracy": 0.5303,
+            "rmse_pct": 3.936,
+            "active_direction_accuracy": 0.5301,
             "active_direction_wilson_lower_95": 0.4701,
-            "all_origin_direction_accuracy": 0.252,
-            "persistence_skill_pct": 3.251,
-            "active_signal_coverage": 0.4321,
-            "interval_80_coverage": 0.7791
+            "all_origin_direction_accuracy": 0.2537,
+            "persistence_skill_pct": 2.82,
+            "active_signal_coverage": 0.4354,
+            "interval_80_coverage": 0.7807
           },
           "requirements": {
             "samples_min": 180,
@@ -222,16 +220,16 @@
           ]
         },
         "6m": {
-          "passed": true,
-          "level": "통계검증 통과",
+          "passed": false,
+          "level": "참고용/관망",
           "observed": {
             "samples": 598,
-            "rmse_pct": 4.842,
-            "active_direction_accuracy": 0.5824,
-            "active_direction_wilson_lower_95": 0.5218,
-            "all_origin_direction_accuracy": 0.2742,
-            "persistence_skill_pct": 2.822,
-            "active_signal_coverage": 0.4365,
+            "rmse_pct": 4.856,
+            "active_direction_accuracy": 0.5492,
+            "active_direction_wilson_lower_95": 0.4889,
+            "all_origin_direction_accuracy": 0.2508,
+            "persistence_skill_pct": 2.769,
+            "active_signal_coverage": 0.4415,
             "interval_80_coverage": 0.791
           },
           "requirements": {
@@ -246,20 +244,23 @@
               0.88
             ]
           },
-          "reasons": []
+          "reasons": [
+            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+          ]
         },
         "12m": {
           "passed": false,
           "level": "참고용/관망",
           "observed": {
             "samples": 548,
-            "rmse_pct": 6.535,
-            "active_direction_accuracy": 0.5274,
-            "active_direction_wilson_lower_95": 0.4639,
-            "all_origin_direction_accuracy": 0.2427,
-            "persistence_skill_pct": 1.129,
-            "active_signal_coverage": 0.4325,
-            "interval_80_coverage": 0.8084
+            "rmse_pct": 6.523,
+            "active_direction_accuracy": 0.5314,
+            "active_direction_wilson_lower_95": 0.4681,
+            "all_origin_direction_accuracy": 0.2555,
+            "persistence_skill_pct": 1.056,
+            "active_signal_coverage": 0.4361,
+            "interval_80_coverage": 0.8139
           },
           "requirements": {
             "samples_min": 150,
@@ -291,7 +292,7 @@
     "scores": {
       "inflation_defense": 1.2581,
       "growth_support": 0.0,
-      "fx_defense": 0.3333,
+      "fx_defense": 0.35,
       "financial_stability": 0.35
     }
   },
@@ -301,5 +302,5 @@
     "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
     "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
   ],
-  "generated_at": "2026-08-06T17:02:10.632144+09:00"
+  "generated_at": "2026-08-07T14:06:46.912076+09:00"
 }
