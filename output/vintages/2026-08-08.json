@@ -1,0 +1,460 @@
+{
+  "schema_version": "2.2.0",
+  "captured_at": "2026-08-08T08:58:37.306072+09:00",
+  "rate_forecast": {
+    "schema_version": "2.0.0",
+    "engine_version": "2.7.0-objective-validation-final",
+    "status": "ok",
+    "engine_scope": "korea_only_us_engine_read_only",
+    "current": {
+      "kr_base_rate_pct": 2.75,
+      "market_reference_rate_pct": 3.573,
+      "market_policy_gap_pctp": 0.823,
+      "core_cpi_yoy": null,
+      "industrial_3m_annualized": null,
+      "usdkrw_3m_change": -0.0368,
+      "us_3meeting_rate_change_pctp": 0.14,
+      "us_path_filter": {
+        "mode": "monthly_curve_stabilized",
+        "accepted": 11,
+        "rejected": 0,
+        "warnings": []
+      }
+    },
+    "regime": {
+      "name": "inflation_defense",
+      "scores": {
+        "inflation_defense": 0.5761,
+        "growth_support": 0.0,
+        "fx_defense": 0.28,
+        "financial_stability": 0.35
+      }
+    },
+    "meeting_path": [
+      {
+        "meeting_ahead": 1,
+        "probabilities": {
+          "hold": 0.798,
+          "hike": 0.148,
+          "cut": 0.054
+        },
+        "expected_rate_pct": 2.773,
+        "most_likely_action": "hold",
+        "probability_type": "model_estimate"
+      },
+      {
+        "meeting_ahead": 2,
+        "probabilities": {
+          "hold": 0.539,
+          "hike": 0.238,
+          "cut": 0.223
+        },
+        "expected_rate_pct": 2.777,
+        "most_likely_action": "hold",
+        "probability_type": "model_estimate"
+      },
+      {
+        "meeting_ahead": 3,
+        "probabilities": {
+          "hold": 0.506,
+          "hike": 0.253,
+          "cut": 0.241
+        },
+        "expected_rate_pct": 2.78,
+        "most_likely_action": "hold",
+        "probability_type": "model_estimate"
+      }
+    ],
+    "validation": {
+      "samples": 0,
+      "brier_score": null,
+      "benchmark_brier": null,
+      "brier_skill_score": null,
+      "accuracy": null,
+      "accuracy_wilson_lower_95": null,
+      "log_loss": null,
+      "class_frequency": {
+        "hold": 1.0,
+        "hike": 0.0,
+        "cut": 0.0
+      },
+      "walk_forward_backtest": false,
+      "calibration_weight": 0.55,
+      "quality_gate": {
+        "passed": false,
+        "candidate": false,
+        "level": "자료부족",
+        "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
+        "requirements": {
+          "samples_min": 80,
+          "brier_skill_score_min": 0.1,
+          "accuracy_min": 0.55,
+          "accuracy_wilson_lower_95_min_exclusive": 0.5,
+          "active_input_coverage_min": 0.95,
+          "release_lag_backtest_required": true,
+          "walk_forward_backtest_required": true,
+          "real_time_vintage_required": true
+        },
+        "observed": {
+          "samples": 0,
+          "brier_skill_score": null,
+          "accuracy": null,
+          "accuracy_wilson_lower_95": null,
+          "active_input_coverage": 0.6,
+          "release_lag_backtest": false,
+          "walk_forward_backtest": false,
+          "real_time_vintage": false
+        },
+        "reasons": [
+          "검증 표본이 80개 미만입니다.",
+          "Brier skill이 10% 기준에 미달합니다.",
+          "방향 정확도가 55% 기준에 미달합니다.",
+          "방향 정확도 95% 하한이 50%를 넘지 못했습니다.",
+          "실제 사용 입력축 완전성이 95% 미만입니다.",
+          "발표시차 반영 백테스트가 없습니다.",
+          "순차 walk-forward 백테스트가 없습니다.",
+          "실시간 원본 빈티지 검증이 아직 없습니다."
+        ],
+        "limitations": [
+          "실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"
+        ]
+      },
+      "data_coverage_axes": {
+        "ecos_rates_fx": 0.35,
+        "kosis_macro": 0.0,
+        "us_policy": 0.25,
+        "validation_integrity": 0.0
+      },
+      "optional_enhancement_sources": {
+        "krx_market": "not_configured",
+        "reb_financial_stability": "not_configured",
+        "used_in_fixed_rate_model": false
+      },
+      "core_cpi": {
+        "source_mode": "unavailable",
+        "valid": false,
+        "rows": 0
+      }
+    },
+    "limitations": [
+      "금통위별 직접 선물가격이 없어 확률은 모형 추정치입니다.",
+      "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
+      "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
+    ],
+    "generated_at": "2026-08-08T08:58:37.306072+09:00"
+  },
+  "fx_forecast": {
+    "schema_version": "2.0.0",
+    "status": "ok",
+    "engine_scope": "korea_fx_v2",
+    "current_usdkrw": 1418.8,
+    "legacy_3m_center": 1395.5,
+    "legacy_3m_range": [
+      1340.5,
+      1484.7
+    ],
+    "forecast_path": [
+      {
+        "months": 1,
+        "mid": 1424.9,
+        "range_80": [
+          1381.6,
+          1468.2
+        ],
+        "production_model": "selective_60d_contrarian_shrunk",
+        "signal_active": true,
+        "signal_60d": -0.0368,
+        "forecast_drift": 0.00429
+      },
+      {
+        "months": 3,
+        "mid": 1437.1,
+        "range_80": [
+          1362.5,
+          1511.7
+        ],
+        "production_model": "selective_60d_contrarian_shrunk",
+        "signal_active": true,
+        "signal_60d": -0.0368,
+        "forecast_drift": 0.01288
+      },
+      {
+        "months": 6,
+        "mid": 1437.1,
+        "range_80": [
+          1345.1,
+          1529.0
+        ],
+        "production_model": "selective_60d_contrarian_shrunk",
+        "signal_active": true,
+        "signal_60d": -0.0368,
+        "forecast_drift": 0.01288
+      },
+      {
+        "months": 12,
+        "mid": 1437.1,
+        "range_80": [
+          1315.6,
+          1558.5
+        ],
+        "production_model": "selective_60d_contrarian_shrunk",
+        "signal_active": true,
+        "signal_60d": -0.0368,
+        "forecast_drift": 0.01288
+      }
+    ],
+    "production_model": "selective_60d_contrarian_shrunk",
+    "active_model_blocked": false,
+    "validation": {
+      "samples": 611,
+      "rmse_pct": 3.936,
+      "mae_pct": 3.174,
+      "active_direction_accuracy": 0.5301,
+      "all_origin_direction_accuracy": 0.2537,
+      "persistence_skill_pct": 2.82,
+      "active_signal_coverage": 0.4354,
+      "interval_80_coverage": 0.7807,
+      "horizon_specific_oos": true,
+      "oos_by_horizon": {
+        "1m": {
+          "samples": 619,
+          "rmse_pct": 2.353,
+          "mae_pct": 1.842,
+          "random_walk_rmse_pct": 2.37,
+          "persistence_skill_pct": 0.732,
+          "direction_accuracy": 0.273,
+          "active_direction_accuracy": 0.4815,
+          "active_direction_wilson_lower_95": 0.4226,
+          "active_signal_samples": 270,
+          "active_signal_coverage": 0.4362,
+          "interval_80_coverage": 0.7884,
+          "model": "selective_60d_contrarian_shrunk"
+        },
+        "3m": {
+          "samples": 611,
+          "rmse_pct": 3.936,
+          "mae_pct": 3.174,
+          "random_walk_rmse_pct": 4.051,
+          "persistence_skill_pct": 2.82,
+          "direction_accuracy": 0.2537,
+          "active_direction_accuracy": 0.5301,
+          "active_direction_wilson_lower_95": 0.4701,
+          "active_signal_samples": 266,
+          "active_signal_coverage": 0.4354,
+          "interval_80_coverage": 0.7807,
+          "model": "selective_60d_contrarian_shrunk"
+        },
+        "6m": {
+          "samples": 598,
+          "rmse_pct": 4.856,
+          "mae_pct": 4.055,
+          "random_walk_rmse_pct": 4.994,
+          "persistence_skill_pct": 2.769,
+          "direction_accuracy": 0.2508,
+          "active_direction_accuracy": 0.5492,
+          "active_direction_wilson_lower_95": 0.4889,
+          "active_signal_samples": 264,
+          "active_signal_coverage": 0.4415,
+          "interval_80_coverage": 0.791,
+          "model": "selective_60d_contrarian_shrunk"
+        },
+        "12m": {
+          "samples": 548,
+          "rmse_pct": 6.523,
+          "mae_pct": 5.369,
+          "random_walk_rmse_pct": 6.593,
+          "persistence_skill_pct": 1.056,
+          "direction_accuracy": 0.2555,
+          "active_direction_accuracy": 0.5314,
+          "active_direction_wilson_lower_95": 0.4681,
+          "active_signal_samples": 239,
+          "active_signal_coverage": 0.4361,
+          "interval_80_coverage": 0.8139,
+          "model": "selective_60d_contrarian_shrunk"
+        }
+      },
+      "validation_method": "expanding_walk_forward_weekly_origins_selective_fixed_spec",
+      "model_specification": {
+        "signal_lookback_observations": 60,
+        "activation_threshold_abs_return": 0.03,
+        "contrarian_shrinkage": 0.35,
+        "max_abs_drift": 0.06,
+        "abstention_model": "random_walk_no_change"
+      },
+      "quality_gate": {
+        "passed": false,
+        "candidate": true,
+        "level": "연구 후보/관망",
+        "primary_horizon": "3m",
+        "passed_horizons": [],
+        "observed": {
+          "samples": 611,
+          "rmse_pct": 3.936,
+          "active_direction_accuracy": 0.5301,
+          "all_origin_direction_accuracy": 0.2537,
+          "persistence_skill_pct": 2.82,
+          "active_signal_coverage": 0.4354,
+          "interval_80_coverage": 0.7807,
+          "horizon_specific_oos": true
+        },
+        "requirements": {
+          "primary_horizon": "3m",
+          "horizon_specific_oos_required": true,
+          "see_horizon_quality_gates": true
+        },
+        "horizon_quality_gates": {
+          "1m": {
+            "passed": false,
+            "level": "참고용/관망",
+            "observed": {
+              "samples": 619,
+              "rmse_pct": 2.353,
+              "active_direction_accuracy": 0.4815,
+              "active_direction_wilson_lower_95": 0.4226,
+              "all_origin_direction_accuracy": 0.273,
+              "persistence_skill_pct": 0.732,
+              "active_signal_coverage": 0.4362,
+              "interval_80_coverage": 0.7884
+            },
+            "requirements": {
+              "samples_min": 180,
+              "rmse_pct_max": 3.0,
+              "active_direction_accuracy_min": 0.55,
+              "active_direction_wilson_lower_95_min": 0.5,
+              "persistence_skill_pct_min": 2.0,
+              "active_signal_coverage_min": 0.3,
+              "interval_80_coverage_range": [
+                0.72,
+                0.88
+              ]
+            },
+            "reasons": [
+              "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+              "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+              "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
+            ]
+          },
+          "3m": {
+            "passed": false,
+            "level": "참고용/관망",
+            "observed": {
+              "samples": 611,
+              "rmse_pct": 3.936,
+              "active_direction_accuracy": 0.5301,
+              "active_direction_wilson_lower_95": 0.4701,
+              "all_origin_direction_accuracy": 0.2537,
+              "persistence_skill_pct": 2.82,
+              "active_signal_coverage": 0.4354,
+              "interval_80_coverage": 0.7807
+            },
+            "requirements": {
+              "samples_min": 180,
+              "rmse_pct_max": 5.5,
+              "active_direction_accuracy_min": 0.55,
+              "active_direction_wilson_lower_95_min": 0.5,
+              "persistence_skill_pct_min": 2.0,
+              "active_signal_coverage_min": 0.3,
+              "interval_80_coverage_range": [
+                0.72,
+                0.88
+              ]
+            },
+            "reasons": [
+              "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+              "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+            ]
+          },
+          "6m": {
+            "passed": false,
+            "level": "참고용/관망",
+            "observed": {
+              "samples": 598,
+              "rmse_pct": 4.856,
+              "active_direction_accuracy": 0.5492,
+              "active_direction_wilson_lower_95": 0.4889,
+              "all_origin_direction_accuracy": 0.2508,
+              "persistence_skill_pct": 2.769,
+              "active_signal_coverage": 0.4415,
+              "interval_80_coverage": 0.791
+            },
+            "requirements": {
+              "samples_min": 180,
+              "rmse_pct_max": 7.0,
+              "active_direction_accuracy_min": 0.55,
+              "active_direction_wilson_lower_95_min": 0.5,
+              "persistence_skill_pct_min": 2.0,
+              "active_signal_coverage_min": 0.3,
+              "interval_80_coverage_range": [
+                0.72,
+                0.88
+              ]
+            },
+            "reasons": [
+              "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+              "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+            ]
+          },
+          "12m": {
+            "passed": false,
+            "level": "참고용/관망",
+            "observed": {
+              "samples": 548,
+              "rmse_pct": 6.523,
+              "active_direction_accuracy": 0.5314,
+              "active_direction_wilson_lower_95": 0.4681,
+              "all_origin_direction_accuracy": 0.2555,
+              "persistence_skill_pct": 1.056,
+              "active_signal_coverage": 0.4361,
+              "interval_80_coverage": 0.8139
+            },
+            "requirements": {
+              "samples_min": 150,
+              "rmse_pct_max": 8.5,
+              "active_direction_accuracy_min": 0.55,
+              "active_direction_wilson_lower_95_min": 0.5,
+              "persistence_skill_pct_min": 3.0,
+              "active_signal_coverage_min": 0.3,
+              "interval_80_coverage_range": [
+                0.72,
+                0.88
+              ]
+            },
+            "reasons": [
+              "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+              "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
+              "랜덤워크 대비 skill이 3.0% 기준을 넘지 못했습니다."
+            ]
+          }
+        },
+        "reasons": [
+          "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
+          "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+        ]
+      }
+    },
+    "rate_regime_link": {
+      "name": "inflation_defense",
+      "scores": {
+        "inflation_defense": 0.5761,
+        "growth_support": 0.0,
+        "fx_defense": 0.28,
+        "financial_stability": 0.35
+      }
+    },
+    "limitations": [
+      "1·3·6·12개월 OOS를 각각 검증하며, 기간별 품질 게이트 결과를 따로 표시합니다.",
+      "12개월 OOS는 수행됐지만 랜덤워크 대비 개선폭이 2% 이하이면 참고용으로 제한합니다.",
+      "활성 모형이 랜덤워크보다 못하면 실전 출력은 자동으로 랜덤워크 중심값으로 후퇴합니다.",
+      "신호가 약한 시점에는 예측을 강제하지 않고 현재 환율 중심값을 유지합니다."
+    ],
+    "generated_at": "2026-08-08T08:58:37.306072+09:00"
+  },
+  "source_status": {
+    "us_policy_engine": "ok",
+    "ecos": "ok",
+    "krx": "not_configured",
+    "kosis": "credential_error",
+    "reb": "not_configured"
+  },
+  "us_engine_modified": false
+}

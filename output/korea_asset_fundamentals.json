@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-07T05:08:25.434550+00:00",
+  "generated_at_utc": "2026-08-08T00:02:48.177184+00:00",
   "indices": {
     "kospi200": {
       "per": 16.67,
@@ -20,14 +20,19 @@
       "as_of": "2026-08-06",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "pykrx_authenticated",
+      "source_method": "last_good_reuse",
       "proxy_symbols": [],
-      "stale": false,
+      "stale": true,
       "diagnostics": [
         "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260807:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260806:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300"
+        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300",
+        "kospi200:live_failed_last_good_reused"
+      ],
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
       ]
     },
     "kosdaq150": {
@@ -47,40 +52,44 @@
       "as_of": "2026-08-06",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "pykrx_authenticated",
+      "source_method": "last_good_reuse",
       "proxy_symbols": [],
-      "stale": false,
+      "stale": true,
       "diagnostics": [
         "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260807:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260806:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250"
+        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250",
+        "kosdaq150:live_failed_last_good_reused"
+      ],
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
       ]
     }
   },
   "reit": {
     "ticker": "329200",
-    "current_price": 4050.0,
-    "distribution_yield": null,
-    "trailing_12m_distribution": null,
+    "current_price": 4055.0,
+    "distribution_yield": 9.7657,
+    "trailing_12m_distribution": 396.0,
     "distribution_count_12m": 0,
     "latest_distribution": null,
     "distribution_history_12m": [],
-    "yield_method": "unavailable",
-    "as_of": "2026-08-07",
-    "source": null,
-    "source_url": "https://finance.naver.com/item/main.naver?code=329200",
-    "source_method": null,
+    "yield_method": "public_snapshot_dps/current_price_cross_checked",
+    "as_of": "2026-08-08",
+    "source": "Investing.com 공개 ETF 지표",
+    "source_url": "https://kr.investing.com/etfs/mirae-asset-tiger-reit-infra-hidiv",
+    "source_method": "investing_public_reit_snapshot",
     "official_history_available": false,
     "naver_fallback_attempted": true,
     "public_fallback_attempted": true,
-    "available": false,
+    "available": true,
     "stale": false,
     "diagnostics": [
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://www.tigeretf.com/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
-      "public_reit_snapshot:HTTPError:403 Client Error: Forbidden for url: https://kr.investing.com/etfs/mirae-asset-tiger-reit-infra-hidiv",
-      "public_reit_snapshot_empty:https://www.therich.io/stock?country=KR&ticker=329200"
+      "official_and_naver_unavailable_public_snapshot_used"
     ]
   },
   "source_status": {
@@ -90,7 +99,7 @@
     "mirae_official_reit_history_attempted": true,
     "naver_reit_snapshot_fallback_attempted": true,
     "public_reit_snapshot_fallback_attempted": true,
-    "used_previous_results": false,
+    "used_previous_results": true,
     "paid_api_required": false
   },
   "limitations": [
@@ -102,9 +111,8 @@
   ],
   "warnings": [
     "kospi200: forward consensus unavailable",
-    "kosdaq150: forward consensus unavailable"
+    "kosdaq150: forward consensus unavailable",
+    "reit: official distribution history unavailable; NAVER snapshot fallback used"
   ],
-  "errors": [
-    "reit: distribution_yield unavailable"
-  ]
+  "errors": []
 }
