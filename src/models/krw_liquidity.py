@@ -12,7 +12,7 @@ from statistics import mean
 from typing import Any
 
 
-MODEL_VERSION = "1.0.0-continuous-liquidity"
+MODEL_VERSION = "1.1.0-continuous-liquidity-quality-semantics"
 
 
 def _float(value: Any) -> float | None:
@@ -174,9 +174,15 @@ def build_krw_liquidity_forecast(ecos: dict[str, Any], rate_v2: dict[str, Any] |
         },
         "forecast_path": forecast_path,
         "quality": {
+            # This is an input/data-quality score, not a 99% forecast probability and
+            # not an independent OOS accuracy score.  Keep the legacy field for
+            # compatibility, but expose the semantics explicitly for the dashboard.
             "model_quality_score": quality_score,
+            "input_data_quality_score": quality_score,
+            "quality_score_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
+            "separate_oos_validated": False,
             "active_factor_count": active_count,
             "monetary_aggregate_available": current_m2_yoy is not None,
-            "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다.",
+            "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다. 품질점수는 입력자료 품질이며 예측정확도 확률이 아닙니다.",
         },
     }

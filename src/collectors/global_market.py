@@ -12,9 +12,10 @@ import requests
 from src.core.io import read_json, write_json
 from src.core.result import SourceResult
 
-# FRED inputs are optional macro factors for the Korea FX model.  They must never
-# block the engine.  All FRED series are requested in ONE CSV batch so a FRED outage
-# cannot create 11 sequential timeouts.
+# Public global factors are optional inputs for the Korea FX/strength models.  The
+# whole FRED panel is fetched in ONE CSV request; a FRED outage must never fan out
+# into per-series retries.  KRW NEER/REER are added to the same batch, so no extra
+# external call is needed for the independent KRW-strength forecast.
 FRED = {
     "broad_dollar": "DTWEXBGS",
     "us_2y": "DGS2",
@@ -27,12 +28,17 @@ FRED = {
     "usd_cny": "DEXCHUS",
     "usd_jpy": "DEXJPUS",
     "usd_krw_fred": "DEXKOUS",
+    "krw_neer": "NBKRBIS",
+    "krw_reer": "RBKRBIS",
 }
 
 CONNECT_TIMEOUT_SECONDS = 3
-READ_TIMEOUT_SECONDS = 8
-FRED_BATCH_START = "2018-01-01"
-OVERLAP_DAYS = 45
+READ_TIMEOUT_SECONDS = 12
+# First successful bootstrap only needs enough history to validate the optional
+# macro candidate.  Re-downloading from 2018 every run caused runner timeouts.
+FRED_BOOTSTRAP_DAYS = 900
+OVERLAP_DAYS = 120
+HARD_FLOOR = "2018-01-01"
 
 
 def _safe_previous(path: Path) -> dict[str, Any]:
@@ -67,37 +73,43 @@ def _merge_rows(previous: list[dict[str, Any]] | None, fresh: list[dict[str, Any
     return [merged[key] for key in sorted(merged)]
 
 
-def _fred_batch_start(previous: dict[str, Any]) -> str:
-    """Fetch only an overlap window after the first successful bootstrap.
+def _bootstrap_start() -> datetime:
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    floor = datetime.strptime(HARD_FLOOR, "%Y-%m-%d")
+    return max(floor, now - timedelta(days=FRED_BOOTSTRAP_DAYS))
 
-    The slowest-release series (for example monthly PPI) determines the overlap start,
-    so revisions are still captured without downloading years of history every run.
+
+def _fred_batch_start(previous: dict[str, Any]) -> tuple[str, str]:
+    """Return (start_date, mode).
+
+    * If any FRED series has never been bootstrapped, request only the recent
+      bootstrap window, not 8+ years.
+    * Once all series exist, request a small overlap window so revisions are kept.
     """
     latest_dates: list[datetime] = []
+    missing = False
     for key in FRED:
         rows = previous.get(key)
         if not isinstance(rows, list) or not rows:
-            return FRED_BATCH_START
+            missing = True
+            continue
         date_text = _date_text(rows[-1])
         try:
             latest_dates.append(datetime.strptime(date_text, "%Y%m%d"))
         except (TypeError, ValueError):
-            return FRED_BATCH_START
-    if not latest_dates:
-        return FRED_BATCH_START
+            missing = True
+
+    floor = datetime.strptime(HARD_FLOOR, "%Y-%m-%d")
+    if missing or len(latest_dates) != len(FRED):
+        return _bootstrap_start().strftime("%Y-%m-%d"), "bootstrap_recent"
     start = min(latest_dates) - timedelta(days=OVERLAP_DAYS)
-    floor = datetime.strptime(FRED_BATCH_START, "%Y-%m-%d")
     if start < floor:
         start = floor
-    return start.strftime("%Y-%m-%d")
+    return start.strftime("%Y-%m-%d"), "incremental"
 
 
 def _fred_batch(session: requests.Session, start_date: str) -> dict[str, list[dict[str, Any]]]:
-    """Download all FRED series in a single fredgraph CSV request.
-
-    FRED graph CSVs currently use ``observation_date`` as their date header.  ``DATE``
-    is also accepted for backward compatibility.
-    """
+    """Download all FRED series in a single fredgraph CSV request."""
     url = "https://fred.stlouisfed.org/graph/fredgraph.csv"
     series_ids = list(FRED.values())
     response = session.get(
@@ -109,9 +121,6 @@ def _fred_batch(session: requests.Session, start_date: str) -> dict[str, list[di
 
     reader = csv.DictReader(io.StringIO(response.text))
     fieldnames = set(reader.fieldnames or [])
-    # A valid multi-series file must contain a date column and at least one requested
-    # series.  If FRED changes the format, fail once and keep last-good rather than
-    # falling back to 11 expensive requests.
     if not ({"observation_date", "DATE", "date"} & fieldnames):
         raise ValueError(f"FRED CSV date column missing: {sorted(fieldnames)[:8]}")
     present_ids = [series_id for series_id in series_ids if series_id in fieldnames]
@@ -133,12 +142,7 @@ def _fred_batch(session: requests.Session, start_date: str) -> dict[str, list[di
             except (TypeError, ValueError):
                 continue
             by_id[series_id].append(
-                {
-                    "date": date,
-                    "value": numeric,
-                    "source": "FRED",
-                    "series_id": series_id,
-                }
+                {"date": date, "value": numeric, "source": "FRED", "series_id": series_id}
             )
 
     return {key: by_id.get(series_id, []) for key, series_id in FRED.items()}
@@ -175,8 +179,8 @@ def _yahoo_usdkrw(session: requests.Session) -> list[dict[str, Any]]:
 
 
 def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
-    # This collector intentionally ignores the global retry settings: macro factors are
-    # optional and should never spend minutes retrying the same unavailable host.
+    # Optional factors intentionally ignore global retry settings.  Maximum external
+    # calls: one FRED batch + one Yahoo spot request.
     del timeout, retries
 
     path = output_dir / "raw_global_market.json"
@@ -188,18 +192,17 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     request_count = 0
 
     session = requests.Session()
-    session.headers.update({"User-Agent": "korea-rate-fx-engine/4.2"})
+    session.headers.update({"User-Agent": "korea-rate-fx-engine/4.4"})
 
-    # 1 external request for all eleven FRED series.
     fred_fresh: dict[str, list[dict[str, Any]]] = {}
-    fred_start = _fred_batch_start(previous)
-    print(f"[GLOBAL_MARKET] FRED batch: 11 series | start={fred_start}", flush=True)
+    fred_start, fred_mode = _fred_batch_start(previous)
+    print(f"[GLOBAL_MARKET] FRED batch: {len(FRED)} series | start={fred_start} | mode={fred_mode}", flush=True)
     try:
         request_count += 1
         fred_fresh = _fred_batch(session, fred_start)
         fresh_nonempty = sum(bool(v) for v in fred_fresh.values())
         print(
-            f"[GLOBAL_MARKET] FRED batch: fresh_series={fresh_nonempty}/11 | elapsed={time.monotonic()-started:.1f}s",
+            f"[GLOBAL_MARKET] FRED batch: fresh_series={fresh_nonempty}/{len(FRED)} | elapsed={time.monotonic()-started:.1f}s",
             flush=True,
         )
     except (requests.RequestException, ValueError, csv.Error) as exc:
@@ -217,7 +220,6 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
         if not fresh_rows and old_rows:
             last_good_reused.append(key)
 
-    # 1 additional request for the freshest USD/KRW market overlay.
     yahoo_old = previous.get("usd_krw_yahoo") if isinstance(previous.get("usd_krw_yahoo"), list) else []
     try:
         request_count += 1
@@ -239,6 +241,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
 
     fresh_fred_count = sum(bool(rows) for rows in fred_fresh.values())
     usable_count = sum(bool(values) for values in payload.values())
+    # 8 live public factors are enough for the full FX macro panel; NEER/REER and
+    # secondary series may lag without disabling the forecast.
     if fresh_fred_count >= 8 and payload.get("usd_krw_yahoo"):
         status = "ok"
     elif usable_count:
@@ -258,15 +262,13 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             "fresh_fred_series": fresh_fred_count,
             "usable_series": usable_count,
             "series_total": len(FRED) + 1,
-            "errors": errors,
-            "last_good_reused": sorted(set(last_good_reused)),
-            "credential_status": "not_required",
-            "action_required": False,
             "request_count": request_count,
-            "request_budget": 2,
+            "max_external_requests": 2,
             "fred_batch_start": fred_start,
-            "connect_timeout_seconds": CONNECT_TIMEOUT_SECONDS,
-            "read_timeout_seconds": READ_TIMEOUT_SECONDS,
-            "elapsed_seconds": round(time.monotonic() - started, 3),
+            "fred_mode": fred_mode,
+            "bootstrap_days": FRED_BOOTSTRAP_DAYS,
+            "overlap_days": OVERLAP_DAYS,
+            "last_good_reused": sorted(set(last_good_reused)),
+            "errors": errors,
         },
     )

@@ -901,3 +901,263 @@ def calculate_placeholder() -> KrwStrengthResult:
         "약중립",
         0.0,
     )
+
+
+def _generic_values(rows: list[dict[str, Any]] | None) -> list[float]:
+    values: list[tuple[str, float]] = []
+    for idx, row in enumerate(rows or []):
+        if not isinstance(row, dict):
+            continue
+        raw = row.get("value", row.get("DATA_VALUE", row.get("DT")))
+        try:
+            val = float(str(raw).replace(",", ""))
+        except (TypeError, ValueError):
+            continue
+        date = str(row.get("date") or row.get("TIME") or row.get("PRD_DE") or f"{idx:08d}").replace("-", "").replace(".", "")
+        values.append((date, val))
+    dedup = {date: val for date, val in values if date}
+    return [dedup[k] for k in sorted(dedup)]
+
+
+def _strength_label_100(score: float | None) -> str:
+    if score is None:
+        return "확인 불가"
+    if score >= 65:
+        return "원화 강세"
+    if score >= 56:
+        return "원화 약강세"
+    if score >= 47:
+        return "원화 중립"
+    if score >= 40:
+        return "원화 약세"
+    return "원화 매우 약세"
+
+
+def build_krw_strength_forecast(
+    ecos: dict[str, Any],
+    global_data: dict[str, Any] | None,
+    fx_v2: dict[str, Any],
+    rate_v2: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Independent KRW-strength composite for 3/6/12 month dashboard use.
+
+    The target is *KRW strength*, not a duplicate USD/KRW card.  USD/KRW level and
+    direction remain the largest anchor, while NEER/REER, broad-dollar/Asian FX,
+    the US-Korea 2Y gap and external-balance inputs are grouped and re-normalised
+    when an optional source is missing.  Future probabilities inherit the validated
+    FX distribution with the sign inverted (USD/KRW down == KRW stronger).
+    """
+    global_data = global_data or {}
+    merged_fx, spot_meta = _merge_fx_series(ecos, global_data)
+    fx_values = [value for _, value in merged_fx]
+    spot = fx_values[-1] if fx_values else None
+    if spot is None or len(fx_values) < 61:
+        return {
+            "schema_version": "1.0.0",
+            "engine_version": "1.0.0-krw-strength-composite",
+            "status": "insufficient_history",
+            "forecast_operational": False,
+            "forecast_path": [],
+        }
+
+    level_window = fx_values[-252:]
+    fx_pctile = _percentile(level_window, spot)
+    fx_level_score = 1.0 - 2.0 * fx_pctile if fx_pctile is not None else 0.0
+    r20 = _pct(fx_values, 20) or 0.0
+    r60 = _pct(fx_values, 60) or 0.0
+    fx_momentum_score = -tanh(mean([r20, r60]) * 12.0)
+    fx_group = max(-1.0, min(1.0, fx_level_score * 0.62 + fx_momentum_score * 0.38))
+
+    factor_groups: dict[str, float] = {"usdkrw_level_momentum": fx_group}
+    factor_details: dict[str, Any] = {
+        "usdkrw_level_momentum": {
+            "score": round(fx_group, 4),
+            "spot": round(spot, 4),
+            "one_year_percentile": round(fx_pctile, 4) if fx_pctile is not None else None,
+            "ret20_pct": round(r20 * 100.0, 3),
+            "ret60_pct": round(r60 * 100.0, 3),
+        }
+    }
+
+    # Effective-exchange-rate group. Higher NEER/REER and positive recent change
+    # mean a stronger won. Monthly BIS series are sufficient here.
+    eff_scores: list[float] = []
+    for key in ("krw_neer", "krw_reer"):
+        vals = _generic_values(global_data.get(key, []))
+        if not vals:
+            continue
+        pctile = _percentile(vals[-60:], vals[-1])
+        level = (2.0 * pctile - 1.0) if pctile is not None else 0.0
+        mom = _pct(vals, min(3, len(vals) - 1)) if len(vals) > 1 else None
+        mom_score = tanh((mom or 0.0) * 8.0)
+        score = max(-1.0, min(1.0, 0.6 * level + 0.4 * mom_score))
+        eff_scores.append(score)
+        factor_details[key] = {
+            "score": round(score, 4), "latest": vals[-1],
+            "percentile_60obs": round(pctile, 4) if pctile is not None else None,
+            "recent_change_pct": round((mom or 0.0) * 100.0, 3),
+        }
+    if eff_scores:
+        factor_groups["effective_fx"] = mean(eff_scores)
+
+    # Global currency/risk group. A weaker broad dollar / CNY appreciation / JPY
+    # appreciation is generally supportive for KRW, so signs are inverted.
+    global_scores: list[float] = []
+    for key, scale in (("broad_dollar", 0.04), ("usd_cny", 0.04), ("usd_jpy", 0.05)):
+        vals = _generic_values(global_data.get(key, []))
+        ret = _pct(vals, min(60, len(vals) - 1)) if len(vals) > 1 else None
+        if ret is None:
+            continue
+        score = -tanh(ret / max(1e-6, scale))
+        global_scores.append(score)
+        factor_details[key] = {"score": round(score, 4), "change_pct": round(ret * 100.0, 3)}
+    if global_scores:
+        factor_groups["global_currency"] = mean(global_scores)
+
+    # 2Y interest-rate gap: wider US premium tends to pressure KRW.
+    us2 = _generic_values(global_data.get("us_2y", []))
+    kr2 = _values((ecos or {}).get("kr_gov_2y", []) or (ecos or {}).get("kr_gov_3y", []))
+    if us2 and kr2:
+        gap = us2[-1] - kr2[-1]
+        score = -tanh(gap / 1.5)
+        factor_groups["rate_gap"] = score
+        factor_details["rate_gap"] = {"score": round(score, 4), "us_minus_kr_2y_pctp": round(gap, 3)}
+
+    # External balance group. Percentile-based normalisation avoids dependence on
+    # the provider's units for current-account/reserve levels.
+    ext_scores: list[float] = []
+    ca = _values((ecos or {}).get("current_account", []))
+    if ca:
+        pctile = _percentile(ca[-60:], ca[-1])
+        if pctile is not None:
+            score = 2.0 * pctile - 1.0
+            ext_scores.append(score)
+            factor_details["current_account"] = {"score": round(score, 4), "percentile_60obs": round(pctile, 4)}
+    reserves = _values((ecos or {}).get("fx_reserves", []))
+    if len(reserves) > 1:
+        change = _pct(reserves, min(12, len(reserves) - 1))
+        if change is not None:
+            score = tanh(change / 0.05)
+            ext_scores.append(score)
+            factor_details["fx_reserves"] = {"score": round(score, 4), "change_pct": round(change * 100.0, 3)}
+    if ext_scores:
+        factor_groups["external_balance"] = mean(ext_scores)
+
+    group_weights = {
+        "usdkrw_level_momentum": 0.40,
+        "effective_fx": 0.25,
+        "global_currency": 0.15,
+        "rate_gap": 0.10,
+        "external_balance": 0.10,
+    }
+    active_weight = sum(group_weights[k] for k in factor_groups) or 1.0
+    macro_composite = sum(factor_groups[k] * group_weights[k] for k in factor_groups) / active_weight
+    macro_composite = max(-1.0, min(1.0, macro_composite))
+    current_score = 50.0 + 50.0 * macro_composite
+
+    fx_rows = {int(row.get("months")): row for row in fx_v2.get("forecast_path", []) if row.get("months")}
+    forecast_path: list[dict[str, Any]] = []
+    group_coverage = len(factor_groups) / len(group_weights)
+    non_fx = [v for k, v in factor_groups.items() if k != "usdkrw_level_momentum"]
+    non_fx_macro = mean(non_fx) if non_fx else 0.0
+
+    for months in (3, 6, 12):
+        row = fx_rows.get(months, {})
+        point = row.get("point_forecast", row.get("mid"))
+        try:
+            point = float(point)
+        except (TypeError, ValueError):
+            point = spot
+        change_pct = row.get("change_pct")
+        try:
+            change = float(change_pct) / 100.0
+        except (TypeError, ValueError):
+            change = point / spot - 1.0 if spot else 0.0
+
+        future_pctile = _percentile(level_window, point)
+        future_level = 1.0 - 2.0 * future_pctile if future_pctile is not None else fx_level_score
+        future_direction = -tanh(change * 10.0)
+        decay = {3: 0.90, 6: 0.75, 12: 0.55}[months]
+        future_raw = max(-1.0, min(1.0, 0.55 * future_level + 0.30 * future_direction + 0.15 * non_fx_macro * decay))
+        future_score = 50.0 + 50.0 * future_raw
+        delta = future_score - current_score
+        direction = "up" if delta >= 2.0 else ("down" if delta <= -2.0 else "neutral")
+
+        # FX probabilities invert naturally for KRW strength.
+        p_up = row.get("down_probability")
+        p_down = row.get("up_probability")
+        p_neutral = row.get("neutral_probability")
+        fx_quality = row.get("model_quality_score")
+        try:
+            fx_quality_num = float(fx_quality)
+        except (TypeError, ValueError):
+            fx_quality_num = 50.0
+        quality_score = round(max(0.0, min(100.0, fx_quality_num * 0.75 + group_coverage * 100.0 * 0.25)))
+
+        score_range = None
+        band = row.get("range_80")
+        if isinstance(band, list) and len(band) >= 2:
+            try:
+                lo_fx, hi_fx = float(band[0]), float(band[1])
+                lo_pct = _percentile(level_window, hi_fx)  # high USD/KRW = weak KRW
+                hi_pct = _percentile(level_window, lo_fx)
+                if lo_pct is not None and hi_pct is not None:
+                    lo_score = 50.0 + 50.0 * max(-1.0, min(1.0, 0.55 * (1 - 2 * lo_pct) + 0.15 * non_fx_macro * decay))
+                    hi_score = 50.0 + 50.0 * max(-1.0, min(1.0, 0.55 * (1 - 2 * hi_pct) + 0.15 * non_fx_macro * decay))
+                    score_range = [round(min(lo_score, hi_score), 1), round(max(lo_score, hi_score), 1)]
+            except (TypeError, ValueError):
+                score_range = None
+
+        forecast_path.append(
+            {
+                "months": months,
+                "strength_score": round(future_score, 2),
+                "grade": _strength_label_100(future_score),
+                "change_points": round(delta, 2),
+                "direction": direction,
+                "up_probability": p_up,
+                "neutral_probability": p_neutral,
+                "down_probability": p_down,
+                "range_80": score_range,
+                "fx_anchor": round(point, 1),
+                "quality_grade": row.get("quality_grade"),
+                "model_quality_score": quality_score,
+                "prediction_status": "forecast",
+            }
+        )
+
+    latest_neer = _generic_values(global_data.get("krw_neer", []))
+    latest_reer = _generic_values(global_data.get("krw_reer", []))
+    primary = next((row for row in forecast_path if row["months"] == 3), {})
+    return {
+        "schema_version": "1.0.0",
+        "engine_version": "1.0.0-krw-strength-composite",
+        "status": "ok",
+        "forecast_operational": True,
+        "current": {
+            "strength_score": round(current_score, 2),
+            "grade": _strength_label_100(current_score),
+            "usdkrw": round(spot, 4),
+            "usdkrw_source": spot_meta.get("source"),
+            "neer": latest_neer[-1] if latest_neer else None,
+            "reer": latest_reer[-1] if latest_reer else None,
+        },
+        "forecast_path": forecast_path,
+        "factor_panel": {
+            "group_scores": {k: round(v, 4) for k, v in factor_groups.items()},
+            "group_weights": group_weights,
+            "details": factor_details,
+            "active_group_count": len(factor_groups),
+            "group_coverage": round(group_coverage, 3),
+        },
+        "quality": {
+            "grade": primary.get("quality_grade"),
+            "model_quality_score": primary.get("model_quality_score"),
+            "quality_score_semantics": "FX V4 OOS quality 75% + KRW public-factor coverage 25%",
+            "validation_basis": "FX V4 walk-forward OOS distribution + KRW-strength factor coverage; separate KRW-strength target OOS not claimed",
+        },
+        "limitations": [
+            "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
+            "별도 원화강도 목표변수의 독립 OOS 적중률로 오인하지 않도록 FX 검증과 입력자료 품질을 분리 표기합니다.",
+        ],
+    }

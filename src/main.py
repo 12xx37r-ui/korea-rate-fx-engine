@@ -11,13 +11,13 @@ from src.collectors import ecos, global_market, kosis, krx, reb, us_policy
 from src.collectors import korea_asset_fundamentals
 from src.core.io import read_json, write_json
 from src.core.result import SourceResult
-from src.models.krw_strength import build_snapshot
+from src.models.krw_strength import build_snapshot, build_krw_strength_forecast
 from src.models.korea_policy_v2 import build_fx_forecast_v2, build_rate_forecast_v2
 from src.models.korea_outlook_v3 import build_v3
 from src.models.krw_liquidity import build_krw_liquidity_forecast
 
 
-ENGINE_VERSION = "4.2.0-low-call-continuous-korea-forecast"
+ENGINE_VERSION = "4.4.0-final-low-call-korea-forecast"
 
 
 def _safe_read(path: Path, default: Any) -> Any:
@@ -107,6 +107,7 @@ def main() -> None:
         "fx": output_dir / "korea_fx_forecast_v2.json",
         "rate": output_dir / "korea_rate_forecast_v2.json",
         "liquidity": output_dir / "korea_krw_liquidity_forecast.json",
+        "strength": output_dir / "korea_krw_strength_forecast.json",
     }
     previous = {key: _safe_read(path, {}) for key, path in paths.items()}
 
@@ -175,9 +176,17 @@ def main() -> None:
     liquidity["generated_at"] = now_iso
     liquidity, liquidity_continuity = _forecast_continuity(liquidity, previous["liquidity"], now_iso, "liquidity")
 
+    strength = build_krw_strength_forecast(ecos_data, global_data, fx_v2, rate_v2)
+    strength["generated_at"] = now_iso
+    strength, strength_continuity = _forecast_continuity(strength, previous["strength"], now_iso, "strength")
+
     write_json(paths["rate"], rate_v2)
     write_json(paths["fx"], fx_v2)
     write_json(paths["liquidity"], liquidity)
+    write_json(paths["strength"], strength)
+    # Backward-compatible filename now carries the dedicated strength forecast rather
+    # than a duplicate of the broad snapshot.
+    write_json(output_dir / "krw_strength_preview.json", strength)
 
     v3 = build_v3(
         rate_v2,
@@ -188,6 +197,7 @@ def main() -> None:
         global_data,
         us_policy_data,
         liquidity=liquidity,
+        krw_strength=strength,
     )
     v3["generated_at"] = now_iso
     v3["engine_version"] = ENGINE_VERSION
@@ -228,11 +238,12 @@ def main() -> None:
             "items": credential_items,
         },
         "blocking_errors": blocking,
-        "forecast_engine_operational": bool(fx_v2.get("forecast_operational")) and bool(liquidity.get("forecast_operational")),
+        "forecast_engine_operational": bool(fx_v2.get("forecast_operational")) and bool(liquidity.get("forecast_operational")) and bool(strength.get("forecast_operational")),
         "continuity": {
             "rate_previous_forecast_used": rate_continuity,
             "fx_previous_forecast_used": fx_continuity,
             "liquidity_previous_forecast_used": liquidity_continuity,
+            "strength_previous_forecast_used": strength_continuity,
             "raw_series_merge_enabled": True,
         },
         "warnings": [
@@ -289,8 +300,14 @@ def main() -> None:
         },
         "liquidity": {
             "forecast_operational": bool(liquidity.get("forecast_operational")),
-            "model_quality_score": (liquidity.get("quality") or {}).get("model_quality_score"),
+            "input_data_quality_score": (liquidity.get("quality") or {}).get("input_data_quality_score"),
+            "quality_score_semantics": (liquidity.get("quality") or {}).get("quality_score_semantics"),
             "data_mode": liquidity.get("data_mode"),
+        },
+        "krw_strength": {
+            "forecast_operational": bool(strength.get("forecast_operational")),
+            "model_quality_score": (strength.get("quality") or {}).get("model_quality_score"),
+            "quality_score_semantics": (strength.get("quality") or {}).get("quality_score_semantics"),
         },
         "continuity": health["continuity"],
         "certification_rule": "예측은 항상 산출하되 검증성적은 등급·확률·구간으로 분리 공개한다.",
@@ -302,6 +319,7 @@ def main() -> None:
         "rate": rate_v2.get("validation", {}),
         "fx": fx_v2.get("validation", {}),
         "liquidity": liquidity.get("quality", {}),
+        "krw_strength": strength.get("quality", {}),
         "us_engine_modified": False,
         "legacy_outputs_preserved": True,
     })
@@ -318,6 +336,7 @@ def main() -> None:
             "rate_forecast": rate_v2,
             "fx_forecast": fx_v2,
             "krw_liquidity_forecast": liquidity,
+            "krw_strength_forecast": strength,
             "unified_outlook_v3": v3,
             "source_status": source_status,
             "continuity": health["continuity"],
@@ -325,7 +344,7 @@ def main() -> None:
         },
     )
 
-    print("Generated continuous Korea rate/FX/liquidity outputs", flush=True)
+    print("Generated continuous Korea rate/FX/liquidity/strength outputs", flush=True)
     print(f"Generated {vintage_path}", flush=True)
 
 

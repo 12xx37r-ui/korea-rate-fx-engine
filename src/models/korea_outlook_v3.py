@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-"""Unified Korea rate/FX/liquidity output.
+"""Unified Korea rate/FX/liquidity/KRW-strength output.
 
-V3 is now an integration layer, not a second competing FX model.  The continuous
-V4 FX engine is the single source of truth for point forecasts, probabilities and
-intervals.  This removes the previous shadow/production split and prevents two
-engines from disagreeing on the same dashboard card.
+V3 is an integration layer, not a competing forecast model.  FX V4 remains the
+single source of truth for USD/KRW point forecasts/probabilities.  Liquidity and KRW
+strength are dedicated continuous forecasts generated upstream and embedded here so
+GAS can read one GitHub JSON instead of making extra public-data calls.
 """
 
 from typing import Any
@@ -29,8 +29,9 @@ def build_v3(
     global_data: dict[str, Any],
     us: dict[str, Any] | None,
     liquidity: dict[str, Any] | None = None,
+    krw_strength: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    del ecos, kosis, krx, global_data, us  # Inputs remain in signature for compatibility/audit.
+    del ecos, kosis, krx, global_data, us  # retained in signature for compatibility/audit
 
     rate_current = _float((rate_v2.get("current") or {}).get("kr_base_rate_pct")) or 0.0
     rate_path = rate_v2.get("meeting_path") or []
@@ -102,9 +103,9 @@ def build_v3(
     )
 
     return {
-        "schema_version": "3.1.0",
+        "schema_version": "3.2.0",
         "status": "ok",
-        "engine_scope": "korea_rate_fx_liquidity_unified",
+        "engine_scope": "korea_rate_fx_liquidity_strength_unified",
         "us_engine_modified": False,
         "rate": {
             "current_rate_pct": rate_current,
@@ -126,13 +127,16 @@ def build_v3(
             "production_model": fx_v2.get("production_model"),
         },
         "krw_liquidity": liquidity or {},
+        "krw_strength": krw_strength or {},
         "factor_panel": fx_v2.get("factor_panel") or {},
         "certification": {
             "level": fx_gate.get("level", "검증등급 산출"),
             "rate_level": rate_gate.get("level"),
             "fx_level": fx_gate.get("level"),
+            "liquidity_quality_semantics": ((liquidity or {}).get("quality") or {}).get("quality_score_semantics"),
+            "strength_level": ((krw_strength or {}).get("quality") or {}).get("grade"),
             "production_model": fx_v2.get("production_model"),
             "v3_production_enabled": True,
-            "note": "V3는 별도 그림자 예측을 만들지 않고 V4 연속형 FX 예측을 그대로 통합합니다.",
+            "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다.",
         },
     }

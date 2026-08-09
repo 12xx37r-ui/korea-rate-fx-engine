@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
-  "engine_version": "4.2.0-low-call-continuous-korea-forecast",
-  "generated_at": "2026-08-10T03:47:57.252819+09:00",
+  "engine_version": "4.4.0-final-low-call-korea-forecast",
+  "generated_at": "2026-08-10T04:11:59.870308+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
     "level": "검증 B등급",
@@ -24,13 +24,20 @@
   },
   "liquidity": {
     "forecast_operational": true,
-    "model_quality_score": 99,
+    "input_data_quality_score": 99,
+    "quality_score_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
     "data_mode": "monetary_plus_policy"
+  },
+  "krw_strength": {
+    "forecast_operational": true,
+    "model_quality_score": 61,
+    "quality_score_semantics": "FX V4 OOS quality 75% + KRW public-factor coverage 25%"
   },
   "continuity": {
     "rate_previous_forecast_used": false,
     "fx_previous_forecast_used": false,
     "liquidity_previous_forecast_used": false,
+    "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
   "certification_rule": "예측은 항상 산출하되 검증성적은 등급·확률·구간으로 분리 공개한다."

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-09T18:51:44.450851+00:00",
+  "generated_at_utc": "2026-08-09T19:12:24.957792+00:00",
   "indices": {
     "kospi200": {
       "per": 16.53,
@@ -20,12 +20,17 @@
       "as_of": "2026-08-07",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "pykrx_authenticated",
+      "source_method": "last_good_reuse",
       "proxy_symbols": [],
-      "stale": false,
+      "stale": true,
       "diagnostics": [
         "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300"
+        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300",
+        "kospi200:live_failed_last_good_reused"
+      ],
+      "live_diagnostics": [
+        "pykrx_import:ModuleNotFoundError:No module named 'pykrx'",
+        "pykrx_import:ModuleNotFoundError:No module named 'pykrx'"
       ]
     },
     "kosdaq150": {
@@ -45,12 +50,17 @@
       "as_of": "2026-08-07",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "pykrx_authenticated",
+      "source_method": "last_good_reuse",
       "proxy_symbols": [],
-      "stale": false,
+      "stale": true,
       "diagnostics": [
         "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250"
+        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250",
+        "kosdaq150:live_failed_last_good_reused"
+      ],
+      "live_diagnostics": [
+        "pykrx_import:ModuleNotFoundError:No module named 'pykrx'",
+        "pykrx_import:ModuleNotFoundError:No module named 'pykrx'"
       ]
     }
   },
@@ -80,15 +90,18 @@
       "reit:live_failed_last_good_reused"
     ],
     "live_diagnostics": [
-      "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
-      "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://www.tigeretf.com/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
-      "public_reit_snapshot:HTTPError:403 Client Error: Forbidden for url: https://kr.investing.com/etfs/mirae-asset-tiger-reit-infra-hidiv",
-      "public_reit_snapshot_empty:https://www.therich.io/stock?country=KR&ticker=329200"
+      "mirae_prime:ConnectionError:HTTPSConnectionPool(host='investments.miraeasset.com', port=443): Max retries exceeded with url: /ti",
+      "mirae_official:ConnectionError:HTTPSConnectionPool(host='investments.miraeasset.com', port=443): Max retries exceeded with url: /tigeretf/ko/product/search/detail/refDiv.do?ksdFund=KR73292000",
+      "mirae_prime:ConnectionError:HTTPSConnectionPool(host='www.tigeretf.com', port=443): Max retries exceeded with url: /ko/product/s",
+      "mirae_official:ConnectionError:HTTPSConnectionPool(host='www.tigeretf.com', port=443): Max retries exceeded with url: /ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&page",
+      "naver_integration:329200:ConnectionError:HTTPSConnectionPool(host='m.stock.naver.com', port=443): Max retries exceeded with url: /api/stock/329200/integration (Caused by NameResolutionError(\"",
+      "public_reit_snapshot:ConnectionError:HTTPSConnectionPool(host='kr.investing.com', port=443): Max retries exceeded with url: /etfs/mirae-asset-tiger-reit-infra-hidiv (Caused by NameResolut",
+      "public_reit_snapshot:ConnectionError:HTTPSConnectionPool(host='www.therich.io', port=443): Max retries exceeded with url: /stock?country=KR&ticker=329200 (Caused by NameResolutionError(\"H"
     ]
   },
   "source_status": {
     "krx_pykrx_attempted": true,
-    "krx_login_configured": true,
+    "krx_login_configured": false,
     "naver_constituent_consensus_attempted": true,
     "mirae_official_reit_history_attempted": true,
     "naver_reit_snapshot_fallback_attempted": true,

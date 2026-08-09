@@ -1,9 +1,9 @@
 {
   "schema_version": "4.0.0",
-  "captured_at": "2026-08-10T03:47:57.252819+09:00",
+  "captured_at": "2026-08-10T04:11:59.870308+09:00",
   "rate_forecast": {
     "schema_version": "2.0.0",
-    "engine_version": "4.2.0-low-call-continuous-korea-forecast/rate",
+    "engine_version": "4.4.0-final-low-call-korea-forecast/rate",
     "status": "ok",
     "engine_scope": "korea_only_us_engine_read_only",
     "current": {
@@ -1255,8 +1255,8 @@
         "validation_integrity": 0.15
       },
       "optional_enhancement_sources": {
-        "krx_market": "not_configured",
-        "reb_financial_stability": "not_configured",
+        "krx_market": "missing_secret",
+        "reb_financial_stability": "missing_secret",
         "used_in_fixed_rate_model": false
       },
       "core_cpi": {
@@ -1270,7 +1270,7 @@
       "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
       "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
     ],
-    "generated_at": "2026-08-10T03:47:57.252819+09:00"
+    "generated_at": "2026-08-10T04:11:59.870308+09:00"
   },
   "fx_forecast": {
     "schema_version": "4.0.0",
@@ -1848,11 +1848,11 @@
       "랜덤워크는 검증 기준모형으로만 사용하며 실전 중심값으로 대체하지 않습니다.",
       "검증력이 약하면 예측폭과 품질등급을 낮추지만 예측 자체는 계속 산출합니다."
     ],
-    "generated_at": "2026-08-10T03:47:57.252819+09:00"
+    "generated_at": "2026-08-10T04:11:59.870308+09:00"
   },
   "krw_liquidity_forecast": {
     "schema_version": "1.0.0",
-    "engine_version": "1.0.0-continuous-liquidity",
+    "engine_version": "1.1.0-continuous-liquidity-quality-semantics",
     "status": "ok",
     "forecast_operational": true,
     "data_mode": "monetary_plus_policy",
@@ -1896,16 +1896,128 @@
     ],
     "quality": {
       "model_quality_score": 99,
+      "input_data_quality_score": 99,
+      "quality_score_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
+      "separate_oos_validated": false,
       "active_factor_count": 5,
       "monetary_aggregate_available": true,
-      "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
+      "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다. 품질점수는 입력자료 품질이며 예측정확도 확률이 아닙니다."
     },
-    "generated_at": "2026-08-10T03:47:57.252819+09:00"
+    "generated_at": "2026-08-10T04:11:59.870308+09:00"
+  },
+  "krw_strength_forecast": {
+    "schema_version": "1.0.0",
+    "engine_version": "1.0.0-krw-strength-composite",
+    "status": "ok",
+    "forecast_operational": true,
+    "current": {
+      "strength_score": 85.53,
+      "grade": "원화 강세",
+      "usdkrw": 1407.45,
+      "usdkrw_source": "Yahoo",
+      "neer": null,
+      "reer": null
+    },
+    "forecast_path": [
+      {
+        "months": 3,
+        "strength_score": 75.19,
+        "grade": "원화 강세",
+        "change_points": -10.34,
+        "direction": "down",
+        "up_probability": 0.4836,
+        "neutral_probability": 0.0452,
+        "down_probability": 0.4712,
+        "range_80": [
+          43.2,
+          84.2
+        ],
+        "fx_anchor": 1406.5,
+        "quality_grade": "C",
+        "model_quality_score": 61,
+        "prediction_status": "forecast"
+      },
+      {
+        "months": 6,
+        "strength_score": 74.05,
+        "grade": "원화 강세",
+        "change_points": -11.49,
+        "direction": "down",
+        "up_probability": 0.4784,
+        "neutral_probability": 0.0516,
+        "down_probability": 0.47,
+        "range_80": [
+          36.9,
+          83.1
+        ],
+        "fx_anchor": 1406.6,
+        "quality_grade": "C",
+        "model_quality_score": 60,
+        "prediction_status": "forecast"
+      },
+      {
+        "months": 12,
+        "strength_score": 72.93,
+        "grade": "원화 강세",
+        "change_points": -12.6,
+        "direction": "down",
+        "up_probability": 0.4811,
+        "neutral_probability": 0.0572,
+        "down_probability": 0.4617,
+        "range_80": [
+          29.2,
+          81.6
+        ],
+        "fx_anchor": 1405.1,
+        "quality_grade": "C",
+        "model_quality_score": 58,
+        "prediction_status": "forecast"
+      }
+    ],
+    "factor_panel": {
+      "group_scores": {
+        "usdkrw_level_momentum": 0.6383,
+        "external_balance": 1.0
+      },
+      "group_weights": {
+        "usdkrw_level_momentum": 0.4,
+        "effective_fx": 0.25,
+        "global_currency": 0.15,
+        "rate_gap": 0.1,
+        "external_balance": 0.1
+      },
+      "details": {
+        "usdkrw_level_momentum": {
+          "score": 0.6383,
+          "spot": 1407.45,
+          "one_year_percentile": 0.1706,
+          "ret20_pct": -5.299,
+          "ret60_pct": -6.382
+        },
+        "current_account": {
+          "score": 1.0,
+          "percentile_60obs": 1.0
+        }
+      },
+      "active_group_count": 2,
+      "group_coverage": 0.4
+    },
+    "quality": {
+      "grade": "C",
+      "model_quality_score": 61,
+      "quality_score_semantics": "FX V4 OOS quality 75% + KRW public-factor coverage 25%",
+      "validation_basis": "FX V4 walk-forward OOS distribution + KRW-strength factor coverage; separate KRW-strength target OOS not claimed"
+    },
+    "limitations": [
+      "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
+      "별도 원화강도 목표변수의 독립 OOS 적중률로 오인하지 않도록 FX 검증과 입력자료 품질을 분리 표기합니다."
+    ],
+    "generated_at": "2026-08-10T04:11:59.870308+09:00"
   },
   "unified_outlook_v3": {
-    "schema_version": "3.1.0",
+    "schema_version": "3.2.0",
     "status": "ok",
-    "engine_scope": "korea_rate_fx_liquidity_unified",
+    "engine_scope": "korea_rate_fx_liquidity_strength_unified",
     "us_engine_modified": false,
     "rate": {
       "current_rate_pct": 2.75,
@@ -2207,7 +2319,7 @@
     },
     "krw_liquidity": {
       "schema_version": "1.0.0",
-      "engine_version": "1.0.0-continuous-liquidity",
+      "engine_version": "1.1.0-continuous-liquidity-quality-semantics",
       "status": "ok",
       "forecast_operational": true,
       "data_mode": "monetary_plus_policy",
@@ -2251,11 +2363,123 @@
       ],
       "quality": {
         "model_quality_score": 99,
+        "input_data_quality_score": 99,
+        "quality_score_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
+        "separate_oos_validated": false,
         "active_factor_count": 5,
         "monetary_aggregate_available": true,
-        "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
+        "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다. 품질점수는 입력자료 품질이며 예측정확도 확률이 아닙니다."
       },
-      "generated_at": "2026-08-10T03:47:57.252819+09:00"
+      "generated_at": "2026-08-10T04:11:59.870308+09:00"
+    },
+    "krw_strength": {
+      "schema_version": "1.0.0",
+      "engine_version": "1.0.0-krw-strength-composite",
+      "status": "ok",
+      "forecast_operational": true,
+      "current": {
+        "strength_score": 85.53,
+        "grade": "원화 강세",
+        "usdkrw": 1407.45,
+        "usdkrw_source": "Yahoo",
+        "neer": null,
+        "reer": null
+      },
+      "forecast_path": [
+        {
+          "months": 3,
+          "strength_score": 75.19,
+          "grade": "원화 강세",
+          "change_points": -10.34,
+          "direction": "down",
+          "up_probability": 0.4836,
+          "neutral_probability": 0.0452,
+          "down_probability": 0.4712,
+          "range_80": [
+            43.2,
+            84.2
+          ],
+          "fx_anchor": 1406.5,
+          "quality_grade": "C",
+          "model_quality_score": 61,
+          "prediction_status": "forecast"
+        },
+        {
+          "months": 6,
+          "strength_score": 74.05,
+          "grade": "원화 강세",
+          "change_points": -11.49,
+          "direction": "down",
+          "up_probability": 0.4784,
+          "neutral_probability": 0.0516,
+          "down_probability": 0.47,
+          "range_80": [
+            36.9,
+            83.1
+          ],
+          "fx_anchor": 1406.6,
+          "quality_grade": "C",
+          "model_quality_score": 60,
+          "prediction_status": "forecast"
+        },
+        {
+          "months": 12,
+          "strength_score": 72.93,
+          "grade": "원화 강세",
+          "change_points": -12.6,
+          "direction": "down",
+          "up_probability": 0.4811,
+          "neutral_probability": 0.0572,
+          "down_probability": 0.4617,
+          "range_80": [
+            29.2,
+            81.6
+          ],
+          "fx_anchor": 1405.1,
+          "quality_grade": "C",
+          "model_quality_score": 58,
+          "prediction_status": "forecast"
+        }
+      ],
+      "factor_panel": {
+        "group_scores": {
+          "usdkrw_level_momentum": 0.6383,
+          "external_balance": 1.0
+        },
+        "group_weights": {
+          "usdkrw_level_momentum": 0.4,
+          "effective_fx": 0.25,
+          "global_currency": 0.15,
+          "rate_gap": 0.1,
+          "external_balance": 0.1
+        },
+        "details": {
+          "usdkrw_level_momentum": {
+            "score": 0.6383,
+            "spot": 1407.45,
+            "one_year_percentile": 0.1706,
+            "ret20_pct": -5.299,
+            "ret60_pct": -6.382
+          },
+          "current_account": {
+            "score": 1.0,
+            "percentile_60obs": 1.0
+          }
+        },
+        "active_group_count": 2,
+        "group_coverage": 0.4
+      },
+      "quality": {
+        "grade": "C",
+        "model_quality_score": 61,
+        "quality_score_semantics": "FX V4 OOS quality 75% + KRW public-factor coverage 25%",
+        "validation_basis": "FX V4 walk-forward OOS distribution + KRW-strength factor coverage; separate KRW-strength target OOS not claimed"
+      },
+      "limitations": [
+        "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
+        "별도 원화강도 목표변수의 독립 OOS 적중률로 오인하지 않도록 FX 검증과 입력자료 품질을 분리 표기합니다."
+      ],
+      "generated_at": "2026-08-10T04:11:59.870308+09:00"
     },
     "factor_panel": {
       "1m": {
@@ -2387,25 +2611,28 @@
       "level": "검증 C등급",
       "rate_level": "검증 B등급",
       "fx_level": "검증 C등급",
+      "liquidity_quality_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
+      "strength_level": "C",
       "production_model": "continuous_oos_weighted_ensemble_v4",
       "v3_production_enabled": true,
-      "note": "V3는 별도 그림자 예측을 만들지 않고 V4 연속형 FX 예측을 그대로 통합합니다."
+      "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
     },
-    "generated_at": "2026-08-10T03:47:57.252819+09:00",
-    "engine_version": "4.2.0-low-call-continuous-korea-forecast"
+    "generated_at": "2026-08-10T04:11:59.870308+09:00",
+    "engine_version": "4.4.0-final-low-call-korea-forecast"
   },
   "source_status": {
-    "us_policy_engine": "ok",
-    "ecos": "ok",
+    "us_policy_engine": "not_configured",
+    "ecos": "missing_secret",
     "global_market": "degraded",
-    "krx": "not_configured",
-    "kosis": "credential_error",
-    "reb": "not_configured"
+    "krx": "missing_secret",
+    "kosis": "missing_secret",
+    "reb": "missing_secret"
   },
   "continuity": {
     "rate_previous_forecast_used": false,
     "fx_previous_forecast_used": false,
     "liquidity_previous_forecast_used": false,
+    "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
   "us_engine_modified": false

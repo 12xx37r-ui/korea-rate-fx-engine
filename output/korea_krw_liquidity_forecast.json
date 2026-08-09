@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "engine_version": "1.0.0-continuous-liquidity",
+  "engine_version": "1.1.0-continuous-liquidity-quality-semantics",
   "status": "ok",
   "forecast_operational": true,
   "data_mode": "monetary_plus_policy",
@@ -44,9 +44,12 @@
   ],
   "quality": {
     "model_quality_score": 99,
+    "input_data_quality_score": 99,
+    "quality_score_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
+    "separate_oos_validated": false,
     "active_factor_count": 5,
     "monetary_aggregate_available": true,
-    "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
+    "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다. 품질점수는 입력자료 품질이며 예측정확도 확률이 아닙니다."
   },
-  "generated_at": "2026-08-10T03:47:57.252819+09:00"
+  "generated_at": "2026-08-10T04:11:59.870308+09:00"
 }

@@ -99,3 +99,19 @@ def test_fred_failure_is_single_attempt_and_reuses_last_good(monkeypatch, tmp_pa
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
     assert data["broad_dollar"][-1]["date"] == "20260806"
     assert data["usd_krw_yahoo"][-1]["value"] == 1407.5
+
+
+def test_fred_first_bootstrap_is_recent_not_2018():
+    start, mode = global_market._fred_batch_start({})
+    assert mode == "bootstrap_recent"
+    assert start > "2023-01-01"
+
+
+def test_fred_existing_history_uses_incremental_overlap():
+    previous = {
+        key: [{"date": "20260801", "value": 1.0}]
+        for key in global_market.FRED
+    }
+    start, mode = global_market._fred_batch_start(previous)
+    assert mode == "incremental"
+    assert "2026" in start or "2025" in start

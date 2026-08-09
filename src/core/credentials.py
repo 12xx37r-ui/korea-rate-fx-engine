@@ -20,6 +20,16 @@ def credential_issue(exc_or_text: Any) -> bool:
     text = str(exc_or_text or "").strip().lower()
     if not text:
         return False
+    # Network exceptions often include the request URL and therefore the literal
+    # query parameter ``apiKey=...``.  That must never be classified as an invalid
+    # credential.  Transport failures are diagnostic/degraded, not credential_error.
+    network_markers = (
+        "connecttimeouterror", "readtimeout", "read timed out", "connect timeout",
+        "connection to", "connectionerror", "max retries exceeded", "name resolution",
+        "temporary failure", "network is unreachable",
+    )
+    if any(marker in text for marker in network_markers):
+        return False
     if any(pattern in text for pattern in _AUTH_PATTERNS):
         return True
     codes = set(re.findall(r"(?:info|error)-\d+|\b\d{1,3}\b", text, flags=re.I))

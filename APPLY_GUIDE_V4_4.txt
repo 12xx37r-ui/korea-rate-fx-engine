@@ -1,0 +1,24 @@
+KOREA ENGINE V4.4 적용 순서
+
+1) 이 ZIP의 내용을 korea-rate-fx-engine GitHub 저장소 루트에 덮어쓴다.
+2) GitHub Actions를 1회 수동 실행한다.
+3) 정상 로그 기준:
+   - ECOS: 증분 수집, 정상 시 수초~수십초 내 종료
+   - GLOBAL_MARKET: "FRED batch: 13 series" 한 번만 출력
+   - FRED 정상 후 다음 실행부터 mode=incremental
+   - FRED 실패 시 per-series retry가 없어야 함
+   - KOSIS 네트워크 장애 시 첫 실패 뒤 "circuit breaker opened"가 나오고 다음 지표 외부호출은 생략
+   - 마지막에 "Generated continuous Korea rate/FX/liquidity/strength outputs"
+4) 생성 확인 파일:
+   - output/korea_rate_fx_outlook_v3.json
+   - output/korea_fx_forecast_v2.json
+   - output/korea_krw_strength_forecast.json
+   - output/korea_krw_liquidity_forecast.json
+5) GAS는 별도 제공한 V195 ZIP의 Code.gs / Index.html로 교체한다.
+6) GAS 저장 후 공개 함수 resetKoreaUnifiedV195 를 한 번 실행한다.
+7) 기존 웹앱 배포에서 새 버전을 선택해 배포한다. URL은 기존 웹앱 URL을 계속 사용한다.
+
+주의:
+- FRED/KOSIS 등 외부기관이 일시 장애여도 직전 정상 원자료와 로컬 계산으로 예측은 계속 산출한다.
+- 최초 FRED 성공 전에는 macro coverage가 낮을 수 있다. 첫 정상 batch 성공 후 자동으로 공개 거시요인이 채워진다.
+- 한국 예측을 "자료 미확보/연결 대기"를 정상 예측결과로 대체하지 않는다. 검증력은 등급/확률/구간으로 표현한다.

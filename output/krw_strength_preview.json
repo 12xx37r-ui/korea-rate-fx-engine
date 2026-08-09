@@ -1,93 +1,109 @@
 {
+  "schema_version": "1.0.0",
+  "engine_version": "1.0.0-krw-strength-composite",
   "status": "ok",
+  "forecast_operational": true,
   "current": {
-    "kr_base_rate_pct": 2.75,
-    "us_policy_rate_pct": 3.63,
-    "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1407.449951171875,
-    "kr_gov_2y_pct": 3.573,
-    "kr_gov_3y_pct": 3.746,
-    "kr_gov_10y_pct": 4.208,
-    "krw_strength_score": 0.6399,
-    "krw_strength_grade": "강약",
-    "krw_absolute_level_score": 0.6587,
-    "krw_absolute_level_grade": "강약",
-    "krw_short_term_momentum_score": 0.6049,
-    "krw_short_term_momentum_grade": "강약",
-    "usdkrw_1y_percentile": 0.1706
+    "strength_score": 85.53,
+    "grade": "원화 강세",
+    "usdkrw": 1407.45,
+    "usdkrw_source": "Yahoo",
+    "neer": null,
+    "reer": null
   },
-  "forecast": {
-    "horizon": "향후 1~3개월",
-    "kr_base_rate_direction": "동결 우세·인상 위험",
-    "kr_base_rate_expected_pct": 2.8,
-    "kr_base_rate_scenarios": {
-      "hold": {
-        "rate_pct": 2.75,
-        "probability": 0.545
+  "forecast_path": [
+    {
+      "months": 3,
+      "strength_score": 75.19,
+      "grade": "원화 강세",
+      "change_points": -10.34,
+      "direction": "down",
+      "up_probability": 0.4836,
+      "neutral_probability": 0.0452,
+      "down_probability": 0.4712,
+      "range_80": [
+        43.2,
+        84.2
+      ],
+      "fx_anchor": 1406.5,
+      "quality_grade": "C",
+      "model_quality_score": 61,
+      "prediction_status": "forecast"
+    },
+    {
+      "months": 6,
+      "strength_score": 74.05,
+      "grade": "원화 강세",
+      "change_points": -11.49,
+      "direction": "down",
+      "up_probability": 0.4784,
+      "neutral_probability": 0.0516,
+      "down_probability": 0.47,
+      "range_80": [
+        36.9,
+        83.1
+      ],
+      "fx_anchor": 1406.6,
+      "quality_grade": "C",
+      "model_quality_score": 60,
+      "prediction_status": "forecast"
+    },
+    {
+      "months": 12,
+      "strength_score": 72.93,
+      "grade": "원화 강세",
+      "change_points": -12.6,
+      "direction": "down",
+      "up_probability": 0.4811,
+      "neutral_probability": 0.0572,
+      "down_probability": 0.4617,
+      "range_80": [
+        29.2,
+        81.6
+      ],
+      "fx_anchor": 1405.1,
+      "quality_grade": "C",
+      "model_quality_score": 58,
+      "prediction_status": "forecast"
+    }
+  ],
+  "factor_panel": {
+    "group_scores": {
+      "usdkrw_level_momentum": 0.6383,
+      "external_balance": 1.0
+    },
+    "group_weights": {
+      "usdkrw_level_momentum": 0.4,
+      "effective_fx": 0.25,
+      "global_currency": 0.15,
+      "rate_gap": 0.1,
+      "external_balance": 0.1
+    },
+    "details": {
+      "usdkrw_level_momentum": {
+        "score": 0.6383,
+        "spot": 1407.45,
+        "one_year_percentile": 0.1706,
+        "ret20_pct": -5.299,
+        "ret60_pct": -6.382
       },
-      "hike_25bp": {
-        "rate_pct": 3.0,
-        "probability": 0.332
-      },
-      "cut_25bp": {
-        "rate_pct": 2.5,
-        "probability": 0.124
+      "current_account": {
+        "score": 1.0,
+        "percentile_60obs": 1.0
       }
     },
-    "usdkrw_mid": 1406.5,
-    "usdkrw_range": [
-      1326.9,
-      1486.0
-    ],
-    "usdkrw_direction": "neutral",
-    "usdkrw_up_probability": 0.4712,
-    "usdkrw_neutral_probability": 0.0452,
-    "usdkrw_down_probability": 0.4836,
-    "usdkrw_model_quality_grade": "C",
-    "usdkrw_model_quality_score": 68,
-    "krw_strength_score": 0.4362,
-    "krw_strength_grade": "강약",
-    "confidence": 0.75,
-    "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
+    "active_group_count": 2,
+    "group_coverage": 0.4
   },
-  "methodology": {
-    "note": "현재 원화 강도는 환율의 절대 수준과 단기 모멘텀을 분리해 계산합니다. 금리 전망은 시장금리 격차, 근원물가의 12개월 상승률, 생산의 3개월 연율과 미국 정책경로를 제한적으로 결합한 확률 앙상블입니다. 환율은 단기·중기 추세와 평균회귀 모형을 워크포워드 오차로 가중하고 과거 예측오차 분포에서 80% 범위를 산출합니다.",
-    "rate_core_cpi_yoy": 0.025,
-    "rate_core_cpi_valid": true,
-    "rate_core_cpi_source_mode": "official_yoy",
-    "rate_core_cpi_rows": 180,
-    "rate_probability_backtest_samples": 66,
-    "rate_probability_brier_score": 0.518,
-    "rate_probability_benchmark_brier": 0.6333,
-    "rate_probability_brier_skill_score": 0.1821,
-    "rate_probability_accuracy": 0.5909,
-    "rate_probability_log_loss": 0.8381,
-    "rate_probability_evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
-    "rate_probability_calibration_weight": 0.659,
-    "rate_industrial_valid": true,
-    "us_policy_rate_pct": 3.63,
-    "us_kr_policy_gap_pctp": 0.88,
-    "rate_industrial_3m_annualized": 0.05511,
-    "fx_model_weights": [
-      0.2173,
-      0.2001,
-      0.1231,
-      0.1346,
-      0.1062,
-      0.2188
-    ],
-    "fx_backtest_samples": 599,
-    "fx_backtest_rmse_pct": 4.012,
-    "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.05299,
-    "fx_3m_change": -0.06382,
-    "fx_forecast_bias_pct": -0.00067,
-    "policy_market_gap_pctp": 0.823,
-    "us_policy_engine_connected": true,
-    "us_policy_next_meeting": "2026-09-16",
-    "us_policy_expected_path_rows": 11,
-    "us_policy_schema_version": "3.9.0-policy-base-rate-calibrated"
+  "quality": {
+    "grade": "C",
+    "model_quality_score": 61,
+    "quality_score_semantics": "FX V4 OOS quality 75% + KRW public-factor coverage 25%",
+    "validation_basis": "FX V4 walk-forward OOS distribution + KRW-strength factor coverage; separate KRW-strength target OOS not claimed"
   },
-  "generated_at": "2026-08-10T03:47:57.252819+09:00",
-  "engine_version": "4.2.0-low-call-continuous-korea-forecast"
+  "limitations": [
+    "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
+    "별도 원화강도 목표변수의 독립 OOS 적중률로 오인하지 않도록 FX 검증과 입력자료 품질을 분리 표기합니다."
+  ],
+  "generated_at": "2026-08-10T04:11:59.870308+09:00"
 }

@@ -1,83 +1,68 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
-  "engine_version": "4.2.0-low-call-continuous-korea-forecast",
-  "generated_at": "2026-08-10T03:47:57.252819+09:00",
+  "engine_version": "4.4.0-final-low-call-korea-forecast",
+  "generated_at": "2026-08-10T04:11:59.870308+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
-      "status": "ok",
-      "message": "미국 정책금리 엔진 JSON을 정상적으로 읽고 호환 구조로 변환했습니다.",
-      "rows": 11,
-      "latest_observation": "2026-09-16",
-      "payload_path": "output/us_input.json",
+      "status": "not_configured",
+      "message": "US_POLICY_JSON_URL이 설정되지 않았습니다.",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": null,
       "warnings": [],
-      "metadata": {
-        "schema_version": "3.9.0-policy-base-rate-calibrated",
-        "source_engine_version": "3.9.0-policy-base-rate-calibrated",
-        "conversion_applied": true,
-        "next_fomc": "2026-09-16"
-      }
+      "metadata": {}
     },
     "ecos": {
       "source": "ecos",
-      "status": "ok",
-      "message": "ECOS 국내 금리·환율·유동성 증분수집 완료",
-      "rows": 17345,
-      "latest_observation": "20260807",
-      "payload_path": "output/raw_ecos.json",
+      "status": "missing_secret",
+      "message": "ECOS_API_KEY가 없습니다.",
+      "rows": 0,
+      "latest_observation": null,
+      "payload_path": null,
       "warnings": [],
       "metadata": {
-        "resolution_path": "output/ecos_resolution.json",
-        "cache_version": 2,
-        "incremental_fetch": true,
-        "daily_overlap_days": 21,
-        "monthly_overlap_months": 4,
-        "last_good_reused": [],
-        "circuit_breaker_open": false,
-        "circuit_breaker_reason": null,
-        "circuit_last_good_reused": [],
-        "ecos_connect_timeout_seconds": 4,
-        "ecos_read_timeout_seconds": 10,
-        "ecos_request_retries": 1,
-        "credential_status": "valid",
+        "credential_status": "missing",
         "secret_name": "ECOS_API_KEY",
-        "action_required": false,
-        "action": "없음",
-        "message": ""
+        "action_required": true,
+        "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
+        "message": "API 키를 등록해야 합니다."
       }
     },
     "global_market": {
       "source": "global_market",
       "status": "degraded",
-      "message": "1/12 series usable; max 2 external requests",
+      "message": "1/14 series usable; max 2 external requests",
       "rows": 0,
       "latest_observation": "20260809",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_batch: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=8)"
+        "fred_batch: ConnectionError: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Max retries exceeded with url: /graph/fredgraph.csv?id=DTWEXBGS%2CDGS2%2CDGS10%2CT10YIE%2CVIXCLS%2CBAMLH0A0HYM2%2CDCOILWTICO%2CPPIACO%2CDEXCHUS%2CDEXJPUS%2CDEXKOUS%2CNBKRBIS%2CRBKRBIS&cosd=2024-02-21 (Caused by NameResolutionError(\"HTTPSConnection(host='fred.stlouisfed.org', port=443): Failed to resolve 'fred.stlouisfed.org' ([Errno -3] Temporary failure in name resolution)\"))",
+        "usd_krw_yahoo: ConnectionError: HTTPSConnectionPool(host='query1.finance.yahoo.com', port=443): Max retries exceeded with url: /v8/finance/chart/KRW=X?range=1mo&interval=1d&events=history (Caused by NameResolutionError(\"HTTPSConnection(host='query1.finance.yahoo.com', port=443): Failed to resolve 'query1.finance.yahoo.com' ([Errno -3] Temporary failure in name resolution)\"))"
       ],
       "metadata": {
         "fresh_fred_series": 0,
         "usable_series": 1,
-        "series_total": 12,
-        "errors": {
-          "fred_batch": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=8)"
-        },
-        "last_good_reused": [],
-        "credential_status": "not_required",
-        "action_required": false,
+        "series_total": 14,
         "request_count": 2,
-        "request_budget": 2,
-        "fred_batch_start": "2018-01-01",
-        "connect_timeout_seconds": 3,
-        "read_timeout_seconds": 8,
-        "elapsed_seconds": 8.113
+        "max_external_requests": 2,
+        "fred_batch_start": "2024-02-21",
+        "fred_mode": "bootstrap_recent",
+        "bootstrap_days": 900,
+        "overlap_days": 120,
+        "last_good_reused": [
+          "usd_krw_yahoo"
+        ],
+        "errors": {
+          "fred_batch": "ConnectionError: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Max retries exceeded with url: /graph/fredgraph.csv?id=DTWEXBGS%2CDGS2%2CDGS10%2CT10YIE%2CVIXCLS%2CBAMLH0A0HYM2%2CDCOILWTICO%2CPPIACO%2CDEXCHUS%2CDEXJPUS%2CDEXKOUS%2CNBKRBIS%2CRBKRBIS&cosd=2024-02-21 (Caused by NameResolutionError(\"HTTPSConnection(host='fred.stlouisfed.org', port=443): Failed to resolve 'fred.stlouisfed.org' ([Errno -3] Temporary failure in name resolution)\"))",
+          "usd_krw_yahoo": "ConnectionError: HTTPSConnectionPool(host='query1.finance.yahoo.com', port=443): Max retries exceeded with url: /v8/finance/chart/KRW=X?range=1mo&interval=1d&events=history (Caused by NameResolutionError(\"HTTPSConnection(host='query1.finance.yahoo.com', port=443): Failed to resolve 'query1.finance.yahoo.com' ([Errno -3] Temporary failure in name resolution)\"))"
+        }
       }
     },
     "krx": {
       "source": "krx",
-      "status": "not_configured",
-      "message": "config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
+      "status": "missing_secret",
+      "message": "KRX_API_KEY가 없습니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -86,27 +71,24 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "credential_error",
-      "message": "KOSIS API 키가 만료되었거나 유효하지 않습니다. 새 키로 갱신해야 합니다.",
+      "status": "missing_secret",
+      "message": "GitHub Secret KOSIS_API_KEY가 없습니다.",
       "rows": 0,
       "latest_observation": null,
-      "payload_path": "output/raw_kosis.json",
-      "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=180&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fa064dda4b0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=180&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fa066b237d0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))"
-      ],
+      "payload_path": null,
+      "warnings": [],
       "metadata": {
-        "credential_status": "renewal_required",
+        "credential_status": "missing",
         "secret_name": "KOSIS_API_KEY",
         "action_required": true,
         "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=180&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fa064dda4b0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))"
+        "message": "API 키를 등록해야 합니다."
       }
     },
     "reb": {
       "source": "reb",
-      "status": "not_configured",
-      "message": "config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다.",
+      "status": "missing_secret",
+      "message": "REB_API_KEY가 없습니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -119,53 +101,58 @@
     "action_required": true,
     "alerts": [
       {
+        "source": "ecos",
+        "secret_name": "ECOS_API_KEY",
+        "status": "missing",
+        "action_required": true,
+        "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
+        "message": "API 키를 등록해야 합니다."
+      },
+      {
         "source": "kosis",
         "secret_name": "KOSIS_API_KEY",
-        "status": "renewal_required",
+        "status": "missing",
         "action_required": true,
         "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=180&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fa064dda4b0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))"
+        "message": "API 키를 등록해야 합니다."
       }
     ],
     "items": [
       {
         "source": "ecos",
         "secret_name": "ECOS_API_KEY",
-        "status": "valid",
-        "action_required": false,
-        "action": "없음",
-        "message": "ECOS 국내 금리·환율·유동성 증분수집 완료"
-      },
-      {
-        "source": "global_market",
-        "secret_name": null,
-        "status": "not_required",
-        "action_required": false,
-        "action": null,
-        "message": "1/12 series usable; max 2 external requests"
+        "status": "missing",
+        "action_required": true,
+        "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
+        "message": "API 키를 등록해야 합니다."
       },
       {
         "source": "kosis",
         "secret_name": "KOSIS_API_KEY",
-        "status": "renewal_required",
+        "status": "missing",
         "action_required": true,
         "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=180&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fa064dda4b0>, 'Connection to kosis.kr timed out. (connect timeout=30)'))"
+        "message": "API 키를 등록해야 합니다."
       }
     ]
   },
-  "blocking_errors": [],
+  "blocking_errors": [
+    "ecos"
+  ],
   "forecast_engine_operational": true,
   "continuity": {
     "rate_previous_forecast_used": false,
     "fx_previous_forecast_used": false,
     "liquidity_previous_forecast_used": false,
+    "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "global_market: 1/12 series usable; max 2 external requests",
-    "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
-    "kosis: KOSIS API 키가 만료되었거나 유효하지 않습니다. 새 키로 갱신해야 합니다.",
-    "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
+    "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
+    "ecos: ECOS_API_KEY가 없습니다.",
+    "global_market: 1/14 series usable; max 2 external requests",
+    "krx: KRX_API_KEY가 없습니다.",
+    "kosis: GitHub Secret KOSIS_API_KEY가 없습니다.",
+    "reb: REB_API_KEY가 없습니다."
   ]
 }

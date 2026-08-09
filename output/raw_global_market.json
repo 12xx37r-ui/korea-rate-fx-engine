@@ -161,5 +161,7 @@
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     }
-  ]
+  ],
+  "krw_neer": [],
+  "krw_reer": []
 }
