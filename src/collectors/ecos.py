@@ -17,6 +17,24 @@ PAGE_SIZE = 1000
 DAILY_OVERLAP_DAYS = 21
 MONTHLY_OVERLAP_MONTHS = 4
 
+# ECOS is a required official source, but GitHub-hosted runners can occasionally
+# fail to establish a connection to ecos.bok.or.kr.  One unavailable host must
+# never create N x 30-second sequential waits.  The first transport failure opens
+# a per-run circuit breaker; committed last-good official history is then reused.
+ECOS_CONNECT_TIMEOUT_SECONDS = 4
+ECOS_READ_TIMEOUT_SECONDS = 10
+ECOS_REQUEST_RETRIES = 1
+
+
+def _is_transport_failure(exc: Exception) -> bool:
+    text = str(exc).lower()
+    needles = (
+        "timed out", "timeout", "connection", "connecttimeout", "readtimeout",
+        "name resolution", "dns", "ssl", "proxy", "network is unreachable",
+        "temporarily unavailable", "remote end closed",
+    )
+    return any(token in text for token in needles)
+
 
 def _rows(payload: Any) -> list[dict[str, Any]]:
     if not isinstance(payload, dict):
@@ -41,7 +59,7 @@ def _fetch_page(
     end_text: str,
     start_row: int,
     end_row: int,
-    timeout: int,
+    timeout: int | tuple[float, float],
     retries: int,
 ) -> list[dict[str, Any]]:
     parts = [
@@ -71,7 +89,7 @@ def _fetch_all_items_page(
     end_text: str,
     start_row: int,
     end_row: int,
-    timeout: int,
+    timeout: int | tuple[float, float],
     retries: int,
 ) -> list[dict[str, Any]]:
     """Fetch a whole ECOS table slice without an item selector.
@@ -114,7 +132,7 @@ def _fetch(
     resolution: EcosResolution,
     start_text: str,
     end_text: str,
-    timeout: int,
+    timeout: int | tuple[float, float],
     retries: int,
 ) -> list[dict[str, Any]]:
     start_row = 1
@@ -150,7 +168,7 @@ def _fetch_all_items(
     cycle: str,
     start_text: str,
     end_text: str,
-    timeout: int,
+    timeout: int | tuple[float, float],
     retries: int,
 ) -> list[dict[str, Any]]:
     start_row = 1
@@ -270,17 +288,43 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     except Exception:
         previous_payloads = {}
 
-    resolver = EcosResolver(key, timeout, retries)
+    resolver = EcosResolver(key, ECOS_READ_TIMEOUT_SECONDS, ECOS_REQUEST_RETRIES)
     payloads: dict[str, list[dict[str, Any]]] = {}
     resolution_log: dict[str, Any] = {}
     warnings: list[str] = []
     auth_failures: list[str] = []
     latest_observation: str | None = None
     incremental_reused: list[str] = []
+    circuit_reused: list[str] = []
+    ecos_circuit_open = False
+    ecos_circuit_reason = ""
+    # Do not inherit the global 30 s x 3 retry policy for one host.  Accuracy is
+    # preserved by committed last-good history; a later scheduled run retries fresh.
+    ecos_timeout: tuple[float, float] = (ECOS_CONNECT_TIMEOUT_SECONDS, ECOS_READ_TIMEOUT_SECONDS)
+    ecos_retries = ECOS_REQUEST_RETRIES
 
     for name, item in series.items():
-        print(f"[ECOS] {name}: fetching", flush=True)
         old_rows = previous_payloads.get(name) if isinstance(previous_payloads.get(name), list) else []
+        if ecos_circuit_open:
+            if old_rows:
+                payloads[name] = list(old_rows)
+                incremental_reused.append(name)
+                circuit_reused.append(name)
+                latest = _latest_period(old_rows)
+                if latest and (latest_observation is None or latest > latest_observation):
+                    latest_observation = latest
+                print(
+                    f"[ECOS] {name}: skipped external call | circuit open; "
+                    f"last-good rows={len(old_rows)} latest={latest}",
+                    flush=True,
+                )
+            else:
+                detail = f"{name}: ECOS circuit open and no committed history"
+                warnings.append(detail)
+                print(f"[ECOS] {name}: skipped external call | no last-good history", flush=True)
+            continue
+
+        print(f"[ECOS] {name}: fetching", flush=True)
         try:
             end = date.today()
             fallback_start = end - timedelta(days=int(item.get("lookback_days", 400)))
@@ -297,7 +341,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 stat_code = str(item.get("stat_code", "")).strip()
                 if not stat_code:
                     raise RuntimeError("fetch_all_items에는 stat_code가 필요합니다.")
-                fresh_rows = _fetch_all_items(key, stat_code, cycle, start_text, end_text, timeout, retries)
+                fresh_rows = _fetch_all_items(key, stat_code, cycle, start_text, end_text, ecos_timeout, ecos_retries)
                 fresh_rows = _filter_item_rows(fresh_rows, str(item.get("item_name_filter", "")).strip())
                 resolved = EcosResolution(
                     stat_code=stat_code,
@@ -308,12 +352,12 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 )
             else:
                 resolved = resolver.resolve(name, item)
-                fresh_rows = _fetch(key, resolved, start_text, end_text, timeout, retries)
+                fresh_rows = _fetch(key, resolved, start_text, end_text, ecos_timeout, ecos_retries)
                 if not fresh_rows and not old_rows:
                     # Only a first-time bootstrap may spend one metadata refresh.  If a
                     # committed history exists, keep it and avoid repeated discovery.
                     resolved = resolver.resolve(name, item, force=True)
-                    fresh_rows = _fetch(key, resolved, start_text, end_text, timeout, retries)
+                    fresh_rows = _fetch(key, resolved, start_text, end_text, ecos_timeout, ecos_retries)
 
             merged_rows = _merge_rows(old_rows, fresh_rows)
             if not merged_rows:
@@ -344,6 +388,14 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             warnings.append(detail)
             if credential_issue(exc):
                 auth_failures.append(detail)
+            if _is_transport_failure(exc):
+                ecos_circuit_open = True
+                ecos_circuit_reason = f"{type(exc).__name__}: {exc}"
+                print(
+                    f"[ECOS] circuit breaker opened after transport failure; "
+                    f"remaining series will reuse last-good history",
+                    flush=True,
+                )
             print(f"[ECOS] {name}: failed: {detail}", flush=True)
 
     resolver.save()
@@ -386,6 +438,12 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             "daily_overlap_days": DAILY_OVERLAP_DAYS,
             "monthly_overlap_months": MONTHLY_OVERLAP_MONTHS,
             "last_good_reused": sorted(set(incremental_reused)),
+            "circuit_breaker_open": ecos_circuit_open,
+            "circuit_breaker_reason": ecos_circuit_reason or None,
+            "circuit_last_good_reused": sorted(set(circuit_reused)),
+            "ecos_connect_timeout_seconds": ECOS_CONNECT_TIMEOUT_SECONDS,
+            "ecos_read_timeout_seconds": ECOS_READ_TIMEOUT_SECONDS,
+            "ecos_request_retries": ECOS_REQUEST_RETRIES,
             **credential_metadata("ECOS_API_KEY", "valid"),
         },
     )

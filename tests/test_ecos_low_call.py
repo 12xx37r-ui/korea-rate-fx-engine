@@ -44,3 +44,61 @@ def test_explicit_ecos_resolution_does_not_call_metadata(monkeypatch):
     )
     assert resolved.stat_code == "731Y001"
     assert resolved.item_code1 == "0000001"
+
+
+def test_transport_failure_detector():
+    assert ecos._is_transport_failure(RuntimeError("Connection to ecos.bok.or.kr timed out"))
+    assert not ecos._is_transport_failure(RuntimeError("ECOS 오류 INFO-200: 해당하는 데이터가 없습니다."))
+
+
+def test_collect_opens_circuit_after_first_transport_failure(monkeypatch, tmp_path):
+    config = {
+        "series": {
+            "kr_base_rate": {
+                "enabled": True,
+                "frequency": "D",
+                "lookback_days": 30,
+                "stat_code": "722Y001",
+                "item_code1": "0101000",
+                "item_name1": "한국은행 기준금리",
+            },
+            "usdkrw": {
+                "enabled": True,
+                "frequency": "D",
+                "lookback_days": 30,
+                "stat_code": "731Y001",
+                "item_code1": "0000001",
+                "item_name1": "원/미국달러(매매기준율)",
+            },
+        }
+    }
+    previous = {
+        "kr_base_rate": [{"TIME": "20260807", "ITEM_CODE1": "0101000", "ITEM_NAME1": "한국은행 기준금리", "DATA_VALUE": "2.5"}],
+        "usdkrw": [{"TIME": "20260807", "ITEM_CODE1": "0000001", "ITEM_NAME1": "원/미국달러(매매기준율)", "DATA_VALUE": "1407.5"}],
+    }
+
+    def fake_read_json(path):
+        if str(path) == "config/ecos_series.json":
+            return config
+        if str(path).endswith("raw_ecos.json"):
+            return previous
+        return {}
+
+    calls = {"fetch": 0}
+
+    def fail_fetch(*args, **kwargs):
+        calls["fetch"] += 1
+        raise RuntimeError("Connection to ecos.bok.or.kr timed out")
+
+    (tmp_path / "raw_ecos.json").write_text("{}")
+    monkeypatch.setenv("ECOS_API_KEY", "dummy")
+    monkeypatch.setattr(ecos, "read_json", fake_read_json)
+    monkeypatch.setattr(ecos, "write_json", lambda *args, **kwargs: None)
+    monkeypatch.setattr(ecos, "_fetch", fail_fetch)
+    monkeypatch.setattr(ecos.EcosResolver, "save", lambda self: None)
+
+    result = ecos.collect(tmp_path, timeout=30, retries=3)
+    assert calls["fetch"] == 1
+    assert result.status == "degraded"
+    assert result.metadata["circuit_breaker_open"] is True
+    assert "usdkrw" in result.metadata["circuit_last_good_reused"]

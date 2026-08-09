@@ -1,5 +1,5 @@
 {
-  "schema_version": "4.2.0-low-call-continuous-korea-forecast",
+  "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "timezone": "Asia/Seoul",
   "request_timeout_seconds": 30,
   "max_retries": 3,
