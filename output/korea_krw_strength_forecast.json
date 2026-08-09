@@ -4,7 +4,7 @@
   "status": "ok",
   "forecast_operational": true,
   "current": {
-    "strength_score": 85.53,
+    "strength_score": 83.87,
     "grade": "원화 강세",
     "usdkrw": 1407.45,
     "usdkrw_source": "Yahoo",
@@ -14,16 +14,16 @@
   "forecast_path": [
     {
       "months": 3,
-      "strength_score": 75.19,
+      "strength_score": 74.07,
       "grade": "원화 강세",
-      "change_points": -10.34,
+      "change_points": -9.81,
       "direction": "down",
       "up_probability": 0.4836,
       "neutral_probability": 0.0452,
       "down_probability": 0.4712,
       "range_80": [
-        43.2,
-        84.2
+        42.1,
+        83.1
       ],
       "fx_anchor": 1406.5,
       "quality_grade": "C",
@@ -32,16 +32,16 @@
     },
     {
       "months": 6,
-      "strength_score": 74.05,
+      "strength_score": 73.11,
       "grade": "원화 강세",
-      "change_points": -11.49,
+      "change_points": -10.76,
       "direction": "down",
       "up_probability": 0.4784,
       "neutral_probability": 0.0516,
       "down_probability": 0.47,
       "range_80": [
-        36.9,
-        83.1
+        35.9,
+        82.2
       ],
       "fx_anchor": 1406.6,
       "quality_grade": "C",
@@ -50,16 +50,16 @@
     },
     {
       "months": 12,
-      "strength_score": 72.93,
+      "strength_score": 72.25,
       "grade": "원화 강세",
-      "change_points": -12.6,
+      "change_points": -11.63,
       "direction": "down",
       "up_probability": 0.4811,
       "neutral_probability": 0.0572,
       "down_probability": 0.4617,
       "range_80": [
-        29.2,
-        81.6
+        28.6,
+        80.9
       ],
       "fx_anchor": 1405.1,
       "quality_grade": "C",
@@ -70,7 +70,7 @@
   "factor_panel": {
     "group_scores": {
       "usdkrw_level_momentum": 0.6383,
-      "external_balance": 1.0
+      "external_balance": 0.8342
     },
     "group_weights": {
       "usdkrw_level_momentum": 0.4,
@@ -90,6 +90,10 @@
       "current_account": {
         "score": 1.0,
         "percentile_60obs": 1.0
+      },
+      "fx_reserves": {
+        "score": 0.6684,
+        "change_pct": 4.039
       }
     },
     "active_group_count": 2,
@@ -105,5 +109,5 @@
     "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
     "별도 원화강도 목표변수의 독립 OOS 적중률로 오인하지 않도록 FX 검증과 입력자료 품질을 분리 표기합니다."
   ],
-  "generated_at": "2026-08-10T04:11:59.870308+09:00"
+  "generated_at": "2026-08-10T04:16:24.582333+09:00"
 }
