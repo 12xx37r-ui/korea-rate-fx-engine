@@ -32,3 +32,25 @@ def test_high_fx_level_is_not_mislabeled_strong_only_due_to_recent_decline():
     assert result["current"]["krw_absolute_level_score"] < 0
     assert result["current"]["krw_short_term_momentum_score"] > 0
     assert result["current"]["krw_strength_score"] < result["current"]["krw_short_term_momentum_score"]
+
+
+def test_strength_current_spot_uses_same_fresh_overlay_as_fx_v4():
+    from datetime import date, timedelta
+
+    start = date(2025, 1, 1)
+    fx_rows = []
+    for i in range(320):
+        d = start + timedelta(days=i)
+        fx_rows.append({"TIME": d.strftime("%Y%m%d"), "DATA_VALUE": str(1400 + i * 0.05)})
+    last = start + timedelta(days=321)
+    global_data = {
+        "usd_krw_yahoo": [{"date": last.strftime("%Y%m%d"), "value": 1392.5}],
+    }
+    ecos = {
+        "usdkrw": fx_rows,
+        "kr_base_rate": [{"TIME": "20251118", "DATA_VALUE": "2.5"}],
+        "kr_gov_2y": [{"TIME": "20251118", "DATA_VALUE": "2.4"}],
+    }
+    result = build_snapshot(ecos, {}, global_data=global_data)
+    assert result["current"]["usdkrw"] == 1392.5
+    assert result["forecast"]["usdkrw_mid"] is not None

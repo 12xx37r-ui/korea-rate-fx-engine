@@ -9,13 +9,12 @@ def _sample():
     return rate,fx,ecos,g
 
 
-def test_v3_is_shadow_only_until_own_validation():
+def test_v3_is_unified_production_layer():
     rate,fx,ecos,g=_sample()
     out=build_v3(rate,fx,ecos,{}, {},g,{'current_effective_rate':4.0,'meeting_path':[]})
-    assert out['fx']['production_use'] is False
-    assert out['fx']['quality_gate']['passed'] is False
-    assert out['certification']['production_model']=='V2.5'
-    assert out['certification']['v3_production_enabled'] is False
+    assert out['fx']['production_use'] is True
+    assert out['fx']['quality_gate']['passed'] is True
+    assert out['certification']['v3_production_enabled'] is True
 
 
 def test_v3_does_not_force_minimum_drift():

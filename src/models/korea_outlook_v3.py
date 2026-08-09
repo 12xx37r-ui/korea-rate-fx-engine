@@ -1,110 +1,138 @@
 from __future__ import annotations
-from math import sqrt
-from statistics import mean
+
+"""Unified Korea rate/FX/liquidity output.
+
+V3 is now an integration layer, not a second competing FX model.  The continuous
+V4 FX engine is the single source of truth for point forecasts, probabilities and
+intervals.  This removes the previous shadow/production split and prevents two
+engines from disagreeing on the same dashboard card.
+"""
+
 from typing import Any
 
 
-def _series(d,k):
-    out=[]
-    for r in (d or {}).get(k,[]) or []:
-        try: out.append((str(r.get('date') or r.get('time') or r.get('period')),float(r.get('value'))))
-        except Exception: pass
-    return sorted(out)
+def _float(value: Any) -> float | None:
+    try:
+        if value is None:
+            return None
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
-def _last(d,k):
-    s=_series(d,k); return s[-1][1] if s else None
 
-def _ret(d,k,n):
-    s=_series(d,k)
-    if len(s)<=n or s[-n-1][1]==0:return None
-    return s[-1][1]/s[-n-1][1]-1
+def build_v3(
+    rate_v2: dict[str, Any],
+    fx_v2: dict[str, Any],
+    ecos: dict[str, Any],
+    kosis: dict[str, Any],
+    krx: dict[str, Any],
+    global_data: dict[str, Any],
+    us: dict[str, Any] | None,
+    liquidity: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    del ecos, kosis, krx, global_data, us  # Inputs remain in signature for compatibility/audit.
 
-def _clip(x,a,b): return max(a,min(b,x))
-def _z(x,scale): return 0.0 if x is None else _clip(x/scale,-2.5,2.5)
-
-def build_v3(rate_v2:dict[str,Any],fx_v2:dict[str,Any],ecos:dict[str,Any],kosis:dict[str,Any],krx:dict[str,Any],global_data:dict[str,Any],us:dict[str,Any]|None)->dict[str,Any]:
-    spot=float(fx_v2.get('current_usdkrw') or _last(ecos,'usdkrw') or 0)
-    current_rate=float((rate_v2.get('current') or {}).get('kr_base_rate_pct') or 0)
-    us_current=float((us or {}).get('current_effective_rate') or ((us or {}).get('fed') or {}).get('current_effective_rate') or 0)
-    us_path=[]
-    for r in (us or {}).get('meeting_path',[]) or ((us or {}).get('fed') or {}).get('expected_path',[]):
-        try: us_path.append(float(r.get('monthly_average_rate') if r.get('monthly_average_rate') is not None else r.get('expected_post_meeting_rate')))
-        except Exception: pass
-    us_6m=(mean(us_path[:4])-us_current) if us_path else 0.0
-    kr_path=rate_v2.get('meeting_path') or []
-    kr_6m=(float(kr_path[min(2,len(kr_path)-1)].get('expected_rate_pct'))-current_rate) if kr_path else 0.0
-
-    kr2=_last(ecos,'kr_gov_2y'); kr10=_last(ecos,'kr_gov_10y'); us2=_last(global_data,'us_2y'); us10=_last(global_data,'us_10y')
-    cpi=(rate_v2.get('current') or {}).get('core_cpi_yoy'); us_be=_last(global_data,'us_breakeven_10y')
-    real_gap=None
-    if None not in (kr2,cpi,us2,us_be):
-        cpi_pct=float(cpi)*100 if abs(float(cpi))<1 else float(cpi)
-        real_gap=(kr2-cpi_pct)-(us2-us_be)
-    nominal2_gap=(kr2-us2) if None not in (kr2,us2) else None
-    nominal10_gap=(kr10-us10) if None not in (kr10,us10) else None
-
-    # Positive score => USD/KRW upward pressure (won weakness)
-    components={
-      'policy_path_gap': _z((us_6m-kr_6m),0.50),
-      'nominal_2y_gap': _z(-(nominal2_gap or 0),1.0),
-      'nominal_10y_gap': _z(-(nominal10_gap or 0),1.0),
-      'real_rate_gap': _z(-(real_gap or 0),1.0),
-      'broad_dollar': _z(_ret(global_data,'broad_dollar',63),0.04),
-      'yuan': _z(_ret(global_data,'usd_cny',63),0.04),
-      'yen': _z(_ret(global_data,'usd_jpy',63),0.05),
-      'risk_vix': _z((_last(global_data,'vix') or 20)-20,10),
-      'credit_proxy': _z((_last(global_data,'hy_oas') or 4)-4,2),
-      'oil': _z(_ret(global_data,'wti',63),0.20),
-      'commodity': _z(_ret(global_data,'commodity_index',63),0.08),
-      'technical_trend': _z(_ret(ecos,'usdkrw',60),0.06),
-      'mean_reversion': -_z(_ret(ecos,'usdkrw',252),0.12),
+    rate_current = _float((rate_v2.get("current") or {}).get("kr_base_rate_pct")) or 0.0
+    rate_path = rate_v2.get("meeting_path") or []
+    rate_horizons = []
+    for idx, row in enumerate(rate_path[:4]):
+        rate_horizons.append(
+            {
+                "meeting_ahead": idx + 1,
+                "label": f"{idx + 1}회 뒤 금통위 직후",
+                "expected_rate_pct": row.get("expected_rate_pct"),
+                "probabilities": row.get("probabilities"),
+                "most_likely_action": row.get("most_likely_action"),
+            }
+        )
+    while len(rate_horizons) < 4:
+        previous = rate_horizons[-1]["expected_rate_pct"] if rate_horizons else rate_current
+        rate_horizons.append(
+            {
+                "meeting_ahead": len(rate_horizons) + 1,
+                "label": f"{len(rate_horizons) + 1}회 뒤 금통위 직후",
+                "expected_rate_pct": previous,
+                "probabilities": None,
+                "most_likely_action": "hold",
+            }
+        )
+    rate_month = {
+        "3m": rate_horizons[min(1, len(rate_horizons) - 1)]["expected_rate_pct"],
+        "6m": rate_horizons[min(2, len(rate_horizons) - 1)]["expected_rate_pct"],
+        "12m": rate_horizons[min(3, len(rate_horizons) - 1)]["expected_rate_pct"],
     }
-    # Optional direct/proxy Korean balance and flow blocks. Missing blocks are zero-weighted and disclosed.
-    optional={
-      'foreign_equity_flow': bool((krx or {}).get('foreign_equity_flow')),
-      'foreign_bond_flow': bool((krx or {}).get('foreign_bond_flow')),
-      'current_account': bool((ecos or {}).get('current_account')),
-      'trade_balance': bool((kosis or {}).get('trade_balance')),
-      'semiconductor_exports': bool((kosis or {}).get('semiconductor_exports')),
-      'fx_reserves': bool((ecos or {}).get('fx_reserves')),
-      'ndf_or_forward_proxy': None not in (spot,current_rate,us_current),
-      'korea_cds_or_credit_proxy': _last(global_data,'hy_oas') is not None and _last(global_data,'vix') is not None,
-      'ppp_equilibrium_proxy': len(_series(ecos,'usdkrw'))>=1000,
-      'volatility_regime': len(_series(ecos,'usdkrw'))>=260,
-    }
-    weights={'policy_path_gap':.14,'nominal_2y_gap':.08,'nominal_10y_gap':.05,'real_rate_gap':.08,'broad_dollar':.13,'yuan':.09,'yen':.05,'risk_vix':.08,'credit_proxy':.07,'oil':.04,'commodity':.03,'technical_trend':.08,'mean_reversion':.08}
-    total=sum(weights.values()); score=sum(components[k]*w for k,w in weights.items())/total
-    # Always produce a genuine point estimate; weak signals are shrunk, not copied from spot.
-    horizon_scale={1:.006,3:.018,6:.032,12:.050}
-    v2_rows={int(r.get('months')):r for r in fx_v2.get('forecast_path',[]) if r.get('months')}
-    forecasts=[]
-    for m,scale in horizon_scale.items():
-        drift=_clip(score*scale,-0.075,0.075)
-        mid=spot*(1+drift)
-        old=v2_rows.get(m,{})
-        r80=old.get('range_80') or [mid*(1-scale*2.5),mid*(1+scale*2.5)]
-        half=max(abs(mid-float(r80[0])),abs(float(r80[1])-mid))
-        forecasts.append({'months':m,'point_forecast':round(mid,1),'change_pct':round(drift*100,2),'up_probability':round(0.5+_clip(score*.12,-.20,.20),3),'down_probability':round(0.5-_clip(score*.12,-.20,.20),3),'range_50':[round(mid-half*.55,1),round(mid+half*.55,1)],'range_80':[round(mid-half,1),round(mid+half,1)]})
 
-    rate_horizons=[]
-    for i,row in enumerate(kr_path[:3]):
-        rate_horizons.append({'meeting_ahead':i+1,'label':f'{i+1}회 뒤 금통위 직후','expected_rate_pct':row.get('expected_rate_pct'),'probabilities':row.get('probabilities'),'most_likely_action':row.get('most_likely_action')})
-    while len(rate_horizons)<4:
-        prev=rate_horizons[-1]['expected_rate_pct'] if rate_horizons else current_rate
-        rate_horizons.append({'meeting_ahead':len(rate_horizons)+1,'label':f'{len(rate_horizons)+1}회 뒤 금통위 직후','expected_rate_pct':round(float(prev),3),'probabilities':None,'most_likely_action':'hold'})
-    rate_month={'3m':rate_horizons[min(1,len(rate_horizons)-1)]['expected_rate_pct'],'6m':rate_horizons[min(2,len(rate_horizons)-1)]['expected_rate_pct'],'12m':rate_horizons[min(3,len(rate_horizons)-1)]['expected_rate_pct']}
+    spot = _float(fx_v2.get("current_usdkrw")) or 0.0
+    forecasts = []
+    for row in fx_v2.get("forecast_path", []) or []:
+        point = row.get("point_forecast", row.get("mid"))
+        if point is None:
+            band = row.get("range_80")
+            if isinstance(band, list) and len(band) >= 2:
+                lo, hi = _float(band[0]), _float(band[1])
+                if lo is not None and hi is not None:
+                    point = (lo + hi) / 2.0
+        change_pct = row.get("change_pct")
+        if change_pct is None and point is not None and spot:
+            change_pct = (float(point) / spot - 1.0) * 100.0
+        forecasts.append(
+            {
+                "months": row.get("months"),
+                "point_forecast": point,
+                "mid": row.get("mid", point) if row.get("mid") is not None else point,
+                "change_pct": change_pct,
+                "direction": row.get("direction"),
+                "up_probability": row.get("up_probability"),
+                "neutral_probability": row.get("neutral_probability"),
+                "down_probability": row.get("down_probability"),
+                "range_50": row.get("range_50"),
+                "range_80": row.get("range_80"),
+                "quality_grade": row.get("quality_grade"),
+                "model_quality_score": row.get("model_quality_score"),
+                "prediction_status": "forecast",
+            }
+        )
 
-    direct_axes=13+sum(1 for v in optional.values() if v)
-    total_axes=23
-    coverage=direct_axes/total_axes
-    fx_gate=((fx_v2.get('validation') or {}).get('quality_gate') or {})
-    rate_gate=((rate_v2.get('validation') or {}).get('quality_gate') or {})
+    fx_gate = ((fx_v2.get("validation") or {}).get("quality_gate") or {})
+    rate_gate = ((rate_v2.get("validation") or {}).get("quality_gate") or {})
+    non_copy = any(
+        _float(row.get("point_forecast")) is not None
+        and abs(float(row.get("point_forecast")) - spot) >= 0.05
+        for row in forecasts
+    )
+
     return {
-      'schema_version':'3.0.0','status':'ok','engine_scope':'korea_rate_fx_comprehensive_v3','us_engine_modified':False,
-      'rate':{'current_rate_pct':current_rate,'next_meeting_expected_rate_pct':rate_horizons[0]['expected_rate_pct'] if rate_horizons else None,'meeting_path':rate_horizons,'calendar_horizon_estimates':rate_month,'quality_gate':rate_gate,'explanation':'예상금리는 실제 결정값이 아니라 동결·인상·인하 확률을 합친 확률가중 평균입니다.'},
-      'fx':{'current_usdkrw':spot,'forecast_path':forecasts,'factor_score':round(score,4),'quality_gate':{'passed':False,'candidate':False,'level':'V3 그림자 검증중','reasons':['V3 다요인 점예측의 자체 순차검증이 완료되지 않아 실전 인증에 사용하지 않습니다.']},'legacy_v2_quality_gate':fx_gate,'point_forecast_is_not_spot_copy':False,'production_use':False},
-      'factor_panel':{'coverage_ratio':round(coverage,3),'components':{k:round(v,4) for k,v in components.items()},'optional_axes':optional,'weights':weights,
-        'sources_used':['한국은행 ECOS','통계청 KOSIS','KRX(연결 시 직접 사용)','미국 정책금리 엔진','FRED 공개 시계열'],
-        'proxy_rules':{'ndf':'한·미 예상금리차 기반 선도환 대체','korea_cds':'미국 하이일드 스프레드와 변동성지수 결합 대체','ppp':'장기 원달러 중심값 기반 균형환율 대체'}},
-      'certification':{'level':'V3 그림자 검증중','rate_level':rate_gate.get('level'),'fx_level':'V2.5 검증등급 유지','production_model':'V2.5','v3_production_enabled':False,'note':'V3는 자료수집·요인진단용 그림자 계층이며 자체 순차검증 통과 전에는 대시보드 실전 예측에 사용하지 않습니다.'}
+        "schema_version": "3.1.0",
+        "status": "ok",
+        "engine_scope": "korea_rate_fx_liquidity_unified",
+        "us_engine_modified": False,
+        "rate": {
+            "current_rate_pct": rate_current,
+            "next_meeting_expected_rate_pct": rate_horizons[0]["expected_rate_pct"] if rate_horizons else None,
+            "meeting_path": rate_horizons,
+            "calendar_horizon_estimates": rate_month,
+            "quality_gate": rate_gate,
+            "explanation": "예상금리는 동결·인상·인하 확률의 확률가중 평균입니다.",
+        },
+        "fx": {
+            "current_usdkrw": spot,
+            "current_date": fx_v2.get("current_date"),
+            "current_source": fx_v2.get("current_source"),
+            "recent_change_pct": fx_v2.get("recent_change_pct"),
+            "forecast_path": forecasts,
+            "quality_gate": fx_gate,
+            "point_forecast_is_not_spot_copy": non_copy,
+            "production_use": bool(fx_v2.get("forecast_operational", True)),
+            "production_model": fx_v2.get("production_model"),
+        },
+        "krw_liquidity": liquidity or {},
+        "factor_panel": fx_v2.get("factor_panel") or {},
+        "certification": {
+            "level": fx_gate.get("level", "검증등급 산출"),
+            "rate_level": rate_gate.get("level"),
+            "fx_level": fx_gate.get("level"),
+            "production_model": fx_v2.get("production_model"),
+            "v3_production_enabled": True,
+            "note": "V3는 별도 그림자 예측을 만들지 않고 V4 연속형 FX 예측을 그대로 통합합니다.",
+        },
     }

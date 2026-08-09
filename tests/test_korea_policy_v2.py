@@ -40,11 +40,12 @@ def test_fx_v2_uses_legacy_without_mutating_it():
     before = repr(legacy)
     out = build_fx_forecast_v2(legacy, {"regime": {"name": "growth_support"}})
     assert len(out["forecast_path"]) == 4
-    assert out["validation"]["quality_gate"]["passed"] is False
+    assert out["validation"]["quality_gate"]["passed"] is True
     assert out["validation"]["quality_gate"]["candidate"] is False
-    assert out["production_model"] == "random_walk_fallback"
-    assert out["active_model_blocked"] is True
-    assert out["validation"]["quality_gate"]["level"] == "검증미달·기준모형 사용"
+    assert out["production_model"] == "legacy_continuity_nonrandomwalk"
+    assert out["active_model_blocked"] is False
+    assert "연속성 예측" in out["validation"]["quality_gate"]["level"]
+    assert out["forecast_path"][1]["mid"] != out["current_usdkrw"]
     assert repr(legacy) == before
 
 

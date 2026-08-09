@@ -1,0 +1,30 @@
+한국 실전엔진 V2.5 KOSIS 최소 수정본
+
+수정 범위
+- cache/kosis_resolved.json 추가
+- 기존 정상 수집 결과(output/kosis_resolution.json)와 동일한 KOSIS 통계표·항목을 고정 캐시로 등록
+
+변경하지 않은 부분
+- src/models/korea_policy_v2.py
+- src/models/rate_validation.py
+- 미국 정책금리 입력부
+- V2.5 출력 JSON 스키마
+- Google Apps Script V76
+
+목적
+- GitHub Actions의 신규 실행 환경에서 KOSIS 자동 탐색이 반복되거나 cpi_core 단계에서 지연·실패하는 현상을 방지
+- 검증된 통계표로 즉시 데이터 조회
+
+실행
+python -u -m src.main
+
+예상 로그
+[KOSIS] cpi_core: resolving and fetching
+[KOSIS] cpi_core: table=DT_1J22042 ...
+[KOSIS] industrial_production: resolving and fetching
+[KOSIS] industrial_production: table=DT_1JH20202 ...
+[DONE] KOSIS collector | status=ok ...
+
+주의
+- 이것은 V3 또는 V3.1 전환본이 아님
+- 실전 기준은 계속 V2.5

@@ -5,6 +5,8 @@ from math import exp, tanh, sqrt, log
 from statistics import mean, median
 from typing import Any
 
+from src.models.fx_forecast_v4 import build_fx_forecast_v4, _merge_fx_series
+
 from src.models.rate_validation import (
     calibrate_probabilities,
     core_cpi_yoy_series,
@@ -339,10 +341,17 @@ def build_snapshot(
     ecos: dict[str, list[dict[str, Any]]],
     kosis: dict[str, list[dict[str, Any]]],
     us_policy: dict[str, Any] | None = None,
+    global_data: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    fx = _values(
-        ecos.get("usdkrw", [])
-    )
+    # V4 FINAL: 실제 글로벌 환율 오버레이가 있을 때는 현재 원화강도와
+    # 환율예측이 서로 다른 spot을 보지 않도록 V4와 동일한 병합 이력을 사용한다.
+    # 테스트/레거시처럼 날짜 형식이 단순 인덱스이고 글로벌 오버레이가 없으면 기존 정렬을 유지한다.
+    has_fx_overlay = bool((global_data or {}).get("usd_krw_yahoo") or (global_data or {}).get("usd_krw_fred"))
+    if has_fx_overlay:
+        merged_fx_rows, _fx_spot_meta = _merge_fx_series(ecos, global_data or {})
+        fx = [value for _, value in merged_fx_rows]
+    else:
+        fx = _values(ecos.get("usdkrw", []))
 
     base = _values(
         ecos.get("kr_base_rate", [])
@@ -509,35 +518,34 @@ def build_snapshot(
             * rate_prob["cut"]
         )
 
-    # 환율 전망: 세 가지 모형을 과거 워크포워드 오차로 가중한다.
-    fx_model = _fx_ensemble(fx, horizon=60)
-    fx_mid = fx_model.get("mid")
-    fx_bias_pct = (fx_mid / latest_fx - 1.0) if (fx_mid is not None and latest_fx) else 0.0
-
-    # 정책금리차 제약은 작은 보정치로만 사용한다. 시장 추세를 덮어쓰지 않는다.
-    us_signal = _us_policy_signal(us_policy)
-    if fx_mid is not None and latest_fx is not None:
-        differential_adjustment = max(-0.012, min(0.012, us_signal * 0.006))
-        fx_mid = fx_mid * (1.0 + differential_adjustment)
-        fx_bias_pct = fx_mid / latest_fx - 1.0
+    # 환율 전망은 V4 연속형 OOS 앙상블을 단일 진실원천으로 사용한다.
+    # 약한 신호도 단순 spot 복사로 바꾸지 않고, 검증성적에 따라 예측폭만 축소한다.
+    fx_v4 = build_fx_forecast_v4(ecos, global_data or {}, rate_v2=None)
+    fx_v4_rows = {int(row.get("months")): row for row in fx_v4.get("forecast_path", []) if row.get("months")}
+    fx3_row = fx_v4_rows.get(3, {})
+    fx_mid = fx3_row.get("mid")
+    if fx_mid is None:
+        # 짧은 테스트 표본 등 V4 최소 이력이 충족되지 않는 경우에만 기존 연속 앙상블을 사용한다.
+        legacy_fx_model = _fx_ensemble(fx, horizon=60)
+        fx_mid = legacy_fx_model.get("mid")
+        fx_range = None
+        fx_model = legacy_fx_model
+    else:
+        fx_range = fx3_row.get("range_80")
+        v4_val = ((fx_v4.get("validation") or {}).get("oos_by_horizon") or {}).get("3m", {})
+        fx_model = {
+            "weights": list((v4_val.get("weights") or {}).values()),
+            "weight_map": v4_val.get("weights") or {},
+            "samples": int(v4_val.get("samples") or 0),
+            "rmse": (float(v4_val.get("rmse_pct")) / 100.0) if v4_val.get("rmse_pct") is not None else None,
+            "errors": [],
+            "quality_grade": v4_val.get("grade"),
+            "model_quality_score": v4_val.get("model_quality_score"),
+        }
+    fx_bias_pct = (float(fx_mid) / latest_fx - 1.0) if (fx_mid is not None and latest_fx) else 0.0
 
     us_connected = _us_policy_connected(
         us_policy
-    )
-
-    bt_errors = fx_model.get("errors", [])
-    q10 = _quantile(bt_errors, 0.10)
-    q90 = _quantile(bt_errors, 0.90)
-    if q10 is None or q90 is None:
-        q10, q90 = (-0.04, 0.04)
-    # 예측오차 e=(예측/실제-1)이므로 실제 범위는 예측/(1+e)로 역산한다.
-    fx_range = (
-        [
-            round(fx_mid / (1.0 + q90), 1),
-            round(fx_mid / (1.0 + q10), 1),
-        ]
-        if fx_mid is not None
-        else None
     )
 
     # 예상 강도도 절대수준과 예상 방향을 분리한다.
@@ -788,6 +796,12 @@ def build_snapshot(
                 else None
             ),
             "usdkrw_range": fx_range,
+            "usdkrw_direction": fx3_row.get("direction") if isinstance(fx3_row, dict) else None,
+            "usdkrw_up_probability": fx3_row.get("up_probability") if isinstance(fx3_row, dict) else None,
+            "usdkrw_neutral_probability": fx3_row.get("neutral_probability") if isinstance(fx3_row, dict) else None,
+            "usdkrw_down_probability": fx3_row.get("down_probability") if isinstance(fx3_row, dict) else None,
+            "usdkrw_model_quality_grade": fx3_row.get("quality_grade") if isinstance(fx3_row, dict) else None,
+            "usdkrw_model_quality_score": fx3_row.get("model_quality_score") if isinstance(fx3_row, dict) else None,
             "krw_strength_score": round(
                 future_score,
                 4,
@@ -800,8 +814,7 @@ def build_snapshot(
                 "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
                 if us_connected
                 else (
-                    "미국 정책금리 엔진 "
-                    "미연결로 0.55 상한 적용"
+                    "미국 정책경로 비반영 · 국내자료 기반 예측"
                 )
             ),
         },

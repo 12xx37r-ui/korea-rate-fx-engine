@@ -1,5 +1,9 @@
 # Korea Rate & FX Engine
 
+**현재 운영 버전: V4 연속형 한국 금리·환율·원화강도·원화유동성 엔진**
+
+환율은 더 이상 약한 신호를 `현재값 유지`로 바꾸지 않습니다. 최신 원자료와 순차 walk-forward 검증을 이용해 1·3·6·12개월 점예측·확률·구간을 항상 산출하고, 검증력이 약하면 예측폭과 품질등급만 낮춥니다. 자세한 변경사항은 `V4_FINAL_RELEASE_NOTES.md`를 참조하세요.
+
 한국 정책금리 방향, 원/달러 환율 경로, 원화 강도 및 향후 원화 방향을 산출하기 위한 GitHub 기반 엔진의 1차 골격입니다.
 
 ## 1차 목표
@@ -74,3 +78,14 @@ API 키를 갱신한 뒤 GitHub의 `Settings → Secrets and variables → Actio
 - `output/korea_validation_v2.json`: Brier score, benchmark skill, accuracy, RMSE, 표본수, 품질 게이트
 
 `quality_gate.passed`가 거짓이면 화면에서 "준기관급"으로 표시하지 않아야 한다.
+
+
+## V4 연속형 예측 엔진
+
+- `src/models/fx_forecast_v4.py`: USD/KRW 연속형 OOS 가중 앙상블
+- `src/models/krw_liquidity.py`: 원화유동성 연속 예측
+- `src/main.py`: GLOBAL_MARKET 실행, last-good 원자료 병합, collector 장애 격리
+- `output/korea_fx_forecast_v2.json`: 기존 파일명 유지 + V4 내부 엔진
+- `output/korea_rate_fx_outlook_v3.json`: 별도 그림자 모형 없이 V4를 단일 예측원으로 사용
+
+`random_walk_no_change`는 실전 예측이 아니라 성능 비교 benchmark로만 사용됩니다.

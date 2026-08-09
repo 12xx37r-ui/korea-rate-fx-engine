@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "engine_version": "2.7.0-objective-validation-final",
+  "engine_version": "4.0.0-continuous-korea-forecast/rate",
   "status": "ok",
   "engine_scope": "korea_only_us_engine_read_only",
   "current": {
@@ -79,8 +79,9 @@
     "calibration_weight": 0.55,
     "quality_gate": {
       "passed": false,
+      "operational_passed": true,
       "candidate": false,
-      "level": "자료부족",
+      "level": "검증 D등급",
       "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
       "requirements": {
         "samples_min": 80,
@@ -138,5 +139,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-08T08:58:37.306072+09:00"
+  "generated_at": "2026-08-10T02:52:18.091852+09:00"
 }

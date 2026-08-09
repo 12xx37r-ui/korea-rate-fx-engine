@@ -78,6 +78,101 @@
       ],
       "unit": "%",
       "lookback_days": 5000
+    },
+    "kr_m1": {
+      "enabled": true,
+      "frequency": "M",
+      "table_keywords": [
+        "통화 및 유동성지표",
+        "통화량",
+        "M1"
+      ],
+      "item_keywords": [
+        "M1(협의통화",
+        "협의통화",
+        "M1"
+      ],
+      "exclude_keywords": [
+        "증감률",
+        "전년동월비",
+        "증감액"
+      ],
+      "unit": "십억원",
+      "lookback_days": 5500
+    },
+    "kr_m2": {
+      "enabled": true,
+      "frequency": "M",
+      "table_keywords": [
+        "통화 및 유동성지표",
+        "통화량",
+        "M2"
+      ],
+      "item_keywords": [
+        "M2(광의통화",
+        "광의통화",
+        "M2"
+      ],
+      "exclude_keywords": [
+        "증감률",
+        "전년동월비",
+        "증감액"
+      ],
+      "unit": "십억원",
+      "lookback_days": 5500
+    },
+    "kr_lf": {
+      "enabled": true,
+      "frequency": "M",
+      "table_keywords": [
+        "통화 및 유동성지표",
+        "Lf",
+        "금융기관유동성"
+      ],
+      "item_keywords": [
+        "Lf(금융기관유동성",
+        "금융기관유동성",
+        "Lf"
+      ],
+      "exclude_keywords": [
+        "증감률",
+        "전년동월비",
+        "증감액"
+      ],
+      "unit": "십억원",
+      "lookback_days": 5500
+    },
+    "current_account": {
+      "enabled": true,
+      "frequency": "M",
+      "table_keywords": [
+        "국제수지",
+        "경상수지"
+      ],
+      "item_keywords": [
+        "경상수지"
+      ],
+      "exclude_keywords": [
+        "계절조정"
+      ],
+      "unit": "백만달러",
+      "lookback_days": 5500
+    },
+    "fx_reserves": {
+      "enabled": true,
+      "frequency": "M",
+      "table_keywords": [
+        "외환보유액",
+        "국제수지"
+      ],
+      "item_keywords": [
+        "외환보유액"
+      ],
+      "exclude_keywords": [
+        "증감률"
+      ],
+      "unit": "백만달러",
+      "lookback_days": 5500
     }
   }
 }

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "engine_version": "1.0.0-continuous-liquidity",
+  "status": "ok",
+  "forecast_operational": true,
+  "data_mode": "policy_market_proxy",
+  "latest_observation": "20260807",
+  "current": {
+    "liquidity_score": -0.3554,
+    "grade": "유동성 소폭수축",
+    "observations": {
+      "market_policy_gap_pctp": 0.823,
+      "expected_policy_change_3m_pctp": 0.023
+    }
+  },
+  "forecast_path": [
+    {
+      "months": 3,
+      "liquidity_score": -0.3154,
+      "grade": "유동성 소폭수축",
+      "expected_m2_yoy_pct": null,
+      "policy_impulse": -0.0307,
+      "prediction_status": "forecast"
+    },
+    {
+      "months": 6,
+      "liquidity_score": -0.2842,
+      "grade": "유동성 소폭수축",
+      "expected_m2_yoy_pct": null,
+      "policy_impulse": -0.036,
+      "prediction_status": "forecast"
+    },
+    {
+      "months": 12,
+      "liquidity_score": -0.2353,
+      "grade": "유동성 소폭수축",
+      "expected_m2_yoy_pct": null,
+      "policy_impulse": -0.04,
+      "prediction_status": "forecast"
+    }
+  ],
+  "quality": {
+    "model_quality_score": 60,
+    "active_factor_count": 2,
+    "monetary_aggregate_available": false,
+    "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
+  },
+  "generated_at": "2026-08-10T02:52:18.091852+09:00"
+}

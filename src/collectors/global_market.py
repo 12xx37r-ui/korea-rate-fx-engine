@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import io
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -61,6 +62,39 @@ def _fred_csv(session: requests.Session, series_id: str) -> list[dict[str, Any]]
         )
     return rows[-5000:]
 
+def _yahoo_usdkrw(session: requests.Session) -> list[dict[str, Any]]:
+    """Small market-price overlay for a fresher USD/KRW spot.
+
+    ECOS/FRED remain the durable historical sources. Yahoo is used only as a
+    freshness overlay and is optional; failure never blocks the engine.
+    """
+    url = "https://query1.finance.yahoo.com/v8/finance/chart/KRW=X"
+    response = session.get(
+        url,
+        params={"range": "1mo", "interval": "1d", "events": "history"},
+        timeout=(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS),
+    )
+    response.raise_for_status()
+    payload = response.json()
+    result = (((payload or {}).get("chart") or {}).get("result") or [])
+    if not result:
+        return []
+    node = result[0] or {}
+    timestamps = node.get("timestamp") or []
+    quotes = ((((node.get("indicators") or {}).get("quote") or [{}])[0]) or {})
+    closes = quotes.get("close") or []
+    rows: list[dict[str, Any]] = []
+    for ts, close in zip(timestamps, closes):
+        try:
+            value = float(close)
+            if not 800.0 <= value <= 2500.0:
+                continue
+            date = datetime.fromtimestamp(int(ts), tz=timezone.utc).strftime("%Y%m%d")
+        except (TypeError, ValueError, OSError):
+            continue
+        rows.append({"date": date, "value": value, "source": "Yahoo Finance", "symbol": "KRW=X"})
+    return rows
+
 
 def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     del timeout, retries  # 전역 설정과 무관하게 이 수집기는 자체 안전 제한을 사용한다.
@@ -114,6 +148,15 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                     f"[GLOBAL_MARKET] {key}: failed and skipped | elapsed={elapsed:.1f}s",
                     flush=True,
                 )
+
+        # Optional fresh market overlay. It is never a blocking dependency.
+        try:
+            payload["usd_krw_yahoo"] = _yahoo_usdkrw(session)
+            print(f"[GLOBAL_MARKET] usd_krw_yahoo: rows={len(payload['usd_krw_yahoo'])}", flush=True)
+        except (requests.RequestException, ValueError, KeyError, TypeError) as exc:
+            payload["usd_krw_yahoo"] = []
+            errors["usd_krw_yahoo"] = f"{type(exc).__name__}: {exc}"
+            print(f"[GLOBAL_MARKET] usd_krw_yahoo: optional overlay failed: {exc}", flush=True)
     finally:
         session.close()
 
@@ -121,15 +164,18 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     write_json(path, payload)
 
     ok = sum(bool(values) for values in payload.values())
+    total_series = len(FRED) + 1
     status = "ok" if ok >= 8 else ("degraded" if ok >= 4 else "error")
+    latest = max((str(rows[-1].get("date") or "") for rows in payload.values() if rows), default=None)
     return SourceResult(
-        source="GLOBAL_MARKET",
+        source="global_market",
         status=status,
-        message=f"{ok}/{len(FRED)} public series collected",
+        message=f"{ok}/{total_series} public series collected",
+        latest_observation=latest,
         payload_path=str(path),
         metadata={
             "series_ok": ok,
-            "series_total": len(FRED),
+            "series_total": total_series,
             "errors": errors,
             "credential_status": "not_required",
             "action_required": False,

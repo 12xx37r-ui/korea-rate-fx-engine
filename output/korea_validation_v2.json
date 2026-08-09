@@ -1,7 +1,7 @@
 {
-  "schema_version": "2.0.0",
-  "engine_version": "2.7.0-objective-validation-final",
-  "generated_at": "2026-08-08T08:58:37.306072+09:00",
+  "schema_version": "4.0.0",
+  "engine_version": "4.0.0-continuous-korea-forecast",
+  "generated_at": "2026-08-10T02:52:18.091852+09:00",
   "rate": {
     "samples": 0,
     "brier_score": null,
@@ -19,8 +19,9 @@
     "calibration_weight": 0.55,
     "quality_gate": {
       "passed": false,
+      "operational_passed": true,
       "candidate": false,
-      "level": "자료부족",
+      "level": "검증 D등급",
       "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
       "requirements": {
         "samples_min": 80,
@@ -74,231 +75,250 @@
     }
   },
   "fx": {
-    "samples": 611,
-    "rmse_pct": 3.936,
-    "mae_pct": 3.174,
-    "active_direction_accuracy": 0.5301,
-    "all_origin_direction_accuracy": 0.2537,
-    "persistence_skill_pct": 2.82,
-    "active_signal_coverage": 0.4354,
-    "interval_80_coverage": 0.7807,
+    "samples": 598,
+    "rmse_pct": 4.002,
+    "mae_pct": 3.117,
+    "active_direction_accuracy": 0.5186,
+    "all_origin_direction_accuracy": 0.5186,
+    "persistence_skill_pct": 0.031,
+    "active_signal_coverage": 1.0,
+    "interval_80_coverage": 0.7876,
     "horizon_specific_oos": true,
     "oos_by_horizon": {
       "1m": {
-        "samples": 619,
-        "rmse_pct": 2.353,
-        "mae_pct": 1.842,
-        "random_walk_rmse_pct": 2.37,
-        "persistence_skill_pct": 0.732,
-        "direction_accuracy": 0.273,
-        "active_direction_accuracy": 0.4815,
-        "active_direction_wilson_lower_95": 0.4226,
-        "active_signal_samples": 270,
-        "active_signal_coverage": 0.4362,
-        "interval_80_coverage": 0.7884,
-        "model": "selective_60d_contrarian_shrunk"
+        "samples": 607,
+        "rmse_pct": 2.329,
+        "mae_pct": 1.821,
+        "random_walk_rmse_pct": 2.327,
+        "persistence_skill_pct": -0.074,
+        "direction_accuracy": 0.5108,
+        "active_direction_accuracy": 0.5108,
+        "active_signal_coverage": 1.0,
+        "interval_80_coverage": 0.7891,
+        "weights": {
+          "contrarian_60": 0.1783,
+          "mean_reversion_252": 0.1753,
+          "momentum_120": 0.1416,
+          "momentum_20": 0.1713,
+          "momentum_60": 0.1416,
+          "trend_acceleration": 0.1918
+        },
+        "shrinkage": 0.4496,
+        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "benchmark": "random_walk_no_change_evaluation_only",
+        "grade": "C",
+        "model_quality_score": 68,
+        "strict_skill_passed": false
       },
       "3m": {
-        "samples": 611,
-        "rmse_pct": 3.936,
-        "mae_pct": 3.174,
-        "random_walk_rmse_pct": 4.051,
-        "persistence_skill_pct": 2.82,
-        "direction_accuracy": 0.2537,
-        "active_direction_accuracy": 0.5301,
-        "active_direction_wilson_lower_95": 0.4701,
-        "active_signal_samples": 266,
-        "active_signal_coverage": 0.4354,
-        "interval_80_coverage": 0.7807,
-        "model": "selective_60d_contrarian_shrunk"
+        "samples": 598,
+        "rmse_pct": 4.002,
+        "mae_pct": 3.117,
+        "random_walk_rmse_pct": 4.003,
+        "persistence_skill_pct": 0.031,
+        "direction_accuracy": 0.5186,
+        "active_direction_accuracy": 0.5186,
+        "active_signal_coverage": 1.0,
+        "interval_80_coverage": 0.7876,
+        "weights": {
+          "contrarian_60": 0.2183,
+          "mean_reversion_252": 0.2007,
+          "momentum_120": 0.1233,
+          "momentum_20": 0.1335,
+          "momentum_60": 0.1048,
+          "trend_acceleration": 0.2194
+        },
+        "shrinkage": 0.4483,
+        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "benchmark": "random_walk_no_change_evaluation_only",
+        "grade": "C",
+        "model_quality_score": 69,
+        "strict_skill_passed": false
       },
       "6m": {
-        "samples": 598,
-        "rmse_pct": 4.856,
-        "mae_pct": 4.055,
-        "random_walk_rmse_pct": 4.994,
-        "persistence_skill_pct": 2.769,
-        "direction_accuracy": 0.2508,
-        "active_direction_accuracy": 0.5492,
-        "active_direction_wilson_lower_95": 0.4889,
-        "active_signal_samples": 264,
-        "active_signal_coverage": 0.4415,
-        "interval_80_coverage": 0.791,
-        "model": "selective_60d_contrarian_shrunk"
+        "samples": 573,
+        "rmse_pct": 4.899,
+        "mae_pct": 4.045,
+        "random_walk_rmse_pct": 4.901,
+        "persistence_skill_pct": 0.043,
+        "direction_accuracy": 0.5054,
+        "active_direction_accuracy": 0.5054,
+        "active_signal_coverage": 1.0,
+        "interval_80_coverage": 0.8115,
+        "weights": {
+          "contrarian_60": 0.2043,
+          "mean_reversion_252": 0.2124,
+          "momentum_120": 0.1219,
+          "momentum_20": 0.134,
+          "momentum_60": 0.1111,
+          "trend_acceleration": 0.2163
+        },
+        "shrinkage": 0.447,
+        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "benchmark": "random_walk_no_change_evaluation_only",
+        "grade": "C",
+        "model_quality_score": 68,
+        "strict_skill_passed": false
       },
       "12m": {
-        "samples": 548,
-        "rmse_pct": 6.523,
-        "mae_pct": 5.369,
-        "random_walk_rmse_pct": 6.593,
-        "persistence_skill_pct": 1.056,
-        "direction_accuracy": 0.2555,
-        "active_direction_accuracy": 0.5314,
-        "active_direction_wilson_lower_95": 0.4681,
-        "active_signal_samples": 239,
-        "active_signal_coverage": 0.4361,
-        "interval_80_coverage": 0.8139,
-        "model": "selective_60d_contrarian_shrunk"
+        "samples": 522,
+        "rmse_pct": 6.366,
+        "mae_pct": 5.237,
+        "random_walk_rmse_pct": 6.359,
+        "persistence_skill_pct": -0.109,
+        "direction_accuracy": 0.4832,
+        "active_direction_accuracy": 0.4832,
+        "active_signal_coverage": 1.0,
+        "interval_80_coverage": 0.7529,
+        "weights": {
+          "contrarian_60": 0.2024,
+          "mean_reversion_252": 0.1959,
+          "momentum_120": 0.1449,
+          "momentum_20": 0.1302,
+          "momentum_60": 0.1219,
+          "trend_acceleration": 0.2046
+        },
+        "shrinkage": 0.4455,
+        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "benchmark": "random_walk_no_change_evaluation_only",
+        "grade": "C",
+        "model_quality_score": 62,
+        "strict_skill_passed": false
       }
     },
-    "validation_method": "expanding_walk_forward_weekly_origins_selective_fixed_spec",
+    "validation_method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
     "model_specification": {
-      "signal_lookback_observations": 60,
-      "activation_threshold_abs_return": 0.03,
-      "contrarian_shrinkage": 0.35,
-      "max_abs_drift": 0.06,
-      "abstention_model": "random_walk_no_change"
+      "forecast_is_always_generated": true,
+      "random_walk_role": "evaluation_benchmark_only",
+      "weak_validation_action": "shrink_forecast_and_lower_grade_not_abstain",
+      "technical_models": [
+        "momentum_20",
+        "momentum_60",
+        "momentum_120",
+        "contrarian_60",
+        "mean_reversion_252",
+        "trend_acceleration"
+      ],
+      "optional_public_macro_model": "broad dollar, CNY, JPY, VIX, HY OAS, oil, commodities, US-KR 2y gap"
     },
     "quality_gate": {
-      "passed": false,
-      "candidate": true,
-      "level": "연구 후보/관망",
-      "primary_horizon": "3m",
-      "passed_horizons": [],
+      "passed": true,
+      "operational_passed": true,
+      "strict_passed": false,
+      "grade": "C",
+      "level": "검증 C등급",
       "observed": {
-        "samples": 611,
-        "rmse_pct": 3.936,
-        "active_direction_accuracy": 0.5301,
-        "all_origin_direction_accuracy": 0.2537,
-        "persistence_skill_pct": 2.82,
-        "active_signal_coverage": 0.4354,
-        "interval_80_coverage": 0.7807,
-        "horizon_specific_oos": true
+        "samples": 598,
+        "rmse_pct": 4.002,
+        "random_walk_rmse_pct": 4.003,
+        "persistence_skill_pct": 0.031,
+        "active_direction_accuracy": 0.5186,
+        "active_signal_coverage": 1.0,
+        "interval_80_coverage": 0.7876,
+        "model_quality_score": 69
       },
-      "requirements": {
-        "primary_horizon": "3m",
-        "horizon_specific_oos_required": true,
-        "see_horizon_quality_gates": true
-      },
+      "reasons": [
+        "방향 적중력이 약해 확률 분포를 넓게 유지합니다."
+      ],
+      "primary_horizon": "3m",
+      "passed_horizons": [
+        "1m",
+        "3m",
+        "6m",
+        "12m"
+      ],
+      "strict_passed_horizons": [],
       "horizon_quality_gates": {
         "1m": {
-          "passed": false,
-          "level": "참고용/관망",
+          "passed": true,
+          "operational_passed": true,
+          "strict_passed": false,
+          "grade": "C",
+          "level": "검증 C등급",
           "observed": {
-            "samples": 619,
-            "rmse_pct": 2.353,
-            "active_direction_accuracy": 0.4815,
-            "active_direction_wilson_lower_95": 0.4226,
-            "all_origin_direction_accuracy": 0.273,
-            "persistence_skill_pct": 0.732,
-            "active_signal_coverage": 0.4362,
-            "interval_80_coverage": 0.7884
-          },
-          "requirements": {
-            "samples_min": 180,
-            "rmse_pct_max": 3.0,
-            "active_direction_accuracy_min": 0.55,
-            "active_direction_wilson_lower_95_min": 0.5,
-            "persistence_skill_pct_min": 2.0,
-            "active_signal_coverage_min": 0.3,
-            "interval_80_coverage_range": [
-              0.72,
-              0.88
-            ]
+            "samples": 607,
+            "rmse_pct": 2.329,
+            "random_walk_rmse_pct": 2.327,
+            "persistence_skill_pct": -0.074,
+            "active_direction_accuracy": 0.5108,
+            "active_signal_coverage": 1.0,
+            "interval_80_coverage": 0.7891,
+            "model_quality_score": 68
           },
           "reasons": [
-            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
-            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
-            "랜덤워크 대비 skill이 2.0% 기준을 넘지 못했습니다."
+            "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다.",
+            "방향 적중력이 약해 확률 분포를 넓게 유지합니다."
           ]
         },
         "3m": {
-          "passed": false,
-          "level": "참고용/관망",
+          "passed": true,
+          "operational_passed": true,
+          "strict_passed": false,
+          "grade": "C",
+          "level": "검증 C등급",
           "observed": {
-            "samples": 611,
-            "rmse_pct": 3.936,
-            "active_direction_accuracy": 0.5301,
-            "active_direction_wilson_lower_95": 0.4701,
-            "all_origin_direction_accuracy": 0.2537,
-            "persistence_skill_pct": 2.82,
-            "active_signal_coverage": 0.4354,
-            "interval_80_coverage": 0.7807
-          },
-          "requirements": {
-            "samples_min": 180,
-            "rmse_pct_max": 5.5,
-            "active_direction_accuracy_min": 0.55,
-            "active_direction_wilson_lower_95_min": 0.5,
-            "persistence_skill_pct_min": 2.0,
-            "active_signal_coverage_min": 0.3,
-            "interval_80_coverage_range": [
-              0.72,
-              0.88
-            ]
+            "samples": 598,
+            "rmse_pct": 4.002,
+            "random_walk_rmse_pct": 4.003,
+            "persistence_skill_pct": 0.031,
+            "active_direction_accuracy": 0.5186,
+            "active_signal_coverage": 1.0,
+            "interval_80_coverage": 0.7876,
+            "model_quality_score": 69
           },
           "reasons": [
-            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
-            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+            "방향 적중력이 약해 확률 분포를 넓게 유지합니다."
           ]
         },
         "6m": {
-          "passed": false,
-          "level": "참고용/관망",
+          "passed": true,
+          "operational_passed": true,
+          "strict_passed": false,
+          "grade": "C",
+          "level": "검증 C등급",
           "observed": {
-            "samples": 598,
-            "rmse_pct": 4.856,
-            "active_direction_accuracy": 0.5492,
-            "active_direction_wilson_lower_95": 0.4889,
-            "all_origin_direction_accuracy": 0.2508,
-            "persistence_skill_pct": 2.769,
-            "active_signal_coverage": 0.4415,
-            "interval_80_coverage": 0.791
-          },
-          "requirements": {
-            "samples_min": 180,
-            "rmse_pct_max": 7.0,
-            "active_direction_accuracy_min": 0.55,
-            "active_direction_wilson_lower_95_min": 0.5,
-            "persistence_skill_pct_min": 2.0,
-            "active_signal_coverage_min": 0.3,
-            "interval_80_coverage_range": [
-              0.72,
-              0.88
-            ]
+            "samples": 573,
+            "rmse_pct": 4.899,
+            "random_walk_rmse_pct": 4.901,
+            "persistence_skill_pct": 0.043,
+            "active_direction_accuracy": 0.5054,
+            "active_signal_coverage": 1.0,
+            "interval_80_coverage": 0.8115,
+            "model_quality_score": 68
           },
           "reasons": [
-            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
-            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
+            "방향 적중력이 약해 확률 분포를 넓게 유지합니다."
           ]
         },
         "12m": {
-          "passed": false,
-          "level": "참고용/관망",
+          "passed": true,
+          "operational_passed": true,
+          "strict_passed": false,
+          "grade": "C",
+          "level": "검증 C등급",
           "observed": {
-            "samples": 548,
-            "rmse_pct": 6.523,
-            "active_direction_accuracy": 0.5314,
-            "active_direction_wilson_lower_95": 0.4681,
-            "all_origin_direction_accuracy": 0.2555,
-            "persistence_skill_pct": 1.056,
-            "active_signal_coverage": 0.4361,
-            "interval_80_coverage": 0.8139
-          },
-          "requirements": {
-            "samples_min": 150,
-            "rmse_pct_max": 8.5,
-            "active_direction_accuracy_min": 0.55,
-            "active_direction_wilson_lower_95_min": 0.5,
-            "persistence_skill_pct_min": 3.0,
-            "active_signal_coverage_min": 0.3,
-            "interval_80_coverage_range": [
-              0.72,
-              0.88
-            ]
+            "samples": 522,
+            "rmse_pct": 6.366,
+            "random_walk_rmse_pct": 6.359,
+            "persistence_skill_pct": -0.109,
+            "active_direction_accuracy": 0.4832,
+            "active_signal_coverage": 1.0,
+            "interval_80_coverage": 0.7529,
+            "model_quality_score": 62
           },
           "reasons": [
-            "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
-            "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다.",
-            "랜덤워크 대비 skill이 3.0% 기준을 넘지 못했습니다."
+            "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다.",
+            "방향 적중력이 약해 확률 분포를 넓게 유지합니다."
           ]
         }
-      },
-      "reasons": [
-        "활성 신호 방향 적중률이 55% 기준에 미달합니다.",
-        "활성 방향 적중률의 95% 하한이 50%를 넘지 못했습니다."
-      ]
+      }
     }
+  },
+  "liquidity": {
+    "model_quality_score": 60,
+    "active_factor_count": 2,
+    "monetary_aggregate_available": false,
+    "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
   },
   "us_engine_modified": false,
   "legacy_outputs_preserved": true
