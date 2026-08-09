@@ -1,6 +1,6 @@
 {
   "schema_version": "4.0.0",
-  "engine_version": "4.0.0-continuous-oos-ensemble",
+  "engine_version": "4.2.0-continuous-oos-ensemble",
   "status": "ok",
   "engine_scope": "korea_fx_continuous_v4",
   "forecast_operational": true,
@@ -574,5 +574,5 @@
     "랜덤워크는 검증 기준모형으로만 사용하며 실전 중심값으로 대체하지 않습니다.",
     "검증력이 약하면 예측폭과 품질등급을 낮추지만 예측 자체는 계속 산출합니다."
   ],
-  "generated_at": "2026-08-10T03:13:56.696436+09:00"
+  "generated_at": "2026-08-10T03:47:57.252819+09:00"
 }

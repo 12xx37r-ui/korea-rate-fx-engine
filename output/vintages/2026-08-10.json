@@ -1,9 +1,9 @@
 {
   "schema_version": "4.0.0",
-  "captured_at": "2026-08-10T03:13:56.696436+09:00",
+  "captured_at": "2026-08-10T03:47:57.252819+09:00",
   "rate_forecast": {
     "schema_version": "2.0.0",
-    "engine_version": "4.0.0-continuous-korea-forecast/rate",
+    "engine_version": "4.2.0-low-call-continuous-korea-forecast/rate",
     "status": "ok",
     "engine_scope": "korea_only_us_engine_read_only",
     "current": {
@@ -1270,11 +1270,11 @@
       "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
       "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
     ],
-    "generated_at": "2026-08-10T03:13:56.696436+09:00"
+    "generated_at": "2026-08-10T03:47:57.252819+09:00"
   },
   "fx_forecast": {
     "schema_version": "4.0.0",
-    "engine_version": "4.0.0-continuous-oos-ensemble",
+    "engine_version": "4.2.0-continuous-oos-ensemble",
     "status": "ok",
     "engine_scope": "korea_fx_continuous_v4",
     "forecast_operational": true,
@@ -1848,7 +1848,7 @@
       "랜덤워크는 검증 기준모형으로만 사용하며 실전 중심값으로 대체하지 않습니다.",
       "검증력이 약하면 예측폭과 품질등급을 낮추지만 예측 자체는 계속 산출합니다."
     ],
-    "generated_at": "2026-08-10T03:13:56.696436+09:00"
+    "generated_at": "2026-08-10T03:47:57.252819+09:00"
   },
   "krw_liquidity_forecast": {
     "schema_version": "1.0.0",
@@ -1900,7 +1900,7 @@
       "monetary_aggregate_available": true,
       "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
     },
-    "generated_at": "2026-08-10T03:13:56.696436+09:00"
+    "generated_at": "2026-08-10T03:47:57.252819+09:00"
   },
   "unified_outlook_v3": {
     "schema_version": "3.1.0",
@@ -2255,7 +2255,7 @@
         "monetary_aggregate_available": true,
         "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
       },
-      "generated_at": "2026-08-10T03:13:56.696436+09:00"
+      "generated_at": "2026-08-10T03:47:57.252819+09:00"
     },
     "factor_panel": {
       "1m": {
@@ -2391,15 +2391,15 @@
       "v3_production_enabled": true,
       "note": "V3는 별도 그림자 예측을 만들지 않고 V4 연속형 FX 예측을 그대로 통합합니다."
     },
-    "generated_at": "2026-08-10T03:13:56.696436+09:00",
-    "engine_version": "4.0.0-continuous-korea-forecast"
+    "generated_at": "2026-08-10T03:47:57.252819+09:00",
+    "engine_version": "4.2.0-low-call-continuous-korea-forecast"
   },
   "source_status": {
     "us_policy_engine": "ok",
-    "ecos": "degraded",
-    "global_market": "error",
+    "ecos": "ok",
+    "global_market": "degraded",
     "krx": "not_configured",
-    "kosis": "ok",
+    "kosis": "credential_error",
     "reb": "not_configured"
   },
   "continuity": {

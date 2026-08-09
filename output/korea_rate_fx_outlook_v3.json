@@ -351,7 +351,7 @@
       "monetary_aggregate_available": true,
       "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다."
     },
-    "generated_at": "2026-08-10T03:13:56.696436+09:00"
+    "generated_at": "2026-08-10T03:47:57.252819+09:00"
   },
   "factor_panel": {
     "1m": {
@@ -487,6 +487,6 @@
     "v3_production_enabled": true,
     "note": "V3는 별도 그림자 예측을 만들지 않고 V4 연속형 FX 예측을 그대로 통합합니다."
   },
-  "generated_at": "2026-08-10T03:13:56.696436+09:00",
-  "engine_version": "4.0.0-continuous-korea-forecast"
+  "generated_at": "2026-08-10T03:47:57.252819+09:00",
+  "engine_version": "4.2.0-low-call-continuous-korea-forecast"
 }

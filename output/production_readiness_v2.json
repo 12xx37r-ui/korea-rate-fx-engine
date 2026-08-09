@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
-  "engine_version": "4.0.0-continuous-korea-forecast",
-  "generated_at": "2026-08-10T03:13:56.696436+09:00",
+  "engine_version": "4.2.0-low-call-continuous-korea-forecast",
+  "generated_at": "2026-08-10T03:47:57.252819+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
     "level": "검증 B등급",
