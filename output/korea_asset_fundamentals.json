@@ -1,14 +1,14 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-08T00:02:48.177184+00:00",
+  "generated_at_utc": "2026-08-09T18:18:33.851711+00:00",
   "indices": {
     "kospi200": {
-      "per": 16.67,
+      "per": 16.53,
       "forward_per": null,
       "eps_growth_pct": null,
       "growth_adjusted_per": null,
-      "pbr": 2.05,
+      "pbr": 2.03,
       "dividend_yield": 0.93,
       "available": true,
       "coverage": 1.0,
@@ -17,31 +17,24 @@
       "forward_proxy_sample_size": 0,
       "forward_proxy_market_cap_coverage": 0.0,
       "forward_proxy_growth_market_cap_coverage": 0.0,
-      "as_of": "2026-08-06",
+      "as_of": "2026-08-07",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "last_good_reuse",
+      "source_method": "pykrx_authenticated",
       "proxy_symbols": [],
-      "stale": true,
+      "stale": false,
       "diagnostics": [
         "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260807:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260806:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300",
-        "kospi200:live_failed_last_good_reused"
-      ],
-      "live_diagnostics": [
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300"
       ]
     },
     "kosdaq150": {
-      "per": 59.09,
+      "per": 58.95,
       "forward_per": null,
       "eps_growth_pct": null,
       "growth_adjusted_per": null,
-      "pbr": 4.02,
-      "dividend_yield": 0.39,
+      "pbr": 4.01,
+      "dividend_yield": 0.4,
       "available": true,
       "coverage": 1.0,
       "forward_data_available": false,
@@ -49,22 +42,15 @@
       "forward_proxy_sample_size": 0,
       "forward_proxy_market_cap_coverage": 0.0,
       "forward_proxy_growth_market_cap_coverage": 0.0,
-      "as_of": "2026-08-06",
+      "as_of": "2026-08-07",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "last_good_reuse",
+      "source_method": "pykrx_authenticated",
       "proxy_symbols": [],
-      "stale": true,
+      "stale": false,
       "diagnostics": [
         "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260807:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260806:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250",
-        "kosdaq150:live_failed_last_good_reused"
-      ],
-      "live_diagnostics": [
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+        "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250"
       ]
     }
   },
@@ -80,16 +66,23 @@
     "as_of": "2026-08-08",
     "source": "Investing.com 공개 ETF 지표",
     "source_url": "https://kr.investing.com/etfs/mirae-asset-tiger-reit-infra-hidiv",
-    "source_method": "investing_public_reit_snapshot",
+    "source_method": "last_good_reuse",
     "official_history_available": false,
     "naver_fallback_attempted": true,
     "public_fallback_attempted": true,
     "available": true,
-    "stale": false,
+    "stale": true,
     "diagnostics": [
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://www.tigeretf.com/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
-      "official_and_naver_unavailable_public_snapshot_used"
+      "official_and_naver_unavailable_public_snapshot_used",
+      "reit:live_failed_last_good_reused"
+    ],
+    "live_diagnostics": [
+      "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
+      "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://www.tigeretf.com/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
+      "public_reit_snapshot:HTTPError:403 Client Error: Forbidden for url: https://kr.investing.com/etfs/mirae-asset-tiger-reit-infra-hidiv",
+      "public_reit_snapshot_empty:https://www.therich.io/stock?country=KR&ticker=329200"
     ]
   },
   "source_status": {

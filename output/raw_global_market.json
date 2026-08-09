@@ -9,5 +9,157 @@
   "commodity_index": [],
   "usd_cny": [],
   "usd_jpy": [],
-  "usd_krw_fred": []
+  "usd_krw_fred": [],
+  "usd_krw_yahoo": [
+    {
+      "date": "20260706",
+      "value": 1528.760009765625,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260707",
+      "value": 1519.8599853515625,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260708",
+      "value": 1503.3499755859375,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260709",
+      "value": 1505.9100341796875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260712",
+      "value": 1498.47998046875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260713",
+      "value": 1497.699951171875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260714",
+      "value": 1487.8800048828125,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260715",
+      "value": 1486.199951171875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260716",
+      "value": 1478.8499755859375,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260719",
+      "value": 1487.3900146484375,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260720",
+      "value": 1475.010009765625,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260721",
+      "value": 1479.719970703125,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260722",
+      "value": 1475.6300048828125,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260723",
+      "value": 1474.0400390625,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260726",
+      "value": 1458.010009765625,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260727",
+      "value": 1464.43994140625,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260728",
+      "value": 1453.1600341796875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260729",
+      "value": 1442.280029296875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260730",
+      "value": 1420.5999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260802",
+      "value": 1435.699951171875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260803",
+      "value": 1428.5,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260804",
+      "value": 1428.4300537109375,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260805",
+      "value": 1421.1600341796875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260806",
+      "value": 1422.300048828125,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260809",
+      "value": 1407.449951171875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    }
+  ]
 }

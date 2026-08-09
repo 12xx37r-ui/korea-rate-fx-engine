@@ -1,12 +1,12 @@
 {
   "schema_version": "2.0.0",
   "engine_version": "4.0.0-continuous-korea-forecast",
-  "generated_at": "2026-08-10T02:52:18.091852+09:00",
+  "generated_at": "2026-08-10T03:13:56.696436+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
-    "level": "검증 D등급",
+    "level": "검증 B등급",
     "passed": false,
-    "candidate": false
+    "candidate": true
   },
   "fx": {
     "primary_level": "검증 C등급",
@@ -24,8 +24,14 @@
   },
   "liquidity": {
     "forecast_operational": true,
-    "model_quality_score": 60,
-    "data_mode": "policy_market_proxy"
+    "model_quality_score": 99,
+    "data_mode": "monetary_plus_policy"
+  },
+  "continuity": {
+    "rate_previous_forecast_used": false,
+    "fx_previous_forecast_used": false,
+    "liquidity_previous_forecast_used": false,
+    "raw_series_merge_enabled": true
   },
   "certification_rule": "예측은 항상 산출하되 검증성적은 등급·확률·구간으로 분리 공개한다."
 }
