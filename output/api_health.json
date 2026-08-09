@@ -1,68 +1,104 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
-  "engine_version": "4.4.0-final-low-call-korea-forecast",
-  "generated_at": "2026-08-10T04:11:59.870308+09:00",
+  "engine_version": "4.5.0-resilient-macro-oos-korea-forecast",
+  "generated_at": "2026-08-10T04:42:40.934713+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
-      "status": "not_configured",
-      "message": "US_POLICY_JSON_URL이 설정되지 않았습니다.",
-      "rows": 0,
-      "latest_observation": null,
-      "payload_path": null,
+      "status": "ok",
+      "message": "미국 정책금리 엔진 JSON을 정상적으로 읽고 호환 구조로 변환했습니다.",
+      "rows": 11,
+      "latest_observation": "2026-09-16",
+      "payload_path": "output/us_input.json",
       "warnings": [],
-      "metadata": {}
+      "metadata": {
+        "schema_version": "3.9.0-policy-base-rate-calibrated",
+        "source_engine_version": "3.9.0-policy-base-rate-calibrated",
+        "conversion_applied": true,
+        "next_fomc": "2026-09-16"
+      }
     },
     "ecos": {
       "source": "ecos",
-      "status": "missing_secret",
-      "message": "ECOS_API_KEY가 없습니다.",
-      "rows": 0,
-      "latest_observation": null,
-      "payload_path": null,
+      "status": "ok",
+      "message": "ECOS 국내 금리·환율·유동성 증분수집 완료",
+      "rows": 17345,
+      "latest_observation": "20260807",
+      "payload_path": "output/raw_ecos.json",
       "warnings": [],
       "metadata": {
-        "credential_status": "missing",
+        "resolution_path": "output/ecos_resolution.json",
+        "cache_version": 2,
+        "incremental_fetch": true,
+        "daily_overlap_days": 21,
+        "monthly_overlap_months": 4,
+        "last_good_reused": [],
+        "circuit_breaker_open": false,
+        "circuit_breaker_reason": null,
+        "circuit_last_good_reused": [],
+        "ecos_connect_timeout_seconds": 4,
+        "ecos_read_timeout_seconds": 10,
+        "ecos_request_retries": 1,
+        "credential_status": "valid",
         "secret_name": "ECOS_API_KEY",
-        "action_required": true,
-        "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "API 키를 등록해야 합니다."
+        "action_required": false,
+        "action": "없음",
+        "message": ""
       }
     },
     "global_market": {
       "source": "global_market",
       "status": "degraded",
-      "message": "1/14 series usable; max 2 external requests",
+      "message": "1/14 series usable; <=5 bounded requests, 3 FRED groups parallel",
       "rows": 0,
       "latest_observation": "20260809",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_batch: ConnectionError: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Max retries exceeded with url: /graph/fredgraph.csv?id=DTWEXBGS%2CDGS2%2CDGS10%2CT10YIE%2CVIXCLS%2CBAMLH0A0HYM2%2CDCOILWTICO%2CPPIACO%2CDEXCHUS%2CDEXJPUS%2CDEXKOUS%2CNBKRBIS%2CRBKRBIS&cosd=2024-02-21 (Caused by NameResolutionError(\"HTTPSConnection(host='fred.stlouisfed.org', port=443): Failed to resolve 'fred.stlouisfed.org' ([Errno -3] Temporary failure in name resolution)\"))",
-        "usd_krw_yahoo: ConnectionError: HTTPSConnectionPool(host='query1.finance.yahoo.com', port=443): Max retries exceeded with url: /v8/finance/chart/KRW=X?range=1mo&interval=1d&events=history (Caused by NameResolutionError(\"HTTPSConnection(host='query1.finance.yahoo.com', port=443): Failed to resolve 'query1.finance.yahoo.com' ([Errno -3] Temporary failure in name resolution)\"))"
+        "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+        "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+        "bis_eer: ValueError: BIS EER parser found no Korea broad NEER/REER"
       ],
       "metadata": {
-        "fresh_fred_series": 0,
         "usable_series": 1,
         "series_total": 14,
-        "request_count": 2,
-        "max_external_requests": 2,
-        "fred_batch_start": "2024-02-21",
-        "fred_mode": "bootstrap_recent",
+        "request_count": 5,
+        "max_external_requests": 5,
+        "fred_group_count": 3,
+        "fred_groups_parallel": true,
+        "group_meta": {
+          "currency": {
+            "start": "2024-02-21",
+            "mode": "bootstrap_recent",
+            "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+          },
+          "rates_risk": {
+            "start": "2024-02-21",
+            "mode": "bootstrap_recent",
+            "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+          },
+          "commodities": {
+            "start": "2024-02-21",
+            "mode": "bootstrap_recent",
+            "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+          }
+        },
         "bootstrap_days": 900,
         "overlap_days": 120,
-        "last_good_reused": [
-          "usd_krw_yahoo"
-        ],
+        "last_good_reused": [],
         "errors": {
-          "fred_batch": "ConnectionError: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Max retries exceeded with url: /graph/fredgraph.csv?id=DTWEXBGS%2CDGS2%2CDGS10%2CT10YIE%2CVIXCLS%2CBAMLH0A0HYM2%2CDCOILWTICO%2CPPIACO%2CDEXCHUS%2CDEXJPUS%2CDEXKOUS%2CNBKRBIS%2CRBKRBIS&cosd=2024-02-21 (Caused by NameResolutionError(\"HTTPSConnection(host='fred.stlouisfed.org', port=443): Failed to resolve 'fred.stlouisfed.org' ([Errno -3] Temporary failure in name resolution)\"))",
-          "usd_krw_yahoo": "ConnectionError: HTTPSConnectionPool(host='query1.finance.yahoo.com', port=443): Max retries exceeded with url: /v8/finance/chart/KRW=X?range=1mo&interval=1d&events=history (Caused by NameResolutionError(\"HTTPSConnection(host='query1.finance.yahoo.com', port=443): Failed to resolve 'query1.finance.yahoo.com' ([Errno -3] Temporary failure in name resolution)\"))"
-        }
+          "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+          "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+          "bis_eer": "ValueError: BIS EER parser found no Korea broad NEER/REER"
+        },
+        "elapsed_seconds": 18.73
       }
     },
     "krx": {
       "source": "krx",
-      "status": "missing_secret",
-      "message": "KRX_API_KEY가 없습니다.",
+      "status": "not_configured",
+      "message": "config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -71,24 +107,31 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "missing_secret",
-      "message": "GitHub Secret KOSIS_API_KEY가 없습니다.",
-      "rows": 0,
-      "latest_observation": null,
-      "payload_path": null,
+      "status": "ok",
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2",
+      "rows": 360,
+      "latest_observation": "202607",
+      "payload_path": "output/raw_kosis.json",
       "warnings": [],
       "metadata": {
-        "credential_status": "missing",
+        "resolution_path": "output/kosis_resolution.json",
+        "cache_version": 3,
+        "external_request_count": 2,
+        "max_external_requests": 2,
+        "circuit_open": false,
+        "circuit_reason": "",
+        "last_good_reused": [],
+        "credential_status": "valid",
         "secret_name": "KOSIS_API_KEY",
-        "action_required": true,
-        "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "API 키를 등록해야 합니다."
+        "action_required": false,
+        "action": "없음",
+        "message": ""
       }
     },
     "reb": {
       "source": "reb",
-      "status": "missing_secret",
-      "message": "REB_API_KEY가 없습니다.",
+      "status": "not_configured",
+      "message": "config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다.",
       "rows": 0,
       "latest_observation": null,
       "payload_path": null,
@@ -97,48 +140,29 @@
     }
   },
   "api_credentials": {
-    "status": "action_required",
-    "action_required": true,
-    "alerts": [
-      {
-        "source": "ecos",
-        "secret_name": "ECOS_API_KEY",
-        "status": "missing",
-        "action_required": true,
-        "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "API 키를 등록해야 합니다."
-      },
-      {
-        "source": "kosis",
-        "secret_name": "KOSIS_API_KEY",
-        "status": "missing",
-        "action_required": true,
-        "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "API 키를 등록해야 합니다."
-      }
-    ],
+    "status": "ok",
+    "action_required": false,
+    "alerts": [],
     "items": [
       {
         "source": "ecos",
         "secret_name": "ECOS_API_KEY",
-        "status": "missing",
-        "action_required": true,
-        "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "API 키를 등록해야 합니다."
+        "status": "valid",
+        "action_required": false,
+        "action": "없음",
+        "message": "ECOS 국내 금리·환율·유동성 증분수집 완료"
       },
       {
         "source": "kosis",
         "secret_name": "KOSIS_API_KEY",
-        "status": "missing",
-        "action_required": true,
-        "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
-        "message": "API 키를 등록해야 합니다."
+        "status": "valid",
+        "action_required": false,
+        "action": "없음",
+        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
       }
     ]
   },
-  "blocking_errors": [
-    "ecos"
-  ],
+  "blocking_errors": [],
   "forecast_engine_operational": true,
   "continuity": {
     "rate_previous_forecast_used": false,
@@ -148,11 +172,8 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "us_policy_engine: US_POLICY_JSON_URL이 설정되지 않았습니다.",
-    "ecos: ECOS_API_KEY가 없습니다.",
-    "global_market: 1/14 series usable; max 2 external requests",
-    "krx: KRX_API_KEY가 없습니다.",
-    "kosis: GitHub Secret KOSIS_API_KEY가 없습니다.",
-    "reb: REB_API_KEY가 없습니다."
+    "global_market: 1/14 series usable; <=5 bounded requests, 3 FRED groups parallel",
+    "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
+    "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }

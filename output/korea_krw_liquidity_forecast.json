@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0.0",
-  "engine_version": "1.1.0-continuous-liquidity-quality-semantics",
+  "schema_version": "1.1.0",
+  "engine_version": "1.2.0-continuous-liquidity-oos",
   "status": "ok",
   "forecast_operational": true,
   "data_mode": "monetary_plus_policy",
@@ -19,37 +19,93 @@
   "forecast_path": [
     {
       "months": 3,
-      "liquidity_score": 0.1154,
+      "liquidity_score": 0.1024,
       "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 5.991,
+      "expected_m2_yoy_pct": 5.881,
       "policy_impulse": -0.092,
+      "validation_shrinkage": 0.3725,
+      "quality_grade": "C",
+      "forecast_quality_score": 73,
       "prediction_status": "forecast"
     },
     {
       "months": 6,
-      "liquidity_score": 0.1034,
+      "liquidity_score": 0.1097,
       "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 5.975,
+      "expected_m2_yoy_pct": 6.038,
       "policy_impulse": -0.1053,
+      "validation_shrinkage": 1.0,
+      "quality_grade": "A",
+      "forecast_quality_score": 94,
       "prediction_status": "forecast"
     },
     {
       "months": 12,
-      "liquidity_score": 0.089,
+      "liquidity_score": 0.0955,
       "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 5.97,
+      "expected_m2_yoy_pct": 6.036,
       "policy_impulse": -0.1093,
+      "validation_shrinkage": 1.0,
+      "quality_grade": "B",
+      "forecast_quality_score": 81,
       "prediction_status": "forecast"
     }
   ],
+  "validation": {
+    "separate_oos_validated": true,
+    "primary_horizon": "3m",
+    "oos_by_horizon": {
+      "3m": {
+        "samples": 161,
+        "rmse_pctp": 1.067,
+        "persistence_rmse_pctp": 1.04,
+        "persistence_skill_pct": -2.583,
+        "direction_accuracy": 0.6449,
+        "strict_skill_passed": false,
+        "grade": "C",
+        "forecast_quality_score": 73,
+        "method": "fixed_spec_expanding_origin_future_m2_yoy",
+        "benchmark": "current_m2_yoy_persistence"
+      },
+      "6m": {
+        "samples": 158,
+        "rmse_pctp": 1.391,
+        "persistence_rmse_pctp": 1.613,
+        "persistence_skill_pct": 13.75,
+        "direction_accuracy": 0.6414,
+        "strict_skill_passed": true,
+        "grade": "A",
+        "forecast_quality_score": 94,
+        "method": "fixed_spec_expanding_origin_future_m2_yoy",
+        "benchmark": "current_m2_yoy_persistence"
+      },
+      "12m": {
+        "samples": 152,
+        "rmse_pctp": 2.547,
+        "persistence_rmse_pctp": 2.733,
+        "persistence_skill_pct": 6.806,
+        "direction_accuracy": 0.5396,
+        "strict_skill_passed": true,
+        "grade": "B",
+        "forecast_quality_score": 81,
+        "method": "fixed_spec_expanding_origin_future_m2_yoy",
+        "benchmark": "current_m2_yoy_persistence"
+      }
+    },
+    "quality_grade": "C",
+    "forecast_quality_score": 73,
+    "quality_score_semantics": "future_m2_yoy_oos_skill_accuracy_and_samples_not_probability"
+  },
   "quality": {
-    "model_quality_score": 99,
+    "model_quality_score": 73,
+    "forecast_quality_score": 73,
+    "forecast_quality_grade": "C",
     "input_data_quality_score": 99,
-    "quality_score_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
-    "separate_oos_validated": false,
+    "quality_score_semantics": "forecast_quality_is_oos_based; input_quality_is_coverage_availability",
+    "separate_oos_validated": true,
     "active_factor_count": 5,
     "monetary_aggregate_available": true,
-    "note": "통화량이 있으면 M1·M2·Lf를 우선 사용하고, 없을 때도 정책금리·시장금리 경로로 연속 예측합니다. 품질점수는 입력자료 품질이며 예측정확도 확률이 아닙니다."
+    "note": "유동성 예측품질은 미래 M2 YoY 고정규칙 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
   },
-  "generated_at": "2026-08-10T04:11:59.870308+09:00"
+  "generated_at": "2026-08-10T04:42:40.934713+09:00"
 }
