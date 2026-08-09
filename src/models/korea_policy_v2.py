@@ -471,7 +471,7 @@ def build_fx_forecast_v2(
                 })
             out = {
                 "schema_version": "4.0.0",
-                "engine_version": "4.0.0-continuous-oos-ensemble",
+                "engine_version": "4.2.0-continuous-oos-ensemble",
                 "status": "ok",
                 "engine_scope": "korea_fx_continuity",
                 "forecast_operational": True,

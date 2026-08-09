@@ -1,0 +1,19 @@
+V4.2 VALIDATION
+
+- python -m pytest -q: 50 passed
+- python compileall: passed before cleanup
+- GLOBAL_MARKET synthetic success test: FRED 11-series batch + Yahoo overlay = exactly 2 requests
+- GLOBAL_MARKET synthetic FRED-timeout test: no per-series retry; last-good reused; exactly 2 requests including Yahoo
+- ECOS explicit-code resolver test: no metadata table search
+- ECOS incremental merge/revision test: passed
+- ECOS 732Y001 local `합계` filter test: passed
+- Existing V4 continuous FX tests and all legacy regression tests: passed
+
+Offline model replay using committed data:
+- USD/KRW spot: 1407.45 (Yahoo, 20260809)
+- forecast_operational: true
+- 1m/3m/6m/12m forecast rows: all present
+- current committed 3m model replay: 1406.5, change -0.069%, direction neutral, grade C, quality 68
+- 3m OOS: samples 599, RMSE 4.012%, random-walk RMSE 4.013%, skill +0.024%, direction accuracy 50.98%, 80% interval coverage 78.3%
+
+주의: 실제 ECOS/FRED/Yahoo 네트워크 호출은 이 실행환경에서 DNS가 차단되어 있으므로 GitHub Actions에서 최종 실통신 확인이 필요하다. 네트워크 장애 시에도 예측은 직전 정상 이력과 로컬 모델로 계속 산출되도록 설계했다.

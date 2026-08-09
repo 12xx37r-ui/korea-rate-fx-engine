@@ -24,7 +24,7 @@ from typing import Any
 
 
 HORIZONS: dict[int, int] = {1: 21, 3: 63, 6: 126, 12: 252}
-MODEL_VERSION = "4.0.0-continuous-oos-ensemble"
+MODEL_VERSION = "4.2.0-continuous-oos-ensemble"
 
 
 def _clip(value: float, lo: float, hi: float) -> float:

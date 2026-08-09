@@ -93,6 +93,25 @@ class EcosResolver:
         if cached and not force:
             return EcosResolution(**cached)
 
+        # Prefer explicit, previously verified ECOS identifiers.  This avoids a full
+        # StatisticTableList/StatisticItemList search on every GitHub Actions run and
+        # therefore cuts both latency and API load.  Resolver discovery remains as a
+        # fallback for genuinely unknown series.
+        direct_stat_code = str(cfg.get("stat_code", "")).strip()
+        direct_item_code = str(cfg.get("item_code1", "")).strip()
+        if direct_stat_code and direct_item_code:
+            resolved = EcosResolution(
+                stat_code=direct_stat_code,
+                stat_name=str(cfg.get("stat_name", direct_stat_code)).strip() or direct_stat_code,
+                cycle=str(cfg.get("frequency", "D")).strip() or "D",
+                item_code1=direct_item_code,
+                item_name1=str(cfg.get("item_name1", direct_item_code)).strip() or direct_item_code,
+                item_code2=str(cfg.get("item_code2", "?")).strip() or "?",
+                item_code3=str(cfg.get("item_code3", "?")).strip() or "?",
+            )
+            self.cache.setdefault("series", {})[name] = resolved.to_dict()
+            return resolved
+
         table_keywords = list(cfg.get("table_keywords", []))
         item_keywords = list(cfg.get("item_keywords", []))
         excludes = list(cfg.get("exclude_keywords", []))
@@ -101,6 +120,8 @@ class EcosResolver:
         candidates = []
         for row in self._table_rows():
             code = str(row.get("STAT_CODE", "")).strip()
+            if direct_stat_code and code != direct_stat_code:
+                continue
             name_text = str(row.get("STAT_NAME", "")).strip()
             cycle = str(row.get("CYCLE", "")).strip()
             if not code:

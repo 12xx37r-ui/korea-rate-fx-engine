@@ -1,0 +1,6 @@
+KOREA ENGINE V4.2 - GitHub 웹 업로드용 100개 미만 패키지
+
+- 실행/예측 기능 파일은 유지했습니다.
+- 삭제한 것은 구버전 안내문/패치노트/과거 vintage 아카이브입니다.
+- 최신 vintage 2026-08-10.json, cache, output, src, config, tests, workflow는 유지했습니다.
+- GitHub 저장소 루트에 이 폴더의 내용을 덮어쓰면 됩니다.

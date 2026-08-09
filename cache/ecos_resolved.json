@@ -1,0 +1,86 @@
+{
+  "cache_version": 1,
+  "series": {
+    "kr_base_rate": {
+      "stat_code": "722Y001",
+      "stat_name": "1.3.1. 한국은행 기준금리 및 여수신금리",
+      "cycle": "D",
+      "item_code1": "0101000",
+      "item_name1": "한국은행 기준금리",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "usdkrw": {
+      "stat_code": "731Y001",
+      "stat_name": "3.1.1.1. 주요국 통화의 대원화환율",
+      "cycle": "D",
+      "item_code1": "0000001",
+      "item_name1": "원/미국달러(매매기준율)",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "kr_gov_2y": {
+      "stat_code": "817Y002",
+      "stat_name": "1.3.2.1. 시장금리(일별)",
+      "cycle": "D",
+      "item_code1": "010195000",
+      "item_name1": "국고채(2년)",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "kr_gov_3y": {
+      "stat_code": "817Y002",
+      "stat_name": "1.3.2.1. 시장금리(일별)",
+      "cycle": "D",
+      "item_code1": "010200000",
+      "item_name1": "국고채(3년)",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "kr_gov_10y": {
+      "stat_code": "817Y002",
+      "stat_name": "1.3.2.1. 시장금리(일별)",
+      "cycle": "D",
+      "item_code1": "010210000",
+      "item_name1": "국고채(10년)",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "kr_m1": {
+      "stat_code": "161Y001",
+      "stat_name": "1.1.2.1.1. M1 상품별 구성내역(평잔, 계절조정계열)",
+      "cycle": "M",
+      "item_code1": "BBLS00",
+      "item_name1": "M1 (평잔, 계절조정계열)",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "kr_m2": {
+      "stat_code": "161Y005",
+      "stat_name": "1.1.3.1.1. M2 상품별 구성내역(평잔, 계절조정계열)",
+      "cycle": "M",
+      "item_code1": "BBHS00",
+      "item_name1": "M2(평잔,계절조정계열)",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "kr_lf": {
+      "stat_code": "171Y003",
+      "stat_name": "1.1.4.1.1. Lf 구성내역(평잔, 계절조정계열)",
+      "cycle": "M",
+      "item_code1": "LAS0000",
+      "item_name1": "Lf(금융기관유동성) : 상품별(평잔, 계절조정계열)",
+      "item_code2": "?",
+      "item_code3": "?"
+    },
+    "current_account": {
+      "stat_code": "301Y013",
+      "stat_name": "2.5.1.1. 국제수지",
+      "cycle": "M",
+      "item_code1": "000000",
+      "item_name1": "경상수지",
+      "item_code2": "?",
+      "item_code3": "?"
+    }
+  }
+}
