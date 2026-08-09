@@ -17,7 +17,7 @@ from src.models.korea_outlook_v3 import build_v3
 from src.models.krw_liquidity import build_krw_liquidity_forecast
 
 
-ENGINE_VERSION = "4.4.0-final-low-call-korea-forecast"
+ENGINE_VERSION = "4.5.0-resilient-macro-oos-korea-forecast"
 
 
 def _safe_read(path: Path, default: Any) -> Any:
@@ -300,6 +300,8 @@ def main() -> None:
         },
         "liquidity": {
             "forecast_operational": bool(liquidity.get("forecast_operational")),
+            "forecast_quality_score": (liquidity.get("quality") or {}).get("forecast_quality_score"),
+            "forecast_quality_grade": (liquidity.get("quality") or {}).get("forecast_quality_grade"),
             "input_data_quality_score": (liquidity.get("quality") or {}).get("input_data_quality_score"),
             "quality_score_semantics": (liquidity.get("quality") or {}).get("quality_score_semantics"),
             "data_mode": liquidity.get("data_mode"),

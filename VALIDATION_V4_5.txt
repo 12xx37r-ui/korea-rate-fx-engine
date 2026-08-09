@@ -1,0 +1,14 @@
+V4.5 STATIC VALIDATION
+
+- pytest: 61 passed
+- Python compileall: PASS
+- FX macro ECOS fallback without FRED: PASS
+- FX macro partial two-axis fallback: PASS
+- Liquidity independent OOS quality: PASS
+- KRW strength US-rate proxy fallback: PASS
+- GLOBAL_MARKET low-call parallel batching: PASS
+- No per-series FRED retry: PASS
+- GAS Code.gs node syntax: PASS
+- GAS Index.html inline scripts node syntax: PASS
+
+Operational validation after upload: run GitHub Actions once and confirm generated V4.5 JSON.

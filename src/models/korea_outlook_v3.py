@@ -42,6 +42,7 @@ def build_v3(
                 "meeting_ahead": idx + 1,
                 "label": f"{idx + 1}회 뒤 금통위 직후",
                 "expected_rate_pct": row.get("expected_rate_pct"),
+                "modal_rate_pct": row.get("modal_rate_pct"),
                 "probabilities": row.get("probabilities"),
                 "most_likely_action": row.get("most_likely_action"),
             }
@@ -53,6 +54,7 @@ def build_v3(
                 "meeting_ahead": len(rate_horizons) + 1,
                 "label": f"{len(rate_horizons) + 1}회 뒤 금통위 직후",
                 "expected_rate_pct": previous,
+                "modal_rate_pct": rate_current,
                 "probabilities": None,
                 "most_likely_action": "hold",
             }
@@ -113,7 +115,7 @@ def build_v3(
             "meeting_path": rate_horizons,
             "calendar_horizon_estimates": rate_month,
             "quality_gate": rate_gate,
-            "explanation": "예상금리는 동결·인상·인하 확률의 확률가중 평균입니다.",
+            "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 후보등급과 엄격검증 통과 여부를 분리합니다.",
         },
         "fx": {
             "current_usdkrw": spot,
@@ -133,6 +135,7 @@ def build_v3(
             "level": fx_gate.get("level", "검증등급 산출"),
             "rate_level": rate_gate.get("level"),
             "fx_level": fx_gate.get("level"),
+            "liquidity_level": ((liquidity or {}).get("quality") or {}).get("forecast_quality_grade"),
             "liquidity_quality_semantics": ((liquidity or {}).get("quality") or {}).get("quality_score_semantics"),
             "strength_level": ((krw_strength or {}).get("quality") or {}).get("grade"),
             "production_model": fx_v2.get("production_model"),

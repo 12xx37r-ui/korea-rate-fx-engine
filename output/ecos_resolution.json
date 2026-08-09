@@ -79,14 +79,5 @@
     "item_name1": "경상수지",
     "item_code2": "?",
     "item_code3": "?"
-  },
-  "fx_reserves": {
-    "stat_code": "732Y001",
-    "stat_name": "3.5. 외환보유액",
-    "cycle": "M",
-    "item_code1": "*",
-    "item_name1": "합계",
-    "item_code2": "?",
-    "item_code3": "?"
   }
 }

@@ -24,7 +24,7 @@ from typing import Any
 
 
 HORIZONS: dict[int, int] = {1: 21, 3: 63, 6: 126, 12: 252}
-MODEL_VERSION = "4.2.0-continuous-oos-ensemble"
+MODEL_VERSION = "4.5.0-continuous-oos-macro-resilient"
 
 
 def _clip(value: float, lo: float, hi: float) -> float:
@@ -119,6 +119,21 @@ class _Lookup:
             return None
         return new / old - 1.0
 
+    def percentile(self, date: str, observations: int = 60) -> float | None:
+        if not self.dates:
+            return None
+        idx = bisect_right(self.dates, date) - 1
+        if idx < 0:
+            return None
+        start = max(0, idx - observations + 1)
+        window = self.values[start : idx + 1]
+        if len(window) < min(12, observations):
+            return None
+        x = self.values[idx]
+        less = sum(1 for value in window if value < x)
+        equal = sum(1 for value in window if value == x)
+        return (less + 0.5 * equal) / len(window)
+
 
 def _global_lookups(global_data: dict[str, Any] | None, ecos: dict[str, Any]) -> dict[str, _Lookup]:
     keys = (
@@ -135,11 +150,19 @@ def _global_lookups(global_data: dict[str, Any] | None, ecos: dict[str, Any]) ->
     )
     lookups = {key: _Lookup((global_data or {}).get(key, [])) for key in keys}
     lookups["kr_2y"] = _Lookup((ecos or {}).get("kr_gov_2y", []) or (ecos or {}).get("kr_gov_3y", []))
+    lookups["kr_base"] = _Lookup((ecos or {}).get("kr_base_rate", []))
+    lookups["current_account"] = _Lookup((ecos or {}).get("current_account", []))
+    lookups["fx_reserves"] = _Lookup((ecos or {}).get("fx_reserves", []))
     return lookups
 
 
 def _macro_return(date: str, horizon_obs: int, lookups: dict[str, _Lookup]) -> tuple[float | None, dict[str, Any]]:
-    """Public-factor pressure model. Positive return means USD/KRW up (KRW weaker)."""
+    """Macro pressure model. Positive means USD/KRW up (KRW weaker).
+
+    V4.5 never lets a FRED outage collapse macro coverage to zero.  Global factors
+    remain preferred, while three official Korean factors (market-policy gap,
+    current-account percentile, reserve trend) form an auditable OOS fallback.
+    """
     factors: dict[str, float] = {}
 
     broad = lookups["broad_dollar"].ret(date, 60)
@@ -151,6 +174,9 @@ def _macro_return(date: str, horizon_obs: int, lookups: dict[str, _Lookup]) -> t
     hy = lookups["hy_oas"].value(date)
     us2 = lookups["us_2y"].value(date)
     kr2 = lookups["kr_2y"].value(date)
+    kr_base = lookups["kr_base"].value(date)
+    ca_pct = lookups["current_account"].percentile(date, 60)
+    reserve_change = lookups["fx_reserves"].ret(date, 12)
 
     if broad is not None:
         factors["broad_dollar"] = _clip(broad / 0.04, -2.5, 2.5)
@@ -169,27 +195,63 @@ def _macro_return(date: str, horizon_obs: int, lookups: dict[str, _Lookup]) -> t
     if us2 is not None and kr2 is not None:
         factors["rate_gap_2y"] = _clip((us2 - kr2) / 1.50, -2.5, 2.5)
 
+    # Official Korea-only fallback factors are all point-in-time lookups in the
+    # walk-forward loop, so they are not a live-only after-the-fact overlay.
+    if kr2 is not None and kr_base is not None:
+        # Higher Korean market yield relative to policy is tighter/supportive KRW.
+        factors["kr_market_policy_gap"] = _clip(-(kr2 - kr_base) / 1.00, -2.5, 2.5)
+    if ca_pct is not None:
+        # High current-account percentile is KRW-supportive -> USD/KRW pressure down.
+        factors["current_account"] = _clip(-(2.0 * ca_pct - 1.0), -2.5, 2.5)
+    if reserve_change is not None:
+        factors["fx_reserves"] = _clip(-reserve_change / 0.05, -2.5, 2.5)
+
     base_weights = {
-        "broad_dollar": 0.25,
-        "yuan": 0.18,
-        "yen": 0.07,
-        "vix": 0.12,
-        "hy_oas": 0.12,
-        "oil": 0.06,
-        "commodity": 0.04,
-        "rate_gap_2y": 0.16,
+        "broad_dollar": 0.18,
+        "yuan": 0.12,
+        "yen": 0.05,
+        "vix": 0.08,
+        "hy_oas": 0.08,
+        "oil": 0.04,
+        "commodity": 0.03,
+        "rate_gap_2y": 0.13,
+        "kr_market_policy_gap": 0.10,
+        "current_account": 0.09,
+        "fx_reserves": 0.10,
     }
     active = {k: v for k, v in factors.items() if k in base_weights}
-    if len(active) < 3:
-        return None, {"coverage": len(active), "factors": active, "score": None}
-    weight_sum = sum(base_weights[k] for k in active) or 1.0
-    score = sum(active[k] * base_weights[k] for k in active) / weight_sum
+    active_weight = sum(base_weights[k] for k in active)
+    total_weight = sum(base_weights.values()) or 1.0
+    coverage_ratio = active_weight / total_weight
+    # Two independent macro axes are enough to create a candidate because the
+    # walk-forward layer will automatically down-weight it if it has no incremental
+    # forecasting value. This avoids macro.coverage collapsing to zero during a
+    # temporary FRED/BIS outage while still preventing a single noisy factor from
+    # driving the FX path.
+    if len(active) < 2:
+        return None, {
+            "coverage": len(active),
+            "coverage_ratio": round(coverage_ratio, 4),
+            "factors": active,
+            "score": None,
+            "fallback_core_active": False,
+            "minimum_active_factors": 2,
+        }
+    score = sum(active[k] * base_weights[k] for k in active) / (active_weight or 1.0)
     scale = {21: 0.007, 63: 0.018, 126: 0.030, 252: 0.045}.get(horizon_obs, 0.018)
     forecast_return = _clip(score * scale, -0.075, 0.075)
+    core_names = ("kr_market_policy_gap", "current_account", "fx_reserves")
+    core_count = sum(k in active for k in core_names)
+    fallback_core = core_count >= 2
     return forecast_return, {
         "coverage": len(active),
+        "coverage_ratio": round(coverage_ratio, 4),
         "factors": {k: round(v, 4) for k, v in active.items()},
         "score": round(score, 4),
+        "fallback_core_active": fallback_core,
+        "fallback_core_factor_count": core_count,
+        "minimum_active_factors": 2,
+        "external_factor_count": sum(k not in {"kr_market_policy_gap", "current_account", "fx_reserves"} for k in active),
     }
 
 
@@ -630,7 +692,7 @@ def build_fx_forecast_v4(
                     "mean_reversion_252",
                     "trend_acceleration",
                 ],
-                "optional_public_macro_model": "broad dollar, CNY, JPY, VIX, HY OAS, oil, commodities, US-KR 2y gap",
+                "macro_model": "global public factors + ECOS market-policy gap/current-account/reserves fallback; all OOS point-in-time lookups",
             },
             "quality_gate": {
                 **gate3,

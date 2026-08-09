@@ -250,7 +250,7 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
         and data_coverage >= 0.80
         and release_lag
     )
-    level = "검증 A등급" if strict_pass else ("검증 B등급" if candidate else ("검증 C등급" if samples >= 24 else "검증 D등급"))
+    level = "검증 A등급" if strict_pass else ("후보 B등급·엄격검증 미통과" if candidate else ("검증 C등급" if samples >= 24 else "검증 D등급"))
     return {
         "passed": strict_pass,
         "operational_passed": True,
@@ -277,6 +277,14 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
             "walk_forward_backtest": walk_forward,
             "real_time_vintage": real_vintage,
         },
+        "forecast_quality_score": int(max(0, min(100,
+            25
+            + min(20, samples // 4)
+            + (max(0.0, min(20.0, float(skill or 0.0) * 60.0)))
+            + (max(0.0, min(20.0, (float(accuracy or 0.5) - 0.45) * 100.0)))
+            + round(data_coverage * 15.0)
+        ))),
+        "quality_score_semantics": "walk_forward_skill_accuracy_samples_and_active_input_coverage_not_probability",
         "reasons": [
             reason for condition, reason in (
                 (samples < 80, "검증 표본이 80개 미만입니다."),
@@ -341,17 +349,25 @@ def build_rate_forecast_v2(
 
     meetings = []
     rate = current_rate
+    modal_rate = current_rate
     probs = first
     for idx in range(1, 4):
         if rate is None:
             expected = None
         else:
             expected = _expected_rate(rate, probs)
+        action = max(probs, key=probs.get)
+        if modal_rate is not None:
+            if action == "hike":
+                modal_rate += 0.25
+            elif action == "cut":
+                modal_rate -= 0.25
         meetings.append({
             "meeting_ahead": idx,
             "probabilities": {k: round(probs[k], 3) for k in CLASSES},
             "expected_rate_pct": round(expected, 3) if expected is not None else None,
-            "most_likely_action": max(probs, key=probs.get),
+            "modal_rate_pct": round(modal_rate, 3) if modal_rate is not None else None,
+            "most_likely_action": action,
             "probability_type": "model_estimate",
         })
         if expected is not None:
@@ -361,7 +377,7 @@ def build_rate_forecast_v2(
     status = "ok" if current_rate is not None and market_rate is not None else "partial"
     return {
         "schema_version": "2.0.0",
-        "engine_version": "2.7.0-objective-validation-final",
+        "engine_version": "2.8.0-objective-validation-semantics",
         "status": status,
         "engine_scope": "korea_only_us_engine_read_only",
         "current": {
@@ -371,6 +387,7 @@ def build_rate_forecast_v2(
             "core_cpi_yoy": round(inflation, 5) if inflation is not None else None,
             "industrial_3m_annualized": round(growth, 5) if growth is not None else None,
             "usdkrw_3m_change": round(fx_3m, 5) if fx_3m is not None else None,
+            "us_current_effective_rate_pct": round(us_current, 3) if us_current is not None else None,
             "us_3meeting_rate_change_pctp": round(us_change, 3) if us_change is not None else None,
             "us_path_filter": us_path_meta,
         },

@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "4.4.0-final-low-call-korea-forecast",
-  "generated_at": "2026-08-10T04:16:24.582333+09:00",
+  "generated_at": "2026-08-10T04:11:59.870308+09:00",
   "rate": {
     "samples": 66,
     "brier_score": 0.518,
@@ -1192,8 +1192,8 @@
       "validation_integrity": 0.15
     },
     "optional_enhancement_sources": {
-      "krx_market": "not_configured",
-      "reb_financial_stability": "not_configured",
+      "krx_market": "missing_secret",
+      "reb_financial_stability": "missing_secret",
       "used_in_fixed_rate_model": false
     },
     "core_cpi": {

@@ -8,76 +8,36 @@ import requests
 from src.collectors import global_market
 
 
-class _FakeResponse:
-    def __init__(self, *, text: str = "", payload=None, status_code: int = 200):
-        self.text = text
-        self._payload = payload
-        self.status_code = status_code
-
-    def raise_for_status(self):
-        if self.status_code >= 400:
-            raise requests.HTTPError(f"status={self.status_code}")
-
-    def json(self):
-        return self._payload
-
-
-class _FakeSession:
-    def __init__(self, responses):
-        self.responses = list(responses)
-        self.calls = []
-        self.headers = {}
-
-    def get(self, url, **kwargs):
-        self.calls.append((url, kwargs))
-        item = self.responses.pop(0)
-        if isinstance(item, Exception):
-            raise item
-        return item
-
-    def close(self):
-        pass
-
-
-def _fred_csv() -> str:
-    ids = list(global_market.FRED.values())
-    header = "observation_date," + ",".join(ids)
-    row = "2026-08-07," + ",".join(str(100 + i) for i in range(len(ids)))
-    return header + "\n" + row + "\n"
-
-
-def _yahoo_payload():
+def _fresh_for(group: dict[str, str]):
     return {
-        "chart": {
-            "result": [
-                {
-                    "timestamp": [1786233600],
-                    "indicators": {"quote": [{"close": [1407.5]}]},
-                }
-            ]
-        }
+        key: [{"date": "20260807", "value": 100.0 + i, "source": "FRED", "series_id": sid}]
+        for i, (key, sid) in enumerate(group.items())
     }
 
 
-def test_global_market_uses_at_most_two_requests(monkeypatch, tmp_path: Path):
-    fake = _FakeSession([
-        _FakeResponse(text=_fred_csv()),
-        _FakeResponse(payload=_yahoo_payload()),
-    ])
-    monkeypatch.setattr(global_market.requests, "Session", lambda: fake)
+def test_global_market_uses_three_parallel_fred_groups_plus_yahoo(monkeypatch, tmp_path: Path):
+    calls = []
+
+    def fake_fred(group, start):
+        calls.append((tuple(group), start))
+        return _fresh_for(group)
+
+    monkeypatch.setattr(global_market, "_fred_batch", fake_fred)
+    monkeypatch.setattr(global_market, "_yahoo_usdkrw", lambda: [{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}])
+    monkeypatch.setattr(global_market, "_bis_eer_fallback", lambda: (_ for _ in ()).throw(AssertionError("BIS should not be called")))
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
-    assert len(fake.calls) == 2
-    assert result.metadata["request_count"] == 2
+    assert len(calls) == 3
+    assert result.metadata["request_count"] == 4
+    assert result.metadata["fred_groups_parallel"] is True
     assert result.status == "ok"
 
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
     assert data["broad_dollar"][-1]["date"] == "20260807"
-    assert data["us_2y"][-1]["value"] == 101.0
     assert data["usd_krw_yahoo"][-1]["value"] == 1407.5
 
 
-def test_fred_failure_is_single_attempt_and_reuses_last_good(monkeypatch, tmp_path: Path):
+def test_fred_group_failures_do_not_fan_out_and_reuse_last_good(monkeypatch, tmp_path: Path):
     previous = {
         key: [{"date": "20260806", "value": 1.0, "source": "FRED", "series_id": sid}]
         for key, sid in global_market.FRED.items()
@@ -85,15 +45,18 @@ def test_fred_failure_is_single_attempt_and_reuses_last_good(monkeypatch, tmp_pa
     previous["usd_krw_yahoo"] = [{"date": "20260806", "value": 1410.0, "source": "Yahoo Finance"}]
     (tmp_path / "raw_global_market.json").write_text(json.dumps(previous), encoding="utf-8")
 
-    fake = _FakeSession([
-        requests.Timeout("fred timeout"),
-        _FakeResponse(payload=_yahoo_payload()),
-    ])
-    monkeypatch.setattr(global_market.requests, "Session", lambda: fake)
+    calls = []
+    def fail(group, start):
+        calls.append((tuple(group), start))
+        raise requests.Timeout("fred timeout")
+
+    monkeypatch.setattr(global_market, "_fred_batch", fail)
+    monkeypatch.setattr(global_market, "_yahoo_usdkrw", lambda: [{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}])
+    monkeypatch.setattr(global_market, "_bis_eer_fallback", lambda: (_ for _ in ()).throw(AssertionError("old EER exists")))
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
-    assert len(fake.calls) == 2
-    assert result.status == "degraded"
+    assert len(calls) == 3
+    assert result.metadata["request_count"] == 4
     assert len(result.metadata["last_good_reused"]) >= len(global_market.FRED)
 
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
@@ -102,16 +65,14 @@ def test_fred_failure_is_single_attempt_and_reuses_last_good(monkeypatch, tmp_pa
 
 
 def test_fred_first_bootstrap_is_recent_not_2018():
-    start, mode = global_market._fred_batch_start({})
+    start, mode = global_market._group_start({}, global_market.FRED_GROUPS["currency"])
     assert mode == "bootstrap_recent"
     assert start > "2023-01-01"
 
 
 def test_fred_existing_history_uses_incremental_overlap():
-    previous = {
-        key: [{"date": "20260801", "value": 1.0}]
-        for key in global_market.FRED
-    }
-    start, mode = global_market._fred_batch_start(previous)
+    group = global_market.FRED_GROUPS["currency"]
+    previous = {key: [{"date": "20260801", "value": 1.0}] for key in group}
+    start, mode = global_market._group_start(previous, group)
     assert mode == "incremental"
     assert "2026" in start or "2025" in start

@@ -954,7 +954,7 @@ def build_krw_strength_forecast(
     if spot is None or len(fx_values) < 61:
         return {
             "schema_version": "1.0.0",
-            "engine_version": "1.0.0-krw-strength-composite",
+            "engine_version": "1.1.0-krw-strength-resilient",
             "status": "insufficient_history",
             "forecast_operational": False,
             "forecast_path": [],
@@ -1014,14 +1014,37 @@ def build_krw_strength_forecast(
     if global_scores:
         factor_groups["global_currency"] = mean(global_scores)
 
-    # 2Y interest-rate gap: wider US premium tends to pressure KRW.
+    # Rate-gap group. Prefer US-Korea 2Y yields; when FRED is unavailable, use
+    # the connected US policy engine effective rate versus the BOK base rate as a
+    # lower-weight proxy instead of dropping the whole group.
     us2 = _generic_values(global_data.get("us_2y", []))
     kr2 = _values((ecos or {}).get("kr_gov_2y", []) or (ecos or {}).get("kr_gov_3y", []))
     if us2 and kr2:
         gap = us2[-1] - kr2[-1]
         score = -tanh(gap / 1.5)
         factor_groups["rate_gap"] = score
-        factor_details["rate_gap"] = {"score": round(score, 4), "us_minus_kr_2y_pctp": round(gap, 3)}
+        factor_details["rate_gap"] = {
+            "score": round(score, 4),
+            "us_minus_kr_2y_pctp": round(gap, 3),
+            "source": "US/KR 2Y market yields",
+            "proxy": False,
+        }
+    else:
+        current_rate = (rate_v2 or {}).get("current") or {}
+        try:
+            us_policy_rate = float(current_rate.get("us_current_effective_rate_pct"))
+            kr_policy_rate = float(current_rate.get("kr_base_rate_pct"))
+            gap = us_policy_rate - kr_policy_rate
+            score = -tanh(gap / 1.75) * 0.70
+            factor_groups["rate_gap"] = score
+            factor_details["rate_gap"] = {
+                "score": round(score, 4),
+                "us_minus_kr_policy_rate_pctp": round(gap, 3),
+                "source": "US effective policy rate - BOK base rate proxy",
+                "proxy": True,
+            }
+        except (TypeError, ValueError):
+            pass
 
     # External balance group. Percentile-based normalisation avoids dependence on
     # the provider's units for current-account/reserve levels.
@@ -1051,6 +1074,8 @@ def build_krw_strength_forecast(
         "external_balance": 0.10,
     }
     active_weight = sum(group_weights[k] for k in factor_groups) or 1.0
+    total_group_weight = sum(group_weights.values()) or 1.0
+    weighted_group_coverage = active_weight / total_group_weight
     macro_composite = sum(factor_groups[k] * group_weights[k] for k in factor_groups) / active_weight
     macro_composite = max(-1.0, min(1.0, macro_composite))
     current_score = 50.0 + 50.0 * macro_composite
@@ -1092,7 +1117,9 @@ def build_krw_strength_forecast(
             fx_quality_num = float(fx_quality)
         except (TypeError, ValueError):
             fx_quality_num = 50.0
-        quality_score = round(max(0.0, min(100.0, fx_quality_num * 0.75 + group_coverage * 100.0 * 0.25)))
+        # Weighted coverage is more honest than counting groups equally: losing the
+        # 25% effective-FX group matters more than losing a 10% auxiliary group.
+        quality_score = round(max(0.0, min(100.0, fx_quality_num * 0.72 + weighted_group_coverage * 100.0 * 0.28)))
 
         score_range = None
         band = row.get("range_80")
@@ -1131,7 +1158,7 @@ def build_krw_strength_forecast(
     primary = next((row for row in forecast_path if row["months"] == 3), {})
     return {
         "schema_version": "1.0.0",
-        "engine_version": "1.0.0-krw-strength-composite",
+        "engine_version": "1.1.0-krw-strength-resilient",
         "status": "ok",
         "forecast_operational": True,
         "current": {
@@ -1149,12 +1176,13 @@ def build_krw_strength_forecast(
             "details": factor_details,
             "active_group_count": len(factor_groups),
             "group_coverage": round(group_coverage, 3),
+            "weighted_group_coverage": round(weighted_group_coverage, 3),
         },
         "quality": {
             "grade": primary.get("quality_grade"),
             "model_quality_score": primary.get("model_quality_score"),
-            "quality_score_semantics": "FX V4 OOS quality 75% + KRW public-factor coverage 25%",
-            "validation_basis": "FX V4 walk-forward OOS distribution + KRW-strength factor coverage; separate KRW-strength target OOS not claimed",
+            "quality_score_semantics": "FX OOS quality 72% + weighted KRW factor coverage 28%; not a probability",
+            "validation_basis": "FX walk-forward OOS distribution + weighted KRW-strength factor coverage; separate KRW-strength target OOS not claimed",
         },
         "limitations": [
             "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",

@@ -1,0 +1,16 @@
+KOREA ENGINE V4.5 적용 순서
+
+1. 이 ZIP의 내용을 현재 korea-rate-fx-engine 저장소 루트에 덮어쓴다.
+2. 삭제된 구버전 문서/캐시 파일은 다시 올릴 필요 없다.
+3. GitHub Actions > Korea Rate FX Engine > Run workflow 1회 실행.
+4. 정상 로그 핵심:
+   - ECOS status=ok
+   - GLOBAL_MARKET: FRED currency / rates_risk / commodities 3개 그룹
+   - 개별 13개 FRED 재시도 없음
+   - KOSIS status=ok 또는 장애 시 fast-fail
+   - Generated continuous Korea rate/FX/liquidity/strength outputs
+5. Actions 성공 뒤 GAS V196 ZIP의 Code.gs / Index.html을 교체한다.
+6. GAS에서 resetKoreaUnifiedV196 함수를 1회 실행한다.
+7. 기존 웹앱 배포를 새 버전으로 업데이트한다.
+
+중요: GAS V195가 아니라 V196을 사용한다.
