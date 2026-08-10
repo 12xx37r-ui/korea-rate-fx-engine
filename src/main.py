@@ -15,9 +15,10 @@ from src.models.krw_strength import build_snapshot, build_krw_strength_forecast
 from src.models.korea_policy_v2 import build_fx_forecast_v2, build_rate_forecast_v2
 from src.models.korea_outlook_v3 import build_v3
 from src.models.krw_liquidity import build_krw_liquidity_forecast
+from src.models.rate_validation import evaluate_rate_vintage_snapshots
 
 
-ENGINE_VERSION = "4.7.0-bis-eer-independent-strength-oos"
+ENGINE_VERSION = "4.8.0-long-history-rate-oos-vintage-accumulator"
 
 
 def _safe_read(path: Path, default: Any) -> Any:
@@ -153,11 +154,17 @@ def main() -> None:
     write_json(output_dir / "korea_rate_fx_outlook.json", snapshot)
     write_json(output_dir / "krw_strength_preview.json", snapshot)
 
+    vintage_validation = evaluate_rate_vintage_snapshots(
+        output_dir / "vintages",
+        ecos_data.get("kr_base_rate", []),
+        min_matured_samples=24,
+    )
     rate_v2 = build_rate_forecast_v2(
         ecos_data,
         kosis_data,
         us_policy_data,
         source_status=source_status,
+        vintage_validation=vintage_validation,
     )
     rate_v2["generated_at"] = now_iso
     rate_v2["engine_version"] = ENGINE_VERSION + "/rate"
