@@ -111,3 +111,41 @@ def test_fx_quality_gate_is_horizon_specific_and_labels_active_accuracy():
     assert "direction_accuracy" not in gate["observed"]
     if gate["passed"]:
         assert gate["candidate"] is False
+
+
+def test_rate_gate_separates_reconstructed_oos_from_true_vintage():
+    from src.models.korea_policy_v2 import _quality_gate
+    backtest = {
+        "samples": 166,
+        "brier_skill_score": 0.1096,
+        "accuracy": 0.6325,
+        "accuracy_wilson_lower_95": 0.5570,
+        "release_lag_backtest": True,
+        "walk_forward_backtest": True,
+        "real_time_vintage": False,
+    }
+    gate = _quality_gate(backtest, 1.0)
+    assert gate["reconstructed_oos_passed"] is True
+    assert gate["passed"] is False
+    assert gate["strict_passed"] is False
+    assert "재구성 OOS 통과" in gate["level"]
+    assert len(gate["reasons"]) == 1
+    assert "빈티지" in gate["reasons"][0]
+
+
+def test_rate_gate_auto_promotes_only_after_true_vintage_qualifies():
+    from src.models.korea_policy_v2 import _quality_gate
+    backtest = {
+        "samples": 166,
+        "brier_skill_score": 0.1096,
+        "accuracy": 0.6325,
+        "accuracy_wilson_lower_95": 0.5570,
+        "release_lag_backtest": True,
+        "walk_forward_backtest": True,
+        "real_time_vintage": True,
+    }
+    gate = _quality_gate(backtest, 1.0)
+    assert gate["reconstructed_oos_passed"] is True
+    assert gate["passed"] is True
+    assert gate["strict_passed"] is True
+    assert "엄격검증 통과" in gate["level"]

@@ -55,3 +55,54 @@ def test_selective_fx_validation_reports_active_signal_metrics():
     assert "active_signal_coverage" in out
     assert out["model_specification"]["activation_threshold_abs_return"] == 0.03
     assert out["horizons"]["3m"]["model"] == "selective_60d_contrarian_shrunk"
+
+
+def test_rate_validation_extends_history_with_3y_before_2y():
+    from src.models.rate_validation import combine_market_rate_rows_for_backtest, numeric_series
+
+    y3 = [
+        {"TIME": "20190131", "DATA_VALUE": "2.00"},
+        {"TIME": "20200131", "DATA_VALUE": "1.80"},
+        {"TIME": "20210131", "DATA_VALUE": "1.60"},
+        {"TIME": "20210310", "DATA_VALUE": "1.90"},
+    ]
+    y2 = [
+        {"TIME": "20210310", "DATA_VALUE": "1.70"},
+        {"TIME": "20210401", "DATA_VALUE": "1.75"},
+    ]
+    rows, meta = combine_market_rate_rows_for_backtest(y2, y3)
+    series = dict(numeric_series(rows))
+    assert meta["mode"] == "kr_gov_3y_pre_2y_then_2y_fixed_proxy"
+    assert meta["first_2y_date"] == "20210310"
+    assert series["20210131"] == 1.60
+    assert series["20210310"] == 1.70  # 2Y replaces same-day 3Y from inception onward.
+
+
+def test_saved_vintage_gate_requires_matured_monthly_snapshots(tmp_path):
+    import json
+    from src.models.rate_validation import evaluate_rate_vintage_snapshots
+
+    base = []
+    # 36 months of unchanged policy rate -> matured labels are all hold.
+    for i in range(36):
+        y = 2020 + i // 12
+        m = i % 12 + 1
+        base.append({"TIME": f"{y}{m:02d}28", "DATA_VALUE": "2.50"})
+    vint = tmp_path / "vintages"
+    vint.mkdir()
+    for i in range(24):
+        y = 2020 + i // 12
+        m = i % 12 + 1
+        obj = {
+            "captured_at": f"{y}-{m:02d}-20T12:00:00+09:00",
+            "rate_forecast": {
+                "status": "ok",
+                "meeting_path": [{"probabilities": {"hold": 0.8, "hike": 0.1, "cut": 0.1}}],
+            },
+        }
+        (vint / f"{y}-{m:02d}-20.json").write_text(json.dumps(obj), encoding="utf-8")
+    out = evaluate_rate_vintage_snapshots(vint, base, min_matured_samples=24)
+    assert out["samples"] == 24
+    assert out["qualified"] is True
+    assert out["network_calls_added"] == 0
+    assert out["accuracy"] == 1.0
