@@ -1,24 +1,41 @@
 {
-  "generated_at": "2026-08-10T04:42:40.934713+09:00",
-  "status": "OK",
-  "renewal_required": false,
-  "alerts": [],
-  "items": [
+  "generated_at": "2026-08-10T04:11:59.870308+09:00",
+  "status": "API_KEY_RENEWAL_REQUIRED",
+  "renewal_required": true,
+  "alerts": [
     {
       "source": "ecos",
       "secret_name": "ECOS_API_KEY",
-      "status": "valid",
-      "action_required": false,
-      "action": "없음",
-      "message": "ECOS 국내 금리·환율·유동성 증분수집 완료"
+      "status": "missing",
+      "action_required": true,
+      "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
+      "message": "API 키를 등록해야 합니다."
     },
     {
       "source": "kosis",
       "secret_name": "KOSIS_API_KEY",
-      "status": "valid",
-      "action_required": false,
-      "action": "없음",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
+      "status": "missing",
+      "action_required": true,
+      "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
+      "message": "API 키를 등록해야 합니다."
+    }
+  ],
+  "items": [
+    {
+      "source": "ecos",
+      "secret_name": "ECOS_API_KEY",
+      "status": "missing",
+      "action_required": true,
+      "action": "GitHub Settings → Secrets and variables → Actions에서 ECOS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
+      "message": "API 키를 등록해야 합니다."
+    },
+    {
+      "source": "kosis",
+      "secret_name": "KOSIS_API_KEY",
+      "status": "missing",
+      "action_required": true,
+      "action": "GitHub Settings → Secrets and variables → Actions에서 KOSIS_API_KEY 값을 새 API 키로 교체한 뒤 workflow를 다시 실행하세요.",
+      "message": "API 키를 등록해야 합니다."
     }
   ]
 }

@@ -17,7 +17,7 @@ from statistics import mean
 from typing import Any
 
 
-MODEL_VERSION = "1.2.0-continuous-liquidity-oos"
+MODEL_VERSION = "1.3.0-prequential-candidate-liquidity-oos"
 
 
 def _float(value: Any) -> float | None:
@@ -101,6 +101,30 @@ def _rmse(errors: list[float]) -> float | None:
     return sqrt(mean(e * e for e in errors)) if errors else None
 
 
+LIQUIDITY_CANDIDATES: dict[str, tuple[float, float, float]] = {
+    # (3m annualized M2 trend weight, M1/Lf peer-YoY weight, market-policy-gap coefficient)
+    "persistence": (0.00, 0.00, 0.000),
+    "peer_10": (0.00, 0.10, -0.006),
+    "balanced_10_05": (0.10, 0.05, -0.006),
+    "balanced_10_10": (0.10, 0.10, -0.006),
+    "moderate_15_10": (0.15, 0.10, -0.006),
+    "legacy_30_10": (0.30, 0.10, -0.006),
+}
+
+
+def _candidate_prediction(
+    current_yoy: float, trend3: float, peer_yoy: float, gap: float,
+    months: int, spec: tuple[float, float, float],
+) -> float:
+    trend_w, peer_w, gap_coef = spec
+    raw = current_yoy
+    raw += trend_w * (trend3 - current_yoy)
+    raw += peer_w * (peer_yoy - current_yoy)
+    raw += gap_coef * _clip(gap, -2.0, 2.0)
+    damping = {3: 1.00, 6: 0.82, 12: 0.65}[months]
+    return current_yoy + damping * (raw - current_yoy)
+
+
 def _oos_validation(
     m1: list[tuple[str, float]],
     m2: list[tuple[str, float]],
@@ -109,11 +133,12 @@ def _oos_validation(
     y2: list[tuple[str, float]],
     months: int,
 ) -> dict[str, Any]:
-    """Fixed-spec expanding-origin audit for future M2 YoY.
+    """Expanding-origin prequential audit for future M2 YoY.
 
-    No coefficient fitting is done on future outcomes; the same conservative rule is
-    applied at every historical origin. The benchmark is persistence of current M2
-    YoY, which is the relevant no-change baseline for this target.
+    Candidate choice at each historical origin uses only errors that were already
+    observable before that origin. This prevents the production rule from picking
+    a candidate with knowledge of the future outcome being scored. Persistence is
+    the default until at least 24 matured candidate errors exist.
     """
     m2_month = _monthly_map(m2)
     months_order = sorted(m2_month)
@@ -124,9 +149,13 @@ def _oos_validation(
     if len(months_order) < 36 + months:
         return {"samples": 0, "grade": "D", "forecast_quality_score": 25}
 
+    candidate_losses: dict[str, list[float]] = {name: [] for name in LIQUIDITY_CANDIDATES}
+    selected_counts: dict[str, int] = {}
     model_errors: list[float] = []
     bench_errors: list[float] = []
     hits: list[bool] = []
+    min_matured = 24
+
     for idx in range(15, len(months_order) - months):
         cur_m = months_order[idx]
         fut_m = months_order[idx + months]
@@ -141,25 +170,33 @@ def _oos_validation(
         peer: list[float] = []
         for mapping in (m1_month, lf_month):
             now = mapping.get(cur_m)
-            old_month = months_order[idx - 12]
-            old = mapping.get(old_month)
+            old = mapping.get(months_order[idx - 12])
             if now and old and old > 0:
                 peer.append(now / old - 1.0)
         peer_yoy = mean(peer) if peer else cur_yoy
-        gap = 0.0
-        if cur_m in base_month and cur_m in y2_month:
-            gap = y2_month[cur_m] - base_month[cur_m]
-
-        raw = cur_yoy + 0.30 * (trend3 - cur_yoy) + 0.10 * (peer_yoy - cur_yoy) - 0.006 * _clip(gap, -2.0, 2.0)
-        damping = {3: 1.00, 6: 0.82, 12: 0.65}[months]
-        pred = cur_yoy + damping * (raw - cur_yoy)
+        gap = (y2_month[cur_m] - base_month[cur_m]) if cur_m in base_month and cur_m in y2_month else 0.0
         actual = m2_month[fut_m] / fut_old12 - 1.0
+
+        forecasts = {
+            name: _candidate_prediction(cur_yoy, trend3, peer_yoy, gap, months, spec)
+            for name, spec in LIQUIDITY_CANDIDATES.items()
+        }
+        eligible = [name for name, losses in candidate_losses.items() if len(losses) >= min_matured]
+        selected = min(eligible, key=lambda name: mean(candidate_losses[name])) if eligible else "persistence"
+        pred = forecasts[selected]
+        selected_counts[selected] = selected_counts.get(selected, 0) + 1
         model_errors.append(pred - actual)
         bench_errors.append(cur_yoy - actual)
         pred_delta = pred - cur_yoy
         actual_delta = actual - cur_yoy
         if abs(actual_delta) >= 0.002:
-            hits.append((pred_delta >= 0) == (actual_delta >= 0))
+            # Persistence is a legitimate abstention, not a false direction hit.
+            if abs(pred_delta) >= 0.0003:
+                hits.append((pred_delta >= 0) == (actual_delta >= 0))
+
+        # Update losses only after the origin's actual value has been revealed.
+        for name, candidate_pred in forecasts.items():
+            candidate_losses[name].append((candidate_pred - actual) ** 2)
 
     rmse = _rmse(model_errors)
     bench = _rmse(bench_errors)
@@ -174,6 +211,11 @@ def _oos_validation(
     if dacc is not None:
         score += int(_clip((dacc - 0.45) * 100.0, 0, 20))
     score = int(_clip(score, 0, 100))
+    final_candidate = min(candidate_losses, key=lambda name: mean(candidate_losses[name])) if candidate_losses and all(candidate_losses.values()) else "persistence"
+    candidate_rmse = {
+        name: round(sqrt(mean(losses)) * 100.0, 3) if losses else None
+        for name, losses in candidate_losses.items()
+    }
     return {
         "samples": n,
         "rmse_pctp": round(rmse * 100.0, 3) if rmse is not None else None,
@@ -183,8 +225,13 @@ def _oos_validation(
         "strict_skill_passed": strict,
         "grade": grade,
         "forecast_quality_score": score,
-        "method": "fixed_spec_expanding_origin_future_m2_yoy",
+        "method": "expanding_origin_prequential_candidate_selection_future_m2_yoy",
         "benchmark": "current_m2_yoy_persistence",
+        "selected_model_counts": selected_counts,
+        "production_candidate": final_candidate,
+        "candidate_rmse_pctp": candidate_rmse,
+        "selection_min_matured_errors": min_matured,
+        "selection_no_lookahead": True,
     }
 
 
@@ -269,8 +316,20 @@ def build_krw_liquidity_forecast(ecos: dict[str, Any], rate_v2: dict[str, Any] |
         expected_m2_yoy = None
         if current_m2_yoy is not None:
             trend_anchor = m2_3m if m2_3m is not None else current_m2_yoy
-            raw_yoy = current_m2_yoy + 0.25 * (trend_anchor - current_m2_yoy)
-            raw_yoy += 0.006 * policy_impulse  # <=0.6pp policy overlay before OOS shrink
+            peer_live = []
+            for seq in (m1, lf):
+                vals = [v for _, v in seq]
+                yoy = _pct(vals, 12)
+                if yoy is not None:
+                    peer_live.append(yoy)
+            peer_yoy_live = mean(peer_live) if peer_live else current_m2_yoy
+            gap_live = (market_rate - current_rate) if current_rate is not None and market_rate is not None else 0.0
+            candidate_name = str(validation.get("production_candidate") or "persistence")
+            spec = LIQUIDITY_CANDIDATES.get(candidate_name, LIQUIDITY_CANDIDATES["persistence"])
+            raw_yoy = _candidate_prediction(current_m2_yoy, trend_anchor, peer_yoy_live, gap_live, months, spec)
+            # The current BOK path remains a small bounded overlay and is never used
+            # inside the historical candidate selection.
+            raw_yoy += 0.004 * policy_impulse  # <=0.4pp before validation shrink
             expected_m2_yoy = current_m2_yoy + shrink * (raw_yoy - current_m2_yoy)
         forecast_path.append({
             "months": months,
@@ -281,6 +340,7 @@ def build_krw_liquidity_forecast(ecos: dict[str, Any], rate_v2: dict[str, Any] |
             "validation_shrinkage": round(shrink, 4),
             "quality_grade": validation.get("grade"),
             "forecast_quality_score": validation.get("forecast_quality_score"),
+            "production_candidate": validation.get("production_candidate"),
             "prediction_status": "forecast",
         })
 
@@ -323,6 +383,6 @@ def build_krw_liquidity_forecast(ecos: dict[str, Any], rate_v2: dict[str, Any] |
             "separate_oos_validated": True,
             "active_factor_count": active_count,
             "monetary_aggregate_available": current_m2_yoy is not None,
-            "note": "유동성 예측품질은 미래 M2 YoY 고정규칙 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다.",
+            "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다.",
         },
     }

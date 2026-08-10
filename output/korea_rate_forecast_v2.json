@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "engine_version": "4.5.0-resilient-macro-oos-korea-forecast/rate",
+  "engine_version": "4.4.0-final-low-call-korea-forecast/rate",
   "status": "ok",
   "engine_scope": "korea_only_us_engine_read_only",
   "current": {
@@ -10,7 +10,6 @@
     "core_cpi_yoy": 0.025,
     "industrial_3m_annualized": 0.05511,
     "usdkrw_3m_change": -0.0368,
-    "us_current_effective_rate_pct": 3.63,
     "us_3meeting_rate_change_pctp": 0.145,
     "us_path_filter": {
       "mode": "monthly_curve_stabilized",
@@ -37,7 +36,6 @@
         "cut": 0.096
       },
       "expected_rate_pct": 2.819,
-      "modal_rate_pct": 2.75,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     },
@@ -49,7 +47,6 @@
         "cut": 0.229
       },
       "expected_rate_pct": 2.829,
-      "modal_rate_pct": 2.75,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     },
@@ -61,7 +58,6 @@
         "cut": 0.242
       },
       "expected_rate_pct": 2.832,
-      "modal_rate_pct": 2.75,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
     }
@@ -1218,7 +1214,7 @@
       "passed": false,
       "operational_passed": true,
       "candidate": true,
-      "level": "후보 B등급·엄격검증 미통과",
+      "level": "검증 B등급",
       "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
       "requirements": {
         "samples_min": 80,
@@ -1240,8 +1236,6 @@
         "walk_forward_backtest": true,
         "real_time_vintage": false
       },
-      "forecast_quality_score": 81,
-      "quality_score_semantics": "walk_forward_skill_accuracy_samples_and_active_input_coverage_not_probability",
       "reasons": [
         "검증 표본이 80개 미만입니다.",
         "방향 정확도 95% 하한이 50%를 넘지 못했습니다.",
@@ -1258,8 +1252,8 @@
       "validation_integrity": 0.15
     },
     "optional_enhancement_sources": {
-      "krx_market": "not_configured",
-      "reb_financial_stability": "not_configured",
+      "krx_market": "missing_secret",
+      "reb_financial_stability": "missing_secret",
       "used_in_fixed_rate_model": false
     },
     "core_cpi": {
@@ -1273,5 +1267,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-10T04:42:40.934713+09:00"
+  "generated_at": "2026-08-10T04:11:59.870308+09:00"
 }

@@ -17,7 +17,7 @@ from src.models.korea_outlook_v3 import build_v3
 from src.models.krw_liquidity import build_krw_liquidity_forecast
 
 
-ENGINE_VERSION = "4.5.0-resilient-macro-oos-korea-forecast"
+ENGINE_VERSION = "4.6.0-macro-oos-gated-korea-forecast"
 
 
 def _safe_read(path: Path, default: Any) -> Any:

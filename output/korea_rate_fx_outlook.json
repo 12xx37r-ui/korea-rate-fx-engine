@@ -34,18 +34,18 @@
         "probability": 0.124
       }
     },
-    "usdkrw_mid": 1405.6,
+    "usdkrw_mid": 1406.5,
     "usdkrw_range": [
-      1325.9,
-      1485.4
+      1326.9,
+      1486.0
     ],
     "usdkrw_direction": "neutral",
-    "usdkrw_up_probability": 0.4658,
-    "usdkrw_neutral_probability": 0.0451,
-    "usdkrw_down_probability": 0.4891,
+    "usdkrw_up_probability": 0.4712,
+    "usdkrw_neutral_probability": 0.0452,
+    "usdkrw_down_probability": 0.4836,
     "usdkrw_model_quality_grade": "C",
-    "usdkrw_model_quality_score": 64,
-    "krw_strength_score": 0.444,
+    "usdkrw_model_quality_score": 68,
+    "krw_strength_score": 0.4362,
     "krw_strength_grade": "강약",
     "confidence": 0.75,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -69,26 +69,25 @@
     "us_kr_policy_gap_pctp": 0.88,
     "rate_industrial_3m_annualized": 0.05511,
     "fx_model_weights": [
-      0.1955,
-      0.1004,
-      0.18,
-      0.1107,
-      0.121,
-      0.0955,
-      0.1968
+      0.2173,
+      0.2001,
+      0.1231,
+      0.1346,
+      0.1062,
+      0.2188
     ],
     "fx_backtest_samples": 599,
-    "fx_backtest_rmse_pct": 4.024,
+    "fx_backtest_rmse_pct": 4.012,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
     "fx_1m_change": -0.05299,
     "fx_3m_change": -0.06382,
-    "fx_forecast_bias_pct": -0.00131,
+    "fx_forecast_bias_pct": -0.00067,
     "policy_market_gap_pctp": 0.823,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "3.9.0-policy-base-rate-calibrated"
   },
-  "generated_at": "2026-08-10T04:42:40.934713+09:00",
-  "engine_version": "4.5.0-resilient-macro-oos-korea-forecast"
+  "generated_at": "2026-08-10T04:11:59.870308+09:00",
+  "engine_version": "4.4.0-final-low-call-korea-forecast"
 }

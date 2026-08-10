@@ -24,7 +24,7 @@ from typing import Any
 
 
 HORIZONS: dict[int, int] = {1: 21, 3: 63, 6: 126, 12: 252}
-MODEL_VERSION = "4.5.0-continuous-oos-macro-resilient"
+MODEL_VERSION = "4.6.0-continuous-oos-macro-gated"
 
 
 def _clip(value: float, lo: float, hi: float) -> float:
@@ -311,6 +311,11 @@ def _weights(
         skill = 1.0 - rmse / max(1e-9, bench)
         dacc = mean(hits) if hits else 0.5
         # Strongly penalise persistent benchmark underperformance while avoiding all-or-nothing gating.
+        if name == "macro_public_factors" and (skill <= 0.0 or dacc < 0.50):
+            # Macro is an optional overlay.  Use only matured past-only OOS evidence
+            # to decide whether it deserves live weight; never force it into production.
+            scores[name] = 0.0
+            continue
         performance = exp(_clip(skill * 6.0, -2.5, 2.5))
         directional = _clip(0.75 + 0.50 * dacc, 0.75, 1.25)
         scores[name] = performance * directional
@@ -453,6 +458,13 @@ def _walk_forward(values: list[float], dates: list[str], horizon_obs: int, looku
 
     live_candidates, _ = _candidate_returns(values, dates, len(values) - 1, horizon_obs, lookups)
     live_weights = _weights(model_errors, direction_hits, benchmark_errors, sorted(live_candidates)) if live_candidates else {}
+    macro_errors = (model_errors.get("macro_public_factors") or [])[-300:]
+    macro_hits = (direction_hits.get("macro_public_factors") or [])[-300:]
+    macro_rmse = _rmse(macro_errors)
+    macro_bench = _rmse(benchmark_errors[-300:])
+    macro_skill = (1.0 - macro_rmse / macro_bench) * 100.0 if macro_rmse is not None and macro_bench else None
+    macro_dacc = mean(macro_hits) if macro_hits else None
+    macro_gate_passed = bool(len(macro_errors) >= 35 and macro_skill is not None and macro_skill > 0.0 and macro_dacc is not None and macro_dacc >= 0.50)
     residual_sigma = _rmse(ensemble_errors[-300:]) or rmse
     return {
         "samples": n,
@@ -465,6 +477,13 @@ def _walk_forward(values: list[float], dates: list[str], horizon_obs: int, looku
         "active_signal_coverage": 1.0 if n else None,
         "interval_80_coverage": round(mean(interval_hits), 4) if interval_hits else None,
         "weights": {k: round(v, 4) for k, v in live_weights.items()},
+        "macro_oos_gate": {
+            "passed": macro_gate_passed,
+            "samples": len(macro_errors),
+            "persistence_skill_pct": round(macro_skill, 3) if macro_skill is not None else None,
+            "direction_accuracy": round(macro_dacc, 4) if macro_dacc is not None else None,
+            "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50",
+        },
         "shrinkage": round(_validation_shrinkage(ensemble_errors, benchmark_errors), 4),
         "residual_sigma": residual_sigma,
         "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
@@ -643,6 +662,7 @@ def build_fx_forecast_v4(
         )
         factor_panel[label] = {
             "macro": macro_meta,
+            "macro_oos_gate": validation.get("macro_oos_gate") or {},
             "candidate_returns_pct": {k: round(v * 100.0, 4) for k, v in candidates.items()},
             "weights": {k: round(float(v), 4) for k, v in weights.items()},
             "contributions_pct": contributions,
@@ -692,7 +712,7 @@ def build_fx_forecast_v4(
                     "mean_reversion_252",
                     "trend_acceleration",
                 ],
-                "macro_model": "global public factors + ECOS market-policy gap/current-account/reserves fallback; all OOS point-in-time lookups",
+                "macro_model": "global public factors + ECOS fallback; past-only OOS macro gate suppresses harmful macro drift",
             },
             "quality_gate": {
                 **gate3,
