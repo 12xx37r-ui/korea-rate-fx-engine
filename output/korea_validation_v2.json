@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-10T18:44:13.092948+09:00",
+  "generated_at": "2026-08-10T19:00:42.380094+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5128,

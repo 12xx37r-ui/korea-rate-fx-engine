@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "engine_version": "korea-equity-environment-v1.1-full-coverage-bootstrap",
-  "generated_at_utc": "2026-08-10T09:45:53.771347+00:00",
+  "generated_at_utc": "2026-08-10T10:02:35.467892+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
   "score": 32,
   "score_valid": true,
@@ -13,10 +13,10 @@
   "components": {
     "flow": {
       "available": true,
-      "score_normalized": -0.83286,
-      "combined_net_bps_of_turnover": -59.87,
-      "foreign_net_bps_of_turnover": -110.102,
-      "institution_net_bps_of_turnover": 50.232,
+      "score_normalized": -0.938017,
+      "combined_net_bps_of_turnover": -86.064,
+      "foreign_net_bps_of_turnover": -105.004,
+      "institution_net_bps_of_turnover": 18.94,
       "markets": [
         "kospi",
         "kosdaq"
@@ -25,12 +25,12 @@
     },
     "breadth": {
       "available": true,
-      "score_normalized": -0.0141,
-      "advances": 1311,
-      "declines": 1350,
-      "unchanged": 105,
-      "advance_share": 0.47397,
-      "advance_decline_balance": -0.0141,
+      "score_normalized": 0.105529,
+      "advances": 1475,
+      "declines": 1183,
+      "unchanged": 109,
+      "advance_share": 0.533068,
+      "advance_decline_balance": 0.105529,
       "markets": [
         "kospi",
         "kosdaq"
@@ -39,22 +39,22 @@
     },
     "valuation": {
       "available": true,
-      "score_normalized": 0.167969,
+      "score_normalized": 0.170063,
       "evidence": [
         {
           "index": "kospi200",
           "per": 16.53,
           "pbr": 2.03,
-          "per_percentile": 0.439063,
-          "pbr_percentile": 0.720313,
+          "per_percentile": 0.437304,
+          "pbr_percentile": 0.719436,
           "history_samples": 320
         },
         {
           "index": "kosdaq150",
           "per": 58.95,
           "pbr": 4.01,
-          "per_percentile": 0.051562,
-          "pbr_percentile": 0.453125,
+          "per_percentile": 0.051724,
+          "pbr_percentile": 0.451411,
           "history_samples": 320
         }
       ],
