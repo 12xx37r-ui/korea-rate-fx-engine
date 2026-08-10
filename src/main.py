@@ -127,20 +127,6 @@ def main() -> None:
     except Exception as exc:
         print(f"[WARN] KOREA_ASSET_FUNDAMENTALS | {type(exc).__name__}: {exc}", flush=True)
 
-    # Korea-equity-specific sub-engine.  It is intentionally isolated from the
-    # existing rate/FX/liquidity/strength contracts: failures here never alter or
-    # block those outputs, and all new fields live only in dedicated JSON files.
-    try:
-        equity_raw = korea_equity_environment.collect(output_dir, timeout=min(timeout, 20))
-        equity_environment = build_korea_equity_environment(output_dir, equity_raw)
-        print(
-            f"[DONE] KOREA_EQUITY_ENVIRONMENT | score={equity_environment.get('score')} "
-            f"bias={equity_environment.get('bias')} coverage={equity_environment.get('data_coverage_pct')}%",
-            flush=True,
-        )
-    except Exception as exc:
-        print(f"[WARN] KOREA_EQUITY_ENVIRONMENT | {type(exc).__name__}: {exc}", flush=True)
-
     # Merge current raw data with last-good committed series. Empty current blocks do
     # not erase usable history.
     ecos_data = _merge_series_payload(_safe_read(paths["ecos"], {}), previous["ecos"])
@@ -157,6 +143,20 @@ def main() -> None:
         write_json(paths["krx"], krx_data)
     if us_policy_data:
         write_json(paths["us"], us_policy_data)
+
+    # Korea-equity-specific sub-engine. Keep it isolated from all existing rate/FX
+    # contracts. It runs AFTER continuity-merged raw files are written so credit
+    # spread and other reused inputs see the same last-good data as the core engine.
+    try:
+        equity_raw = korea_equity_environment.collect(output_dir, timeout=min(timeout, 20))
+        equity_environment = build_korea_equity_environment(output_dir, equity_raw)
+        print(
+            f"[DONE] KOREA_EQUITY_ENVIRONMENT | score={equity_environment.get('score')} "
+            f"bias={equity_environment.get('bias')} coverage={equity_environment.get('data_coverage_pct')}%",
+            flush=True,
+        )
+    except Exception as exc:
+        print(f"[WARN] KOREA_EQUITY_ENVIRONMENT | {type(exc).__name__}: {exc}", flush=True)
 
     source_status = {result.source.lower(): result.status for result in results}
     # Normalise collector aliases used by the modelling code.
