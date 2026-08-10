@@ -9,7 +9,7 @@ from src.core.io import read_json, write_json
 
 
 SCHEMA_VERSION = "1.0.0"
-MODEL_VERSION = "korea-equity-environment-v1.1-full-coverage-bootstrap"
+MODEL_VERSION = "korea-equity-environment-v1.2-close-per-earnings-fallback"
 COMPONENT_WEIGHTS = {
     "flow": 0.30,
     "breadth": 0.25,
@@ -190,7 +190,7 @@ def _valuation_component(raw: dict[str, Any], fundamentals: dict[str, Any]) -> d
     }
 
 
-def _history_revision_component(fundamentals: dict[str, Any], history: list[dict[str, Any]]) -> dict[str, Any]:
+def _history_revision_component(fundamentals: dict[str, Any], history: list[dict[str, Any]], raw: dict[str, Any] | None = None) -> dict[str, Any]:
     indices = fundamentals.get("indices") or {}
     current_values: list[float] = []
     for key in ("kospi200", "kosdaq150"):
@@ -198,10 +198,68 @@ def _history_revision_component(fundamentals: dict[str, Any], history: list[dict
         if value is not None:
             current_values.append(value)
     if not current_values:
+        # No extra API call fallback: pykrx get_index_fundamental already returns
+        # index close and PER in the same historical frame used by valuation.
+        # close / PER is a trailing earnings-per-index-unit proxy. Compare recent
+        # and earlier windows to measure the current earnings environment without
+        # pretending it is analyst forward revision data.
+        raw = raw or {}
+        histories = raw.get("valuation_history") or {}
+        growth_scores: list[float] = []
+        evidence: list[dict[str, Any]] = []
+        for key in ("kospi200", "kosdaq150"):
+            rows = list(((histories.get(key) or {}).get("rows") or []))
+            eps_rows: list[tuple[str, float]] = []
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                d = str(row.get("date") or "")
+                close = _num(row.get("close"))
+                per = _num(row.get("per"))
+                if d and close is not None and close > 0 and per is not None and per > 0:
+                    eps_rows.append((d, close / per))
+            eps_rows.sort(key=lambda item: item[0])
+            values = [value for _, value in eps_rows]
+            if len(values) < 60:
+                evidence.append({"index": key, "samples": len(values), "available": False})
+                continue
+            recent_window = values[-20:]
+            baseline_window = values[-60:-40]
+            if len(baseline_window) < 10:
+                evidence.append({"index": key, "samples": len(values), "available": False})
+                continue
+            recent = sum(recent_window) / len(recent_window)
+            baseline = sum(baseline_window) / len(baseline_window)
+            if baseline <= 0:
+                continue
+            growth_pct = (recent / baseline - 1.0) * 100.0
+            growth_scores.append(growth_pct)
+            evidence.append({
+                "index": key, "samples": len(values),
+                "recent_eps_proxy": _round(recent, 6),
+                "baseline_eps_proxy": _round(baseline, 6),
+                "growth_pct": _round(growth_pct, 3),
+                "available": True,
+            })
+        if growth_scores:
+            average_growth = sum(growth_scores) / len(growth_scores)
+            return {
+                "available": True,
+                "score_normalized": _round(math.tanh(average_growth / 10.0)),
+                "current_growth_proxy_pct": _round(average_growth, 3),
+                "baseline_growth_proxy_pct": None,
+                "revision_pct_point": None,
+                "history_samples": min((int(item.get("samples") or 0) for item in evidence if item.get("available")), default=0),
+                "mode": "trailing_eps_proxy_from_existing_krx_close_per",
+                "evidence": evidence,
+                "detail": "공개 forward 컨센서스 미확보: 기존 KRX 지수 종가/PER로 계산한 후행 EPS 대용치의 최근 20거래일과 이전 구간 추세. 추가 API 호출 없음.",
+            }
         return {
             "available": False,
             "score_normalized": None,
-            "reason": "공개 컨센서스 forward proxy 미확보",
+            "reason": "공개 컨센서스 forward proxy 미확보 및 기존 KRX 종가/PER 후행 EPS 대용치 표본 부족",
+            "mode": "unavailable",
+            "evidence": evidence,
         }
     current = sum(current_values) / len(current_values)
 
@@ -324,7 +382,7 @@ def build_and_write(output_dir: Path, raw: dict[str, Any]) -> dict[str, Any]:
     flow = _combine_flow(raw)
     breadth = _combine_breadth(raw)
     valuation = _valuation_component(raw, fundamentals)
-    earnings_revision = _history_revision_component(fundamentals, prior_history)
+    earnings_revision = _history_revision_component(fundamentals, prior_history, raw)
     credit_spread = _credit_component(raw, prior_history)
 
     component_map = {
@@ -389,7 +447,7 @@ def build_and_write(output_dir: Path, raw: dict[str, Any]) -> dict[str, Any]:
             "history_is_local_committed_json": True,
         },
         "limitations": [
-            "이익환경은 기존 korea_asset_fundamentals의 공개 forward 성장 대용치를 재사용합니다. 초기 5회는 성장 전망 수준, 이후에는 누적 이력 대비 revision 변화로 자동 전환하며 실제 증권사 전체 컨센서스 원자료로 오인하지 않습니다.",
+            "이익환경은 공개 forward 성장 대용치를 우선 사용합니다. 비어 있으면 기존 KRX 지수 종가/PER에서 계산한 후행 EPS 대용치 추세를 사용하며 실제 증권사 forward revision으로 오인하지 않습니다.",
             "외국인·기관 수급은 KRX 거래대금 기준이며 기관합계가 없으면 기관 세부주체를 합산합니다.",
             "breadth는 기간 상승/하락 종목 비율을 사용합니다. 호출량이 큰 종목별 200일 이동평균 breadth는 의도적으로 제외했습니다.",
             "밸류에이션과 신용스프레드는 절대 임의 기준보다 각자의 실제 과거분포 백분위를 우선 사용합니다.",
