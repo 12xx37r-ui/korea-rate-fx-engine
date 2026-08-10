@@ -160,8 +160,3832 @@
       "value": 1407.449951171875,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
+    },
+    {
+      "date": "20260810",
+      "value": 1415.800048828125,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
     }
   ],
-  "krw_neer": [],
-  "krw_reer": []
+  "krw_neer": [
+    {
+      "date": "20000101",
+      "value": 103.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000201",
+      "value": 105.52,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000301",
+      "value": 106.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000401",
+      "value": 107.39,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000501",
+      "value": 108.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000601",
+      "value": 107.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000701",
+      "value": 108.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000801",
+      "value": 109.19,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000901",
+      "value": 109.8,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20001001",
+      "value": 109.75,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20001101",
+      "value": 107.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20001201",
+      "value": 102.2,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010101",
+      "value": 97.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010201",
+      "value": 99.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010301",
+      "value": 98.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010401",
+      "value": 96.52,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010501",
+      "value": 98.71,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010601",
+      "value": 99.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010701",
+      "value": 99.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010801",
+      "value": 99.34,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010901",
+      "value": 98.0,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20011001",
+      "value": 98.26,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20011101",
+      "value": 100.33,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20011201",
+      "value": 100.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020101",
+      "value": 99.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020201",
+      "value": 99.67,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020301",
+      "value": 98.82,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020401",
+      "value": 99.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020501",
+      "value": 102.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020601",
+      "value": 104.16,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020701",
+      "value": 105.67,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020801",
+      "value": 105.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020901",
+      "value": 104.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20021001",
+      "value": 102.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20021101",
+      "value": 104.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20021201",
+      "value": 103.93,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030101",
+      "value": 104.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030201",
+      "value": 103.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030301",
+      "value": 99.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030401",
+      "value": 99.82,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030501",
+      "value": 100.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030601",
+      "value": 100.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030701",
+      "value": 102.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030801",
+      "value": 103.33,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030901",
+      "value": 103.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20031001",
+      "value": 101.23,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20031101",
+      "value": 99.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20031201",
+      "value": 97.74,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040101",
+      "value": 97.38,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040201",
+      "value": 98.73,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040301",
+      "value": 99.82,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040401",
+      "value": 101.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040501",
+      "value": 100.4,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040601",
+      "value": 101.29,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040701",
+      "value": 100.95,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040801",
+      "value": 101.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040901",
+      "value": 102.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20041001",
+      "value": 101.77,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20041101",
+      "value": 104.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20041201",
+      "value": 107.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050101",
+      "value": 108.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050201",
+      "value": 110.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050301",
+      "value": 112.16,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050401",
+      "value": 112.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050501",
+      "value": 114.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050601",
+      "value": 114.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050701",
+      "value": 112.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050801",
+      "value": 113.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050901",
+      "value": 112.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20051001",
+      "value": 111.9,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20051101",
+      "value": 113.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20051201",
+      "value": 115.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060101",
+      "value": 118.19,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060201",
+      "value": 120.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060301",
+      "value": 119.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060401",
+      "value": 121.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060501",
+      "value": 120.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060601",
+      "value": 120.48,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060701",
+      "value": 120.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060801",
+      "value": 119.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060901",
+      "value": 120.47,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20061001",
+      "value": 120.82,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20061101",
+      "value": 121.87,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20061201",
+      "value": 122.1,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070101",
+      "value": 121.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070201",
+      "value": 121.14,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070301",
+      "value": 119.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070401",
+      "value": 120.29,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070501",
+      "value": 120.69,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070601",
+      "value": 120.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070701",
+      "value": 120.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070801",
+      "value": 118.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070901",
+      "value": 117.96,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20071001",
+      "value": 118.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20071101",
+      "value": 116.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20071201",
+      "value": 114.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080101",
+      "value": 111.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080201",
+      "value": 110.86,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080301",
+      "value": 104.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080401",
+      "value": 102.91,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080501",
+      "value": 98.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080601",
+      "value": 99.24,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080701",
+      "value": 99.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080801",
+      "value": 99.14,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080901",
+      "value": 92.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20081001",
+      "value": 81.12,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20081101",
+      "value": 77.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20081201",
+      "value": 77.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090101",
+      "value": 78.75,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090201",
+      "value": 75.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090301",
+      "value": 75.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090401",
+      "value": 81.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090501",
+      "value": 85.19,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090601",
+      "value": 83.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090701",
+      "value": 83.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090801",
+      "value": 84.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090901",
+      "value": 85.29,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20091001",
+      "value": 87.34,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20091101",
+      "value": 87.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20091201",
+      "value": 88.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100101",
+      "value": 90.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100201",
+      "value": 89.96,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100301",
+      "value": 91.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100401",
+      "value": 93.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100501",
+      "value": 90.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100601",
+      "value": 87.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100701",
+      "value": 86.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100801",
+      "value": 87.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100901",
+      "value": 88.17,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20101001",
+      "value": 88.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20101101",
+      "value": 88.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20101201",
+      "value": 88.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110101",
+      "value": 89.52,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110201",
+      "value": 89.19,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110301",
+      "value": 88.26,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110401",
+      "value": 90.31,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110501",
+      "value": 89.97,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110601",
+      "value": 90.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110701",
+      "value": 91.66,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110801",
+      "value": 89.77,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110901",
+      "value": 87.4,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20111001",
+      "value": 85.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20111101",
+      "value": 87.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20111201",
+      "value": 86.73,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120101",
+      "value": 86.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120201",
+      "value": 87.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120301",
+      "value": 88.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120401",
+      "value": 87.4,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120501",
+      "value": 86.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120601",
+      "value": 86.8,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120701",
+      "value": 88.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120801",
+      "value": 88.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120901",
+      "value": 88.56,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20121001",
+      "value": 89.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20121101",
+      "value": 91.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20121201",
+      "value": 92.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130101",
+      "value": 93.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130201",
+      "value": 92.8,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130301",
+      "value": 92.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130401",
+      "value": 90.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130501",
+      "value": 92.0,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130601",
+      "value": 90.01,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130701",
+      "value": 91.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130801",
+      "value": 92.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130901",
+      "value": 94.88,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20131001",
+      "value": 95.39,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20131101",
+      "value": 96.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20131201",
+      "value": 97.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140101",
+      "value": 96.87,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140201",
+      "value": 96.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140301",
+      "value": 96.75,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140401",
+      "value": 99.39,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140501",
+      "value": 101.06,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140601",
+      "value": 101.82,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140701",
+      "value": 101.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140801",
+      "value": 101.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140901",
+      "value": 101.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20141001",
+      "value": 99.84,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20141101",
+      "value": 97.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20141201",
+      "value": 99.11,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150101",
+      "value": 101.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150201",
+      "value": 101.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150301",
+      "value": 101.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150401",
+      "value": 103.38,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150501",
+      "value": 102.1,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150601",
+      "value": 100.84,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150701",
+      "value": 98.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150801",
+      "value": 97.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150901",
+      "value": 97.06,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20151001",
+      "value": 100.03,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20151101",
+      "value": 100.47,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20151201",
+      "value": 99.17,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160101",
+      "value": 97.78,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160201",
+      "value": 95.71,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160301",
+      "value": 97.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160401",
+      "value": 99.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160501",
+      "value": 97.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160601",
+      "value": 98.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160701",
+      "value": 100.77,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160801",
+      "value": 102.73,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160901",
+      "value": 103.2,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20161001",
+      "value": 102.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20161101",
+      "value": 101.17,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20161201",
+      "value": 101.14,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170101",
+      "value": 100.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170201",
+      "value": 103.63,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170301",
+      "value": 104.39,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170401",
+      "value": 103.78,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170501",
+      "value": 104.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170601",
+      "value": 102.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170701",
+      "value": 101.93,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170801",
+      "value": 100.83,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170901",
+      "value": 99.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20171001",
+      "value": 101.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20171101",
+      "value": 103.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20171201",
+      "value": 105.2,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180101",
+      "value": 104.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180201",
+      "value": 102.46,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180301",
+      "value": 103.08,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180401",
+      "value": 103.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180501",
+      "value": 104.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180601",
+      "value": 104.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180701",
+      "value": 103.17,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180801",
+      "value": 104.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180901",
+      "value": 104.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20181001",
+      "value": 104.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20181101",
+      "value": 105.26,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20181201",
+      "value": 105.21,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190101",
+      "value": 104.14,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190201",
+      "value": 103.93,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190301",
+      "value": 103.12,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190401",
+      "value": 102.38,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190501",
+      "value": 99.75,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190601",
+      "value": 100.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190701",
+      "value": 99.86,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190801",
+      "value": 98.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190901",
+      "value": 100.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20191001",
+      "value": 100.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20191101",
+      "value": 101.84,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20191201",
+      "value": 101.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200101",
+      "value": 101.15,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200201",
+      "value": 99.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200301",
+      "value": 98.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200401",
+      "value": 99.2,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200501",
+      "value": 98.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200601",
+      "value": 99.03,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200701",
+      "value": 98.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200801",
+      "value": 98.63,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200901",
+      "value": 98.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20201001",
+      "value": 101.34,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20201101",
+      "value": 102.78,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20201201",
+      "value": 103.25,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210101",
+      "value": 102.32,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210201",
+      "value": 101.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210301",
+      "value": 101.03,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210401",
+      "value": 102.19,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210501",
+      "value": 100.68,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210601",
+      "value": 100.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210701",
+      "value": 99.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210801",
+      "value": 98.71,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210901",
+      "value": 97.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20211001",
+      "value": 97.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20211101",
+      "value": 97.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20211201",
+      "value": 98.06,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220101",
+      "value": 96.87,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220201",
+      "value": 96.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220301",
+      "value": 96.25,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220401",
+      "value": 96.59,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220501",
+      "value": 96.61,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220601",
+      "value": 96.29,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220701",
+      "value": 95.69,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220801",
+      "value": 94.93,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220901",
+      "value": 92.47,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20221001",
+      "value": 92.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20221101",
+      "value": 95.13,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20221201",
+      "value": 97.06,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230101",
+      "value": 98.9,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230201",
+      "value": 96.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230301",
+      "value": 95.41,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230401",
+      "value": 93.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230501",
+      "value": 94.2,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230601",
+      "value": 97.82,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230701",
+      "value": 98.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230801",
+      "value": 96.95,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230901",
+      "value": 97.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20231001",
+      "value": 96.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20231101",
+      "value": 98.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20231201",
+      "value": 97.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240101",
+      "value": 96.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240201",
+      "value": 96.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240301",
+      "value": 96.78,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240401",
+      "value": 95.27,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240501",
+      "value": 95.4,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240601",
+      "value": 94.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240701",
+      "value": 94.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240801",
+      "value": 94.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240901",
+      "value": 94.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20241001",
+      "value": 94.0,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20241101",
+      "value": 93.48,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20241201",
+      "value": 91.26,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250101",
+      "value": 91.15,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250201",
+      "value": 90.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250301",
+      "value": 88.91,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250401",
+      "value": 89.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250501",
+      "value": 91.11,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250601",
+      "value": 92.02,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250701",
+      "value": 91.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250801",
+      "value": 90.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250901",
+      "value": 90.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20251001",
+      "value": 88.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20251101",
+      "value": 86.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20251201",
+      "value": 86.01,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260101",
+      "value": 86.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260201",
+      "value": 85.9,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260301",
+      "value": 84.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260401",
+      "value": 84.28,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260501",
+      "value": 83.69,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260601",
+      "value": 81.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    }
+  ],
+  "krw_reer": [
+    {
+      "date": "20000101",
+      "value": 99.03,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000201",
+      "value": 100.53,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000301",
+      "value": 101.95,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000401",
+      "value": 102.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000501",
+      "value": 102.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000601",
+      "value": 101.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000701",
+      "value": 103.31,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000801",
+      "value": 104.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20000901",
+      "value": 105.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20001001",
+      "value": 105.44,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20001101",
+      "value": 102.47,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20001201",
+      "value": 97.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010101",
+      "value": 93.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010201",
+      "value": 96.24,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010301",
+      "value": 95.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010401",
+      "value": 94.01,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010501",
+      "value": 95.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010601",
+      "value": 97.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010701",
+      "value": 97.27,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010801",
+      "value": 97.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20010901",
+      "value": 95.69,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20011001",
+      "value": 95.91,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20011101",
+      "value": 97.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20011201",
+      "value": 98.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020101",
+      "value": 97.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020201",
+      "value": 97.61,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020301",
+      "value": 97.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020401",
+      "value": 97.73,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020501",
+      "value": 101.14,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020601",
+      "value": 103.08,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020701",
+      "value": 104.38,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020801",
+      "value": 104.26,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20020901",
+      "value": 103.93,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20021001",
+      "value": 101.8,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20021101",
+      "value": 103.15,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20021201",
+      "value": 103.34,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030101",
+      "value": 104.56,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030201",
+      "value": 103.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030301",
+      "value": 100.46,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030401",
+      "value": 100.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030501",
+      "value": 100.86,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030601",
+      "value": 101.29,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030701",
+      "value": 103.06,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030801",
+      "value": 104.01,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20030901",
+      "value": 104.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20031001",
+      "value": 102.33,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20031101",
+      "value": 100.28,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20031201",
+      "value": 98.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040101",
+      "value": 98.66,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040201",
+      "value": 100.31,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040301",
+      "value": 102.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040401",
+      "value": 103.02,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040501",
+      "value": 101.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040601",
+      "value": 102.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040701",
+      "value": 103.03,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040801",
+      "value": 104.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20040901",
+      "value": 104.53,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20041001",
+      "value": 103.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20041101",
+      "value": 106.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20041201",
+      "value": 109.1,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050101",
+      "value": 111.75,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050201",
+      "value": 113.53,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050301",
+      "value": 115.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050401",
+      "value": 115.9,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050501",
+      "value": 116.9,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050601",
+      "value": 117.12,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050701",
+      "value": 115.38,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050801",
+      "value": 115.95,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20050901",
+      "value": 115.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20051001",
+      "value": 114.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20051101",
+      "value": 115.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20051201",
+      "value": 117.68,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060101",
+      "value": 120.91,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060201",
+      "value": 123.16,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060301",
+      "value": 122.96,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060401",
+      "value": 124.48,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060501",
+      "value": 123.53,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060601",
+      "value": 123.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060701",
+      "value": 123.95,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060801",
+      "value": 122.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20060901",
+      "value": 124.16,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20061001",
+      "value": 124.0,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20061101",
+      "value": 124.4,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20061201",
+      "value": 124.46,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070101",
+      "value": 124.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070201",
+      "value": 123.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070301",
+      "value": 122.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070401",
+      "value": 123.52,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070501",
+      "value": 123.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070601",
+      "value": 123.61,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070701",
+      "value": 123.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070801",
+      "value": 120.88,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20070901",
+      "value": 120.71,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20071001",
+      "value": 121.02,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20071101",
+      "value": 117.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20071201",
+      "value": 116.68,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080101",
+      "value": 113.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080201",
+      "value": 111.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080301",
+      "value": 105.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080401",
+      "value": 104.87,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080501",
+      "value": 100.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080601",
+      "value": 101.65,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080701",
+      "value": 102.84,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080801",
+      "value": 101.83,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20080901",
+      "value": 95.08,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20081001",
+      "value": 83.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20081101",
+      "value": 80.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20081201",
+      "value": 80.44,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090101",
+      "value": 81.66,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090201",
+      "value": 78.88,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090301",
+      "value": 79.31,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090401",
+      "value": 85.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090501",
+      "value": 89.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090601",
+      "value": 88.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090701",
+      "value": 87.98,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090801",
+      "value": 89.14,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20090901",
+      "value": 89.85,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20091001",
+      "value": 91.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20091101",
+      "value": 92.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20091201",
+      "value": 92.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100101",
+      "value": 95.71,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100201",
+      "value": 94.73,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100301",
+      "value": 96.33,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100401",
+      "value": 98.61,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100501",
+      "value": 95.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100601",
+      "value": 92.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100701",
+      "value": 91.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100801",
+      "value": 92.81,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20100901",
+      "value": 93.96,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20101001",
+      "value": 94.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20101101",
+      "value": 93.29,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20101201",
+      "value": 92.83,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110101",
+      "value": 94.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110201",
+      "value": 94.65,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110301",
+      "value": 93.75,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110401",
+      "value": 95.67,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110501",
+      "value": 95.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110601",
+      "value": 95.52,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110701",
+      "value": 97.53,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110801",
+      "value": 95.94,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20110901",
+      "value": 93.0,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20111001",
+      "value": 90.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20111101",
+      "value": 92.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20111201",
+      "value": 92.23,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120101",
+      "value": 92.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120201",
+      "value": 93.29,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120301",
+      "value": 93.46,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120401",
+      "value": 92.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120501",
+      "value": 91.66,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120601",
+      "value": 92.11,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120701",
+      "value": 93.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120801",
+      "value": 94.16,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20120901",
+      "value": 94.11,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20121001",
+      "value": 95.01,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20121101",
+      "value": 96.84,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20121201",
+      "value": 97.69,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130101",
+      "value": 99.48,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130201",
+      "value": 97.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130301",
+      "value": 97.39,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130401",
+      "value": 95.66,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130501",
+      "value": 96.96,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130601",
+      "value": 94.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130701",
+      "value": 96.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130801",
+      "value": 96.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20130901",
+      "value": 99.56,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20131001",
+      "value": 99.74,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20131101",
+      "value": 100.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20131201",
+      "value": 101.86,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140101",
+      "value": 101.5,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140201",
+      "value": 101.01,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140301",
+      "value": 101.28,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140401",
+      "value": 103.83,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140501",
+      "value": 105.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140601",
+      "value": 106.18,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140701",
+      "value": 105.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140801",
+      "value": 106.02,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20140901",
+      "value": 105.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20141001",
+      "value": 103.61,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20141101",
+      "value": 101.55,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20141201",
+      "value": 102.75,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150101",
+      "value": 106.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150201",
+      "value": 105.31,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150301",
+      "value": 105.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150401",
+      "value": 107.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150501",
+      "value": 105.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150601",
+      "value": 104.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150701",
+      "value": 102.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150801",
+      "value": 100.89,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20150901",
+      "value": 100.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20151001",
+      "value": 103.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20151101",
+      "value": 103.78,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20151201",
+      "value": 102.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160101",
+      "value": 101.47,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160201",
+      "value": 98.95,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160301",
+      "value": 100.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160401",
+      "value": 102.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160501",
+      "value": 100.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160601",
+      "value": 101.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160701",
+      "value": 103.63,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160801",
+      "value": 105.88,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20160901",
+      "value": 106.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20161001",
+      "value": 105.84,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20161101",
+      "value": 104.21,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20161201",
+      "value": 104.13,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170101",
+      "value": 104.8,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170201",
+      "value": 107.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170301",
+      "value": 108.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170401",
+      "value": 107.35,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170501",
+      "value": 107.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170601",
+      "value": 106.03,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170701",
+      "value": 105.47,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170801",
+      "value": 104.6,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20170901",
+      "value": 103.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20171001",
+      "value": 104.28,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20171101",
+      "value": 106.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20171201",
+      "value": 107.73,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180101",
+      "value": 107.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180201",
+      "value": 105.24,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180301",
+      "value": 106.1,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180401",
+      "value": 106.73,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180501",
+      "value": 107.8,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180601",
+      "value": 106.88,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180701",
+      "value": 105.48,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180801",
+      "value": 107.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20180901",
+      "value": 108.25,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20181001",
+      "value": 107.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20181101",
+      "value": 107.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20181201",
+      "value": 107.23,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190101",
+      "value": 106.12,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190201",
+      "value": 105.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190301",
+      "value": 104.52,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190401",
+      "value": 103.86,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190501",
+      "value": 101.19,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190601",
+      "value": 101.62,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190701",
+      "value": 100.66,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190801",
+      "value": 99.17,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20190901",
+      "value": 100.94,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20191001",
+      "value": 101.39,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20191101",
+      "value": 101.59,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20191201",
+      "value": 100.93,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200101",
+      "value": 101.06,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200201",
+      "value": 99.46,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200301",
+      "value": 98.38,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200401",
+      "value": 99.11,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200501",
+      "value": 98.54,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200601",
+      "value": 99.15,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200701",
+      "value": 98.57,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200801",
+      "value": 98.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20200901",
+      "value": 99.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20201001",
+      "value": 101.33,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20201101",
+      "value": 102.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20201201",
+      "value": 103.27,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210101",
+      "value": 102.64,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210201",
+      "value": 101.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210301",
+      "value": 101.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210401",
+      "value": 102.79,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210501",
+      "value": 101.19,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210601",
+      "value": 101.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210701",
+      "value": 100.21,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210801",
+      "value": 99.17,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20210901",
+      "value": 98.14,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20211001",
+      "value": 97.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20211101",
+      "value": 97.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20211201",
+      "value": 98.23,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220101",
+      "value": 97.42,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220201",
+      "value": 96.92,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220301",
+      "value": 96.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220401",
+      "value": 96.79,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220501",
+      "value": 97.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220601",
+      "value": 96.76,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220701",
+      "value": 96.2,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220801",
+      "value": 95.13,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20220901",
+      "value": 92.32,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20221001",
+      "value": 91.77,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20221101",
+      "value": 94.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20221201",
+      "value": 96.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230101",
+      "value": 98.83,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230201",
+      "value": 96.86,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230301",
+      "value": 95.3,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230401",
+      "value": 93.48,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230501",
+      "value": 94.46,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230601",
+      "value": 97.9,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230701",
+      "value": 98.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230801",
+      "value": 97.26,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20230901",
+      "value": 97.87,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20231001",
+      "value": 97.51,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20231101",
+      "value": 99.32,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20231201",
+      "value": 97.99,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240101",
+      "value": 97.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240201",
+      "value": 97.22,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240301",
+      "value": 97.39,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240401",
+      "value": 95.74,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240501",
+      "value": 95.84,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240601",
+      "value": 94.83,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240701",
+      "value": 94.45,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240801",
+      "value": 94.63,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20240901",
+      "value": 95.09,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20241001",
+      "value": 94.05,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20241101",
+      "value": 93.43,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20241201",
+      "value": 91.37,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250101",
+      "value": 91.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250201",
+      "value": 91.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250301",
+      "value": 89.58,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250401",
+      "value": 89.67,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250501",
+      "value": 91.67,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250601",
+      "value": 92.44,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250701",
+      "value": 91.36,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250801",
+      "value": 90.7,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20250901",
+      "value": 90.53,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20251001",
+      "value": 89.15,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20251101",
+      "value": 87.23,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20251201",
+      "value": 86.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260101",
+      "value": 87.02,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260201",
+      "value": 86.49,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260301",
+      "value": 85.07,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260401",
+      "value": 85.04,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260501",
+      "value": 84.72,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    },
+    {
+      "date": "20260601",
+      "value": 83.06,
+      "source": "BIS",
+      "series_id": "WS_EER"
+    }
+  ]
 }
