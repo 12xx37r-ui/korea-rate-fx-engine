@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 from typing import Any
 
 from src.collectors import ecos, global_market, kosis, krx, reb, us_policy
-from src.collectors import korea_asset_fundamentals
+from src.collectors import korea_asset_fundamentals, korea_equity_environment
 from src.core.io import read_json, write_json
 from src.core.result import SourceResult
 from src.models.krw_strength import build_snapshot, build_krw_strength_forecast
@@ -16,6 +16,7 @@ from src.models.korea_policy_v2 import build_fx_forecast_v2, build_rate_forecast
 from src.models.korea_outlook_v3 import build_v3
 from src.models.krw_liquidity import build_krw_liquidity_forecast
 from src.models.rate_validation import evaluate_rate_vintage_snapshots
+from src.models.korea_equity_environment import build_and_write as build_korea_equity_environment
 
 
 ENGINE_VERSION = "4.8.0-long-history-rate-oos-vintage-accumulator"
@@ -125,6 +126,20 @@ def main() -> None:
         korea_asset_fundamentals.collect(output_dir, timeout=min(timeout, 20))
     except Exception as exc:
         print(f"[WARN] KOREA_ASSET_FUNDAMENTALS | {type(exc).__name__}: {exc}", flush=True)
+
+    # Korea-equity-specific sub-engine.  It is intentionally isolated from the
+    # existing rate/FX/liquidity/strength contracts: failures here never alter or
+    # block those outputs, and all new fields live only in dedicated JSON files.
+    try:
+        equity_raw = korea_equity_environment.collect(output_dir, timeout=min(timeout, 20))
+        equity_environment = build_korea_equity_environment(output_dir, equity_raw)
+        print(
+            f"[DONE] KOREA_EQUITY_ENVIRONMENT | score={equity_environment.get('score')} "
+            f"bias={equity_environment.get('bias')} coverage={equity_environment.get('data_coverage_pct')}%",
+            flush=True,
+        )
+    except Exception as exc:
+        print(f"[WARN] KOREA_EQUITY_ENVIRONMENT | {type(exc).__name__}: {exc}", flush=True)
 
     # Merge current raw data with last-good committed series. Empty current blocks do
     # not erase usable history.
