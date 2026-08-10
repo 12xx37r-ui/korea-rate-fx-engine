@@ -13,7 +13,7 @@ from src.core.io import read_json, write_json
 
 
 SCHEMA_VERSION = "1.0.0"
-COLLECTOR_VERSION = "korea-equity-environment-collector-v1.1-full-coverage-bootstrap"
+COLLECTOR_VERSION = "korea-equity-environment-collector-v1.2-close-per-earnings-fallback"
 MARKETS = ("KOSPI", "KOSDAQ")
 INDEX_TICKERS = {
     "kospi200": "1028",
@@ -253,10 +253,13 @@ def _collect_valuation_history(stock: Any, start: str, end: str, ticker: str, la
     for idx, row in frame.iterrows():
         per = _num(row.get("PER") if hasattr(row, "get") else None)
         pbr = _num(row.get("PBR") if hasattr(row, "get") else None)
-        if per is None and pbr is None:
+        close = _num(row.get("종가") if hasattr(row, "get") else None)
+        if close is None and hasattr(row, "get"):
+            close = _num(row.get("Close"))
+        if per is None and pbr is None and close is None:
             continue
         as_of = idx.strftime("%Y-%m-%d") if hasattr(idx, "strftime") else str(idx)[:10]
-        rows.append({"date": as_of, "per": _round(per, 4), "pbr": _round(pbr, 4)})
+        rows.append({"date": as_of, "close": _round(close, 6), "per": _round(per, 4), "pbr": _round(pbr, 4)})
     rows = rows[-320:]
     return {
         "available": bool(rows),
@@ -614,7 +617,7 @@ def collect(output_dir: Path, timeout: int = 20) -> dict[str, Any]:
             "외국인·기관 수급은 최근 약 1개월(35일 달력창)의 KRX 거래대금을 거래대금 대비 bp로 정규화합니다.",
             "breadth는 KOSPI/KOSDAQ 전체 종목의 기간 등락률 상승·하락 종목 비율을 사용하며, 종목별 200일 이동평균 계산처럼 호출량이 큰 방식은 사용하지 않습니다.",
             "밸류에이션은 KOSPI200/KOSDAQ150의 KRX PER·PBR 과거 분포를 사용합니다.",
-            "이익환경은 기존 korea_asset_fundamentals의 forward 성장 대용치를 재사용합니다. 초기 이력 5회 전에는 성장 전망 수준을 사용하고, 이후에는 실제 누적 revision 변화로 자동 전환합니다.",
+            "이익환경은 기존 forward 성장 대용치를 우선 재사용합니다. 해당 공개 컨센서스가 비면 이미 수집 중인 KRX 지수 투자지표의 종가/PER로 후행 EPS 대용치 추세를 계산합니다. 추가 KRX 호출은 없습니다.",
             "신용스프레드는 한국은행 ECOS의 회사채 3년 AA-와 국고채 3년을 같은 날짜끼리 매칭해 현재값과 과거분포를 한 번에 계산하며, 회사채 항목코드는 ECOS 메타데이터 resolver가 최초 1회 확인 후 캐시합니다.",
             "이 전용 raw 출력은 기존 금리·환율·유동성·원화강도 출력 스키마를 변경하지 않습니다.",
         ],
