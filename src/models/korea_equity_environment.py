@@ -9,7 +9,7 @@ from src.core.io import read_json, write_json
 
 
 SCHEMA_VERSION = "1.0.0"
-MODEL_VERSION = "korea-equity-environment-v1.0-direct-market"
+MODEL_VERSION = "korea-equity-environment-v1.1-full-coverage-bootstrap"
 COMPONENT_WEIGHTS = {
     "flow": 0.30,
     "breadth": 0.25,
@@ -211,12 +211,21 @@ def _history_revision_component(fundamentals: dict[str, Any], history: list[dict
         if value is not None:
             previous_values.append(value)
     if len(previous_values) < 5:
+        # First-run bootstrap: do not fabricate a revision history.  Until five
+        # committed observations exist, use the currently observed forward earnings
+        # growth proxy as an *earnings outlook level*.  This is explicitly labelled
+        # and automatically switches to true within-engine revision once history is
+        # sufficient.  No extra network call is introduced.
+        normalized = math.tanh(current / 20.0)
         return {
-            "available": False,
-            "score_normalized": None,
+            "available": True,
+            "score_normalized": _round(normalized),
             "current_growth_proxy_pct": _round(current, 3),
+            "baseline_growth_proxy_pct": None,
+            "revision_pct_point": None,
             "history_samples": len(previous_values),
-            "reason": "revision 계산용 커밋 이력 5개 미만",
+            "mode": "forward_growth_level_bootstrap",
+            "detail": "초기 이력 5회 전: 공개 forward 성장 대용치의 현재 수준을 사용. 5회 누적 후 최근 이력 대비 revision 변화로 자동 전환.",
         }
     baseline = sum(previous_values[-20:]) / min(20, len(previous_values))
     revision_pp = current - baseline
@@ -228,19 +237,35 @@ def _history_revision_component(fundamentals: dict[str, Any], history: list[dict
         "baseline_growth_proxy_pct": _round(baseline, 3),
         "revision_pct_point": _round(revision_pp, 3),
         "history_samples": len(previous_values),
+        "mode": "revision_vs_committed_history",
         "detail": "기존 공개 컨센서스 성장률 대용치의 최근 이력 대비 변화. 정확한 증권사 EPS revision 원자료가 아님.",
     }
 
 
 def _credit_component(raw: dict[str, Any], history: list[dict[str, Any]]) -> dict[str, Any]:
-    current = _num((raw.get("credit") or {}).get("spread_pct_point"))
+    credit = raw.get("credit") or {}
+    current = _num(credit.get("spread_pct_point"))
     if current is None:
         return {"available": False, "score_normalized": None, "reason": "AA- 회사채-국고채 3년 스프레드 부재"}
+
+    # Prefer same-run historical spreads built from same-date ECOS corporate and
+    # government yields.  This makes the percentile available on the first successful
+    # run and avoids waiting for 20 daily commits.  Fall back to committed model history
+    # for backward compatibility with older raw files.
     values: list[float] = []
-    for row in history[-320:]:
-        value = _num((row.get("credit") or {}).get("spread_pct_point")) if isinstance(row, dict) else None
+    for row in list(credit.get("spread_history") or [])[-320:]:
+        value = _num(row.get("spread_pct_point")) if isinstance(row, dict) else None
         if value is not None:
             values.append(value)
+    history_source = "same_run_ecos_history"
+    if len(values) < 20:
+        values = []
+        for row in history[-320:]:
+            value = _num((row.get("credit") or {}).get("spread_pct_point")) if isinstance(row, dict) else None
+            if value is not None:
+                values.append(value)
+        history_source = "committed_model_history"
+
     percentile = _percentile(values, current)
     if percentile is None:
         return {
@@ -248,6 +273,7 @@ def _credit_component(raw: dict[str, Any], history: list[dict[str, Any]]) -> dic
             "score_normalized": None,
             "spread_pct_point": _round(current, 4),
             "history_samples": len(values),
+            "history_source": history_source,
             "reason": "신용스프레드 분포 표본 20개 미만",
         }
     normalized = 1.0 - 2.0 * percentile
@@ -257,7 +283,8 @@ def _credit_component(raw: dict[str, Any], history: list[dict[str, Any]]) -> dic
         "spread_pct_point": _round(current, 4),
         "percentile": _round(percentile),
         "history_samples": len(values),
-        "detail": "AA- 회사채3년-국고채3년 스프레드의 누적 이력 백분위. 좁을수록 우호.",
+        "history_source": history_source,
+        "detail": "AA- 회사채3년-국고채3년의 동일날짜 스프레드 과거분포 백분위. 좁을수록 우호.",
     }
 
 
@@ -340,6 +367,7 @@ def build_and_write(output_dir: Path, raw: dict[str, Any]) -> dict[str, Any]:
         "bias": _band(score),
         "data_coverage_pct": data_coverage_pct,
         "active_weight": _round(active_weight, 3),
+        "complete_for_market_card": bool(score is not None and data_coverage_pct == 100),
         "stale_sections": stale_sections,
         "components": component_map,
         "weights": COMPONENT_WEIGHTS,
@@ -361,7 +389,7 @@ def build_and_write(output_dir: Path, raw: dict[str, Any]) -> dict[str, Any]:
             "history_is_local_committed_json": True,
         },
         "limitations": [
-            "이익추정치 변화는 기존 korea_asset_fundamentals의 공개 컨센서스 성장 대용치가 확보되고 이력이 누적될 때만 점수에 반영됩니다.",
+            "이익환경은 기존 korea_asset_fundamentals의 공개 forward 성장 대용치를 재사용합니다. 초기 5회는 성장 전망 수준, 이후에는 누적 이력 대비 revision 변화로 자동 전환하며 실제 증권사 전체 컨센서스 원자료로 오인하지 않습니다.",
             "외국인·기관 수급은 KRX 거래대금 기준이며 기관합계가 없으면 기관 세부주체를 합산합니다.",
             "breadth는 기간 상승/하락 종목 비율을 사용합니다. 호출량이 큰 종목별 200일 이동평균 breadth는 의도적으로 제외했습니다.",
             "밸류에이션과 신용스프레드는 절대 임의 기준보다 각자의 실제 과거분포 백분위를 우선 사용합니다.",
