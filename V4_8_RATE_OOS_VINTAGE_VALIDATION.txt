@@ -1,0 +1,71 @@
+KOREA ENGINE V4.8 - RATE OOS / REAL-TIME VINTAGE VALIDATION
+============================================================
+
+Scope
+- Korea policy-rate validation only; FX V4, liquidity, KRW-strength core models unchanged.
+- No U.S./Fed engine changes.
+- No additional external API / UrlFetch / GitHub calls.
+
+Why V4.7 had only 66 rate-validation samples
+- Live/reference Korea 2Y government yield starts at 2021-03-10 in the collected ECOS history.
+- The rate backtest therefore discarded older BOK/KOSIS history even though Korea 3Y government yield exists from 2012.
+
+V4.8 fixed historical validation rule
+- Live policy-gap input: Korea 2Y yield when available (unchanged).
+- Historical OOS: Korea 3Y yield only before 2Y inception; Korea 2Y from 2021-03-10 onward.
+- The proxy rule is fixed before evaluation and disclosed in output metadata.
+- Existing locally collected ECOS rows are reused; network calls added = 0.
+
+Actual bundled-history A/B check (2026-08-10 data snapshot)
+V4.7 / 2Y-only:
+- samples: 66
+- Brier skill vs expanding prior: +18.21%
+- direction accuracy: 59.09%
+- Wilson 95% lower bound: 47.05%
+
+V4.8 / fixed 3Y-pre-2Y + 2Y:
+- samples: 166
+- Brier score: 0.5128
+- benchmark Brier: 0.5759
+- Brier skill: +10.96%
+- direction accuracy: 63.25%
+- Wilson 95% lower bound: 55.70%
+- active input coverage: 100%
+- release-lag backtest: true
+- walk-forward backtest: true
+- reconstructed OOS gate: PASS
+
+Strict production certification
+- strict gate: NOT YET PASSED
+- remaining reason only: true point-in-time / real-time vintage history is not yet mature enough.
+- V4.8 now automatically evaluates committed output/vintages locally.
+- One latest usable snapshot per calendar month is used to reduce serial dependence.
+- A label is evaluated only after the full four-month outcome window matures.
+- real-time vintage qualification requires >=24 matured monthly snapshots, positive Brier skill, and >=50% accuracy.
+- current bundled matured snapshots: 0 / 24
+- when the true-vintage gate qualifies, the existing strict gate promotes automatically; no future threshold relaxation is required.
+
+Current bundled-input rate self-check (not a promise of future live values)
+- current BOK rate: 2.75%
+- first-meeting modal path: 2.75% hold
+- calibrated probabilities: hold 57.5% / hike 30.3% / cut 12.2%
+- probability-weighted expected rate: 2.795%
+- forecast quality score: 84/100
+- display level: 검증 B등급·재구성 OOS 통과·실시간 빈티지 누적
+
+GAS V207 integration
+- Fresh engine USD/KRW spot reuses the engine's own 3m OOS block instead of issuing a second market request.
+- Expected V4.7/V4.8 FX detail with the supplied live result:
+  C grade / 599 samples / active direction accuracy 48.84% / persistence skill -0.083% / 80% interval coverage 78.30%.
+- No latest-prediction-return value is fabricated from null.
+- V206 Index.html is preserved byte-for-byte, so the U.S. policy-rate blue explanatory down arrow was not changed.
+
+Verification
+- Python compile: PASS
+- pytest: 67/67 PASS
+- actual bundled-history rate A/B validation: PASS for reconstructed OOS
+- synthetic true-vintage auto-promotion test: PASS
+- GAS Code.gs Node syntax parse: PASS
+- Index.html script blocks: 2/2 PASS
+- GAS mapping simulation: PASS
+- compact Script Properties last-good payload estimate: < 8.8 KB

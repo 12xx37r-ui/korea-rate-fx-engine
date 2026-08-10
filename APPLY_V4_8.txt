@@ -1,0 +1,17 @@
+KOREA ENGINE V4.8 APPLY GUIDE
+
+IMPORTANT: This ZIP is an overlay/source package. Do NOT delete the existing GitHub output/ or cache/ directories.
+In particular, preserve output/vintages because those committed snapshots are now the source of true point-in-time validation.
+
+1) Overlay this ZIP on the existing korea-rate-fx-engine repository.
+2) Keep current output/ and cache/ files in GitHub.
+3) Commit/push.
+4) Run Korea Rate FX Engine GitHub Action once.
+5) Confirm output/korea_rate_fx_outlook_v3.json:
+   - engine_version starts with 4.8.0
+   - rate.quality_gate.reconstructed_oos_passed = true (expected with current history)
+   - rate.quality_gate.passed remains false until real-time vintage qualification is genuinely met
+   - rate.validation_summary.samples around 166
+6) Then install GAS V207 and run resetDashboardV207() once before web-app redeploy.
+
+No Fed engine, global engine, or Korea FX/liquidity/strength model replacement is required.
