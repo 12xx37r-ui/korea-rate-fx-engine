@@ -297,6 +297,156 @@ def fx_walk_forward_validation(
         "horizon_specific_oos": all((row.get("samples") or 0) >= 100 for row in result.values()),
     }
 
+
+
+def combine_market_rate_rows_for_backtest(
+    y2_rows: list[dict[str, Any]],
+    y3_rows: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Build a longer fixed validation history without extra network calls.
+
+    The live policy-gap input keeps preferring the Korean 2Y government yield.
+    For historical OOS only, periods before the 2Y series begins use the 3Y
+    government yield as a declared proxy; once 2Y exists, 2Y is used.  This
+    avoids throwing away nearly a decade of already-collected ECOS history and
+    keeps the proxy rule fixed before evaluation.
+    """
+    y2 = numeric_series(y2_rows)
+    y3 = numeric_series(y3_rows)
+    if not y2:
+        rows = [{"TIME": d, "DATA_VALUE": v} for d, v in y3]
+        return rows, {
+            "mode": "kr_gov_3y_only_proxy",
+            "live_reference": "kr_gov_3y",
+            "pre_2y_proxy": None,
+            "first_2y_date": None,
+            "observations": len(rows),
+        }
+    first_2y = y2[0][0]
+    merged: dict[str, float] = {d: v for d, v in y3 if d < first_2y}
+    merged.update({d: v for d, v in y2})
+    rows = [{"TIME": d, "DATA_VALUE": v} for d, v in sorted(merged.items())]
+    return rows, {
+        "mode": "kr_gov_3y_pre_2y_then_2y_fixed_proxy",
+        "live_reference": "kr_gov_2y",
+        "pre_2y_proxy": "kr_gov_3y",
+        "first_2y_date": first_2y,
+        "observations": len(rows),
+    }
+
+
+def evaluate_rate_vintage_snapshots(
+    vintage_dir: str | Any,
+    base_rows: list[dict[str, Any]],
+    min_matured_samples: int = 24,
+) -> dict[str, Any]:
+    """Evaluate truly saved point-in-time rate forecasts using matured outcomes.
+
+    This is intentionally local-only: it reads committed ``output/vintages``
+    snapshots and never performs an API call.  To reduce serial dependence, at
+    most one (latest) usable forecast per calendar month is evaluated.
+    """
+    from pathlib import Path
+    import json
+
+    root = Path(vintage_dir)
+    base = numeric_series(base_rows)
+    if not root.exists() or not base:
+        return {
+            "qualified": False, "samples": 0, "min_samples": min_matured_samples,
+            "brier_score": None, "benchmark_brier": None, "brier_skill_score": None,
+            "accuracy": None, "accuracy_wilson_lower_95": None,
+            "method": "committed_point_in_time_monthly_snapshots",
+            "reason": "matured point-in-time snapshots unavailable",
+        }
+
+    latest_base_date = base[-1][0]
+    monthly: dict[str, tuple[str, dict[str, float]]] = {}
+    for path in sorted(root.glob('*.json')):
+        try:
+            obj = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:
+            continue
+        rf = obj.get('rate_forecast') if isinstance(obj, dict) else None
+        if not isinstance(rf, dict) or rf.get('continuity_mode'):
+            continue
+        meetings = rf.get('meeting_path') or []
+        first = meetings[0] if meetings else {}
+        probs = first.get('probabilities') if isinstance(first, dict) else None
+        if not isinstance(probs, dict):
+            continue
+        try:
+            p = {k: float(probs[k]) for k in ('hold','hike','cut')}
+        except Exception:
+            continue
+        total = sum(p.values())
+        if total <= 0:
+            continue
+        p = {k: p[k] / total for k in p}
+        captured = str(obj.get('captured_at') or rf.get('generated_at') or path.stem)
+        digits = ''.join(ch for ch in captured[:10] if ch.isdigit())
+        if len(digits) < 8:
+            digits = ''.join(ch for ch in path.stem if ch.isdigit())[:8]
+        if len(digits) != 8:
+            continue
+        origin = digits
+        # Only evaluate after the full four-month outcome window has matured.
+        if _shift_month(origin, 4) > latest_base_date:
+            continue
+        key = origin[:6]
+        prev = monthly.get(key)
+        if prev is None or origin > prev[0]:
+            monthly[key] = (origin, p)
+
+    origins = [monthly[k] for k in sorted(monthly)]
+    classes = ('hold','hike','cut')
+    counts = {c: 1 for c in classes}
+    briers: list[float] = []
+    bench: list[float] = []
+    hits: list[bool] = []
+    rows: list[dict[str, Any]] = []
+    for origin, probs in origins:
+        actual = _next_actual_class_from_date(base, origin)
+        total_prior = sum(counts.values())
+        benchmark = {c: counts[c] / total_prior for c in classes}
+        model_bs = sum((probs[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes)
+        bench_bs = sum((benchmark[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes)
+        hit = max(probs, key=probs.get) == actual
+        briers.append(model_bs); bench.append(bench_bs); hits.append(hit)
+        rows.append({
+            'origin': origin, 'probabilities': {k: round(v, 6) for k, v in probs.items()},
+            'actual': actual, 'hit': hit, 'brier': round(model_bs, 6),
+            'benchmark_brier': round(bench_bs, 6),
+        })
+        counts[actual] += 1
+
+    n = len(rows)
+    bs = mean(briers) if briers else None
+    bb = mean(bench) if bench else None
+    skill = (1.0 - bs / bb) if bs is not None and bb and bb > 0 else None
+    acc = mean(hits) if hits else None
+    lb = _wilson_lower(sum(hits), n) if hits else None
+    qualified = bool(
+        n >= min_matured_samples
+        and skill is not None and skill > 0.0
+        and acc is not None and acc >= 0.50
+    )
+    return {
+        'qualified': qualified,
+        'samples': n,
+        'min_samples': min_matured_samples,
+        'brier_score': round(bs, 4) if bs is not None else None,
+        'benchmark_brier': round(bb, 4) if bb is not None else None,
+        'brier_skill_score': round(skill, 4) if skill is not None else None,
+        'accuracy': round(acc, 4) if acc is not None else None,
+        'accuracy_wilson_lower_95': round(lb, 4) if lb is not None else None,
+        'method': 'committed_point_in_time_monthly_snapshots',
+        'selection': 'latest usable saved snapshot per calendar month; four-month label maturation',
+        'network_calls_added': 0,
+        'rows': rows,
+        'reason': None if qualified else f'need >= {min_matured_samples} matured monthly snapshots with positive Brier skill and >=50% accuracy',
+    }
+
 def _wilson_lower(successes: int, n: int, z: float = 1.959963984540054) -> float | None:
     if n <= 0:
         return None

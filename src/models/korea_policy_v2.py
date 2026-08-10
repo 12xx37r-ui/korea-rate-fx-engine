@@ -20,6 +20,7 @@ from src.models.rate_validation import (
     numeric_series,
     probability_from_features,
     rate_probability_backtest,
+    combine_market_rate_rows_for_backtest,
     fx_walk_forward_validation,
     _fx_selective_forecast,
 )
@@ -228,7 +229,7 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
     release_lag = bool(backtest.get("release_lag_backtest"))
     walk_forward = bool(backtest.get("walk_forward_backtest"))
     real_vintage = bool(backtest.get("real_time_vintage"))
-    strict_pass = (
+    reconstructed_oos_pass = (
         samples >= 80
         and skill is not None
         and float(skill) >= 0.10
@@ -238,21 +239,32 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
         and data_coverage >= 0.95
         and release_lag
         and walk_forward
-        and real_vintage
     )
+    strict_pass = reconstructed_oos_pass and real_vintage
     candidate = (
         not strict_pass
-        and samples >= 60
-        and skill is not None
-        and float(skill) > 0.0
-        and accuracy is not None
-        and float(accuracy) >= 0.52
-        and data_coverage >= 0.80
-        and release_lag
+        and ((reconstructed_oos_pass) or (
+            samples >= 60
+            and skill is not None
+            and float(skill) > 0.0
+            and accuracy is not None
+            and float(accuracy) >= 0.52
+            and data_coverage >= 0.80
+            and release_lag
+        ))
     )
-    level = "검증 A등급" if strict_pass else ("후보 B등급·엄격검증 미통과" if candidate else ("검증 C등급" if samples >= 24 else "검증 D등급"))
+    if strict_pass:
+        level = "검증 A등급·엄격검증 통과"
+    elif reconstructed_oos_pass:
+        level = "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적"
+    elif candidate:
+        level = "후보 B등급·엄격검증 미통과"
+    else:
+        level = "검증 C등급" if samples >= 24 else "검증 D등급"
     return {
         "passed": strict_pass,
+        "strict_passed": strict_pass,
+        "reconstructed_oos_passed": reconstructed_oos_pass,
         "operational_passed": True,
         "candidate": candidate,
         "level": level,
@@ -266,6 +278,7 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
             "release_lag_backtest_required": True,
             "walk_forward_backtest_required": True,
             "real_time_vintage_required": True,
+            "real_time_vintage_min_matured_monthly_snapshots": 24,
         },
         "observed": {
             "samples": samples,
@@ -276,6 +289,7 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
             "release_lag_backtest": release_lag,
             "walk_forward_backtest": walk_forward,
             "real_time_vintage": real_vintage,
+            "reconstructed_oos_passed": reconstructed_oos_pass,
         },
         "forecast_quality_score": int(max(0, min(100,
             25
@@ -294,10 +308,10 @@ def _quality_gate(backtest: dict[str, Any], data_coverage: float) -> dict[str, A
                 (data_coverage < 0.95, "실제 사용 입력축 완전성이 95% 미만입니다."),
                 (not release_lag, "발표시차 반영 백테스트가 없습니다."),
                 (not walk_forward, "순차 walk-forward 백테스트가 없습니다."),
-                (not real_vintage, "실시간 원본 빈티지 검증이 아직 없습니다."),
+                (not real_vintage, "실시간 원본 빈티지 검증이 아직 충분하지 않습니다."),
             ) if condition
         ],
-        "limitations": (["실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"] if not real_vintage else []),
+        "limitations": (["재구성 OOS는 통과했더라도 실시간 원본 빈티지가 충분히 누적되기 전에는 엄격검증 통과로 승격하지 않습니다."] if reconstructed_oos_pass and not real_vintage else (["실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"] if not real_vintage else [])),
     }
 
 
@@ -306,6 +320,7 @@ def build_rate_forecast_v2(
     kosis: dict[str, list[dict[str, Any]]],
     us_policy: dict[str, Any] | None,
     source_status: dict[str, str] | None = None,
+    vintage_validation: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     base = numeric_series(ecos.get("kr_base_rate", []))
     y2 = numeric_series(ecos.get("kr_gov_2y", []))
@@ -324,12 +339,20 @@ def build_rate_forecast_v2(
     us_change = (mean(us_rates[:3]) - us_current) if us_current is not None and us_rates else None
 
     raw = probability_from_features(policy_gap, inflation, growth)
+    validation_market_rows, validation_market_meta = combine_market_rate_rows_for_backtest(
+        ecos.get("kr_gov_2y", []),
+        ecos.get("kr_gov_3y", []),
+    )
     backtest = rate_probability_backtest(
         ecos.get("kr_base_rate", []),
-        ecos.get("kr_gov_2y", []) or ecos.get("kr_gov_3y", []),
+        validation_market_rows,
         cpi_series,
         kosis.get("industrial_production", []),
     )
+    vintage_validation = vintage_validation if isinstance(vintage_validation, dict) else {}
+    backtest["real_time_vintage"] = bool(vintage_validation.get("qualified"))
+    backtest["real_time_vintage_validation"] = vintage_validation
+    backtest["market_rate_validation_proxy"] = validation_market_meta
     calibrated, calibration_weight = calibrate_probabilities(raw, backtest)
     regime, regime_scores = _regime(inflation, growth, policy_gap, us_change, fx_3m)
     first = _regime_adjust(calibrated, regime, us_change, fx_3m)
@@ -377,7 +400,7 @@ def build_rate_forecast_v2(
     status = "ok" if current_rate is not None and market_rate is not None else "partial"
     return {
         "schema_version": "2.0.0",
-        "engine_version": "2.8.0-objective-validation-semantics",
+        "engine_version": "2.9.0-long-history-oos-vintage-gate",
         "status": status,
         "engine_scope": "korea_only_us_engine_read_only",
         "current": {

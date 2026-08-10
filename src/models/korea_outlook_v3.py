@@ -97,7 +97,22 @@ def build_v3(
         )
 
     fx_gate = ((fx_v2.get("validation") or {}).get("quality_gate") or {})
-    rate_gate = ((rate_v2.get("validation") or {}).get("quality_gate") or {})
+    rate_validation = rate_v2.get("validation") or {}
+    rate_gate = (rate_validation.get("quality_gate") or {})
+    rate_validation_summary = {
+        "samples": rate_validation.get("samples"),
+        "brier_score": rate_validation.get("brier_score"),
+        "benchmark_brier": rate_validation.get("benchmark_brier"),
+        "brier_skill_score": rate_validation.get("brier_skill_score"),
+        "accuracy": rate_validation.get("accuracy"),
+        "accuracy_wilson_lower_95": rate_validation.get("accuracy_wilson_lower_95"),
+        "log_loss": rate_validation.get("log_loss"),
+        "release_lag_backtest": rate_validation.get("release_lag_backtest"),
+        "walk_forward_backtest": rate_validation.get("walk_forward_backtest"),
+        "real_time_vintage": rate_validation.get("real_time_vintage"),
+        "real_time_vintage_validation": rate_validation.get("real_time_vintage_validation") or {},
+        "market_rate_validation_proxy": rate_validation.get("market_rate_validation_proxy") or {},
+    }
     non_copy = any(
         _float(row.get("point_forecast")) is not None
         and abs(float(row.get("point_forecast")) - spot) >= 0.05
@@ -115,7 +130,8 @@ def build_v3(
             "meeting_path": rate_horizons,
             "calendar_horizon_estimates": rate_month,
             "quality_gate": rate_gate,
-            "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 후보등급과 엄격검증 통과 여부를 분리합니다.",
+            "validation_summary": rate_validation_summary,
+            "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 재구성 OOS와 실시간 원본 빈티지 엄격검증을 분리합니다.",
         },
         "fx": {
             "current_usdkrw": spot,

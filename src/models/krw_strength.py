@@ -12,6 +12,7 @@ from src.models.rate_validation import (
     core_cpi_yoy_series,
     probability_from_features,
     rate_probability_backtest,
+    combine_market_rate_rows_for_backtest,
 )
 
 
@@ -493,9 +494,13 @@ def build_snapshot(
     raw_total = sum(raw_rate_prob.values()) or 1.0
     raw_rate_prob = {key: value / raw_total for key, value in raw_rate_prob.items()}
 
+    rate_validation_market_rows, _ = combine_market_rate_rows_for_backtest(
+        ecos.get("kr_gov_2y", []),
+        ecos.get("kr_gov_3y", []),
+    )
     rate_backtest = rate_probability_backtest(
         ecos.get("kr_base_rate", []),
-        ecos.get("kr_gov_2y", []) or ecos.get("kr_gov_3y", []),
+        rate_validation_market_rows,
         core_cpi_yoy_series_data,
         kosis.get("industrial_production", []),
     )
