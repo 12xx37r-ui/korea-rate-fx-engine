@@ -4,17 +4,17 @@
     "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1407.449951171875,
+    "usdkrw": 1414.4100341796875,
     "kr_gov_2y_pct": 3.573,
     "kr_gov_3y_pct": 3.746,
     "kr_gov_10y_pct": 4.208,
-    "krw_strength_score": 0.6399,
+    "krw_strength_score": 0.6154,
     "krw_strength_grade": "강약",
-    "krw_absolute_level_score": 0.6587,
+    "krw_absolute_level_score": 0.6508,
     "krw_absolute_level_grade": "강약",
-    "krw_short_term_momentum_score": 0.6049,
+    "krw_short_term_momentum_score": 0.5498,
     "krw_short_term_momentum_grade": "강약",
-    "usdkrw_1y_percentile": 0.1706
+    "usdkrw_1y_percentile": 0.1746
   },
   "forecast": {
     "horizon": "향후 1~3개월",
@@ -34,18 +34,18 @@
         "probability": 0.124
       }
     },
-    "usdkrw_mid": 1406.5,
+    "usdkrw_mid": 1413.9,
     "usdkrw_range": [
-      1326.9,
-      1486.0
+      1334.0,
+      1493.8
     ],
     "usdkrw_direction": "neutral",
-    "usdkrw_up_probability": 0.4712,
+    "usdkrw_up_probability": 0.4741,
     "usdkrw_neutral_probability": 0.0452,
-    "usdkrw_down_probability": 0.4836,
+    "usdkrw_down_probability": 0.4807,
     "usdkrw_model_quality_grade": "C",
-    "usdkrw_model_quality_score": 68,
-    "krw_strength_score": 0.4362,
+    "usdkrw_model_quality_score": 65,
+    "krw_strength_score": 0.4297,
     "krw_strength_grade": "강약",
     "confidence": 0.75,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -70,6 +70,7 @@
     "rate_industrial_3m_annualized": 0.05511,
     "fx_model_weights": [
       0.2173,
+      0.0,
       0.2001,
       0.1231,
       0.1346,
@@ -77,17 +78,17 @@
       0.2188
     ],
     "fx_backtest_samples": 599,
-    "fx_backtest_rmse_pct": 4.012,
+    "fx_backtest_rmse_pct": 4.016,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.05299,
-    "fx_3m_change": -0.06382,
-    "fx_forecast_bias_pct": -0.00067,
+    "fx_1m_change": -0.04357,
+    "fx_3m_change": -0.05944,
+    "fx_forecast_bias_pct": -0.00036,
     "policy_market_gap_pctp": 0.823,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "3.9.0-policy-base-rate-calibrated"
   },
-  "generated_at": "2026-08-10T04:11:59.870308+09:00",
-  "engine_version": "4.4.0-final-low-call-korea-forecast"
+  "generated_at": "2026-08-10T11:17:58.505282+09:00",
+  "engine_version": "4.6.0-macro-oos-gated-korea-forecast"
 }

@@ -1,10 +1,10 @@
 {
   "schema_version": "2.0.0",
-  "engine_version": "4.4.0-final-low-call-korea-forecast",
-  "generated_at": "2026-08-10T04:11:59.870308+09:00",
+  "engine_version": "4.6.0-macro-oos-gated-korea-forecast",
+  "generated_at": "2026-08-10T11:17:58.505282+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
-    "level": "검증 B등급",
+    "level": "후보 B등급·엄격검증 미통과",
     "passed": false,
     "candidate": true
   },
@@ -24,14 +24,16 @@
   },
   "liquidity": {
     "forecast_operational": true,
+    "forecast_quality_score": 90,
+    "forecast_quality_grade": "A",
     "input_data_quality_score": 99,
-    "quality_score_semantics": "input_coverage_and_data_availability_not_oos_accuracy",
+    "quality_score_semantics": "forecast_quality_is_oos_based; input_quality_is_coverage_availability",
     "data_mode": "monetary_plus_policy"
   },
   "krw_strength": {
     "forecast_operational": true,
-    "model_quality_score": 61,
-    "quality_score_semantics": "FX V4 OOS quality 75% + KRW public-factor coverage 25%"
+    "model_quality_score": 64,
+    "quality_score_semantics": "FX OOS quality 72% + weighted KRW factor coverage 28%; not a probability"
   },
   "continuity": {
     "rate_previous_forecast_used": false,

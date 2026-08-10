@@ -160,6 +160,12 @@
       "value": 1407.449951171875,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
+    },
+    {
+      "date": "20260810",
+      "value": 1414.4100341796875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
     }
   ],
   "krw_neer": [],
