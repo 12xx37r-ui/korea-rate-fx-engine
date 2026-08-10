@@ -13,7 +13,7 @@ from src.core.io import read_json, write_json
 
 
 SCHEMA_VERSION = "1.0.0"
-COLLECTOR_VERSION = "korea-equity-environment-collector-v1.0"
+COLLECTOR_VERSION = "korea-equity-environment-collector-v1.1-full-coverage-bootstrap"
 MARKETS = ("KOSPI", "KOSDAQ")
 INDEX_TICKERS = {
     "kospi200": "1028",
@@ -558,6 +558,23 @@ def collect(output_dir: Path, timeout: int = 20) -> dict[str, Any]:
     if common_time and corp_latest.get("value") is not None and gov_latest.get("value") is not None:
         spread = float(corp_latest["value"]) - float(gov_latest["value"])
 
+    # Bootstrap the credit-spread percentile immediately from the historical rows
+    # already fetched in this same run.  This removes the old 20-run waiting period
+    # without adding a new ECOS request: corporate and government yields are paired
+    # only on identical dates, so the history is comparable and auditable.
+    spread_history = []
+    for time_key in common_times[-400:]:
+        corp_value = corp_by_time.get(time_key)
+        gov_value = gov_by_time.get(time_key)
+        if corp_value is None or gov_value is None:
+            continue
+        spread_history.append({
+            "date": time_key,
+            "corp_aa_minus_3y_pct": _round(corp_value, 4),
+            "gov_3y_pct": _round(gov_value, 4),
+            "spread_pct_point": _round(float(corp_value) - float(gov_value), 4),
+        })
+
     result = {
         "schema_version": SCHEMA_VERSION,
         "collector_version": COLLECTOR_VERSION,
@@ -574,6 +591,8 @@ def collect(output_dir: Path, timeout: int = 20) -> dict[str, Any]:
             "gov_3y_pct": _round(gov_latest.get("value"), 4),
             "gov_as_of": gov_latest.get("time"),
             "spread_pct_point": _round(spread, 4),
+            "spread_history": spread_history,
+            "history_samples": len(spread_history),
             "stale": bool(credit.get("stale")),
             "source": credit.get("source") or "한국은행 ECOS",
             "source_url": credit.get("source_url") or "https://ecos.bok.or.kr/",
@@ -595,8 +614,8 @@ def collect(output_dir: Path, timeout: int = 20) -> dict[str, Any]:
             "외국인·기관 수급은 최근 약 1개월(35일 달력창)의 KRX 거래대금을 거래대금 대비 bp로 정규화합니다.",
             "breadth는 KOSPI/KOSDAQ 전체 종목의 기간 등락률 상승·하락 종목 비율을 사용하며, 종목별 200일 이동평균 계산처럼 호출량이 큰 방식은 사용하지 않습니다.",
             "밸류에이션은 KOSPI200/KOSDAQ150의 KRX PER·PBR 과거 분포를 사용합니다.",
-            "이익추정치 revision은 기존 korea_asset_fundamentals의 공개 컨센서스 대용치를 별도 이력으로 누적한 뒤에만 활성화됩니다.",
-            "신용스프레드는 한국은행 ECOS의 회사채 3년 AA-와 국고채 3년의 차이를 사용하며, 회사채 항목코드는 ECOS 메타데이터 resolver가 최초 1회 확인 후 캐시합니다.",
+            "이익환경은 기존 korea_asset_fundamentals의 forward 성장 대용치를 재사용합니다. 초기 이력 5회 전에는 성장 전망 수준을 사용하고, 이후에는 실제 누적 revision 변화로 자동 전환합니다.",
+            "신용스프레드는 한국은행 ECOS의 회사채 3년 AA-와 국고채 3년을 같은 날짜끼리 매칭해 현재값과 과거분포를 한 번에 계산하며, 회사채 항목코드는 ECOS 메타데이터 resolver가 최초 1회 확인 후 캐시합니다.",
             "이 전용 raw 출력은 기존 금리·환율·유동성·원화강도 출력 스키마를 변경하지 않습니다.",
         ],
     }
