@@ -24,11 +24,11 @@ def test_global_market_uses_three_parallel_fred_groups_plus_yahoo(monkeypatch, t
 
     monkeypatch.setattr(global_market, "_fred_batch", fake_fred)
     monkeypatch.setattr(global_market, "_yahoo_usdkrw", lambda: [{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}])
-    monkeypatch.setattr(global_market, "_bis_eer_fallback", lambda: (_ for _ in ()).throw(AssertionError("BIS should not be called")))
+    monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: ({"krw_neer":[{"date":"20260701","value":100.0,"source":"BIS"}], "krw_reer":[{"date":"20260701","value":101.0,"source":"BIS"}]}, "2000-01", "bootstrap"))
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
     assert len(calls) == 3
-    assert result.metadata["request_count"] == 4
+    assert result.metadata["request_count"] == 5
     assert result.metadata["fred_groups_parallel"] is True
     assert result.status == "ok"
 
@@ -52,12 +52,12 @@ def test_fred_group_failures_do_not_fan_out_and_reuse_last_good(monkeypatch, tmp
 
     monkeypatch.setattr(global_market, "_fred_batch", fail)
     monkeypatch.setattr(global_market, "_yahoo_usdkrw", lambda: [{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}])
-    monkeypatch.setattr(global_market, "_bis_eer_fallback", lambda: (_ for _ in ()).throw(AssertionError("old EER exists")))
+    monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: (_ for _ in ()).throw(AssertionError("fresh EER cache should skip BIS")))
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
     assert len(calls) == 3
     assert result.metadata["request_count"] == 4
-    assert len(result.metadata["last_good_reused"]) >= len(global_market.FRED)
+    assert len(result.metadata["last_good_reused"]) >= sum(len(g) for g in global_market.FRED_GROUPS.values())
 
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
     assert data["broad_dollar"][-1]["date"] == "20260806"
@@ -76,3 +76,11 @@ def test_fred_existing_history_uses_incremental_overlap():
     start, mode = global_market._group_start(previous, group)
     assert mode == "incremental"
     assert "2026" in start or "2025" in start
+
+
+
+def test_bis_eer_csv_parser_combined_nominal_real():
+    text="FREQ,EER_TYPE,EER_BASKET,REF_AREA,TIME_PERIOD,OBS_VALUE\nM,N,B,KR,2026-06,101.2\nM,R,B,KR,2026-06,98.7\n"
+    out=global_market._parse_bis_eer_csv(text)
+    assert out["krw_neer"][-1]["value"] == 101.2
+    assert out["krw_reer"][-1]["value"] == 98.7

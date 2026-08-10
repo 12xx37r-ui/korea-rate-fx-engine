@@ -1,6 +1,6 @@
 {
   "engine_version": "3.9.0-policy-base-rate-calibrated",
-  "generated_at_utc": "2026-08-09T19:52:29.454334+00:00",
+  "generated_at_utc": "2026-08-09T14:19:47.078868+00:00",
   "next_fomc": "2026-09-16",
   "fomc_dates": [
     "2015-01-28",
@@ -111,14 +111,14 @@
   "current_effective_rate_source": "nyfed_effr",
   "probabilities": {
     "cut": 0.0,
-    "hold": 58.0,
-    "hike": 42.0
+    "hold": 57.6,
+    "hike": 42.4
   },
   "representative_probability_source": "market_implied_primary",
   "model_probabilities": {
     "cut": 8.33,
     "hold": 65.96,
-    "hike": 25.7
+    "hike": 25.71
   },
   "model_probability_calibration": {
     "method": "past_only_fomc_action_base_rate",
@@ -129,55 +129,55 @@
     }
   },
   "market_implied_target_probabilities": {
-    "3.63": 58.0,
-    "3.88": 42.0
+    "3.63": 57.6,
+    "3.88": 42.4
   },
   "market_implied_action_probabilities": {
     "cut": 0.0,
-    "hold": 58.0,
-    "hike": 42.0
+    "hold": 57.6,
+    "hike": 42.4
   },
   "market_path": {
     "meeting": "2026-09-16",
     "contract_symbol": "ZQU26.CBT",
-    "pre_meeting_rate": 3.6325,
+    "pre_meeting_rate": 3.632,
     "pre_meeting_rate_source": "previous_month_zq_average",
     "monthly_average_rate": 3.685,
-    "expected_post_meeting_rate": 3.7375,
-    "expected_change_bps": 10.5,
+    "expected_post_meeting_rate": 3.738,
+    "expected_change_bps": 10.6,
     "estimate_method": "calendar_weighted_inversion",
-    "raw_calendar_inversion_rate": 3.7375,
+    "raw_calendar_inversion_rate": 3.738,
     "stability_flags": [],
     "target_rate_probabilities": {
-      "3.63": 58.0,
-      "3.88": 42.0
+      "3.63": 57.6,
+      "3.88": 42.4
     },
     "action_probabilities": {
       "cut": 0.0,
-      "hold": 58.0,
-      "hike": 42.0
+      "hold": 57.6,
+      "hike": 42.4
     }
   },
   "meeting_path": [
     {
       "meeting": "2026-09-16",
       "contract_symbol": "ZQU26.CBT",
-      "pre_meeting_rate": 3.6325,
+      "pre_meeting_rate": 3.632,
       "pre_meeting_rate_source": "previous_month_zq_average",
       "monthly_average_rate": 3.685,
-      "expected_post_meeting_rate": 3.7375,
-      "expected_change_bps": 10.5,
+      "expected_post_meeting_rate": 3.738,
+      "expected_change_bps": 10.6,
       "estimate_method": "calendar_weighted_inversion",
-      "raw_calendar_inversion_rate": 3.7375,
+      "raw_calendar_inversion_rate": 3.738,
       "stability_flags": [],
       "target_rate_probabilities": {
-        "3.63": 58.0,
-        "3.88": 42.0
+        "3.63": 57.6,
+        "3.88": 42.4
       },
       "action_probabilities": {
         "cut": 0.0,
-        "hold": 58.0,
-        "hike": 42.0
+        "hold": 57.6,
+        "hike": 42.4
       }
     },
     {
@@ -405,7 +405,7 @@
   ],
   "features": {
     "policy_inertia": 0.0,
-    "market": -0.21499999999999986,
+    "market": -0.2160000000000002,
     "inflation": 0.13685,
     "employment": -0.14333,
     "growth": -0.75853,
@@ -439,8 +439,8 @@
       {
         "symbol": "ZQQ26.CBT",
         "contract_month": "2026-08",
-        "price": 96.3675,
-        "implied_average_rate": 3.6325,
+        "price": 96.368,
+        "implied_average_rate": 3.632,
         "observation_count": 4
       },
       {
@@ -827,22 +827,22 @@
       {
         "meeting": "2026-09-16",
         "contract_symbol": "ZQU26.CBT",
-        "pre_meeting_rate": 3.6325,
+        "pre_meeting_rate": 3.632,
         "pre_meeting_rate_source": "previous_month_zq_average",
         "monthly_average_rate": 3.685,
-        "expected_post_meeting_rate": 3.7375,
-        "expected_change_bps": 10.5,
+        "expected_post_meeting_rate": 3.738,
+        "expected_change_bps": 10.6,
         "estimate_method": "calendar_weighted_inversion",
-        "raw_calendar_inversion_rate": 3.7375,
+        "raw_calendar_inversion_rate": 3.738,
         "stability_flags": [],
         "target_rate_probabilities": {
-          "3.63": 58.0,
-          "3.88": 42.0
+          "3.63": 57.6,
+          "3.88": 42.4
         },
         "action_probabilities": {
           "cut": 0.0,
-          "hold": 58.0,
-          "hike": 42.0
+          "hold": 57.6,
+          "hike": 42.4
         }
       },
       {
@@ -1073,57 +1073,57 @@
       "meeting": "2026-09-16",
       "current_effective_rate": 3.63,
       "current_effective_rate_source": "nyfed_effr",
-      "expected_post_meeting_rate": 3.7375,
-      "expected_change_bps": 10.5,
+      "expected_post_meeting_rate": 3.738,
+      "expected_change_bps": 10.6,
       "contract_symbol": "ZQU26.CBT",
       "probabilities": {
         "cut": 0.0,
-        "hold": 58.0,
-        "hike": 42.0
+        "hold": 57.6,
+        "hike": 42.4
       },
       "action_probabilities": {
         "cut": 0.0,
-        "hold": 58.0,
-        "hike": 42.0
+        "hold": 57.6,
+        "hike": 42.4
       },
       "target_rate_probabilities": {
-        "3.63": 58.0,
-        "3.88": 42.0
+        "3.63": 57.6,
+        "3.88": 42.4
       }
     },
     "current_effective_rate": 3.63,
     "current_effective_rate_source": "nyfed_effr",
     "probabilities": {
       "cut": 0.0,
-      "hold": 58.0,
-      "hike": 42.0
+      "hold": 57.6,
+      "hike": 42.4
     },
     "market_path": {
       "meeting": "2026-09-16",
       "contract_symbol": "ZQU26.CBT",
-      "pre_meeting_rate": 3.6325,
+      "pre_meeting_rate": 3.632,
       "pre_meeting_rate_source": "previous_month_zq_average",
       "monthly_average_rate": 3.685,
-      "expected_post_meeting_rate": 3.7375,
-      "expected_change_bps": 10.5,
+      "expected_post_meeting_rate": 3.738,
+      "expected_change_bps": 10.6,
       "estimate_method": "calendar_weighted_inversion",
-      "raw_calendar_inversion_rate": 3.7375,
+      "raw_calendar_inversion_rate": 3.738,
       "stability_flags": [],
       "target_rate_probabilities": {
-        "3.63": 58.0,
-        "3.88": 42.0
+        "3.63": 57.6,
+        "3.88": 42.4
       },
       "action_probabilities": {
         "cut": 0.0,
-        "hold": 58.0,
-        "hike": 42.0
+        "hold": 57.6,
+        "hike": 42.4
       }
     }
   },
   "us_market": {
     "features": {
       "policy_inertia": 0.0,
-      "market": -0.21499999999999986,
+      "market": -0.2160000000000002,
       "inflation": 0.13685,
       "employment": -0.14333,
       "growth": -0.75853,
@@ -1144,8 +1144,8 @@
         {
           "symbol": "ZQQ26.CBT",
           "contract_month": "2026-08",
-          "price": 96.3675,
-          "implied_average_rate": 3.6325,
+          "price": 96.368,
+          "implied_average_rate": 3.632,
           "observation_count": 4
         },
         {
@@ -1378,44 +1378,44 @@
     "market_path": {
       "meeting": "2026-09-16",
       "contract_symbol": "ZQU26.CBT",
-      "pre_meeting_rate": 3.6325,
+      "pre_meeting_rate": 3.632,
       "pre_meeting_rate_source": "previous_month_zq_average",
       "monthly_average_rate": 3.685,
-      "expected_post_meeting_rate": 3.7375,
-      "expected_change_bps": 10.5,
+      "expected_post_meeting_rate": 3.738,
+      "expected_change_bps": 10.6,
       "estimate_method": "calendar_weighted_inversion",
-      "raw_calendar_inversion_rate": 3.7375,
+      "raw_calendar_inversion_rate": 3.738,
       "stability_flags": [],
       "target_rate_probabilities": {
-        "3.63": 58.0,
-        "3.88": 42.0
+        "3.63": 57.6,
+        "3.88": 42.4
       },
       "action_probabilities": {
         "cut": 0.0,
-        "hold": 58.0,
-        "hike": 42.0
+        "hold": 57.6,
+        "hike": 42.4
       }
     },
     "meeting_path": [
       {
         "meeting": "2026-09-16",
         "contract_symbol": "ZQU26.CBT",
-        "pre_meeting_rate": 3.6325,
+        "pre_meeting_rate": 3.632,
         "pre_meeting_rate_source": "previous_month_zq_average",
         "monthly_average_rate": 3.685,
-        "expected_post_meeting_rate": 3.7375,
-        "expected_change_bps": 10.5,
+        "expected_post_meeting_rate": 3.738,
+        "expected_change_bps": 10.6,
         "estimate_method": "calendar_weighted_inversion",
-        "raw_calendar_inversion_rate": 3.7375,
+        "raw_calendar_inversion_rate": 3.738,
         "stability_flags": [],
         "target_rate_probabilities": {
-          "3.63": 58.0,
-          "3.88": 42.0
+          "3.63": 57.6,
+          "3.88": 42.4
         },
         "action_probabilities": {
           "cut": 0.0,
-          "hold": 58.0,
-          "hike": 42.0
+          "hold": 57.6,
+          "hike": 42.4
         }
       },
       {
@@ -1644,8 +1644,8 @@
     "current_effective_rate": 3.63,
     "probabilities": {
       "cut": 0.0,
-      "hold": 58.0,
-      "hike": 42.0
+      "hold": 57.6,
+      "hike": 42.4
     }
   },
   "quality": {
@@ -1702,7 +1702,7 @@
       "월말·불안정 회의 5건은 직접 월물곡선으로 안정화",
       "자동가중치 최적화 비활성: need 40 labeled snapshots; have 4"
     ],
-    "generated_at": "2026-08-09T19:52:29.454334+00:00",
+    "generated_at": "2026-08-09T14:19:47.078868+00:00",
     "engine_version": "3.9.0-policy-base-rate-calibrated"
   }
 }

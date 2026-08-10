@@ -1,0 +1,29 @@
+KOREA ENGINE V4.7 — BIS EER / INDEPENDENT KRW-STRENGTH OOS VALIDATION
+
+Scope
+- KRW NEER/REER moved to official BIS EER SDMX path: Korea broad nominal M.N.B.KR + real M.R.B.KR.
+- One combined BIS request when refresh is due; monthly cache freshness skips BIS calls inside 45 days.
+- FRED remains 3 bounded batch requests, Yahoo USD/KRW one request.
+  Normal run with fresh BIS cache: 4 external market requests maximum.
+  BIS refresh run: 5 maximum. No per-series retry fan-out.
+- BIS response is incrementally merged with a 24-month overlap; prior history is retained on failure.
+- Independent KRW-strength OOS target added:
+  -0.50*log(USD/KRW) + 0.25*log(BIS NEER) + 0.25*log(BIS REER), positive = KRW appreciation.
+- 3m/6m/12m expanding-origin prequential candidate selection; candidate losses must mature before selection.
+  Zero-change target is the benchmark. OOS score and input coverage are reported separately.
+
+Validation performed in build sandbox
+- Python compile: src 24 files + tests 18 files OK.
+- pytest: 63/63 passed.
+- BIS combined nominal/real CSV parser test passed.
+- Low-call simulation passed:
+  bootstrap/refresh = 3 FRED batches + 1 BIS + 1 Yahoo = 5 requests;
+  fresh BIS cache = 3 FRED batches + 1 Yahoo = 4 requests.
+- 180-month synthetic no-lookahead strength simulation:
+  weighted factor coverage = 100%; NEER/REER populated;
+  independent OOS activated with >140 samples per tested horizon.
+  Synthetic result is a plumbing/no-lookahead test, not a claim about live-market accuracy.
+
+Live-data expectation
+- First GitHub Actions run after V4.7 should populate raw_global_market.krw_neer / krw_reer from BIS.
+- The same run should then produce quality.separate_oos_validated=true if common USD/KRW+NEER+REER history >=84 months.

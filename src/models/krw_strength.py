@@ -933,6 +933,152 @@ def _strength_label_100(score: float | None) -> str:
     return "원화 매우 약세"
 
 
+
+def _monthly_last_map_from_fx(merged_fx: list[tuple[str, float]]) -> dict[str, float]:
+    out: dict[str, float] = {}
+    for date, value in merged_fx:
+        month = str(date).replace("-", "")[:6]
+        if len(month) == 6:
+            out[month] = float(value)
+    return out
+
+
+def _monthly_last_map_rows(rows: list[dict[str, Any]] | None) -> dict[str, float]:
+    out: dict[str, float] = {}
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        raw = row.get("value", row.get("DATA_VALUE", row.get("DT")))
+        try:
+            value = float(str(raw).replace(",", ""))
+        except (TypeError, ValueError):
+            continue
+        month = str(row.get("date") or row.get("TIME_PERIOD") or row.get("TIME") or "").replace("-", "").replace(".", "")[:6]
+        if len(month) == 6:
+            out[month] = value
+    return out
+
+
+def _clip_strength_return(value: float, bound: float = 0.18) -> float:
+    return max(-bound, min(bound, value))
+
+
+def _strength_oos_candidates(levels: list[float], origin: int, horizon: int) -> dict[str, float]:
+    def delta(k: int) -> float:
+        if origin < k:
+            return 0.0
+        return levels[origin] - levels[origin-k]
+    d3, d6, d12 = delta(3), delta(6), delta(12)
+    scale3 = horizon / 3.0
+    scale6 = horizon / 6.0
+    scale12 = horizon / 12.0
+    return {
+        "zero": 0.0,
+        "mom3": _clip_strength_return(0.50 * d3 * scale3),
+        "mom6": _clip_strength_return(0.55 * d6 * scale6),
+        "mom12": _clip_strength_return(0.45 * d12 * scale12),
+        "contrarian3": _clip_strength_return(-0.30 * d3 * scale3),
+        "blend": _clip_strength_return(0.32*d3*scale3 + 0.28*d6*scale6 + 0.15*d12*scale12),
+    }
+
+
+def _krw_strength_independent_oos(
+    merged_fx: list[tuple[str, float]],
+    global_data: dict[str, Any],
+) -> dict[str, Any]:
+    """No-lookahead OOS validation against an observable KRW-strength target.
+
+    Target level = -50% log(USD/KRW) + 25% log(BIS NEER) + 25% log(BIS REER).
+    A positive future change means KRW appreciation. Candidate selection at each
+    origin only uses candidate losses that were already observable before origin.
+    """
+    fx = _monthly_last_map_from_fx(merged_fx)
+    neer = _monthly_last_map_rows(global_data.get("krw_neer", []))
+    reer = _monthly_last_map_rows(global_data.get("krw_reer", []))
+    months = sorted(set(fx) & set(neer) & set(reer))
+    rows = []
+    for month in months:
+        if fx[month] <= 0 or neer[month] <= 0 or reer[month] <= 0:
+            continue
+        level = -0.50*log(fx[month]) + 0.25*log(neer[month]) + 0.25*log(reer[month])
+        rows.append((month, level))
+    if len(rows) < 84:
+        return {
+            "separate_oos_validated": False,
+            "target_definition": "-0.50*log(USD/KRW)+0.25*log(BIS_NEER)+0.25*log(BIS_REER)",
+            "samples_available_months": len(rows),
+            "reason": "NEER/REER와 USD/KRW 공통 월별 이력이 84개월 미만",
+            "oos_by_horizon": {},
+            "no_lookahead": True,
+        }
+    levels = [x[1] for x in rows]
+    result: dict[str, Any] = {}
+    for horizon in (3, 6, 12):
+        losses: dict[str, list[float]] = {}
+        strategy_err: list[float] = []
+        base_err: list[float] = []
+        hits: list[int] = []
+        active = 0
+        selected_counts: dict[str, int] = {}
+        start = max(24, 12 + horizon)
+        for origin in range(start, len(levels)-horizon):
+            candidates = _strength_oos_candidates(levels, origin, horizon)
+            mature = {name: errs for name, errs in losses.items() if len(errs) >= 24}
+            selected = min(mature, key=lambda name: mean(mature[name])) if mature else "zero"
+            pred = candidates[selected]
+            actual = levels[origin+horizon] - levels[origin]
+            selected_counts[selected] = selected_counts.get(selected, 0) + 1
+            strategy_err.append(pred-actual)
+            base_err.append(-actual)
+            if abs(actual) >= 0.002 and abs(pred) >= 0.0005:
+                active += 1
+                hits.append(int(pred*actual > 0))
+            for name, value in candidates.items():
+                losses.setdefault(name, []).append((value-actual)**2)
+        n = len(strategy_err)
+        model_rmse = sqrt(mean([e*e for e in strategy_err])) if strategy_err else None
+        base_rmse = sqrt(mean([e*e for e in base_err])) if base_err else None
+        skill = (1-model_rmse/base_rmse)*100 if model_rmse is not None and base_rmse else None
+        da = mean(hits) if hits else None
+        active_cov = active/n if n else 0.0
+        strict = bool(n >= 60 and skill is not None and skill > 0 and da is not None and da >= 0.52 and active_cov >= 0.20)
+        if strict and skill >= 5 and da >= 0.56:
+            grade, score = "A", min(96, round(84 + min(8, skill) + min(4, (da-0.56)*25)))
+        elif strict:
+            grade, score = "B", min(88, round(76 + min(6, skill) + min(4, max(0, da-0.52)*25)))
+        elif n >= 48:
+            grade, score = "C", max(55, min(74, round(64 + (skill or -5)*0.6 + ((da or .5)-.5)*20)))
+        else:
+            grade, score = "D", 50
+        result[f"{horizon}m"] = {
+            "samples": n,
+            "rmse": round(model_rmse, 6) if model_rmse is not None else None,
+            "zero_benchmark_rmse": round(base_rmse, 6) if base_rmse is not None else None,
+            "zero_benchmark_skill_pct": round(skill, 3) if skill is not None else None,
+            "direction_accuracy": round(da, 4) if da is not None else None,
+            "active_direction_coverage": round(active_cov, 4),
+            "strict_skill_passed": strict,
+            "grade": grade,
+            "forecast_quality_score": score,
+            "selected_model_counts": selected_counts,
+            "selection_min_matured_errors": 24,
+            "selection_no_lookahead": True,
+            "benchmark": "zero_change_in_independent_krw_strength_target",
+        }
+    primary = result.get("3m", {})
+    return {
+        "separate_oos_validated": True,
+        "target_definition": "-0.50*log(USD/KRW)+0.25*log(BIS_NEER)+0.25*log(BIS_REER); positive=KRW appreciation",
+        "samples_available_months": len(rows),
+        "primary_horizon": "3m",
+        "primary_grade": primary.get("grade"),
+        "primary_quality_score": primary.get("forecast_quality_score"),
+        "oos_by_horizon": result,
+        "no_lookahead": True,
+        "selection_method": "expanding_origin_prequential_candidate_selection",
+    }
+
+
 def build_krw_strength_forecast(
     ecos: dict[str, Any],
     global_data: dict[str, Any] | None,
@@ -949,12 +1095,13 @@ def build_krw_strength_forecast(
     """
     global_data = global_data or {}
     merged_fx, spot_meta = _merge_fx_series(ecos, global_data)
+    independent_oos = _krw_strength_independent_oos(merged_fx, global_data)
     fx_values = [value for _, value in merged_fx]
     spot = fx_values[-1] if fx_values else None
     if spot is None or len(fx_values) < 61:
         return {
             "schema_version": "1.0.0",
-            "engine_version": "1.1.0-krw-strength-resilient",
+            "engine_version": "1.2.0-bis-eer-independent-oos",
             "status": "insufficient_history",
             "forecast_operational": False,
             "forecast_path": [],
@@ -1085,6 +1232,7 @@ def build_krw_strength_forecast(
     group_coverage = len(factor_groups) / len(group_weights)
     non_fx = [v for k, v in factor_groups.items() if k != "usdkrw_level_momentum"]
     non_fx_macro = mean(non_fx) if non_fx else 0.0
+    oos_by_horizon = independent_oos.get("oos_by_horizon", {}) if isinstance(independent_oos, dict) else {}
 
     for months in (3, 6, 12):
         row = fx_rows.get(months, {})
@@ -1117,9 +1265,20 @@ def build_krw_strength_forecast(
             fx_quality_num = float(fx_quality)
         except (TypeError, ValueError):
             fx_quality_num = 50.0
-        # Weighted coverage is more honest than counting groups equally: losing the
-        # 25% effective-FX group matters more than losing a 10% auxiliary group.
-        quality_score = round(max(0.0, min(100.0, fx_quality_num * 0.72 + weighted_group_coverage * 100.0 * 0.28)))
+        # Prefer the independent KRW-strength target OOS once NEER/REER history exists.
+        # Coverage remains explicit and cannot be hidden by a high backtest score.
+        oos_row = oos_by_horizon.get(f"{months}m", {}) if isinstance(oos_by_horizon, dict) else {}
+        oos_score = oos_row.get("forecast_quality_score")
+        try:
+            oos_score_num = float(oos_score)
+        except (TypeError, ValueError):
+            oos_score_num = None
+        if independent_oos.get("separate_oos_validated") and oos_score_num is not None:
+            quality_score = round(max(0.0, min(100.0, oos_score_num * 0.70 + weighted_group_coverage * 100.0 * 0.30)))
+            quality_grade = oos_row.get("grade") or row.get("quality_grade")
+        else:
+            quality_score = round(max(0.0, min(100.0, fx_quality_num * 0.72 + weighted_group_coverage * 100.0 * 0.28)))
+            quality_grade = row.get("quality_grade")
 
         score_range = None
         band = row.get("range_80")
@@ -1147,8 +1306,11 @@ def build_krw_strength_forecast(
                 "down_probability": p_down,
                 "range_80": score_range,
                 "fx_anchor": round(point, 1),
-                "quality_grade": row.get("quality_grade"),
+                "quality_grade": quality_grade,
                 "model_quality_score": quality_score,
+                "independent_oos_grade": oos_row.get("grade"),
+                "independent_oos_quality_score": oos_row.get("forecast_quality_score"),
+                "independent_oos_strict_passed": oos_row.get("strict_skill_passed"),
                 "prediction_status": "forecast",
             }
         )
@@ -1158,7 +1320,7 @@ def build_krw_strength_forecast(
     primary = next((row for row in forecast_path if row["months"] == 3), {})
     return {
         "schema_version": "1.0.0",
-        "engine_version": "1.1.0-krw-strength-resilient",
+        "engine_version": "1.2.0-bis-eer-independent-oos",
         "status": "ok",
         "forecast_operational": True,
         "current": {
@@ -1181,11 +1343,23 @@ def build_krw_strength_forecast(
         "quality": {
             "grade": primary.get("quality_grade"),
             "model_quality_score": primary.get("model_quality_score"),
-            "quality_score_semantics": "FX OOS quality 72% + weighted KRW factor coverage 28%; not a probability",
-            "validation_basis": "FX walk-forward OOS distribution + weighted KRW-strength factor coverage; separate KRW-strength target OOS not claimed",
+            "separate_oos_validated": bool(independent_oos.get("separate_oos_validated")),
+            "independent_oos_primary_grade": independent_oos.get("primary_grade"),
+            "independent_oos_quality_score": independent_oos.get("primary_quality_score"),
+            "independent_oos_validation": independent_oos,
+            "quality_score_semantics": (
+                "70% independent KRW-strength OOS quality + 30% weighted factor coverage; not a probability"
+                if independent_oos.get("separate_oos_validated")
+                else "FX OOS quality 72% + weighted KRW factor coverage 28%; not a probability"
+            ),
+            "validation_basis": (
+                "independent observable KRW-strength target OOS + weighted factor coverage"
+                if independent_oos.get("separate_oos_validated")
+                else "FX walk-forward OOS distribution + weighted KRW-strength factor coverage"
+            ),
         },
         "limitations": [
             "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
-            "별도 원화강도 목표변수의 독립 OOS 적중률로 오인하지 않도록 FX 검증과 입력자료 품질을 분리 표기합니다.",
+            "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다.",
         ],
     }

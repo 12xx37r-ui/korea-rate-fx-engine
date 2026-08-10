@@ -36,4 +36,49 @@ def test_krw_strength_forecast_has_3_6_12_month_paths():
     assert [row["months"] for row in out["forecast_path"]] == [3, 6, 12]
     assert 0 <= out["current"]["strength_score"] <= 100
     assert out["factor_panel"]["active_group_count"] >= 3
-    assert "separate KRW-strength target OOS not claimed" in out["quality"]["validation_basis"]
+    assert out["quality"]["separate_oos_validated"] is False
+
+
+
+def _monthly_series(start_year=2008, months=180, base=100.0, drift=0.08):
+    rows=[]
+    for i in range(months):
+        y=start_year+i//12; m=i%12+1
+        rows.append({"date":f"{y:04d}{m:02d}01","value":base+drift*i+0.8*((i%12)-6)/6})
+    return rows
+
+
+def test_independent_krw_strength_oos_with_bis_history():
+    months=180
+    neer=_monthly_series(base=95, drift=.09)
+    reer=_monthly_series(base=96, drift=.075)
+    # USD/KRW gradually falls as EER rises, creating a learnable but nontrivial strength target.
+    fxrows=[]
+    for i in range(months):
+        y=2008+i//12; m=i%12+1
+        fxrows.append({"TIME":f"{y:04d}{m:02d}01","DATA_VALUE":str(1450-0.9*i+5*((i%12)-6)/6)})
+    global_data={
+        "krw_neer":neer,"krw_reer":reer,
+        "usd_krw_yahoo": [{"date":"20260810","value":1290.0}],
+        "broad_dollar":_monthly_series(base=105,drift=-.02),
+        "usd_cny":_monthly_series(base=7.2,drift=-.001),
+        "usd_jpy":_monthly_series(base=150,drift=-.03),
+        "us_2y":[{"date":"20260801","value":3.4}],
+    }
+    ecos={
+        "usdkrw":fxrows,
+        "kr_gov_2y":[{"TIME":"20260801","DATA_VALUE":"2.8"}],
+        "current_account":[{"TIME":f"{2012+i//12:04d}{i%12+1:02d}","DATA_VALUE":str(50+i*.2)} for i in range(120)],
+        "fx_reserves":[{"TIME":f"{2012+i//12:04d}{i%12+1:02d}","DATA_VALUE":str(3500+i*2)} for i in range(120)],
+    }
+    fx={"forecast_path":[
+        {"months":3,"mid":1285,"change_pct":-.4,"down_probability":.55,"neutral_probability":.1,"up_probability":.35,"range_80":[1220,1360],"quality_grade":"C","model_quality_score":65},
+        {"months":6,"mid":1280,"change_pct":-.8,"down_probability":.57,"neutral_probability":.08,"up_probability":.35,"range_80":[1180,1400],"quality_grade":"C","model_quality_score":64},
+        {"months":12,"mid":1275,"change_pct":-1.2,"down_probability":.58,"neutral_probability":.07,"up_probability":.35,"range_80":[1120,1450],"quality_grade":"C","model_quality_score":62},
+    ]}
+    out=build_krw_strength_forecast(ecos,global_data,fx,{})
+    q=out["quality"]
+    assert q["separate_oos_validated"] is True
+    assert q["independent_oos_validation"]["no_lookahead"] is True
+    assert q["independent_oos_validation"]["oos_by_horizon"]["3m"]["samples"] >= 60
+    assert out["current"]["neer"] is not None and out["current"]["reer"] is not None

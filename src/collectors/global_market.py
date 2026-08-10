@@ -3,7 +3,6 @@ from __future__ import annotations
 import csv
 import io
 import time
-import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -41,8 +40,6 @@ FRED_GROUPS: dict[str, dict[str, str]] = {
         "usd_cny": FRED["usd_cny"],
         "usd_jpy": FRED["usd_jpy"],
         "usd_krw_fred": FRED["usd_krw_fred"],
-        "krw_neer": FRED["krw_neer"],
-        "krw_reer": FRED["krw_reer"],
     },
     "rates_risk": {
         "us_2y": FRED["us_2y"],
@@ -57,10 +54,11 @@ FRED_GROUPS: dict[str, dict[str, str]] = {
     },
 }
 
-BIS_EER_BULK_URL = "https://data.bis.org/static/bulk/WS_EER_csv_flat.zip"
+BIS_EER_API_URL = "https://stats.bis.org/api/v1/data/WS_EER/M.N+R.B.KR/all"
 CONNECT_TIMEOUT_SECONDS = 3
 READ_TIMEOUT_SECONDS = 9
-BIS_READ_TIMEOUT_SECONDS = 12
+BIS_READ_TIMEOUT_SECONDS = 10
+BIS_REFRESH_MAX_AGE_DAYS = 45
 FRED_BOOTSTRAP_DAYS = 900
 OVERLAP_DAYS = 120
 HARD_FLOOR = "2018-01-01"
@@ -164,68 +162,94 @@ def _fred_batch(group: dict[str, str], start_date: str) -> dict[str, list[dict[s
     return {key: by_id.get(sid, []) for key, sid in group.items()}
 
 
-def _bis_eer_fallback() -> dict[str, list[dict[str, Any]]]:
-    """Fetch Korea broad NEER/REER from the BIS bulk EER file in one request.
-
-    The parser accepts both SDMX-style code columns and human-readable aliases so
-    minor BIS CSV schema changes do not break the collector.  This function is only
-    called when FRED did not provide NEER/REER and therefore does not add a normal
-    steady-state request.
-    """
-    with requests.Session() as session:
-        session.headers.update({"User-Agent": "korea-rate-fx-engine/4.5"})
-        response = session.get(
-            BIS_EER_BULK_URL,
-            timeout=(CONNECT_TIMEOUT_SECONDS, BIS_READ_TIMEOUT_SECONDS),
-        )
-        response.raise_for_status()
-        content = response.content
-
+def _parse_bis_eer_csv(text: str) -> dict[str, list[dict[str, Any]]]:
     out = {"krw_neer": [], "krw_reer": []}
-    with zipfile.ZipFile(io.BytesIO(content)) as zf:
-        names = [name for name in zf.namelist() if name.lower().endswith(".csv")]
-        if not names:
-            raise ValueError("BIS EER ZIP contains no CSV")
-        # Flat CSV is normally a single file. If multiple files exist, parse all.
-        for name in names:
-            with zf.open(name) as fh:
-                text = io.TextIOWrapper(fh, encoding="utf-8-sig", errors="replace")
-                reader = csv.DictReader(text)
-                for row in reader:
-                    area = str(row.get("REF_AREA") or row.get("Reference area") or row.get("REF_AREA_CODE") or "").strip()
-                    if area.upper() not in {"KR", "KOR", "KOREA"} and "KOREA" not in area.upper():
-                        continue
-                    freq = str(row.get("FREQ") or row.get("Frequency") or "M").upper()
-                    if freq and not freq.startswith("M"):
-                        continue
-                    basket = str(row.get("BASKET") or row.get("Basket") or row.get("EER_BASKET") or "B").upper()
-                    if basket and not (basket.startswith("B") or "BROAD" in basket):
-                        continue
-                    typ = str(row.get("EER_TYPE") or row.get("TYPE") or row.get("Type") or row.get("EER_TYPE_CODE") or "").upper()
-                    period = str(row.get("TIME_PERIOD") or row.get("TIME") or row.get("Period") or "")
-                    raw = row.get("OBS_VALUE") or row.get("value") or row.get("Value")
-                    try:
-                        value = float(raw)
-                    except (TypeError, ValueError):
-                        continue
-                    date = period.replace("-", "")[:6]
-                    if len(date) == 6:
-                        date += "01"
-                    if len(date) < 8:
-                        continue
-                    if typ.startswith("N") or "NOMINAL" in typ:
-                        key = "krw_neer"
-                    elif typ.startswith("R") or "REAL" in typ:
-                        key = "krw_reer"
-                    else:
-                        continue
-                    out[key].append({"date": date, "value": value, "source": "BIS", "series_id": "WS_EER"})
+    reader = csv.DictReader(io.StringIO(text))
+    for row in reader:
+        area = str(row.get("REF_AREA") or row.get("Reference area") or "KR").strip().upper()
+        if area not in {"KR", "KOR", "KOREA"} and "KOREA" not in area:
+            continue
+        freq = str(row.get("FREQ") or row.get("Frequency") or "M").upper()
+        if freq and not freq.startswith("M"):
+            continue
+        basket = str(row.get("EER_BASKET") or row.get("BASKET") or row.get("Basket") or "B").upper()
+        if basket and not (basket.startswith("B") or "BROAD" in basket):
+            continue
+        typ = str(row.get("EER_TYPE") or row.get("TYPE") or row.get("Type") or "").upper()
+        if not typ:
+            key_text = str(row.get("SERIES_KEY") or row.get("KEY") or row.get("series") or "").upper()
+            if ".N.B.KR" in key_text or key_text.startswith("M.N.B.KR"):
+                typ = "N"
+            elif ".R.B.KR" in key_text or key_text.startswith("M.R.B.KR"):
+                typ = "R"
+        period = str(row.get("TIME_PERIOD") or row.get("TIME") or row.get("Period") or "")
+        raw = row.get("OBS_VALUE") or row.get("value") or row.get("Value")
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            continue
+        date = period.replace("-", "")[:6]
+        if len(date) == 6:
+            date += "01"
+        if len(date) < 8:
+            continue
+        key = "krw_neer" if typ.startswith("N") or "NOMINAL" in typ else "krw_reer" if typ.startswith("R") or "REAL" in typ else None
+        if key:
+            out[key].append({"date": date, "value": value, "source": "BIS", "series_id": "WS_EER"})
     for key in out:
         dedup = {row["date"]: row for row in out[key]}
         out[key] = [dedup[d] for d in sorted(dedup)]
-    if not out["krw_neer"] and not out["krw_reer"]:
-        raise ValueError("BIS EER parser found no Korea broad NEER/REER")
+    if not out["krw_neer"] or not out["krw_reer"]:
+        raise ValueError(f"BIS API parser incomplete: NEER={len(out['krw_neer'])}, REER={len(out['krw_reer'])}")
     return out
+
+
+def _eer_start(previous: dict[str, Any]) -> tuple[str, str]:
+    latest_dates: list[datetime] = []
+    for key in ("krw_neer", "krw_reer"):
+        rows = previous.get(key)
+        if not isinstance(rows, list) or not rows:
+            return "2000-01", "bootstrap"
+        try:
+            latest_dates.append(datetime.strptime(_date_text(rows[-1])[:6], "%Y%m"))
+        except (TypeError, ValueError):
+            return "2000-01", "bootstrap"
+    latest = min(latest_dates)
+    # 24-month overlap handles BIS revisions without re-downloading full history.
+    idx = latest.year * 12 + latest.month - 1 - 24
+    return f"{idx//12:04d}-{idx%12+1:02d}", "incremental"
+
+
+def _eer_cache_is_fresh(previous: dict[str, Any]) -> bool:
+    dates = []
+    for key in ("krw_neer", "krw_reer"):
+        rows = previous.get(key)
+        if not isinstance(rows, list) or not rows:
+            return False
+        try:
+            dates.append(datetime.strptime(_date_text(rows[-1])[:6] + "01", "%Y%m%d"))
+        except (TypeError, ValueError):
+            return False
+    latest = min(dates)
+    # Monthly series: do not call BIS on every GitHub Actions run when cached data
+    # is within one publication cycle.
+    return (datetime.now(timezone.utc).replace(tzinfo=None) - latest).days <= BIS_REFRESH_MAX_AGE_DAYS
+
+
+def _bis_eer_api(previous: dict[str, Any]) -> tuple[dict[str, list[dict[str, Any]]], str, str]:
+    start_period, mode = _eer_start(previous)
+    with requests.Session() as session:
+        session.headers.update({
+            "User-Agent": "korea-rate-fx-engine/4.7",
+            "Accept": "text/csv,application/vnd.sdmx.data+csv;version=1.0.0,*/*;q=0.2",
+        })
+        response = session.get(
+            BIS_EER_API_URL,
+            params={"startPeriod": start_period, "detail": "dataonly"},
+            timeout=(CONNECT_TIMEOUT_SECONDS, BIS_READ_TIMEOUT_SECONDS),
+        )
+        response.raise_for_status()
+        return _parse_bis_eer_csv(response.text), start_period, mode
 
 
 def _yahoo_usdkrw() -> list[dict[str, Any]]:
@@ -308,22 +332,27 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                     if old_rows:
                         last_good_reused.append(key)
 
-    # Conditional official BIS fallback for Korea EER only.
-    if not payload.get("krw_neer") or not payload.get("krw_reer"):
+    # BIS EER is authoritative for KRW NEER/REER. Because it is monthly, reuse
+    # a fresh local merged history and only make one SDMX call per release cycle.
+    if _eer_cache_is_fresh(previous):
+        group_meta["bis_eer"] = {"mode": "fresh_cache", "request_skipped": True}
+        print("[GLOBAL_MARKET] BIS EER: fresh monthly cache reused; external request skipped", flush=True)
+    else:
         try:
             request_count += 1
-            eer = _bis_eer_fallback()
+            eer, eer_start, eer_mode = _bis_eer_api(previous)
+            group_meta["bis_eer"] = {"mode": eer_mode, "start": eer_start, "request_skipped": False}
             for key in ("krw_neer", "krw_reer"):
                 old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
                 fresh_rows = eer.get(key, [])
                 payload[key] = _merge_rows(old_rows, fresh_rows)
-            print(
-                f"[GLOBAL_MARKET] BIS EER fallback: NEER={len(eer.get('krw_neer', []))} REER={len(eer.get('krw_reer', []))}",
-                flush=True,
-            )
+            print(f"[GLOBAL_MARKET] BIS EER: NEER={len(eer['krw_neer'])} REER={len(eer['krw_reer'])} mode={eer_mode}", flush=True)
         except Exception as exc:
             errors["bis_eer"] = f"{type(exc).__name__}: {exc}"
-            print(f"[GLOBAL_MARKET] BIS EER fallback failed once | {type(exc).__name__}: {exc}", flush=True)
+            group_meta["bis_eer"] = {"error": errors["bis_eer"], "request_skipped": False}
+            for key in ("krw_neer", "krw_reer"):
+                if previous.get(key): last_good_reused.append(key)
+            print(f"[GLOBAL_MARKET] BIS EER failed once; last-good retained | {type(exc).__name__}: {exc}", flush=True)
 
     yahoo_old = previous.get("usd_krw_yahoo") if isinstance(previous.get("usd_krw_yahoo"), list) else []
     try:
@@ -358,7 +387,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     return SourceResult(
         source="global_market",
         status=status,
-        message=f"{usable_count}/{len(FRED)+1} series usable; <=5 bounded requests, 3 FRED groups parallel",
+        message=f"{usable_count}/{len(FRED)+1} series usable; 4 normal bounded requests, BIS monthly refresh makes max 5",
         latest_observation=latest,
         payload_path=str(path),
         warnings=[f"{key}: {value}" for key, value in errors.items()],
@@ -367,6 +396,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             "series_total": len(FRED) + 1,
             "request_count": request_count,
             "max_external_requests": 5,
+            "normal_external_requests": 4,
+            "bis_monthly_cache_skip_enabled": True,
             "fred_group_count": len(FRED_GROUPS),
             "fred_groups_parallel": True,
             "group_meta": group_meta,

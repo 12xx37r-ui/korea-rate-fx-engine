@@ -17,7 +17,7 @@ from src.models.korea_outlook_v3 import build_v3
 from src.models.krw_liquidity import build_krw_liquidity_forecast
 
 
-ENGINE_VERSION = "4.6.0-macro-oos-gated-korea-forecast"
+ENGINE_VERSION = "4.7.0-bis-eer-independent-strength-oos"
 
 
 def _safe_read(path: Path, default: Any) -> Any:
@@ -310,6 +310,12 @@ def main() -> None:
             "forecast_operational": bool(strength.get("forecast_operational")),
             "model_quality_score": (strength.get("quality") or {}).get("model_quality_score"),
             "quality_score_semantics": (strength.get("quality") or {}).get("quality_score_semantics"),
+            "separate_oos_validated": bool((strength.get("quality") or {}).get("separate_oos_validated")),
+            "independent_oos_primary_grade": (strength.get("quality") or {}).get("independent_oos_primary_grade"),
+            "independent_oos_quality_score": (strength.get("quality") or {}).get("independent_oos_quality_score"),
+            "weighted_group_coverage": ((strength.get("factor_panel") or {}).get("weighted_group_coverage")),
+            "neer_available": ((strength.get("current") or {}).get("neer") is not None),
+            "reer_available": ((strength.get("current") or {}).get("reer") is not None),
         },
         "continuity": health["continuity"],
         "certification_rule": "예측은 항상 산출하되 검증성적은 등급·확률·구간으로 분리 공개한다.",
