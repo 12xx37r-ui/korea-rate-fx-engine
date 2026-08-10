@@ -6,23 +6,23 @@
   "data_mode": "monetary_plus_policy",
   "latest_observation": "20260807",
   "current": {
-    "liquidity_score": 0.0914,
+    "liquidity_score": 0.0961,
     "grade": "유동성 중립",
     "observations": {
       "m1_yoy": 10.019,
       "m2_yoy": 5.783,
       "lf_yoy": 8.056,
       "market_policy_gap_pctp": 0.823,
-      "expected_policy_change_3m_pctp": 0.069
+      "expected_policy_change_3m_pctp": 0.045
     }
   },
   "forecast_path": [
     {
       "months": 3,
-      "liquidity_score": 0.1208,
+      "liquidity_score": 0.13,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 5.543,
-      "policy_impulse": -0.092,
+      "expected_m2_yoy_pct": 5.555,
+      "policy_impulse": -0.06,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
       "forecast_quality_score": 90,
@@ -31,10 +31,10 @@
     },
     {
       "months": 6,
-      "liquidity_score": 0.1097,
+      "liquidity_score": 0.119,
       "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 5.916,
-      "policy_impulse": -0.1053,
+      "expected_m2_yoy_pct": 5.93,
+      "policy_impulse": -0.0693,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
       "forecast_quality_score": 93,
@@ -43,10 +43,10 @@
     },
     {
       "months": 12,
-      "liquidity_score": 0.0955,
+      "liquidity_score": 0.1041,
       "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 5.877,
-      "policy_impulse": -0.1093,
+      "expected_m2_yoy_pct": 5.892,
+      "policy_impulse": -0.0733,
       "validation_shrinkage": 0.9928,
       "quality_grade": "B",
       "forecast_quality_score": 80,
@@ -163,5 +163,5 @@
     "monetary_aggregate_available": true,
     "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
   },
-  "generated_at": "2026-08-10T11:55:10.611941+09:00"
+  "generated_at": "2026-08-10T14:28:56.617916+09:00"
 }

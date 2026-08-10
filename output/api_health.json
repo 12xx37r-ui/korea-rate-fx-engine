@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
-  "engine_version": "4.7.0-bis-eer-independent-strength-oos",
-  "generated_at": "2026-08-10T11:55:10.611941+09:00",
+  "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
+  "generated_at": "2026-08-10T14:28:56.617916+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -54,9 +54,9 @@
       "latest_observation": "20260810",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
         "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-        "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+        "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
       ],
       "metadata": {
         "usable_series": 3,
@@ -84,8 +84,8 @@
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
           },
           "bis_eer": {
-            "mode": "bootstrap",
-            "start": "2000-01",
+            "mode": "incremental",
+            "start": "2024-06",
             "request_skipped": false
           }
         },
@@ -93,11 +93,11 @@
         "overlap_days": 120,
         "last_good_reused": [],
         "errors": {
-          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
           "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-          "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+          "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
         },
-        "elapsed_seconds": 9.62
+        "elapsed_seconds": 9.86
       }
     },
     "krx": {

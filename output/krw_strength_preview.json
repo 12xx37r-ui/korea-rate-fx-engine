@@ -6,7 +6,7 @@
   "current": {
     "strength_score": 57.6,
     "grade": "원화 약강세",
-    "usdkrw": 1415.8,
+    "usdkrw": 1415.78,
     "usdkrw_source": "Yahoo",
     "neer": 81.99,
     "reer": 83.06
@@ -78,7 +78,7 @@
   ],
   "factor_panel": {
     "group_scores": {
-      "usdkrw_level_momentum": 0.6094,
+      "usdkrw_level_momentum": 0.6095,
       "effective_fx": -0.6617,
       "rate_gap": -0.3251,
       "external_balance": 0.8342
@@ -92,11 +92,11 @@
     },
     "details": {
       "usdkrw_level_momentum": {
-        "score": 0.6094,
-        "spot": 1415.8,
+        "score": 0.6095,
+        "spot": 1415.78,
         "one_year_percentile": 0.1746,
-        "ret20_pct": -4.263,
-        "ret60_pct": -5.852
+        "ret20_pct": -4.265,
+        "ret60_pct": -5.853
       },
       "krw_neer": {
         "score": -0.6688,
@@ -208,5 +208,5 @@
     "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
     "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
   ],
-  "generated_at": "2026-08-10T11:55:10.611941+09:00"
+  "generated_at": "2026-08-10T14:28:56.617916+09:00"
 }

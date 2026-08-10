@@ -1,9 +1,9 @@
 {
   "schema_version": "4.0.0",
-  "captured_at": "2026-08-10T11:55:10.611941+09:00",
+  "captured_at": "2026-08-10T14:28:56.617916+09:00",
   "rate_forecast": {
     "schema_version": "2.0.0",
-    "engine_version": "4.7.0-bis-eer-independent-strength-oos/rate",
+    "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator/rate",
     "status": "ok",
     "engine_scope": "korea_only_us_engine_read_only",
     "current": {
@@ -14,7 +14,7 @@
       "industrial_3m_annualized": 0.05511,
       "usdkrw_3m_change": -0.04325,
       "us_current_effective_rate_pct": 3.63,
-      "us_3meeting_rate_change_pctp": 0.148,
+      "us_3meeting_rate_change_pctp": 0.145,
       "us_path_filter": {
         "mode": "monthly_curve_stabilized",
         "accepted": 11,
@@ -27,7 +27,7 @@
       "scores": {
         "inflation_defense": 1.2483,
         "growth_support": 0.0,
-        "fx_defense": 0.2967,
+        "fx_defense": 0.29,
         "financial_stability": 0.35
       }
     },
@@ -35,11 +35,11 @@
       {
         "meeting_ahead": 1,
         "probabilities": {
-          "hold": 0.532,
-          "hike": 0.372,
-          "cut": 0.096
+          "hold": 0.575,
+          "hike": 0.303,
+          "cut": 0.122
         },
-        "expected_rate_pct": 2.819,
+        "expected_rate_pct": 2.795,
         "modal_rate_pct": 2.75,
         "most_likely_action": "hold",
         "probability_type": "model_estimate"
@@ -47,11 +47,11 @@
       {
         "meeting_ahead": 2,
         "probabilities": {
-          "hold": 0.503,
-          "hike": 0.268,
-          "cut": 0.229
+          "hold": 0.509,
+          "hike": 0.259,
+          "cut": 0.231
         },
-        "expected_rate_pct": 2.829,
+        "expected_rate_pct": 2.802,
         "modal_rate_pct": 2.75,
         "most_likely_action": "hold",
         "probability_type": "model_estimate"
@@ -59,28 +59,28 @@
       {
         "meeting_ahead": 3,
         "probabilities": {
-          "hold": 0.501,
-          "hike": 0.257,
-          "cut": 0.242
+          "hold": 0.502,
+          "hike": 0.255,
+          "cut": 0.243
         },
-        "expected_rate_pct": 2.832,
+        "expected_rate_pct": 2.805,
         "modal_rate_pct": 2.75,
         "most_likely_action": "hold",
         "probability_type": "model_estimate"
       }
     ],
     "validation": {
-      "samples": 66,
-      "brier_score": 0.518,
-      "benchmark_brier": 0.6333,
-      "brier_skill_score": 0.1821,
-      "accuracy": 0.5909,
-      "accuracy_wilson_lower_95": 0.4705,
-      "log_loss": 0.8381,
+      "samples": 166,
+      "brier_score": 0.5128,
+      "benchmark_brier": 0.5759,
+      "brier_skill_score": 0.1096,
+      "accuracy": 0.6325,
+      "accuracy_wilson_lower_95": 0.557,
+      "log_loss": 0.8588,
       "class_frequency": {
-        "hold": 0.5,
-        "hike": 0.3485,
-        "cut": 0.1515
+        "hold": 0.5964,
+        "hike": 0.1747,
+        "cut": 0.2289
       },
       "evaluation_horizon": "시장금리 월말 기준 향후 최대 4개월 내 첫 기준금리 변경",
       "validation_method": "release_lagged_expanding_walk_forward_fixed_spec",
@@ -94,11 +94,11 @@
       "real_time_vintage": false,
       "rows": [
         {
-          "origin": "20210331",
+          "origin": "20121130",
           "probabilities": {
-            "hold": 0.664027,
-            "hike": 0.176428,
-            "cut": 0.159545
+            "hold": 0.70238,
+            "hike": 0.146742,
+            "cut": 0.150878
           },
           "benchmark_probabilities": {
             "hold": 0.333333,
@@ -107,8 +107,1708 @@
           },
           "actual": "hold",
           "hit": true,
-          "brier": 0.169459,
+          "brier": 0.132875,
           "benchmark_brier": 0.666667
+        },
+        {
+          "origin": "20121231",
+          "probabilities": {
+            "hold": 0.690842,
+            "hike": 0.139339,
+            "cut": 0.169819
+          },
+          "benchmark_probabilities": {
+            "hold": 0.5,
+            "hike": 0.25,
+            "cut": 0.25
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.143833,
+          "benchmark_brier": 0.375
+        },
+        {
+          "origin": "20130131",
+          "probabilities": {
+            "hold": 0.657183,
+            "hike": 0.180433,
+            "cut": 0.162384
+          },
+          "benchmark_probabilities": {
+            "hold": 0.6,
+            "hike": 0.2,
+            "cut": 0.2
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.176448,
+          "benchmark_brier": 0.24
+        },
+        {
+          "origin": "20130228",
+          "probabilities": {
+            "hold": 0.668271,
+            "hike": 0.155692,
+            "cut": 0.176037
+          },
+          "benchmark_probabilities": {
+            "hold": 0.666667,
+            "hike": 0.166667,
+            "cut": 0.166667
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.149741,
+          "benchmark_brier": 1.166667
+        },
+        {
+          "origin": "20130329",
+          "probabilities": {
+            "hold": 0.656247,
+            "hike": 0.156111,
+            "cut": 0.187642
+          },
+          "benchmark_probabilities": {
+            "hold": 0.571429,
+            "hike": 0.142857,
+            "cut": 0.285714
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.114956,
+          "benchmark_brier": 0.857143
+        },
+        {
+          "origin": "20130430",
+          "probabilities": {
+            "hold": 0.652653,
+            "hike": 0.165521,
+            "cut": 0.181825
+          },
+          "benchmark_probabilities": {
+            "hold": 0.5,
+            "hike": 0.125,
+            "cut": 0.375
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.122764,
+          "benchmark_brier": 0.65625
+        },
+        {
+          "origin": "20130531",
+          "probabilities": {
+            "hold": 0.682421,
+            "hike": 0.159437,
+            "cut": 0.158142
+          },
+          "benchmark_probabilities": {
+            "hold": 0.444444,
+            "hike": 0.111111,
+            "cut": 0.444444
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.151286,
+          "benchmark_brier": 0.518519
+        },
+        {
+          "origin": "20130628",
+          "probabilities": {
+            "hold": 0.672417,
+            "hike": 0.18713,
+            "cut": 0.140454
+          },
+          "benchmark_probabilities": {
+            "hold": 0.5,
+            "hike": 0.1,
+            "cut": 0.4
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.162056,
+          "benchmark_brier": 0.42
+        },
+        {
+          "origin": "20130731",
+          "probabilities": {
+            "hold": 0.666264,
+            "hike": 0.171689,
+            "cut": 0.162046
+          },
+          "benchmark_probabilities": {
+            "hold": 0.545455,
+            "hike": 0.090909,
+            "cut": 0.363636
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.167116,
+          "benchmark_brier": 0.347107
+        },
+        {
+          "origin": "20130830",
+          "probabilities": {
+            "hold": 0.664027,
+            "hike": 0.197272,
+            "cut": 0.138701
+          },
+          "benchmark_probabilities": {
+            "hold": 0.583333,
+            "hike": 0.083333,
+            "cut": 0.333333
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.171032,
+          "benchmark_brier": 0.291667
+        },
+        {
+          "origin": "20130930",
+          "probabilities": {
+            "hold": 0.668117,
+            "hike": 0.160527,
+            "cut": 0.171356
+          },
+          "benchmark_probabilities": {
+            "hold": 0.615385,
+            "hike": 0.076923,
+            "cut": 0.307692
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.165278,
+          "benchmark_brier": 0.248521
+        },
+        {
+          "origin": "20131031",
+          "probabilities": {
+            "hold": 0.68284,
+            "hike": 0.17453,
+            "cut": 0.142631
+          },
+          "benchmark_probabilities": {
+            "hold": 0.642857,
+            "hike": 0.071429,
+            "cut": 0.285714
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.151395,
+          "benchmark_brier": 0.214286
+        },
+        {
+          "origin": "20131129",
+          "probabilities": {
+            "hold": 0.676792,
+            "hike": 0.185743,
+            "cut": 0.137464
+          },
+          "benchmark_probabilities": {
+            "hold": 0.666667,
+            "hike": 0.066667,
+            "cut": 0.266667
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.15786,
+          "benchmark_brier": 0.186667
+        },
+        {
+          "origin": "20131231",
+          "probabilities": {
+            "hold": 0.658988,
+            "hike": 0.214453,
+            "cut": 0.126559
+          },
+          "benchmark_probabilities": {
+            "hold": 0.6875,
+            "hike": 0.0625,
+            "cut": 0.25
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.178296,
+          "benchmark_brier": 0.164062
+        },
+        {
+          "origin": "20140129",
+          "probabilities": {
+            "hold": 0.682971,
+            "hike": 0.18214,
+            "cut": 0.134889
+          },
+          "benchmark_probabilities": {
+            "hold": 0.705882,
+            "hike": 0.058824,
+            "cut": 0.235294
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.151878,
+          "benchmark_brier": 0.145329
+        },
+        {
+          "origin": "20140228",
+          "probabilities": {
+            "hold": 0.675042,
+            "hike": 0.183956,
+            "cut": 0.141002
+          },
+          "benchmark_probabilities": {
+            "hold": 0.722222,
+            "hike": 0.055556,
+            "cut": 0.222222
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.159319,
+          "benchmark_brier": 0.12963
+        },
+        {
+          "origin": "20140331",
+          "probabilities": {
+            "hold": 0.654104,
+            "hike": 0.209268,
+            "cut": 0.136629
+          },
+          "benchmark_probabilities": {
+            "hold": 0.736842,
+            "hike": 0.052632,
+            "cut": 0.210526
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.182104,
+          "benchmark_brier": 0.116343
+        },
+        {
+          "origin": "20140430",
+          "probabilities": {
+            "hold": 0.665414,
+            "hike": 0.206794,
+            "cut": 0.127793
+          },
+          "benchmark_probabilities": {
+            "hold": 0.75,
+            "hike": 0.05,
+            "cut": 0.2
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.171042,
+          "benchmark_brier": 0.105
+        },
+        {
+          "origin": "20140530",
+          "probabilities": {
+            "hold": 0.646484,
+            "hike": 0.229359,
+            "cut": 0.124157
+          },
+          "benchmark_probabilities": {
+            "hold": 0.761905,
+            "hike": 0.047619,
+            "cut": 0.190476
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.237647,
+          "benchmark_brier": 1.238095
+        },
+        {
+          "origin": "20140630",
+          "probabilities": {
+            "hold": 0.694883,
+            "hike": 0.16149,
+            "cut": 0.143627
+          },
+          "benchmark_probabilities": {
+            "hold": 0.727273,
+            "hike": 0.045455,
+            "cut": 0.227273
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.242317,
+          "benchmark_brier": 1.128099
+        },
+        {
+          "origin": "20140731",
+          "probabilities": {
+            "hold": 0.700108,
+            "hike": 0.140293,
+            "cut": 0.159599
+          },
+          "benchmark_probabilities": {
+            "hold": 0.695652,
+            "hike": 0.043478,
+            "cut": 0.26087
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.216108,
+          "benchmark_brier": 1.032136
+        },
+        {
+          "origin": "20140829",
+          "probabilities": {
+            "hold": 0.682861,
+            "hike": 0.185995,
+            "cut": 0.131143
+          },
+          "benchmark_probabilities": {
+            "hold": 0.666667,
+            "hike": 0.041667,
+            "cut": 0.291667
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.255805,
+          "benchmark_brier": 0.947917
+        },
+        {
+          "origin": "20140930",
+          "probabilities": {
+            "hold": 0.693494,
+            "hike": 0.173321,
+            "cut": 0.133185
+          },
+          "benchmark_probabilities": {
+            "hold": 0.64,
+            "hike": 0.04,
+            "cut": 0.32
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.262341,
+          "benchmark_brier": 0.8736
+        },
+        {
+          "origin": "20141031",
+          "probabilities": {
+            "hold": 0.693395,
+            "hike": 0.169657,
+            "cut": 0.136948
+          },
+          "benchmark_probabilities": {
+            "hold": 0.615385,
+            "hike": 0.038462,
+            "cut": 0.346154
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.141545,
+          "benchmark_brier": 0.269231
+        },
+        {
+          "origin": "20141128",
+          "probabilities": {
+            "hold": 0.666512,
+            "hike": 0.134809,
+            "cut": 0.198679
+          },
+          "benchmark_probabilities": {
+            "hold": 0.62963,
+            "hike": 0.037037,
+            "cut": 0.333333
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.168861,
+          "benchmark_brier": 0.249657
+        },
+        {
+          "origin": "20141231",
+          "probabilities": {
+            "hold": 0.67305,
+            "hike": 0.138438,
+            "cut": 0.188512
+          },
+          "benchmark_probabilities": {
+            "hold": 0.642857,
+            "hike": 0.035714,
+            "cut": 0.321429
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.130674,
+          "benchmark_brier": 0.875
+        },
+        {
+          "origin": "20150130",
+          "probabilities": {
+            "hold": 0.701948,
+            "hike": 0.134809,
+            "cut": 0.163243
+          },
+          "benchmark_probabilities": {
+            "hold": 0.62069,
+            "hike": 0.034483,
+            "cut": 0.344828
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.211066,
+          "benchmark_brier": 0.815696
+        },
+        {
+          "origin": "20150227",
+          "probabilities": {
+            "hold": 0.672967,
+            "hike": 0.197789,
+            "cut": 0.129243
+          },
+          "benchmark_probabilities": {
+            "hold": 0.6,
+            "hike": 0.033333,
+            "cut": 0.366667
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.250223,
+          "benchmark_brier": 0.762222
+        },
+        {
+          "origin": "20150331",
+          "probabilities": {
+            "hold": 0.699365,
+            "hike": 0.16237,
+            "cut": 0.138265
+          },
+          "benchmark_probabilities": {
+            "hold": 0.580645,
+            "hike": 0.032258,
+            "cut": 0.387097
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.258062,
+          "benchmark_brier": 0.71384
+        },
+        {
+          "origin": "20150430",
+          "probabilities": {
+            "hold": 0.67057,
+            "hike": 0.200648,
+            "cut": 0.128783
+          },
+          "benchmark_probabilities": {
+            "hold": 0.5625,
+            "hike": 0.03125,
+            "cut": 0.40625
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.248942,
+          "benchmark_brier": 0.669922
+        },
+        {
+          "origin": "20150529",
+          "probabilities": {
+            "hold": 0.705518,
+            "hike": 0.158308,
+            "cut": 0.136174
+          },
+          "benchmark_probabilities": {
+            "hold": 0.545455,
+            "hike": 0.030303,
+            "cut": 0.424242
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.269013,
+          "benchmark_brier": 0.629936
+        },
+        {
+          "origin": "20150630",
+          "probabilities": {
+            "hold": 0.661711,
+            "hike": 0.211208,
+            "cut": 0.127081
+          },
+          "benchmark_probabilities": {
+            "hold": 0.529412,
+            "hike": 0.029412,
+            "cut": 0.441176
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.175198,
+          "benchmark_brier": 0.416955
+        },
+        {
+          "origin": "20150731",
+          "probabilities": {
+            "hold": 0.674883,
+            "hike": 0.156357,
+            "cut": 0.16876
+          },
+          "benchmark_probabilities": {
+            "hold": 0.542857,
+            "hike": 0.028571,
+            "cut": 0.428571
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.158628,
+          "benchmark_brier": 0.393469
+        },
+        {
+          "origin": "20150831",
+          "probabilities": {
+            "hold": 0.69662,
+            "hike": 0.169594,
+            "cut": 0.133786
+          },
+          "benchmark_probabilities": {
+            "hold": 0.555556,
+            "hike": 0.027778,
+            "cut": 0.416667
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.1387,
+          "benchmark_brier": 0.371914
+        },
+        {
+          "origin": "20150930",
+          "probabilities": {
+            "hold": 0.704429,
+            "hike": 0.146494,
+            "cut": 0.149076
+          },
+          "benchmark_probabilities": {
+            "hold": 0.567568,
+            "hike": 0.027027,
+            "cut": 0.405405
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.131047,
+          "benchmark_brier": 0.352082
+        },
+        {
+          "origin": "20151030",
+          "probabilities": {
+            "hold": 0.652297,
+            "hike": 0.22243,
+            "cut": 0.125273
+          },
+          "benchmark_probabilities": {
+            "hold": 0.578947,
+            "hike": 0.026316,
+            "cut": 0.394737
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.186066,
+          "benchmark_brier": 0.333795
+        },
+        {
+          "origin": "20151130",
+          "probabilities": {
+            "hold": 0.615533,
+            "hike": 0.266253,
+            "cut": 0.118213
+          },
+          "benchmark_probabilities": {
+            "hold": 0.589744,
+            "hike": 0.025641,
+            "cut": 0.384615
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.23268,
+          "benchmark_brier": 0.316897
+        },
+        {
+          "origin": "20151231",
+          "probabilities": {
+            "hold": 0.661555,
+            "hike": 0.211393,
+            "cut": 0.127052
+          },
+          "benchmark_probabilities": {
+            "hold": 0.6,
+            "hike": 0.025,
+            "cut": 0.375
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.175374,
+          "benchmark_brier": 0.30125
+        },
+        {
+          "origin": "20160129",
+          "probabilities": {
+            "hold": 0.705426,
+            "hike": 0.159097,
+            "cut": 0.135477
+          },
+          "benchmark_probabilities": {
+            "hold": 0.609756,
+            "hike": 0.02439,
+            "cut": 0.365854
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.13044,
+          "benchmark_brier": 0.286734
+        },
+        {
+          "origin": "20160229",
+          "probabilities": {
+            "hold": 0.697545,
+            "hike": 0.133964,
+            "cut": 0.168491
+          },
+          "benchmark_probabilities": {
+            "hold": 0.619048,
+            "hike": 0.02381,
+            "cut": 0.357143
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.137814,
+          "benchmark_brier": 0.273243
+        },
+        {
+          "origin": "20160331",
+          "probabilities": {
+            "hold": 0.696777,
+            "hike": 0.133816,
+            "cut": 0.169407
+          },
+          "benchmark_probabilities": {
+            "hold": 0.627907,
+            "hike": 0.023256,
+            "cut": 0.348837
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.193289,
+          "benchmark_brier": 0.818821
+        },
+        {
+          "origin": "20160429",
+          "probabilities": {
+            "hold": 0.696607,
+            "hike": 0.150885,
+            "cut": 0.152509
+          },
+          "benchmark_probabilities": {
+            "hold": 0.613636,
+            "hike": 0.022727,
+            "cut": 0.363636
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.226269,
+          "benchmark_brier": 0.782025
+        },
+        {
+          "origin": "20160531",
+          "probabilities": {
+            "hold": 0.70685,
+            "hike": 0.152985,
+            "cut": 0.140165
+          },
+          "benchmark_probabilities": {
+            "hold": 0.6,
+            "hike": 0.022222,
+            "cut": 0.377778
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.262358,
+          "benchmark_brier": 0.747654
+        },
+        {
+          "origin": "20160630",
+          "probabilities": {
+            "hold": 0.690211,
+            "hike": 0.169179,
+            "cut": 0.140611
+          },
+          "benchmark_probabilities": {
+            "hold": 0.586957,
+            "hike": 0.021739,
+            "cut": 0.391304
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.144362,
+          "benchmark_brier": 0.324197
+        },
+        {
+          "origin": "20160729",
+          "probabilities": {
+            "hold": 0.680189,
+            "hike": 0.176879,
+            "cut": 0.142932
+          },
+          "benchmark_probabilities": {
+            "hold": 0.595745,
+            "hike": 0.021277,
+            "cut": 0.382979
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.153995,
+          "benchmark_brier": 0.310548
+        },
+        {
+          "origin": "20160831",
+          "probabilities": {
+            "hold": 0.669759,
+            "hike": 0.173762,
+            "cut": 0.156478
+          },
+          "benchmark_probabilities": {
+            "hold": 0.604167,
+            "hike": 0.020833,
+            "cut": 0.375
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.163738,
+          "benchmark_brier": 0.297743
+        },
+        {
+          "origin": "20160930",
+          "probabilities": {
+            "hold": 0.678546,
+            "hike": 0.162446,
+            "cut": 0.159008
+          },
+          "benchmark_probabilities": {
+            "hold": 0.612245,
+            "hike": 0.020408,
+            "cut": 0.367347
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.155005,
+          "benchmark_brier": 0.285714
+        },
+        {
+          "origin": "20161031",
+          "probabilities": {
+            "hold": 0.688146,
+            "hike": 0.159836,
+            "cut": 0.152018
+          },
+          "benchmark_probabilities": {
+            "hold": 0.62,
+            "hike": 0.02,
+            "cut": 0.36
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.14591,
+          "benchmark_brier": 0.2744
+        },
+        {
+          "origin": "20161130",
+          "probabilities": {
+            "hold": 0.674365,
+            "hike": 0.178711,
+            "cut": 0.146923
+          },
+          "benchmark_probabilities": {
+            "hold": 0.627451,
+            "hike": 0.019608,
+            "cut": 0.352941
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.159562,
+          "benchmark_brier": 0.263745
+        },
+        {
+          "origin": "20161230",
+          "probabilities": {
+            "hold": 0.672065,
+            "hike": 0.169348,
+            "cut": 0.158588
+          },
+          "benchmark_probabilities": {
+            "hold": 0.634615,
+            "hike": 0.019231,
+            "cut": 0.346154
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.16137,
+          "benchmark_brier": 0.253698
+        },
+        {
+          "origin": "20170131",
+          "probabilities": {
+            "hold": 0.64306,
+            "hike": 0.202433,
+            "cut": 0.154507
+          },
+          "benchmark_probabilities": {
+            "hold": 0.641509,
+            "hike": 0.018868,
+            "cut": 0.339623
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.192258,
+          "benchmark_brier": 0.244215
+        },
+        {
+          "origin": "20170228",
+          "probabilities": {
+            "hold": 0.654177,
+            "hike": 0.205299,
+            "cut": 0.140524
+          },
+          "benchmark_probabilities": {
+            "hold": 0.648148,
+            "hike": 0.018519,
+            "cut": 0.333333
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.181488,
+          "benchmark_brier": 0.235254
+        },
+        {
+          "origin": "20170331",
+          "probabilities": {
+            "hold": 0.616067,
+            "hike": 0.251595,
+            "cut": 0.132338
+          },
+          "benchmark_probabilities": {
+            "hold": 0.654545,
+            "hike": 0.018182,
+            "cut": 0.327273
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.228218,
+          "benchmark_brier": 0.226777
+        },
+        {
+          "origin": "20170428",
+          "probabilities": {
+            "hold": 0.666561,
+            "hike": 0.186189,
+            "cut": 0.14725
+          },
+          "benchmark_probabilities": {
+            "hold": 0.660714,
+            "hike": 0.017857,
+            "cut": 0.321429
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.167531,
+          "benchmark_brier": 0.21875
+        },
+        {
+          "origin": "20170531",
+          "probabilities": {
+            "hold": 0.624987,
+            "hike": 0.233027,
+            "cut": 0.141986
+          },
+          "benchmark_probabilities": {
+            "hold": 0.666667,
+            "hike": 0.017544,
+            "cut": 0.315789
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.215096,
+          "benchmark_brier": 0.211142
+        },
+        {
+          "origin": "20170630",
+          "probabilities": {
+            "hold": 0.664217,
+            "hike": 0.184885,
+            "cut": 0.150899
+          },
+          "benchmark_probabilities": {
+            "hold": 0.672414,
+            "hike": 0.017241,
+            "cut": 0.310345
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.169703,
+          "benchmark_brier": 0.203924
+        },
+        {
+          "origin": "20170731",
+          "probabilities": {
+            "hold": 0.649374,
+            "hike": 0.198911,
+            "cut": 0.151716
+          },
+          "benchmark_probabilities": {
+            "hold": 0.677966,
+            "hike": 0.016949,
+            "cut": 0.305085
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.185522,
+          "benchmark_brier": 0.19707
+        },
+        {
+          "origin": "20170831",
+          "probabilities": {
+            "hold": 0.657547,
+            "hike": 0.178827,
+            "cut": 0.163626
+          },
+          "benchmark_probabilities": {
+            "hold": 0.683333,
+            "hike": 0.016667,
+            "cut": 0.3
+          },
+          "actual": "hike",
+          "hit": false,
+          "brier": 1.133468,
+          "benchmark_brier": 1.523889
+        },
+        {
+          "origin": "20170929",
+          "probabilities": {
+            "hold": 0.657462,
+            "hike": 0.209,
+            "cut": 0.133538
+          },
+          "benchmark_probabilities": {
+            "hold": 0.672131,
+            "hike": 0.032787,
+            "cut": 0.295082
+          },
+          "actual": "hike",
+          "hit": false,
+          "brier": 1.07577,
+          "benchmark_brier": 1.474335
+        },
+        {
+          "origin": "20171031",
+          "probabilities": {
+            "hold": 0.62486,
+            "hike": 0.240914,
+            "cut": 0.134226
+          },
+          "benchmark_probabilities": {
+            "hold": 0.66129,
+            "hike": 0.048387,
+            "cut": 0.290323
+          },
+          "actual": "hike",
+          "hit": false,
+          "brier": 0.984678,
+          "benchmark_brier": 1.427159
+        },
+        {
+          "origin": "20171130",
+          "probabilities": {
+            "hold": 0.615048,
+            "hike": 0.241255,
+            "cut": 0.143696
+          },
+          "benchmark_probabilities": {
+            "hold": 0.650794,
+            "hike": 0.063492,
+            "cut": 0.285714
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.227041,
+          "benchmark_brier": 0.207609
+        },
+        {
+          "origin": "20171229",
+          "probabilities": {
+            "hold": 0.631674,
+            "hike": 0.212245,
+            "cut": 0.156081
+          },
+          "benchmark_probabilities": {
+            "hold": 0.65625,
+            "hike": 0.0625,
+            "cut": 0.28125
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.205073,
+          "benchmark_brier": 0.201172
+        },
+        {
+          "origin": "20180131",
+          "probabilities": {
+            "hold": 0.626037,
+            "hike": 0.231738,
+            "cut": 0.142225
+          },
+          "benchmark_probabilities": {
+            "hold": 0.661538,
+            "hike": 0.061538,
+            "cut": 0.276923
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.213779,
+          "benchmark_brier": 0.19503
+        },
+        {
+          "origin": "20180228",
+          "probabilities": {
+            "hold": 0.601531,
+            "hike": 0.197488,
+            "cut": 0.200981
+          },
+          "benchmark_probabilities": {
+            "hold": 0.666667,
+            "hike": 0.060606,
+            "cut": 0.272727
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.238173,
+          "benchmark_brier": 0.189164
+        },
+        {
+          "origin": "20180330",
+          "probabilities": {
+            "hold": 0.626685,
+            "hike": 0.218467,
+            "cut": 0.154848
+          },
+          "benchmark_probabilities": {
+            "hold": 0.671642,
+            "hike": 0.059701,
+            "cut": 0.268657
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.21107,
+          "benchmark_brier": 0.18356
+        },
+        {
+          "origin": "20180430",
+          "probabilities": {
+            "hold": 0.623942,
+            "hike": 0.230284,
+            "cut": 0.145774
+          },
+          "benchmark_probabilities": {
+            "hold": 0.676471,
+            "hike": 0.058824,
+            "cut": 0.264706
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.215701,
+          "benchmark_brier": 0.178201
+        },
+        {
+          "origin": "20180531",
+          "probabilities": {
+            "hold": 0.639272,
+            "hike": 0.215496,
+            "cut": 0.145232
+          },
+          "benchmark_probabilities": {
+            "hold": 0.681159,
+            "hike": 0.057971,
+            "cut": 0.26087
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.197655,
+          "benchmark_brier": 0.173073
+        },
+        {
+          "origin": "20180629",
+          "probabilities": {
+            "hold": 0.622303,
+            "hike": 0.232306,
+            "cut": 0.145391
+          },
+          "benchmark_probabilities": {
+            "hold": 0.685714,
+            "hike": 0.057143,
+            "cut": 0.257143
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.21776,
+          "benchmark_brier": 0.168163
+        },
+        {
+          "origin": "20180731",
+          "probabilities": {
+            "hold": 0.638353,
+            "hike": 0.208271,
+            "cut": 0.153376
+          },
+          "benchmark_probabilities": {
+            "hold": 0.690141,
+            "hike": 0.056338,
+            "cut": 0.253521
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.197689,
+          "benchmark_brier": 0.16346
+        },
+        {
+          "origin": "20180831",
+          "probabilities": {
+            "hold": 0.622997,
+            "hike": 0.209577,
+            "cut": 0.167426
+          },
+          "benchmark_probabilities": {
+            "hold": 0.694444,
+            "hike": 0.055556,
+            "cut": 0.25
+          },
+          "actual": "hike",
+          "hit": false,
+          "brier": 1.040926,
+          "benchmark_brier": 1.436728
+        },
+        {
+          "origin": "20180928",
+          "probabilities": {
+            "hold": 0.642678,
+            "hike": 0.189376,
+            "cut": 0.167946
+          },
+          "benchmark_probabilities": {
+            "hold": 0.684932,
+            "hike": 0.068493,
+            "cut": 0.246575
+          },
+          "actual": "hike",
+          "hit": false,
+          "brier": 1.098352,
+          "benchmark_brier": 1.397636
+        },
+        {
+          "origin": "20181031",
+          "probabilities": {
+            "hold": 0.66235,
+            "hike": 0.182903,
+            "cut": 0.154747
+          },
+          "benchmark_probabilities": {
+            "hold": 0.675676,
+            "hike": 0.081081,
+            "cut": 0.243243
+          },
+          "actual": "hike",
+          "hit": false,
+          "brier": 1.130302,
+          "benchmark_brier": 1.360117
+        },
+        {
+          "origin": "20181130",
+          "probabilities": {
+            "hold": 0.68033,
+            "hike": 0.144818,
+            "cut": 0.174852
+          },
+          "benchmark_probabilities": {
+            "hold": 0.666667,
+            "hike": 0.093333,
+            "cut": 0.24
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.153734,
+          "benchmark_brier": 0.177422
+        },
+        {
+          "origin": "20181231",
+          "probabilities": {
+            "hold": 0.700057,
+            "hike": 0.140902,
+            "cut": 0.159041
+          },
+          "benchmark_probabilities": {
+            "hold": 0.671053,
+            "hike": 0.092105,
+            "cut": 0.236842
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.135113,
+          "benchmark_brier": 0.172784
+        },
+        {
+          "origin": "20190131",
+          "probabilities": {
+            "hold": 0.667554,
+            "hike": 0.133609,
+            "cut": 0.198836
+          },
+          "benchmark_probabilities": {
+            "hold": 0.675325,
+            "hike": 0.090909,
+            "cut": 0.233766
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.167907,
+          "benchmark_brier": 0.168325
+        },
+        {
+          "origin": "20190228",
+          "probabilities": {
+            "hold": 0.666242,
+            "hike": 0.133721,
+            "cut": 0.200037
+          },
+          "benchmark_probabilities": {
+            "hold": 0.679487,
+            "hike": 0.089744,
+            "cut": 0.230769
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.16929,
+          "benchmark_brier": 0.164037
+        },
+        {
+          "origin": "20190329",
+          "probabilities": {
+            "hold": 0.67773,
+            "hike": 0.130158,
+            "cut": 0.192112
+          },
+          "benchmark_probabilities": {
+            "hold": 0.683544,
+            "hike": 0.088608,
+            "cut": 0.227848
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.157706,
+          "benchmark_brier": 0.15991
+        },
+        {
+          "origin": "20190430",
+          "probabilities": {
+            "hold": 0.624504,
+            "hike": 0.119936,
+            "cut": 0.255561
+          },
+          "benchmark_probabilities": {
+            "hold": 0.6875,
+            "hike": 0.0875,
+            "cut": 0.225
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 0.958579,
+          "benchmark_brier": 1.080938
+        },
+        {
+          "origin": "20190531",
+          "probabilities": {
+            "hold": 0.663559,
+            "hike": 0.132339,
+            "cut": 0.204102
+          },
+          "benchmark_probabilities": {
+            "hold": 0.679012,
+            "hike": 0.08642,
+            "cut": 0.234568
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.091279,
+          "benchmark_brier": 1.054412
+        },
+        {
+          "origin": "20190628",
+          "probabilities": {
+            "hold": 0.638668,
+            "hike": 0.134686,
+            "cut": 0.226645
+          },
+          "benchmark_probabilities": {
+            "hold": 0.670732,
+            "hike": 0.085366,
+            "cut": 0.243902
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.024116,
+          "benchmark_brier": 1.028852
+        },
+        {
+          "origin": "20190731",
+          "probabilities": {
+            "hold": 0.60437,
+            "hike": 0.201177,
+            "cut": 0.194452
+          },
+          "benchmark_probabilities": {
+            "hold": 0.662651,
+            "hike": 0.084337,
+            "cut": 0.253012
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.054643,
+          "benchmark_brier": 1.00421
+        },
+        {
+          "origin": "20190830",
+          "probabilities": {
+            "hold": 0.638868,
+            "hike": 0.134869,
+            "cut": 0.226263
+          },
+          "benchmark_probabilities": {
+            "hold": 0.654762,
+            "hike": 0.083333,
+            "cut": 0.261905
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.025011,
+          "benchmark_brier": 0.980442
+        },
+        {
+          "origin": "20190930",
+          "probabilities": {
+            "hold": 0.649769,
+            "hike": 0.142215,
+            "cut": 0.208016
+          },
+          "benchmark_probabilities": {
+            "hold": 0.647059,
+            "hike": 0.082353,
+            "cut": 0.270588
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.069663,
+          "benchmark_brier": 0.957509
+        },
+        {
+          "origin": "20191031",
+          "probabilities": {
+            "hold": 0.649835,
+            "hike": 0.165467,
+            "cut": 0.184697
+          },
+          "benchmark_probabilities": {
+            "hold": 0.639535,
+            "hike": 0.081395,
+            "cut": 0.27907
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.184108,
+          "benchmark_brier": 0.21444
+        },
+        {
+          "origin": "20191129",
+          "probabilities": {
+            "hold": 0.640558,
+            "hike": 0.187296,
+            "cut": 0.172146
+          },
+          "benchmark_probabilities": {
+            "hold": 0.643678,
+            "hike": 0.08046,
+            "cut": 0.275862
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.193912,
+          "benchmark_brier": 0.209539
+        },
+        {
+          "origin": "20191231",
+          "probabilities": {
+            "hold": 0.666923,
+            "hike": 0.143523,
+            "cut": 0.189554
+          },
+          "benchmark_probabilities": {
+            "hold": 0.647727,
+            "hike": 0.079545,
+            "cut": 0.272727
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.122208,
+          "benchmark_brier": 0.954804
+        },
+        {
+          "origin": "20200131",
+          "probabilities": {
+            "hold": 0.670702,
+            "hike": 0.143933,
+            "cut": 0.185365
+          },
+          "benchmark_probabilities": {
+            "hold": 0.640449,
+            "hike": 0.078652,
+            "cut": 0.280899
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.134189,
+          "benchmark_brier": 0.933468
+        },
+        {
+          "origin": "20200228",
+          "probabilities": {
+            "hold": 0.635174,
+            "hike": 0.161685,
+            "cut": 0.203141
+          },
+          "benchmark_probabilities": {
+            "hold": 0.633333,
+            "hike": 0.077778,
+            "cut": 0.288889
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.064573,
+          "benchmark_brier": 0.91284
+        },
+        {
+          "origin": "20200331",
+          "probabilities": {
+            "hold": 0.62093,
+            "hike": 0.197576,
+            "cut": 0.181493
+          },
+          "benchmark_probabilities": {
+            "hold": 0.626374,
+            "hike": 0.076923,
+            "cut": 0.296703
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 1.094544,
+          "benchmark_brier": 0.892887
+        },
+        {
+          "origin": "20200429",
+          "probabilities": {
+            "hold": 0.595322,
+            "hike": 0.13677,
+            "cut": 0.267908
+          },
+          "benchmark_probabilities": {
+            "hold": 0.619565,
+            "hike": 0.076087,
+            "cut": 0.304348
+          },
+          "actual": "cut",
+          "hit": false,
+          "brier": 0.909072,
+          "benchmark_brier": 0.873582
+        },
+        {
+          "origin": "20200529",
+          "probabilities": {
+            "hold": 0.545427,
+            "hike": 0.1316,
+            "cut": 0.322973
+          },
+          "benchmark_probabilities": {
+            "hold": 0.612903,
+            "hike": 0.075269,
+            "cut": 0.311828
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.328267,
+          "benchmark_brier": 0.252746
+        },
+        {
+          "origin": "20200630",
+          "probabilities": {
+            "hold": 0.559148,
+            "hike": 0.13643,
+            "cut": 0.304422
+          },
+          "benchmark_probabilities": {
+            "hold": 0.617021,
+            "hike": 0.074468,
+            "cut": 0.308511
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.305636,
+          "benchmark_brier": 0.247397
+        },
+        {
+          "origin": "20200731",
+          "probabilities": {
+            "hold": 0.571085,
+            "hike": 0.134928,
+            "cut": 0.293988
+          },
+          "benchmark_probabilities": {
+            "hold": 0.621053,
+            "hike": 0.073684,
+            "cut": 0.305263
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.288602,
+          "benchmark_brier": 0.242216
+        },
+        {
+          "origin": "20200831",
+          "probabilities": {
+            "hold": 0.646073,
+            "hike": 0.175369,
+            "cut": 0.178558
+          },
+          "benchmark_probabilities": {
+            "hold": 0.625,
+            "hike": 0.072917,
+            "cut": 0.302083
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.187901,
+          "benchmark_brier": 0.237196
+        },
+        {
+          "origin": "20200929",
+          "probabilities": {
+            "hold": 0.598259,
+            "hike": 0.240963,
+            "cut": 0.160778
+          },
+          "benchmark_probabilities": {
+            "hold": 0.628866,
+            "hike": 0.072165,
+            "cut": 0.298969
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.245308,
+          "benchmark_brier": 0.232331
+        },
+        {
+          "origin": "20201030",
+          "probabilities": {
+            "hold": 0.583881,
+            "hike": 0.263538,
+            "cut": 0.152581
+          },
+          "benchmark_probabilities": {
+            "hold": 0.632653,
+            "hike": 0.071429,
+            "cut": 0.295918
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.265888,
+          "benchmark_brier": 0.227613
+        },
+        {
+          "origin": "20201130",
+          "probabilities": {
+            "hold": 0.580202,
+            "hike": 0.235348,
+            "cut": 0.18445
+          },
+          "benchmark_probabilities": {
+            "hold": 0.636364,
+            "hike": 0.070707,
+            "cut": 0.292929
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.265641,
+          "benchmark_brier": 0.223038
+        },
+        {
+          "origin": "20201231",
+          "probabilities": {
+            "hold": 0.617879,
+            "hike": 0.229449,
+            "cut": 0.152672
+          },
+          "benchmark_probabilities": {
+            "hold": 0.64,
+            "hike": 0.07,
+            "cut": 0.29
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.221972,
+          "benchmark_brier": 0.2186
+        },
+        {
+          "origin": "20210129",
+          "probabilities": {
+            "hold": 0.584807,
+            "hike": 0.270692,
+            "cut": 0.1445
+          },
+          "benchmark_probabilities": {
+            "hold": 0.643564,
+            "hike": 0.069307,
+            "cut": 0.287129
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.26654,
+          "benchmark_brier": 0.214293
+        },
+        {
+          "origin": "20210226",
+          "probabilities": {
+            "hold": 0.645413,
+            "hike": 0.199514,
+            "cut": 0.155072
+          },
+          "benchmark_probabilities": {
+            "hold": 0.647059,
+            "hike": 0.068627,
+            "cut": 0.284314
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.189585,
+          "benchmark_brier": 0.210111
+        },
+        {
+          "origin": "20210331",
+          "probabilities": {
+            "hold": 0.664027,
+            "hike": 0.176428,
+            "cut": 0.159545
+          },
+          "benchmark_probabilities": {
+            "hold": 0.650485,
+            "hike": 0.067961,
+            "cut": 0.281553
+          },
+          "actual": "hold",
+          "hit": true,
+          "brier": 0.169459,
+          "benchmark_brier": 0.206051
         },
         {
           "origin": "20210430",
@@ -118,14 +1818,14 @@
             "cut": 0.146058
           },
           "benchmark_probabilities": {
-            "hold": 0.5,
-            "hike": 0.25,
-            "cut": 0.25
+            "hold": 0.653846,
+            "hike": 0.067308,
+            "cut": 0.278846
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.193381,
-          "benchmark_brier": 0.375
+          "benchmark_brier": 0.202108
         },
         {
           "origin": "20210531",
@@ -135,14 +1835,14 @@
             "cut": 0.127444
           },
           "benchmark_probabilities": {
-            "hold": 0.6,
-            "hike": 0.2,
-            "cut": 0.2
+            "hold": 0.657143,
+            "hike": 0.066667,
+            "cut": 0.27619
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.887683,
-          "benchmark_brier": 1.04
+          "benchmark_brier": 1.379229
         },
         {
           "origin": "20210630",
@@ -152,14 +1852,14 @@
             "cut": 0.12687
           },
           "benchmark_probabilities": {
-            "hold": 0.5,
-            "hike": 0.333333,
-            "cut": 0.166667
+            "hold": 0.650943,
+            "hike": 0.075472,
+            "cut": 0.273585
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.83757,
-          "benchmark_brier": 0.722222
+          "benchmark_brier": 1.353329
         },
         {
           "origin": "20210730",
@@ -169,14 +1869,14 @@
             "cut": 0.138856
           },
           "benchmark_probabilities": {
-            "hold": 0.428571,
-            "hike": 0.428571,
-            "cut": 0.142857
+            "hold": 0.64486,
+            "hike": 0.084112,
+            "cut": 0.271028
           },
           "actual": "hike",
           "hit": false,
           "brier": 1.003312,
-          "benchmark_brier": 0.530612
+          "benchmark_brier": 1.328151
         },
         {
           "origin": "20210831",
@@ -186,14 +1886,14 @@
             "cut": 0.134817
           },
           "benchmark_probabilities": {
-            "hold": 0.375,
-            "hike": 0.5,
-            "cut": 0.125
+            "hold": 0.638889,
+            "hike": 0.092593,
+            "cut": 0.268519
           },
           "actual": "hike",
           "hit": false,
           "brier": 1.096469,
-          "benchmark_brier": 0.40625
+          "benchmark_brier": 1.303669
         },
         {
           "origin": "20210930",
@@ -203,14 +1903,14 @@
             "cut": 0.12508
           },
           "benchmark_probabilities": {
-            "hold": 0.333333,
-            "hike": 0.555556,
-            "cut": 0.111111
+            "hold": 0.633028,
+            "hike": 0.100917,
+            "cut": 0.266055
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.991869,
-          "benchmark_brier": 0.320988
+          "benchmark_brier": 1.279859
         },
         {
           "origin": "20211029",
@@ -220,14 +1920,14 @@
             "cut": 0.116504
           },
           "benchmark_probabilities": {
-            "hold": 0.3,
-            "hike": 0.6,
-            "cut": 0.1
+            "hold": 0.627273,
+            "hike": 0.109091,
+            "cut": 0.263636
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.904499,
-          "benchmark_brier": 0.26
+          "benchmark_brier": 1.256694
         },
         {
           "origin": "20211130",
@@ -237,14 +1937,14 @@
             "cut": 0.11463
           },
           "benchmark_probabilities": {
-            "hold": 0.272727,
-            "hike": 0.636364,
-            "cut": 0.090909
+            "hold": 0.621622,
+            "hike": 0.117117,
+            "cut": 0.261261
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.875649,
-          "benchmark_brier": 0.214876
+          "benchmark_brier": 1.234153
         },
         {
           "origin": "20211231",
@@ -254,14 +1954,14 @@
             "cut": 0.115672
           },
           "benchmark_probabilities": {
-            "hold": 0.25,
-            "hike": 0.666667,
-            "cut": 0.083333
+            "hold": 0.616071,
+            "hike": 0.125,
+            "cut": 0.258929
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.89164,
-          "benchmark_brier": 0.180556
+          "benchmark_brier": 1.212213
         },
         {
           "origin": "20220128",
@@ -271,14 +1971,14 @@
             "cut": 0.101132
           },
           "benchmark_probabilities": {
-            "hold": 0.230769,
-            "hike": 0.692308,
-            "cut": 0.076923
+            "hold": 0.610619,
+            "hike": 0.132743,
+            "cut": 0.256637
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.681569,
-          "benchmark_brier": 0.153846
+          "benchmark_brier": 1.190853
         },
         {
           "origin": "20220228",
@@ -288,14 +1988,14 @@
             "cut": 0.09788
           },
           "benchmark_probabilities": {
-            "hold": 0.214286,
-            "hike": 0.714286,
-            "cut": 0.071429
+            "hold": 0.605263,
+            "hike": 0.140351,
+            "cut": 0.254386
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.638434,
-          "benchmark_brier": 0.132653
+          "benchmark_brier": 1.170052
         },
         {
           "origin": "20220331",
@@ -305,14 +2005,14 @@
             "cut": 0.083545
           },
           "benchmark_probabilities": {
-            "hold": 0.2,
-            "hike": 0.733333,
-            "cut": 0.066667
+            "hold": 0.6,
+            "hike": 0.147826,
+            "cut": 0.252174
           },
           "actual": "hike",
           "hit": true,
           "brier": 0.465123,
-          "benchmark_brier": 0.115556
+          "benchmark_brier": 1.149792
         },
         {
           "origin": "20220429",
@@ -322,14 +2022,14 @@
             "cut": 0.100906
           },
           "benchmark_probabilities": {
-            "hold": 0.1875,
-            "hike": 0.75,
-            "cut": 0.0625
+            "hold": 0.594828,
+            "hike": 0.155172,
+            "cut": 0.25
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.678525,
-          "benchmark_brier": 0.101562
+          "benchmark_brier": 1.130054
         },
         {
           "origin": "20220531",
@@ -339,14 +2039,14 @@
             "cut": 0.102534
           },
           "benchmark_probabilities": {
-            "hold": 0.176471,
-            "hike": 0.764706,
-            "cut": 0.058824
+            "hold": 0.589744,
+            "hike": 0.162393,
+            "cut": 0.247863
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.700593,
-          "benchmark_brier": 0.089965
+          "benchmark_brier": 1.110819
         },
         {
           "origin": "20220630",
@@ -356,14 +2056,14 @@
             "cut": 0.079874
           },
           "benchmark_probabilities": {
-            "hold": 0.166667,
-            "hike": 0.777778,
-            "cut": 0.055556
+            "hold": 0.584746,
+            "hike": 0.169492,
+            "cut": 0.245763
           },
           "actual": "hike",
           "hit": true,
           "brier": 0.425153,
-          "benchmark_brier": 0.080247
+          "benchmark_brier": 1.092071
         },
         {
           "origin": "20220729",
@@ -373,14 +2073,14 @@
             "cut": 0.082577
           },
           "benchmark_probabilities": {
-            "hold": 0.157895,
-            "hike": 0.789474,
-            "cut": 0.052632
+            "hold": 0.579832,
+            "hike": 0.176471,
+            "cut": 0.243697
           },
           "actual": "hike",
           "hit": true,
           "brier": 0.454408,
-          "benchmark_brier": 0.072022
+          "benchmark_brier": 1.073794
         },
         {
           "origin": "20220831",
@@ -390,14 +2090,14 @@
             "cut": 0.075354
           },
           "benchmark_probabilities": {
-            "hold": 0.15,
-            "hike": 0.8,
-            "cut": 0.05
+            "hold": 0.575,
+            "hike": 0.183333,
+            "cut": 0.241667
           },
           "actual": "hike",
           "hit": true,
           "brier": 0.378394,
-          "benchmark_brier": 0.065
+          "benchmark_brier": 1.055972
         },
         {
           "origin": "20220930",
@@ -407,14 +2107,14 @@
             "cut": 0.068662
           },
           "benchmark_probabilities": {
-            "hold": 0.142857,
-            "hike": 0.809524,
-            "cut": 0.047619
+            "hold": 0.570248,
+            "hike": 0.190083,
+            "cut": 0.239669
           },
           "actual": "hike",
           "hit": true,
           "brier": 0.314173,
-          "benchmark_brier": 0.058957
+          "benchmark_brier": 1.03859
         },
         {
           "origin": "20221031",
@@ -424,14 +2124,14 @@
             "cut": 0.086553
           },
           "benchmark_probabilities": {
-            "hold": 0.136364,
-            "hike": 0.818182,
-            "cut": 0.045455
+            "hold": 0.565574,
+            "hike": 0.196721,
+            "cut": 0.237705
           },
           "actual": "hike",
           "hit": true,
           "brier": 0.499221,
-          "benchmark_brier": 0.053719
+          "benchmark_brier": 1.021634
         },
         {
           "origin": "20221130",
@@ -441,14 +2141,14 @@
             "cut": 0.11414
           },
           "benchmark_probabilities": {
-            "hold": 0.130435,
-            "hike": 0.826087,
-            "cut": 0.043478
+            "hold": 0.560976,
+            "hike": 0.203252,
+            "cut": 0.235772
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.700736,
-          "benchmark_brier": 0.049149
+          "benchmark_brier": 1.00509
         },
         {
           "origin": "20221230",
@@ -458,14 +2158,14 @@
             "cut": 0.141659
           },
           "benchmark_probabilities": {
-            "hold": 0.125,
-            "hike": 0.833333,
-            "cut": 0.041667
+            "hold": 0.556452,
+            "hike": 0.209677,
+            "cut": 0.233871
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.697945,
-          "benchmark_brier": 0.045139
+          "benchmark_brier": 0.988944
         },
         {
           "origin": "20230131",
@@ -475,14 +2175,14 @@
             "cut": 0.118913
           },
           "benchmark_probabilities": {
-            "hold": 0.12,
-            "hike": 0.84,
-            "cut": 0.04
+            "hold": 0.552,
+            "hike": 0.216,
+            "cut": 0.232
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.268405,
-          "benchmark_brier": 1.4816
+          "benchmark_brier": 0.301184
         },
         {
           "origin": "20230228",
@@ -492,14 +2192,14 @@
             "cut": 0.133264
           },
           "benchmark_probabilities": {
-            "hold": 0.153846,
-            "hike": 0.807692,
-            "cut": 0.038462
+            "hold": 0.555556,
+            "hike": 0.214286,
+            "cut": 0.230159
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.345087,
-          "benchmark_brier": 1.369822
+          "benchmark_brier": 0.296422
         },
         {
           "origin": "20230331",
@@ -509,14 +2209,14 @@
             "cut": 0.164733
           },
           "benchmark_probabilities": {
-            "hold": 0.185185,
-            "hike": 0.777778,
-            "cut": 0.037037
+            "hold": 0.559055,
+            "hike": 0.212598,
+            "cut": 0.228346
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.277142,
-          "benchmark_brier": 1.270233
+          "benchmark_brier": 0.291773
         },
         {
           "origin": "20230428",
@@ -526,14 +2226,14 @@
             "cut": 0.150788
           },
           "benchmark_probabilities": {
-            "hold": 0.214286,
-            "hike": 0.75,
-            "cut": 0.035714
+            "hold": 0.5625,
+            "hike": 0.210938,
+            "cut": 0.226562
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.26697,
-          "benchmark_brier": 1.181122
+          "benchmark_brier": 0.287231
         },
         {
           "origin": "20230531",
@@ -543,14 +2243,14 @@
             "cut": 0.106861
           },
           "benchmark_probabilities": {
-            "hold": 0.241379,
-            "hike": 0.724138,
-            "cut": 0.034483
+            "hold": 0.565891,
+            "hike": 0.209302,
+            "cut": 0.224806
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.321561,
-          "benchmark_brier": 1.10107
+          "benchmark_brier": 0.282796
         },
         {
           "origin": "20230630",
@@ -560,14 +2260,14 @@
             "cut": 0.107541
           },
           "benchmark_probabilities": {
-            "hold": 0.266667,
-            "hike": 0.7,
-            "cut": 0.033333
+            "hold": 0.569231,
+            "hike": 0.207692,
+            "cut": 0.223077
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.315751,
-          "benchmark_brier": 1.028889
+          "benchmark_brier": 0.278462
         },
         {
           "origin": "20230731",
@@ -577,14 +2277,14 @@
             "cut": 0.109769
           },
           "benchmark_probabilities": {
-            "hold": 0.290323,
-            "hike": 0.677419,
-            "cut": 0.032258
+            "hold": 0.572519,
+            "hike": 0.206107,
+            "cut": 0.221374
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.297152,
-          "benchmark_brier": 0.96358
+          "benchmark_brier": 0.274226
         },
         {
           "origin": "20230831",
@@ -594,14 +2294,14 @@
             "cut": 0.11755
           },
           "benchmark_probabilities": {
-            "hold": 0.3125,
-            "hike": 0.65625,
-            "cut": 0.03125
+            "hold": 0.575758,
+            "hike": 0.204545,
+            "cut": 0.219697
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.237402,
-          "benchmark_brier": 0.904297
+          "benchmark_brier": 0.270087
         },
         {
           "origin": "20230927",
@@ -611,14 +2311,14 @@
             "cut": 0.11325
           },
           "benchmark_probabilities": {
-            "hold": 0.333333,
-            "hike": 0.636364,
-            "cut": 0.030303
+            "hold": 0.578947,
+            "hike": 0.203008,
+            "cut": 0.218045
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.269422,
-          "benchmark_brier": 0.850321
+          "benchmark_brier": 0.266041
         },
         {
           "origin": "20231031",
@@ -628,14 +2328,14 @@
             "cut": 0.112774
           },
           "benchmark_probabilities": {
-            "hold": 0.352941,
-            "hike": 0.617647,
-            "cut": 0.029412
+            "hold": 0.58209,
+            "hike": 0.201493,
+            "cut": 0.216418
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.27312,
-          "benchmark_brier": 0.801038
+          "benchmark_brier": 0.262085
         },
         {
           "origin": "20231130",
@@ -645,14 +2345,14 @@
             "cut": 0.112985
           },
           "benchmark_probabilities": {
-            "hold": 0.371429,
-            "hike": 0.6,
-            "cut": 0.028571
+            "hold": 0.585185,
+            "hike": 0.2,
+            "cut": 0.214815
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.27148,
-          "benchmark_brier": 0.755918
+          "benchmark_brier": 0.258217
         },
         {
           "origin": "20231229",
@@ -662,14 +2362,14 @@
             "cut": 0.148402
           },
           "benchmark_probabilities": {
-            "hold": 0.388889,
-            "hike": 0.583333,
-            "cut": 0.027778
+            "hold": 0.588235,
+            "hike": 0.198529,
+            "cut": 0.213235
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.233676,
-          "benchmark_brier": 0.714506
+          "benchmark_brier": 0.254433
         },
         {
           "origin": "20240131",
@@ -679,14 +2379,14 @@
             "cut": 0.146585
           },
           "benchmark_probabilities": {
-            "hold": 0.405405,
-            "hike": 0.567568,
-            "cut": 0.027027
+            "hold": 0.591241,
+            "hike": 0.19708,
+            "cut": 0.211679
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.200213,
-          "benchmark_brier": 0.676406
+          "benchmark_brier": 0.250733
         },
         {
           "origin": "20240229",
@@ -696,14 +2396,14 @@
             "cut": 0.158316
           },
           "benchmark_probabilities": {
-            "hold": 0.421053,
-            "hike": 0.552632,
-            "cut": 0.026316
+            "hold": 0.594203,
+            "hike": 0.195652,
+            "cut": 0.210145
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.150927,
-          "benchmark_brier": 0.641274
+          "benchmark_brier": 0.247112
         },
         {
           "origin": "20240329",
@@ -713,14 +2413,14 @@
             "cut": 0.148448
           },
           "benchmark_probabilities": {
-            "hold": 0.435897,
-            "hike": 0.538462,
-            "cut": 0.025641
+            "hold": 0.597122,
+            "hike": 0.194245,
+            "cut": 0.208633
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.156457,
-          "benchmark_brier": 0.60881
+          "benchmark_brier": 0.243569
         },
         {
           "origin": "20240430",
@@ -730,14 +2430,14 @@
             "cut": 0.133349
           },
           "benchmark_probabilities": {
-            "hold": 0.45,
-            "hike": 0.525,
-            "cut": 0.025
+            "hold": 0.6,
+            "hike": 0.192857,
+            "cut": 0.207143
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.140894,
-          "benchmark_brier": 0.57875
+          "benchmark_brier": 0.240102
         },
         {
           "origin": "20240531",
@@ -747,14 +2447,14 @@
             "cut": 0.161748
           },
           "benchmark_probabilities": {
-            "hold": 0.463415,
-            "hike": 0.512195,
-            "cut": 0.02439
+            "hold": 0.602837,
+            "hike": 0.191489,
+            "cut": 0.205674
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.142444,
-          "benchmark_brier": 0.550863
+          "benchmark_brier": 0.236708
         },
         {
           "origin": "20240628",
@@ -764,14 +2464,14 @@
             "cut": 0.169203
           },
           "benchmark_probabilities": {
-            "hold": 0.47619,
-            "hike": 0.5,
-            "cut": 0.02381
+            "hold": 0.605634,
+            "hike": 0.190141,
+            "cut": 0.204225
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.152487,
-          "benchmark_brier": 0.524943
+          "benchmark_brier": 0.233386
         },
         {
           "origin": "20240731",
@@ -781,14 +2481,14 @@
             "cut": 0.215171
           },
           "benchmark_probabilities": {
-            "hold": 0.488372,
-            "hike": 0.488372,
-            "cut": 0.023256
+            "hold": 0.608392,
+            "hike": 0.188811,
+            "cut": 0.202797
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.065416,
-          "benchmark_brier": 1.431044
+          "benchmark_brier": 1.041322
         },
         {
           "origin": "20240830",
@@ -798,14 +2498,14 @@
             "cut": 0.194929
           },
           "benchmark_probabilities": {
-            "hold": 0.477273,
-            "hike": 0.477273,
-            "cut": 0.045455
+            "hold": 0.604167,
+            "hike": 0.1875,
+            "cut": 0.208333
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.103023,
-          "benchmark_brier": 1.366736
+          "benchmark_brier": 1.02691
         },
         {
           "origin": "20240930",
@@ -815,14 +2515,14 @@
             "cut": 0.326292
           },
           "benchmark_probabilities": {
-            "hold": 0.466667,
-            "hike": 0.466667,
-            "cut": 0.066667
+            "hold": 0.6,
+            "hike": 0.186207,
+            "cut": 0.213793
           },
           "actual": "cut",
           "hit": false,
           "brier": 0.785078,
-          "benchmark_brier": 1.306667
+          "benchmark_brier": 1.012794
         },
         {
           "origin": "20241031",
@@ -832,14 +2532,14 @@
             "cut": 0.184067
           },
           "benchmark_probabilities": {
-            "hold": 0.456522,
-            "hike": 0.456522,
-            "cut": 0.086957
+            "hold": 0.59589,
+            "hike": 0.184932,
+            "cut": 0.219178
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.147519,
-          "benchmark_brier": 1.250473
+          "benchmark_brier": 0.998968
         },
         {
           "origin": "20241129",
@@ -849,14 +2549,14 @@
             "cut": 0.193171
           },
           "benchmark_probabilities": {
-            "hold": 0.446809,
-            "hike": 0.446809,
-            "cut": 0.106383
+            "hold": 0.591837,
+            "hike": 0.183673,
+            "cut": 0.22449
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.115968,
-          "benchmark_brier": 1.197827
+          "benchmark_brier": 0.985423
         },
         {
           "origin": "20241231",
@@ -866,14 +2566,14 @@
             "cut": 0.166114
           },
           "benchmark_probabilities": {
-            "hold": 0.4375,
-            "hike": 0.4375,
-            "cut": 0.125
+            "hold": 0.587838,
+            "hike": 0.182432,
+            "cut": 0.22973
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.148502,
-          "benchmark_brier": 1.148438
+          "benchmark_brier": 0.972151
         },
         {
           "origin": "20250131",
@@ -883,14 +2583,14 @@
             "cut": 0.221545
           },
           "benchmark_probabilities": {
-            "hold": 0.428571,
-            "hike": 0.428571,
-            "cut": 0.142857
+            "hold": 0.583893,
+            "hike": 0.181208,
+            "cut": 0.234899
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.048181,
-          "benchmark_brier": 1.102041
+          "benchmark_brier": 0.959146
         },
         {
           "origin": "20250228",
@@ -900,14 +2600,14 @@
             "cut": 0.144959
           },
           "benchmark_probabilities": {
-            "hold": 0.42,
-            "hike": 0.42,
-            "cut": 0.16
+            "hold": 0.58,
+            "hike": 0.18,
+            "cut": 0.24
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.229965,
-          "benchmark_brier": 1.0584
+          "benchmark_brier": 0.9464
         },
         {
           "origin": "20250331",
@@ -917,14 +2617,14 @@
             "cut": 0.176608
           },
           "benchmark_probabilities": {
-            "hold": 0.411765,
-            "hike": 0.411765,
-            "cut": 0.176471
+            "hold": 0.576159,
+            "hike": 0.178808,
+            "cut": 0.245033
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.172687,
-          "benchmark_brier": 1.017301
+          "benchmark_brier": 0.933906
         },
         {
           "origin": "20250430",
@@ -934,14 +2634,14 @@
             "cut": 0.192057
           },
           "benchmark_probabilities": {
-            "hold": 0.403846,
-            "hike": 0.403846,
-            "cut": 0.192308
+            "hold": 0.572368,
+            "hike": 0.177632,
+            "cut": 0.25
           },
           "actual": "cut",
           "hit": false,
           "brier": 1.102679,
-          "benchmark_brier": 0.97855
+          "benchmark_brier": 0.921659
         },
         {
           "origin": "20250530",
@@ -951,14 +2651,14 @@
             "cut": 0.154944
           },
           "benchmark_probabilities": {
-            "hold": 0.396226,
-            "hike": 0.396226,
-            "cut": 0.207547
+            "hold": 0.568627,
+            "hike": 0.176471,
+            "cut": 0.254902
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.144554,
-          "benchmark_brier": 0.564614
+          "benchmark_brier": 0.282199
         },
         {
           "origin": "20250630",
@@ -968,14 +2668,14 @@
             "cut": 0.139223
           },
           "benchmark_probabilities": {
-            "hold": 0.407407,
-            "hike": 0.388889,
-            "cut": 0.203704
+            "hold": 0.571429,
+            "hike": 0.175325,
+            "cut": 0.253247
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.145719,
-          "benchmark_brier": 0.543896
+          "benchmark_brier": 0.278546
         },
         {
           "origin": "20250731",
@@ -985,14 +2685,14 @@
             "cut": 0.163736
           },
           "benchmark_probabilities": {
-            "hold": 0.418182,
-            "hike": 0.381818,
-            "cut": 0.2
+            "hold": 0.574194,
+            "hike": 0.174194,
+            "cut": 0.251613
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.147583,
-          "benchmark_brier": 0.524298
+          "benchmark_brier": 0.274964
         },
         {
           "origin": "20250829",
@@ -1002,14 +2702,14 @@
             "cut": 0.152297
           },
           "benchmark_probabilities": {
-            "hold": 0.428571,
-            "hike": 0.375,
-            "cut": 0.196429
+            "hold": 0.576923,
+            "hike": 0.173077,
+            "cut": 0.25
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.148622,
-          "benchmark_brier": 0.50574
+          "benchmark_brier": 0.27145
         },
         {
           "origin": "20250930",
@@ -1019,14 +2719,14 @@
             "cut": 0.140117
           },
           "benchmark_probabilities": {
-            "hold": 0.438596,
-            "hike": 0.368421,
-            "cut": 0.192982
+            "hold": 0.579618,
+            "hike": 0.171975,
+            "cut": 0.248408
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.126692,
-          "benchmark_brier": 0.48815
+          "benchmark_brier": 0.268003
         },
         {
           "origin": "20251031",
@@ -1036,14 +2736,14 @@
             "cut": 0.127993
           },
           "benchmark_probabilities": {
-            "hold": 0.448276,
-            "hike": 0.362069,
-            "cut": 0.189655
+            "hold": 0.582278,
+            "hike": 0.170886,
+            "cut": 0.246835
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.169883,
-          "benchmark_brier": 0.471463
+          "benchmark_brier": 0.264621
         },
         {
           "origin": "20251128",
@@ -1053,14 +2753,14 @@
             "cut": 0.126187
           },
           "benchmark_probabilities": {
-            "hold": 0.457627,
-            "hike": 0.355932,
-            "cut": 0.186441
+            "hold": 0.584906,
+            "hike": 0.169811,
+            "cut": 0.245283
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.18052,
-          "benchmark_brier": 0.455616
+          "benchmark_brier": 0.261303
         },
         {
           "origin": "20251231",
@@ -1070,14 +2770,14 @@
             "cut": 0.163757
           },
           "benchmark_probabilities": {
-            "hold": 0.466667,
-            "hike": 0.35,
-            "cut": 0.183333
+            "hold": 0.5875,
+            "hike": 0.16875,
+            "cut": 0.24375
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.169739,
-          "benchmark_brier": 0.440556
+          "benchmark_brier": 0.258047
         },
         {
           "origin": "20260130",
@@ -1087,14 +2787,14 @@
             "cut": 0.138998
           },
           "benchmark_probabilities": {
-            "hold": 0.47541,
-            "hike": 0.344262,
-            "cut": 0.180328
+            "hold": 0.590062,
+            "hike": 0.167702,
+            "cut": 0.242236
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.165338,
-          "benchmark_brier": 0.42623
+          "benchmark_brier": 0.254851
         },
         {
           "origin": "20260227",
@@ -1104,14 +2804,14 @@
             "cut": 0.140976
           },
           "benchmark_probabilities": {
-            "hold": 0.483871,
-            "hike": 0.33871,
-            "cut": 0.177419
+            "hold": 0.592593,
+            "hike": 0.166667,
+            "cut": 0.240741
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.154774,
-          "benchmark_brier": 0.412591
+          "benchmark_brier": 0.251715
         },
         {
           "origin": "20260331",
@@ -1121,14 +2821,14 @@
             "cut": 0.109878
           },
           "benchmark_probabilities": {
-            "hold": 0.492063,
-            "hike": 0.333333,
-            "cut": 0.174603
+            "hold": 0.595092,
+            "hike": 0.165644,
+            "cut": 0.239264
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.296264,
-          "benchmark_brier": 0.399597
+          "benchmark_brier": 0.248636
         },
         {
           "origin": "20260430",
@@ -1138,14 +2838,14 @@
             "cut": 0.102493
           },
           "benchmark_probabilities": {
-            "hold": 0.5,
-            "hike": 0.328125,
-            "cut": 0.171875
+            "hold": 0.597561,
+            "hike": 0.164634,
+            "cut": 0.237805
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.700031,
-          "benchmark_brier": 0.730957
+          "benchmark_brier": 1.111466
         },
         {
           "origin": "20260529",
@@ -1155,14 +2855,14 @@
             "cut": 0.105885
           },
           "benchmark_probabilities": {
-            "hold": 0.492308,
-            "hike": 0.338462,
-            "cut": 0.169231
+            "hold": 0.593939,
+            "hike": 0.169697,
+            "cut": 0.236364
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.747141,
-          "benchmark_brier": 0.708639
+          "benchmark_brier": 1.098035
         },
         {
           "origin": "20260630",
@@ -1172,14 +2872,14 @@
             "cut": 0.099424
           },
           "benchmark_probabilities": {
-            "hold": 0.484848,
-            "hike": 0.348485,
-            "cut": 0.166667
+            "hold": 0.590361,
+            "hike": 0.174699,
+            "cut": 0.23494
           },
           "actual": "hike",
           "hit": false,
           "brier": 0.658734,
-          "benchmark_brier": 0.687328
+          "benchmark_brier": 1.084845
         },
         {
           "origin": "20260731",
@@ -1189,14 +2889,14 @@
             "cut": 0.132493
           },
           "benchmark_probabilities": {
-            "hold": 0.477612,
-            "hike": 0.358209,
-            "cut": 0.164179
+            "hold": 0.586826,
+            "hike": 0.179641,
+            "cut": 0.233533
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.229125,
-          "benchmark_brier": 0.428158
+          "benchmark_brier": 0.257521
         },
         {
           "origin": "20260807",
@@ -1206,22 +2906,46 @@
             "cut": 0.11227
           },
           "benchmark_probabilities": {
-            "hold": 0.485294,
-            "hike": 0.352941,
-            "cut": 0.161765
+            "hold": 0.589286,
+            "hike": 0.178571,
+            "cut": 0.232143
           },
           "actual": "hold",
           "hit": true,
           "brier": 0.277066,
-          "benchmark_brier": 0.415657
+          "benchmark_brier": 0.254464
         }
       ],
-      "calibration_weight": 0.659,
+      "real_time_vintage_validation": {
+        "qualified": false,
+        "samples": 0,
+        "min_samples": 24,
+        "brier_score": null,
+        "benchmark_brier": null,
+        "brier_skill_score": null,
+        "accuracy": null,
+        "accuracy_wilson_lower_95": null,
+        "method": "committed_point_in_time_monthly_snapshots",
+        "selection": "latest usable saved snapshot per calendar month; four-month label maturation",
+        "network_calls_added": 0,
+        "rows": [],
+        "reason": "need >= 24 matured monthly snapshots with positive Brier skill and >=50% accuracy"
+      },
+      "market_rate_validation_proxy": {
+        "mode": "kr_gov_3y_pre_2y_then_2y_fixed_proxy",
+        "live_reference": "kr_gov_2y",
+        "pre_2y_proxy": "kr_gov_3y",
+        "first_2y_date": "20210310",
+        "observations": 3372
+      },
+      "calibration_weight": 0.616,
       "quality_gate": {
         "passed": false,
+        "strict_passed": false,
+        "reconstructed_oos_passed": true,
         "operational_passed": true,
         "candidate": true,
-        "level": "후보 B등급·엄격검증 미통과",
+        "level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",
         "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
         "requirements": {
           "samples_min": 80,
@@ -1231,27 +2955,27 @@
           "active_input_coverage_min": 0.95,
           "release_lag_backtest_required": true,
           "walk_forward_backtest_required": true,
-          "real_time_vintage_required": true
+          "real_time_vintage_required": true,
+          "real_time_vintage_min_matured_monthly_snapshots": 24
         },
         "observed": {
-          "samples": 66,
-          "brier_skill_score": 0.1821,
-          "accuracy": 0.5909,
-          "accuracy_wilson_lower_95": 0.4705,
+          "samples": 166,
+          "brier_skill_score": 0.1096,
+          "accuracy": 0.6325,
+          "accuracy_wilson_lower_95": 0.557,
           "active_input_coverage": 1.0,
           "release_lag_backtest": true,
           "walk_forward_backtest": true,
-          "real_time_vintage": false
+          "real_time_vintage": false,
+          "reconstructed_oos_passed": true
         },
-        "forecast_quality_score": 81,
+        "forecast_quality_score": 84,
         "quality_score_semantics": "walk_forward_skill_accuracy_samples_and_active_input_coverage_not_probability",
         "reasons": [
-          "검증 표본이 80개 미만입니다.",
-          "방향 정확도 95% 하한이 50%를 넘지 못했습니다.",
-          "실시간 원본 빈티지 검증이 아직 없습니다."
+          "실시간 원본 빈티지 검증이 아직 충분하지 않습니다."
         ],
         "limitations": [
-          "실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"
+          "재구성 OOS는 통과했더라도 실시간 원본 빈티지가 충분히 누적되기 전에는 엄격검증 통과로 승격하지 않습니다."
         ]
       },
       "data_coverage_axes": {
@@ -1276,7 +3000,7 @@
       "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
       "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
     ],
-    "generated_at": "2026-08-10T11:55:10.611941+09:00"
+    "generated_at": "2026-08-10T14:28:56.617916+09:00"
   },
   "fx_forecast": {
     "schema_version": "4.0.0",
@@ -1284,13 +3008,13 @@
     "status": "ok",
     "engine_scope": "korea_fx_continuous_v4",
     "forecast_operational": true,
-    "current_usdkrw": 1415.8,
+    "current_usdkrw": 1415.78,
     "current_date": "20260810",
     "current_source": "Yahoo",
     "recent_change_pct": {
-      "5d": -0.884,
-      "20d": -4.263,
-      "60d": -5.852
+      "5d": -0.886,
+      "20d": -4.265,
+      "60d": -5.853
     },
     "forecast_path": [
       {
@@ -1303,18 +3027,18 @@
           1437.6
         ],
         "range_80": [
-          1369.6,
+          1369.5,
           1458.7
         ],
         "direction": "neutral",
         "up_probability": 0.4405,
         "neutral_probability": 0.081,
-        "down_probability": 0.4785,
+        "down_probability": 0.4786,
         "neutral_band_pct": 0.25,
         "production_model": "continuous_oos_weighted_ensemble_v4",
         "prediction_status": "forecast",
         "signal_active": true,
-        "signal_60d": -0.05852,
+        "signal_60d": -0.05853,
         "forecast_drift": -0.00118,
         "validation_shrinkage": 0.4627,
         "model_weights": {
@@ -1328,7 +3052,7 @@
         },
         "model_contributions_pct": {
           "momentum_20": -0.2383,
-          "momentum_60": -0.131,
+          "momentum_60": -0.1311,
           "momentum_120": -0.0357,
           "contrarian_60": 0.0868,
           "mean_reversion_252": 0.0238,
@@ -1359,7 +3083,7 @@
         "production_model": "continuous_oos_weighted_ensemble_v4",
         "prediction_status": "forecast",
         "signal_active": true,
-        "signal_60d": -0.05852,
+        "signal_60d": -0.05853,
         "forecast_drift": -0.00035,
         "validation_shrinkage": 0.4488,
         "model_weights": {
@@ -1372,10 +3096,10 @@
           "trend_acceleration": 0.2188
         },
         "model_contributions_pct": {
-          "momentum_20": -0.3156,
+          "momentum_20": -0.3157,
           "momentum_60": -0.174,
           "momentum_120": -0.0533,
-          "contrarian_60": 0.3052,
+          "contrarian_60": 0.3053,
           "mean_reversion_252": 0.0842,
           "trend_acceleration": 0.0765,
           "macro_public_factors": -0.0
@@ -1389,11 +3113,11 @@
         "point_forecast": 1415.6,
         "change_pct": -0.016,
         "range_50": [
-          1363.4,
+          1363.3,
           1467.8
         ],
         "range_80": [
-          1316.4,
+          1316.3,
           1514.8
         ],
         "direction": "neutral",
@@ -1404,7 +3128,7 @@
         "production_model": "continuous_oos_weighted_ensemble_v4",
         "prediction_status": "forecast",
         "signal_active": true,
-        "signal_60d": -0.05852,
+        "signal_60d": -0.05853,
         "forecast_drift": -0.00016,
         "validation_shrinkage": 0.443,
         "model_weights": {
@@ -1417,11 +3141,11 @@
           "trend_acceleration": 0.2124
         },
         "model_contributions_pct": {
-          "momentum_20": -0.4371,
+          "momentum_20": -0.4372,
           "momentum_60": -0.2642,
           "momentum_120": -0.0756,
-          "contrarian_60": 0.4546,
-          "mean_reversion_252": 0.1819,
+          "contrarian_60": 0.4547,
+          "mean_reversion_252": 0.182,
           "trend_acceleration": 0.105,
           "macro_public_factors": -0.0
         },
@@ -1449,7 +3173,7 @@
         "production_model": "continuous_oos_weighted_ensemble_v4",
         "prediction_status": "forecast",
         "signal_active": true,
-        "signal_60d": -0.05852,
+        "signal_60d": -0.05853,
         "forecast_drift": -0.00105,
         "validation_shrinkage": 0.4488,
         "model_weights": {
@@ -1462,11 +3186,11 @@
           "trend_acceleration": 0.2059
         },
         "model_contributions_pct": {
-          "momentum_20": -0.5947,
-          "momentum_60": -0.3844,
-          "momentum_120": -0.1204,
-          "contrarian_60": 0.4629,
-          "mean_reversion_252": 0.2588,
+          "momentum_20": -0.5949,
+          "momentum_60": -0.3845,
+          "momentum_120": -0.1205,
+          "contrarian_60": 0.463,
+          "mean_reversion_252": 0.2589,
           "trend_acceleration": 0.1439,
           "macro_public_factors": -0.0
         },
@@ -1500,10 +3224,10 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -1.3538,
-          "momentum_60": -0.946,
-          "momentum_120": -0.25,
-          "contrarian_60": 0.4916,
+          "momentum_20": -1.3543,
+          "momentum_60": -0.9462,
+          "momentum_120": -0.2502,
+          "contrarian_60": 0.4917,
           "mean_reversion_252": 0.1403,
           "trend_acceleration": 0.2018,
           "macro_public_factors": -0.6073
@@ -1519,7 +3243,7 @@
         },
         "contributions_pct": {
           "momentum_20": -0.2383,
-          "momentum_60": -0.131,
+          "momentum_60": -0.1311,
           "momentum_120": -0.0357,
           "contrarian_60": 0.0868,
           "mean_reversion_252": 0.0238,
@@ -1550,11 +3274,11 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -2.3449,
-          "momentum_60": -1.6385,
-          "momentum_120": -0.433,
-          "contrarian_60": 1.4044,
-          "mean_reversion_252": 0.4208,
+          "momentum_20": -2.3456,
+          "momentum_60": -1.6389,
+          "momentum_120": -0.4333,
+          "contrarian_60": 1.4048,
+          "mean_reversion_252": 0.421,
           "trend_acceleration": 0.3494,
           "macro_public_factors": -1.5615
         },
@@ -1568,10 +3292,10 @@
           "trend_acceleration": 0.2188
         },
         "contributions_pct": {
-          "momentum_20": -0.3156,
+          "momentum_20": -0.3157,
           "momentum_60": -0.174,
           "momentum_120": -0.0533,
-          "contrarian_60": 0.3052,
+          "contrarian_60": 0.3053,
           "mean_reversion_252": 0.0842,
           "trend_acceleration": 0.0765,
           "macro_public_factors": -0.0
@@ -1600,11 +3324,11 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -3.3162,
-          "momentum_60": -2.3172,
-          "momentum_120": -0.6124,
-          "contrarian_60": 2.2471,
-          "mean_reversion_252": 0.8416,
+          "momentum_20": -3.3172,
+          "momentum_60": -2.3177,
+          "momentum_120": -0.6128,
+          "contrarian_60": 2.2476,
+          "mean_reversion_252": 0.8419,
           "trend_acceleration": 0.4942,
           "macro_public_factors": -2.6025
         },
@@ -1618,11 +3342,11 @@
           "trend_acceleration": 0.2124
         },
         "contributions_pct": {
-          "momentum_20": -0.4371,
+          "momentum_20": -0.4372,
           "momentum_60": -0.2642,
           "momentum_120": -0.0756,
-          "contrarian_60": 0.4546,
-          "mean_reversion_252": 0.1819,
+          "contrarian_60": 0.4547,
+          "mean_reversion_252": 0.182,
           "trend_acceleration": 0.105,
           "macro_public_factors": -0.0
         }
@@ -1650,11 +3374,11 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -4.6898,
-          "momentum_60": -3.277,
-          "momentum_120": -0.8661,
-          "contrarian_60": 2.2471,
-          "mean_reversion_252": 1.2624,
+          "momentum_20": -4.6913,
+          "momentum_60": -3.2778,
+          "momentum_120": -0.8666,
+          "contrarian_60": 2.2476,
+          "mean_reversion_252": 1.2629,
           "trend_acceleration": 0.6989,
           "macro_public_factors": -3.9038
         },
@@ -1668,11 +3392,11 @@
           "trend_acceleration": 0.2059
         },
         "contributions_pct": {
-          "momentum_20": -0.5947,
-          "momentum_60": -0.3844,
-          "momentum_120": -0.1204,
-          "contrarian_60": 0.4629,
-          "mean_reversion_252": 0.2588,
+          "momentum_20": -0.5949,
+          "momentum_60": -0.3845,
+          "momentum_120": -0.1205,
+          "contrarian_60": 0.463,
+          "mean_reversion_252": 0.2589,
           "trend_acceleration": 0.1439,
           "macro_public_factors": -0.0
         }
@@ -1962,7 +3686,7 @@
       "scores": {
         "inflation_defense": 1.2483,
         "growth_support": 0.0,
-        "fx_defense": 0.2967,
+        "fx_defense": 0.29,
         "financial_stability": 0.35
       }
     },
@@ -1972,7 +3696,7 @@
       "랜덤워크는 검증 기준모형으로만 사용하며 실전 중심값으로 대체하지 않습니다.",
       "검증력이 약하면 예측폭과 품질등급을 낮추지만 예측 자체는 계속 산출합니다."
     ],
-    "generated_at": "2026-08-10T11:55:10.611941+09:00"
+    "generated_at": "2026-08-10T14:28:56.617916+09:00"
   },
   "krw_liquidity_forecast": {
     "schema_version": "1.1.0",
@@ -1982,23 +3706,23 @@
     "data_mode": "monetary_plus_policy",
     "latest_observation": "20260807",
     "current": {
-      "liquidity_score": 0.0914,
+      "liquidity_score": 0.0961,
       "grade": "유동성 중립",
       "observations": {
         "m1_yoy": 10.019,
         "m2_yoy": 5.783,
         "lf_yoy": 8.056,
         "market_policy_gap_pctp": 0.823,
-        "expected_policy_change_3m_pctp": 0.069
+        "expected_policy_change_3m_pctp": 0.045
       }
     },
     "forecast_path": [
       {
         "months": 3,
-        "liquidity_score": 0.1208,
+        "liquidity_score": 0.13,
         "grade": "유동성 소폭확장",
-        "expected_m2_yoy_pct": 5.543,
-        "policy_impulse": -0.092,
+        "expected_m2_yoy_pct": 5.555,
+        "policy_impulse": -0.06,
         "validation_shrinkage": 1.0,
         "quality_grade": "A",
         "forecast_quality_score": 90,
@@ -2007,10 +3731,10 @@
       },
       {
         "months": 6,
-        "liquidity_score": 0.1097,
+        "liquidity_score": 0.119,
         "grade": "유동성 중립",
-        "expected_m2_yoy_pct": 5.916,
-        "policy_impulse": -0.1053,
+        "expected_m2_yoy_pct": 5.93,
+        "policy_impulse": -0.0693,
         "validation_shrinkage": 1.0,
         "quality_grade": "A",
         "forecast_quality_score": 93,
@@ -2019,10 +3743,10 @@
       },
       {
         "months": 12,
-        "liquidity_score": 0.0955,
+        "liquidity_score": 0.1041,
         "grade": "유동성 중립",
-        "expected_m2_yoy_pct": 5.877,
-        "policy_impulse": -0.1093,
+        "expected_m2_yoy_pct": 5.892,
+        "policy_impulse": -0.0733,
         "validation_shrinkage": 0.9928,
         "quality_grade": "B",
         "forecast_quality_score": 80,
@@ -2139,7 +3863,7 @@
       "monetary_aggregate_available": true,
       "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
     },
-    "generated_at": "2026-08-10T11:55:10.611941+09:00"
+    "generated_at": "2026-08-10T14:28:56.617916+09:00"
   },
   "krw_strength_forecast": {
     "schema_version": "1.0.0",
@@ -2149,7 +3873,7 @@
     "current": {
       "strength_score": 57.6,
       "grade": "원화 약강세",
-      "usdkrw": 1415.8,
+      "usdkrw": 1415.78,
       "usdkrw_source": "Yahoo",
       "neer": 81.99,
       "reer": 83.06
@@ -2221,7 +3945,7 @@
     ],
     "factor_panel": {
       "group_scores": {
-        "usdkrw_level_momentum": 0.6094,
+        "usdkrw_level_momentum": 0.6095,
         "effective_fx": -0.6617,
         "rate_gap": -0.3251,
         "external_balance": 0.8342
@@ -2235,11 +3959,11 @@
       },
       "details": {
         "usdkrw_level_momentum": {
-          "score": 0.6094,
-          "spot": 1415.8,
+          "score": 0.6095,
+          "spot": 1415.78,
           "one_year_percentile": 0.1746,
-          "ret20_pct": -4.263,
-          "ret60_pct": -5.852
+          "ret20_pct": -4.265,
+          "ret60_pct": -5.853
         },
         "krw_neer": {
           "score": -0.6688,
@@ -2351,7 +4075,7 @@
       "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
       "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
     ],
-    "generated_at": "2026-08-10T11:55:10.611941+09:00"
+    "generated_at": "2026-08-10T14:28:56.617916+09:00"
   },
   "unified_outlook_v3": {
     "schema_version": "3.2.0",
@@ -2360,63 +4084,65 @@
     "us_engine_modified": false,
     "rate": {
       "current_rate_pct": 2.75,
-      "next_meeting_expected_rate_pct": 2.819,
+      "next_meeting_expected_rate_pct": 2.795,
       "meeting_path": [
         {
           "meeting_ahead": 1,
           "label": "1회 뒤 금통위 직후",
-          "expected_rate_pct": 2.819,
+          "expected_rate_pct": 2.795,
           "modal_rate_pct": 2.75,
           "probabilities": {
-            "hold": 0.532,
-            "hike": 0.372,
-            "cut": 0.096
+            "hold": 0.575,
+            "hike": 0.303,
+            "cut": 0.122
           },
           "most_likely_action": "hold"
         },
         {
           "meeting_ahead": 2,
           "label": "2회 뒤 금통위 직후",
-          "expected_rate_pct": 2.829,
+          "expected_rate_pct": 2.802,
           "modal_rate_pct": 2.75,
           "probabilities": {
-            "hold": 0.503,
-            "hike": 0.268,
-            "cut": 0.229
+            "hold": 0.509,
+            "hike": 0.259,
+            "cut": 0.231
           },
           "most_likely_action": "hold"
         },
         {
           "meeting_ahead": 3,
           "label": "3회 뒤 금통위 직후",
-          "expected_rate_pct": 2.832,
+          "expected_rate_pct": 2.805,
           "modal_rate_pct": 2.75,
           "probabilities": {
-            "hold": 0.501,
-            "hike": 0.257,
-            "cut": 0.242
+            "hold": 0.502,
+            "hike": 0.255,
+            "cut": 0.243
           },
           "most_likely_action": "hold"
         },
         {
           "meeting_ahead": 4,
           "label": "4회 뒤 금통위 직후",
-          "expected_rate_pct": 2.832,
+          "expected_rate_pct": 2.805,
           "modal_rate_pct": 2.75,
           "probabilities": null,
           "most_likely_action": "hold"
         }
       ],
       "calendar_horizon_estimates": {
-        "3m": 2.829,
-        "6m": 2.832,
-        "12m": 2.832
+        "3m": 2.802,
+        "6m": 2.805,
+        "12m": 2.805
       },
       "quality_gate": {
         "passed": false,
+        "strict_passed": false,
+        "reconstructed_oos_passed": true,
         "operational_passed": true,
         "candidate": true,
-        "level": "후보 B등급·엄격검증 미통과",
+        "level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",
         "certification_basis": "release_lagged_expanding_walk_forward_fixed_spec",
         "requirements": {
           "samples_min": 80,
@@ -2426,39 +4152,73 @@
           "active_input_coverage_min": 0.95,
           "release_lag_backtest_required": true,
           "walk_forward_backtest_required": true,
-          "real_time_vintage_required": true
+          "real_time_vintage_required": true,
+          "real_time_vintage_min_matured_monthly_snapshots": 24
         },
         "observed": {
-          "samples": 66,
-          "brier_skill_score": 0.1821,
-          "accuracy": 0.5909,
-          "accuracy_wilson_lower_95": 0.4705,
+          "samples": 166,
+          "brier_skill_score": 0.1096,
+          "accuracy": 0.6325,
+          "accuracy_wilson_lower_95": 0.557,
           "active_input_coverage": 1.0,
           "release_lag_backtest": true,
           "walk_forward_backtest": true,
-          "real_time_vintage": false
+          "real_time_vintage": false,
+          "reconstructed_oos_passed": true
         },
-        "forecast_quality_score": 81,
+        "forecast_quality_score": 84,
         "quality_score_semantics": "walk_forward_skill_accuracy_samples_and_active_input_coverage_not_probability",
         "reasons": [
-          "검증 표본이 80개 미만입니다.",
-          "방향 정확도 95% 하한이 50%를 넘지 못했습니다.",
-          "실시간 원본 빈티지 검증이 아직 없습니다."
+          "실시간 원본 빈티지 검증이 아직 충분하지 않습니다."
         ],
         "limitations": [
-          "실시간 원본 빈티지 미적용: 발표시차 재구성은 후보 평가에만 사용"
+          "재구성 OOS는 통과했더라도 실시간 원본 빈티지가 충분히 누적되기 전에는 엄격검증 통과로 승격하지 않습니다."
         ]
       },
-      "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 후보등급과 엄격검증 통과 여부를 분리합니다."
+      "validation_summary": {
+        "samples": 166,
+        "brier_score": 0.5128,
+        "benchmark_brier": 0.5759,
+        "brier_skill_score": 0.1096,
+        "accuracy": 0.6325,
+        "accuracy_wilson_lower_95": 0.557,
+        "log_loss": 0.8588,
+        "release_lag_backtest": true,
+        "walk_forward_backtest": true,
+        "real_time_vintage": false,
+        "real_time_vintage_validation": {
+          "qualified": false,
+          "samples": 0,
+          "min_samples": 24,
+          "brier_score": null,
+          "benchmark_brier": null,
+          "brier_skill_score": null,
+          "accuracy": null,
+          "accuracy_wilson_lower_95": null,
+          "method": "committed_point_in_time_monthly_snapshots",
+          "selection": "latest usable saved snapshot per calendar month; four-month label maturation",
+          "network_calls_added": 0,
+          "rows": [],
+          "reason": "need >= 24 matured monthly snapshots with positive Brier skill and >=50% accuracy"
+        },
+        "market_rate_validation_proxy": {
+          "mode": "kr_gov_3y_pre_2y_then_2y_fixed_proxy",
+          "live_reference": "kr_gov_2y",
+          "pre_2y_proxy": "kr_gov_3y",
+          "first_2y_date": "20210310",
+          "observations": 3372
+        }
+      },
+      "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 재구성 OOS와 실시간 원본 빈티지 엄격검증을 분리합니다."
     },
     "fx": {
-      "current_usdkrw": 1415.8,
+      "current_usdkrw": 1415.78,
       "current_date": "20260810",
       "current_source": "Yahoo",
       "recent_change_pct": {
-        "5d": -0.884,
-        "20d": -4.263,
-        "60d": -5.852
+        "5d": -0.886,
+        "20d": -4.265,
+        "60d": -5.853
       },
       "forecast_path": [
         {
@@ -2469,13 +4229,13 @@
           "direction": "neutral",
           "up_probability": 0.4405,
           "neutral_probability": 0.081,
-          "down_probability": 0.4785,
+          "down_probability": 0.4786,
           "range_50": [
             1390.7,
             1437.6
           ],
           "range_80": [
-            1369.6,
+            1369.5,
             1458.7
           ],
           "quality_grade": "C",
@@ -2513,11 +4273,11 @@
           "neutral_probability": 0.0516,
           "down_probability": 0.4754,
           "range_50": [
-            1363.4,
+            1363.3,
             1467.8
           ],
           "range_80": [
-            1316.4,
+            1316.3,
             1514.8
           ],
           "quality_grade": "C",
@@ -2672,23 +4432,23 @@
       "data_mode": "monetary_plus_policy",
       "latest_observation": "20260807",
       "current": {
-        "liquidity_score": 0.0914,
+        "liquidity_score": 0.0961,
         "grade": "유동성 중립",
         "observations": {
           "m1_yoy": 10.019,
           "m2_yoy": 5.783,
           "lf_yoy": 8.056,
           "market_policy_gap_pctp": 0.823,
-          "expected_policy_change_3m_pctp": 0.069
+          "expected_policy_change_3m_pctp": 0.045
         }
       },
       "forecast_path": [
         {
           "months": 3,
-          "liquidity_score": 0.1208,
+          "liquidity_score": 0.13,
           "grade": "유동성 소폭확장",
-          "expected_m2_yoy_pct": 5.543,
-          "policy_impulse": -0.092,
+          "expected_m2_yoy_pct": 5.555,
+          "policy_impulse": -0.06,
           "validation_shrinkage": 1.0,
           "quality_grade": "A",
           "forecast_quality_score": 90,
@@ -2697,10 +4457,10 @@
         },
         {
           "months": 6,
-          "liquidity_score": 0.1097,
+          "liquidity_score": 0.119,
           "grade": "유동성 중립",
-          "expected_m2_yoy_pct": 5.916,
-          "policy_impulse": -0.1053,
+          "expected_m2_yoy_pct": 5.93,
+          "policy_impulse": -0.0693,
           "validation_shrinkage": 1.0,
           "quality_grade": "A",
           "forecast_quality_score": 93,
@@ -2709,10 +4469,10 @@
         },
         {
           "months": 12,
-          "liquidity_score": 0.0955,
+          "liquidity_score": 0.1041,
           "grade": "유동성 중립",
-          "expected_m2_yoy_pct": 5.877,
-          "policy_impulse": -0.1093,
+          "expected_m2_yoy_pct": 5.892,
+          "policy_impulse": -0.0733,
           "validation_shrinkage": 0.9928,
           "quality_grade": "B",
           "forecast_quality_score": 80,
@@ -2829,7 +4589,7 @@
         "monetary_aggregate_available": true,
         "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
       },
-      "generated_at": "2026-08-10T11:55:10.611941+09:00"
+      "generated_at": "2026-08-10T14:28:56.617916+09:00"
     },
     "krw_strength": {
       "schema_version": "1.0.0",
@@ -2839,7 +4599,7 @@
       "current": {
         "strength_score": 57.6,
         "grade": "원화 약강세",
-        "usdkrw": 1415.8,
+        "usdkrw": 1415.78,
         "usdkrw_source": "Yahoo",
         "neer": 81.99,
         "reer": 83.06
@@ -2911,7 +4671,7 @@
       ],
       "factor_panel": {
         "group_scores": {
-          "usdkrw_level_momentum": 0.6094,
+          "usdkrw_level_momentum": 0.6095,
           "effective_fx": -0.6617,
           "rate_gap": -0.3251,
           "external_balance": 0.8342
@@ -2925,11 +4685,11 @@
         },
         "details": {
           "usdkrw_level_momentum": {
-            "score": 0.6094,
-            "spot": 1415.8,
+            "score": 0.6095,
+            "spot": 1415.78,
             "one_year_percentile": 0.1746,
-            "ret20_pct": -4.263,
-            "ret60_pct": -5.852
+            "ret20_pct": -4.265,
+            "ret60_pct": -5.853
           },
           "krw_neer": {
             "score": -0.6688,
@@ -3041,7 +4801,7 @@
         "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
         "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
       ],
-      "generated_at": "2026-08-10T11:55:10.611941+09:00"
+      "generated_at": "2026-08-10T14:28:56.617916+09:00"
     },
     "factor_panel": {
       "1m": {
@@ -3067,10 +4827,10 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -1.3538,
-          "momentum_60": -0.946,
-          "momentum_120": -0.25,
-          "contrarian_60": 0.4916,
+          "momentum_20": -1.3543,
+          "momentum_60": -0.9462,
+          "momentum_120": -0.2502,
+          "contrarian_60": 0.4917,
           "mean_reversion_252": 0.1403,
           "trend_acceleration": 0.2018,
           "macro_public_factors": -0.6073
@@ -3086,7 +4846,7 @@
         },
         "contributions_pct": {
           "momentum_20": -0.2383,
-          "momentum_60": -0.131,
+          "momentum_60": -0.1311,
           "momentum_120": -0.0357,
           "contrarian_60": 0.0868,
           "mean_reversion_252": 0.0238,
@@ -3117,11 +4877,11 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -2.3449,
-          "momentum_60": -1.6385,
-          "momentum_120": -0.433,
-          "contrarian_60": 1.4044,
-          "mean_reversion_252": 0.4208,
+          "momentum_20": -2.3456,
+          "momentum_60": -1.6389,
+          "momentum_120": -0.4333,
+          "contrarian_60": 1.4048,
+          "mean_reversion_252": 0.421,
           "trend_acceleration": 0.3494,
           "macro_public_factors": -1.5615
         },
@@ -3135,10 +4895,10 @@
           "trend_acceleration": 0.2188
         },
         "contributions_pct": {
-          "momentum_20": -0.3156,
+          "momentum_20": -0.3157,
           "momentum_60": -0.174,
           "momentum_120": -0.0533,
-          "contrarian_60": 0.3052,
+          "contrarian_60": 0.3053,
           "mean_reversion_252": 0.0842,
           "trend_acceleration": 0.0765,
           "macro_public_factors": -0.0
@@ -3167,11 +4927,11 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -3.3162,
-          "momentum_60": -2.3172,
-          "momentum_120": -0.6124,
-          "contrarian_60": 2.2471,
-          "mean_reversion_252": 0.8416,
+          "momentum_20": -3.3172,
+          "momentum_60": -2.3177,
+          "momentum_120": -0.6128,
+          "contrarian_60": 2.2476,
+          "mean_reversion_252": 0.8419,
           "trend_acceleration": 0.4942,
           "macro_public_factors": -2.6025
         },
@@ -3185,11 +4945,11 @@
           "trend_acceleration": 0.2124
         },
         "contributions_pct": {
-          "momentum_20": -0.4371,
+          "momentum_20": -0.4372,
           "momentum_60": -0.2642,
           "momentum_120": -0.0756,
-          "contrarian_60": 0.4546,
-          "mean_reversion_252": 0.1819,
+          "contrarian_60": 0.4547,
+          "mean_reversion_252": 0.182,
           "trend_acceleration": 0.105,
           "macro_public_factors": -0.0
         }
@@ -3217,11 +4977,11 @@
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
         "candidate_returns_pct": {
-          "momentum_20": -4.6898,
-          "momentum_60": -3.277,
-          "momentum_120": -0.8661,
-          "contrarian_60": 2.2471,
-          "mean_reversion_252": 1.2624,
+          "momentum_20": -4.6913,
+          "momentum_60": -3.2778,
+          "momentum_120": -0.8666,
+          "contrarian_60": 2.2476,
+          "mean_reversion_252": 1.2629,
           "trend_acceleration": 0.6989,
           "macro_public_factors": -3.9038
         },
@@ -3235,11 +4995,11 @@
           "trend_acceleration": 0.2059
         },
         "contributions_pct": {
-          "momentum_20": -0.5947,
-          "momentum_60": -0.3844,
-          "momentum_120": -0.1204,
-          "contrarian_60": 0.4629,
-          "mean_reversion_252": 0.2588,
+          "momentum_20": -0.5949,
+          "momentum_60": -0.3845,
+          "momentum_120": -0.1205,
+          "contrarian_60": 0.463,
+          "mean_reversion_252": 0.2589,
           "trend_acceleration": 0.1439,
           "macro_public_factors": -0.0
         }
@@ -3247,7 +5007,7 @@
     },
     "certification": {
       "level": "검증 C등급",
-      "rate_level": "후보 B등급·엄격검증 미통과",
+      "rate_level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",
       "fx_level": "검증 C등급",
       "liquidity_level": "A",
       "liquidity_quality_semantics": "forecast_quality_is_oos_based; input_quality_is_coverage_availability",
@@ -3256,8 +5016,8 @@
       "v3_production_enabled": true,
       "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
     },
-    "generated_at": "2026-08-10T11:55:10.611941+09:00",
-    "engine_version": "4.7.0-bis-eer-independent-strength-oos"
+    "generated_at": "2026-08-10T14:28:56.617916+09:00",
+    "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator"
   },
   "source_status": {
     "us_policy_engine": "ok",

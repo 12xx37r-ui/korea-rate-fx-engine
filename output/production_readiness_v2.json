@@ -1,10 +1,10 @@
 {
   "schema_version": "2.0.0",
-  "engine_version": "4.7.0-bis-eer-independent-strength-oos",
-  "generated_at": "2026-08-10T11:55:10.611941+09:00",
+  "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
+  "generated_at": "2026-08-10T14:28:56.617916+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
-    "level": "후보 B등급·엄격검증 미통과",
+    "level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",
     "passed": false,
     "candidate": true
   },
