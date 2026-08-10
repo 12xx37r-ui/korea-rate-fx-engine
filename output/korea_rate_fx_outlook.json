@@ -4,15 +4,15 @@
     "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1417.3599853515625,
+    "usdkrw": 1417.18994140625,
     "kr_gov_2y_pct": 3.601,
     "kr_gov_3y_pct": 3.778,
     "kr_gov_10y_pct": 4.239,
-    "krw_strength_score": 0.6096,
+    "krw_strength_score": 0.6099,
     "krw_strength_grade": "강약",
     "krw_absolute_level_score": 0.6508,
     "krw_absolute_level_grade": "강약",
-    "krw_short_term_momentum_score": 0.533,
+    "krw_short_term_momentum_score": 0.534,
     "krw_short_term_momentum_grade": "강약",
     "usdkrw_1y_percentile": 0.1746
   },
@@ -34,10 +34,10 @@
         "probability": 0.155
       }
     },
-    "usdkrw_mid": 1416.9,
+    "usdkrw_mid": 1416.7,
     "usdkrw_range": [
-      1336.8,
-      1497.0
+      1336.6,
+      1496.8
     ],
     "usdkrw_direction": "neutral",
     "usdkrw_up_probability": 0.4745,
@@ -45,7 +45,7 @@
     "usdkrw_down_probability": 0.4803,
     "usdkrw_model_quality_grade": "C",
     "usdkrw_model_quality_score": 65,
-    "krw_strength_score": 0.4295,
+    "krw_strength_score": 0.4296,
     "krw_strength_grade": "강약",
     "confidence": 0.74,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -80,15 +80,15 @@
     "fx_backtest_samples": 599,
     "fx_backtest_rmse_pct": 4.016,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.04158,
-    "fx_3m_change": -0.05748,
-    "fx_forecast_bias_pct": -0.00032,
+    "fx_1m_change": -0.04169,
+    "fx_3m_change": -0.05759,
+    "fx_forecast_bias_pct": -0.00035,
     "policy_market_gap_pctp": 0.851,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "4.0.0-probability-validation-split"
   },
-  "generated_at": "2026-08-10T19:00:42.380094+09:00",
+  "generated_at": "2026-08-10T19:23:43.668623+09:00",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator"
 }

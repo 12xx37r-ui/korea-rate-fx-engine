@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-10T19:00:42.380094+09:00",
+  "generated_at": "2026-08-10T19:23:43.668623+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5128,
@@ -3027,7 +3027,7 @@
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -14.213,
+          "persistence_skill_pct": -14.212,
           "direction_accuracy": 0.2767,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
