@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-10T19:23:43.668623+09:00",
+  "generated_at": "2026-08-11T09:02:20.322085+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
     "level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",

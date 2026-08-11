@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-10T19:23:43.668623+09:00",
+  "generated_at": "2026-08-11T09:02:20.322085+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -51,7 +51,7 @@
       "status": "degraded",
       "message": "3/14 series usable; 4 normal bounded requests, BIS monthly refresh makes max 5",
       "rows": 0,
-      "latest_observation": "20260810",
+      "latest_observation": "20260811",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
         "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
@@ -69,17 +69,17 @@
         "fred_groups_parallel": true,
         "group_meta": {
           "currency": {
-            "start": "2024-02-22",
+            "start": "2024-02-23",
             "mode": "bootstrap_recent",
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
           },
           "rates_risk": {
-            "start": "2024-02-22",
+            "start": "2024-02-23",
             "mode": "bootstrap_recent",
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
           },
           "commodities": {
-            "start": "2024-02-22",
+            "start": "2024-02-23",
             "mode": "bootstrap_recent",
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
           },
@@ -97,7 +97,7 @@
           "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
           "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
         },
-        "elapsed_seconds": 9.77
+        "elapsed_seconds": 10.59
       }
     },
     "krx": {
@@ -112,20 +112,26 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "ok",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2",
+      "status": "degraded",
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
-      "warnings": [],
+      "warnings": [
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f3196a66b70>, 'Connection to kosis.kr timed out. (connect timeout=4)'))",
+        "industrial_production: 외부호출 생략 · circuit open · 직전 정상 이력 유지=True"
+      ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
-        "external_request_count": 2,
+        "external_request_count": 1,
         "max_external_requests": 2,
-        "circuit_open": false,
-        "circuit_reason": "",
-        "last_good_reused": [],
+        "circuit_open": true,
+        "circuit_reason": "network_timeout",
+        "last_good_reused": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "credential_status": "valid",
         "secret_name": "KOSIS_API_KEY",
         "action_required": false,
@@ -163,7 +169,7 @@
         "status": "valid",
         "action_required": false,
         "action": "없음",
-        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
+        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
       }
     ]
   },
@@ -179,6 +185,7 @@
   "warnings": [
     "global_market: 3/14 series usable; 4 normal bounded requests, BIS monthly refresh makes max 5",
     "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
+    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }

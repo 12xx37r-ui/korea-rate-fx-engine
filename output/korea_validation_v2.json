@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-10T19:23:43.668623+09:00",
+  "generated_at": "2026-08-11T09:02:20.322085+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5128,
@@ -2961,7 +2961,7 @@
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -2.581,
+          "persistence_skill_pct": -2.579,
           "direction_accuracy": 0.28,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
@@ -2994,7 +2994,7 @@
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -7.268,
+          "persistence_skill_pct": -7.266,
           "direction_accuracy": 0.2667,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },

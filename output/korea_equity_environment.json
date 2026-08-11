@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
   "engine_version": "korea-equity-environment-v1.2-close-per-earnings-fallback",
-  "generated_at_utc": "2026-08-10T10:25:28.798617+00:00",
+  "generated_at_utc": "2026-08-11T00:03:18.715420+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
-  "score": 42,
+  "score": 41,
   "score_valid": true,
   "bias": "약불리",
   "data_coverage_pct": 100,
@@ -39,22 +39,22 @@
     },
     "valuation": {
       "available": true,
-      "score_normalized": 0.170063,
+      "score_normalized": 0.091406,
       "evidence": [
         {
           "index": "kospi200",
-          "per": 16.53,
-          "pbr": 2.03,
-          "per_percentile": 0.437304,
-          "pbr_percentile": 0.719436,
+          "per": 16.59,
+          "pbr": 2.04,
+          "per_percentile": 0.439063,
+          "pbr_percentile": 0.725,
           "history_samples": 320
         },
         {
           "index": "kosdaq150",
-          "per": 58.95,
-          "pbr": 4.01,
-          "per_percentile": 0.051724,
-          "pbr_percentile": 0.451411,
+          "per": 63.98,
+          "pbr": 4.35,
+          "per_percentile": 0.076563,
+          "pbr_percentile": 0.576562,
           "history_samples": 320
         }
       ],
@@ -62,27 +62,27 @@
     },
     "earnings_revision": {
       "available": true,
-      "score_normalized": 0.998454,
-      "current_growth_proxy_pct": 35.821,
+      "score_normalized": 0.997467,
+      "current_growth_proxy_pct": 33.352,
       "baseline_growth_proxy_pct": null,
       "revision_pct_point": null,
-      "history_samples": 319,
+      "history_samples": 320,
       "mode": "trailing_eps_proxy_from_existing_krx_close_per",
       "evidence": [
         {
           "index": "kospi200",
-          "samples": 319,
-          "recent_eps_proxy": 59.183745,
-          "baseline_eps_proxy": 41.103556,
-          "growth_pct": 43.987,
+          "samples": 320,
+          "recent_eps_proxy": 59.164311,
+          "baseline_eps_proxy": 42.016586,
+          "growth_pct": 40.812,
           "available": true
         },
         {
           "index": "kosdaq150",
-          "samples": 319,
-          "recent_eps_proxy": 23.219248,
-          "baseline_eps_proxy": 18.189034,
-          "growth_pct": 27.655,
+          "samples": 320,
+          "recent_eps_proxy": 23.217608,
+          "baseline_eps_proxy": 18.442549,
+          "growth_pct": 25.892,
           "available": true
         }
       ],
@@ -107,11 +107,11 @@
   },
   "current_inputs": {
     "kospi200": {
-      "per": 16.53,
+      "per": 16.59,
       "forward_per": null,
       "eps_growth_pct": null,
       "growth_adjusted_per": null,
-      "pbr": 2.03,
+      "pbr": 2.04,
       "dividend_yield": 0.93,
       "available": true,
       "coverage": 1.0,
@@ -120,26 +120,24 @@
       "forward_proxy_sample_size": 0,
       "forward_proxy_market_cap_coverage": 0.0,
       "forward_proxy_growth_market_cap_coverage": 0.0,
-      "as_of": "2026-08-07",
+      "as_of": "2026-08-10",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
       "source_method": "pykrx_authenticated",
       "proxy_symbols": [],
       "stale": false,
       "diagnostics": [
-        "20260810:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260810:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260811:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300"
       ]
     },
     "kosdaq150": {
-      "per": 58.95,
+      "per": 63.98,
       "forward_per": null,
       "eps_growth_pct": null,
       "growth_adjusted_per": null,
-      "pbr": 4.01,
-      "dividend_yield": 0.4,
+      "pbr": 4.35,
+      "dividend_yield": 0.36,
       "available": true,
       "coverage": 1.0,
       "forward_data_available": false,
@@ -147,16 +145,14 @@
       "forward_proxy_sample_size": 0,
       "forward_proxy_market_cap_coverage": 0.0,
       "forward_proxy_growth_market_cap_coverage": 0.0,
-      "as_of": "2026-08-07",
+      "as_of": "2026-08-10",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
       "source_method": "pykrx_authenticated",
       "proxy_symbols": [],
       "stale": false,
       "diagnostics": [
-        "20260810:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260810:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260807:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260811:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250"
       ]
     },
