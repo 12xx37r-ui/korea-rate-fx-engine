@@ -163,13 +163,19 @@
     },
     {
       "date": "20260810",
-      "value": 1417.18994140625,
+      "value": 1417.31005859375,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     },
     {
       "date": "20260811",
       "value": 1418.780029296875,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
+    },
+    {
+      "date": "20260812",
+      "value": 1414.97998046875,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     }

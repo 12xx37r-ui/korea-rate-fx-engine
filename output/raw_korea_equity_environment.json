@@ -1,22 +1,22 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "korea-equity-environment-collector-v1.2-close-per-earnings-fallback",
-  "generated_at_utc": "2026-08-11T00:03:18.705718+00:00",
-  "period_start": "20260706",
-  "period_end": "20260810",
+  "generated_at_utc": "2026-08-12T04:32:20.535563+00:00",
+  "period_start": "20260707",
+  "period_end": "20260811",
   "flows": {
     "kospi": {
       "available": true,
       "market": "KOSPI",
-      "period_start": "20260706",
-      "period_end": "20260810",
-      "foreign_net_value": -9067446936843.0,
-      "institution_net_value": -3690082937.0,
-      "combined_net_value": -9071137019780.0,
-      "total_buy_value": 826265906546083.0,
-      "foreign_net_bps_of_turnover": -109.74,
-      "institution_net_bps_of_turnover": -0.045,
-      "combined_net_bps_of_turnover": -109.785,
+      "period_start": "20260707",
+      "period_end": "20260811",
+      "foreign_net_value": -7675339207392.0,
+      "institution_net_value": 1479400511913.0,
+      "combined_net_value": -6195938695479.0,
+      "total_buy_value": 816223756617593.0,
+      "foreign_net_bps_of_turnover": -94.035,
+      "institution_net_bps_of_turnover": 18.125,
+      "combined_net_bps_of_turnover": -75.91,
       "source": "KRX 투자자별 거래대금 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
       "diagnostics": [
@@ -27,15 +27,15 @@
     "kosdaq": {
       "available": true,
       "market": "KOSDAQ",
-      "period_start": "20260706",
-      "period_end": "20260810",
-      "foreign_net_value": -1121958107095.0,
-      "institution_net_value": 1841601736473.0,
-      "combined_net_value": 719643629378.0,
-      "total_buy_value": 144115627618387.0,
-      "foreign_net_bps_of_turnover": -77.851,
-      "institution_net_bps_of_turnover": 127.786,
-      "combined_net_bps_of_turnover": 49.935,
+      "period_start": "20260707",
+      "period_end": "20260811",
+      "foreign_net_value": -1438857841559.0,
+      "institution_net_value": 1970532654249.0,
+      "combined_net_value": 531674812690.0,
+      "total_buy_value": 144753014598114.0,
+      "foreign_net_bps_of_turnover": -99.401,
+      "institution_net_bps_of_turnover": 136.131,
+      "combined_net_bps_of_turnover": 36.73,
       "source": "KRX 투자자별 거래대금 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
       "diagnostics": [
@@ -48,14 +48,14 @@
     "kospi": {
       "available": true,
       "market": "KOSPI",
-      "period_start": "20260706",
-      "period_end": "20260810",
+      "period_start": "20260707",
+      "period_end": "20260811",
       "valid_symbols": 945,
-      "advances": 526,
-      "declines": 385,
-      "unchanged": 34,
-      "advance_share": 0.556614,
-      "advance_decline_balance": 0.149206,
+      "advances": 532,
+      "declines": 387,
+      "unchanged": 26,
+      "advance_share": 0.562963,
+      "advance_decline_balance": 0.153439,
       "source": "KRX 종목 가격변동 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
       "diagnostics": [],
@@ -64,14 +64,14 @@
     "kosdaq": {
       "available": true,
       "market": "KOSDAQ",
-      "period_start": "20260706",
-      "period_end": "20260810",
-      "valid_symbols": 1822,
-      "advances": 949,
-      "declines": 798,
-      "unchanged": 75,
-      "advance_share": 0.520856,
-      "advance_decline_balance": 0.082876,
+      "period_start": "20260707",
+      "period_end": "20260811",
+      "valid_symbols": 1821,
+      "advances": 1022,
+      "declines": 714,
+      "unchanged": 85,
+      "advance_share": 0.56123,
+      "advance_decline_balance": 0.169138,
       "source": "KRX 종목 가격변동 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
       "diagnostics": [],
@@ -83,12 +83,6 @@
       "available": true,
       "label": "kospi200",
       "rows": [
-        {
-          "date": "2025-04-17",
-          "close": 326.3,
-          "per": 11.74,
-          "pbr": 0.84
-        },
         {
           "date": "2025-04-18",
           "close": 328.35,
@@ -2002,6 +1996,12 @@
           "close": 977.84,
           "per": 16.59,
           "pbr": 2.04
+        },
+        {
+          "date": "2026-08-11",
+          "close": 987.4,
+          "per": 16.75,
+          "pbr": 2.06
         }
       ],
       "sample_size": 320,
@@ -2014,12 +2014,6 @@
       "available": true,
       "label": "kosdaq150",
       "rows": [
-        {
-          "date": "2025-04-17",
-          "close": 1167.06,
-          "per": 302.89,
-          "pbr": 3.15
-        },
         {
           "date": "2025-04-18",
           "close": 1180.25,
@@ -3933,6 +3927,12 @@
           "close": 1485.17,
           "per": 63.98,
           "pbr": 4.35
+        },
+        {
+          "date": "2026-08-11",
+          "close": 1485.12,
+          "per": 63.98,
+          "pbr": 4.35
         }
       ],
       "sample_size": 320,
@@ -3944,11 +3944,11 @@
   },
   "credit": {
     "available": true,
-    "corp_aa_minus_3y_pct": 4.476,
-    "corp_as_of": "20260810",
-    "gov_3y_pct": 3.778,
-    "gov_as_of": "20260810",
-    "spread_pct_point": 0.698,
+    "corp_aa_minus_3y_pct": 4.504,
+    "corp_as_of": "20260811",
+    "gov_3y_pct": 3.808,
+    "gov_as_of": "20260811",
+    "spread_pct_point": 0.696,
     "spread_history": [
       {
         "date": "20250206",
@@ -6169,9 +6169,15 @@
         "corp_aa_minus_3y_pct": 4.476,
         "gov_3y_pct": 3.778,
         "spread_pct_point": 0.698
+      },
+      {
+        "date": "20260811",
+        "corp_aa_minus_3y_pct": 4.504,
+        "gov_3y_pct": 3.808,
+        "spread_pct_point": 0.696
       }
     ],
-    "history_samples": 370,
+    "history_samples": 371,
     "stale": false,
     "source": "한국은행 ECOS 시장금리(일별)",
     "source_url": "https://ecos.bok.or.kr/",
