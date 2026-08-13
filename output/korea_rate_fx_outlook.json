@@ -4,17 +4,17 @@
     "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1414.97998046875,
-    "kr_gov_2y_pct": 3.633,
-    "kr_gov_3y_pct": 3.808,
-    "kr_gov_10y_pct": 4.301,
-    "krw_strength_score": 0.6207,
+    "usdkrw": 1415.3499755859375,
+    "kr_gov_2y_pct": 3.627,
+    "kr_gov_3y_pct": 3.791,
+    "kr_gov_10y_pct": 4.294,
+    "krw_strength_score": 0.6281,
     "krw_strength_grade": "강약",
-    "krw_absolute_level_score": 0.6667,
+    "krw_absolute_level_score": 0.6587,
     "krw_absolute_level_grade": "강약",
-    "krw_short_term_momentum_score": 0.5352,
+    "krw_short_term_momentum_score": 0.5712,
     "krw_short_term_momentum_grade": "강약",
-    "usdkrw_1y_percentile": 0.1667
+    "usdkrw_1y_percentile": 0.1706
   },
   "forecast": {
     "horizon": "향후 1~3개월",
@@ -23,21 +23,21 @@
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.574
+        "probability": 0.575
       },
       "hike_25bp": {
         "rate_pct": 3.0,
-        "probability": 0.272
+        "probability": 0.27
       },
       "cut_25bp": {
         "rate_pct": 2.5,
         "probability": 0.154
       }
     },
-    "usdkrw_mid": 1414.7,
+    "usdkrw_mid": 1415.1,
     "usdkrw_range": [
-      1334.8,
-      1494.7
+      1335.1,
+      1495.1
     ],
     "usdkrw_direction": "neutral",
     "usdkrw_up_probability": 0.4759,
@@ -45,7 +45,7 @@
     "usdkrw_down_probability": 0.4789,
     "usdkrw_model_quality_grade": "C",
     "usdkrw_model_quality_score": 65,
-    "krw_strength_score": 0.4393,
+    "krw_strength_score": 0.4341,
     "krw_strength_grade": "강약",
     "confidence": 0.74,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -80,15 +80,15 @@
     "fx_backtest_samples": 599,
     "fx_backtest_rmse_pct": 4.016,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.0407,
-    "fx_3m_change": -0.05888,
-    "fx_forecast_bias_pct": -0.0002,
-    "policy_market_gap_pctp": 0.883,
+    "fx_1m_change": -0.0435,
+    "fx_3m_change": -0.06473,
+    "fx_forecast_bias_pct": -0.00018,
+    "policy_market_gap_pctp": 0.877,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "4.0.0-probability-validation-split"
   },
-  "generated_at": "2026-08-12T13:30:01.431766+09:00",
+  "generated_at": "2026-08-13T14:17:01.813388+09:00",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator"
 }
