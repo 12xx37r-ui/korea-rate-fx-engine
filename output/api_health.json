@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-14T18:53:21.872077+09:00",
+  "generated_at": "2026-08-15T08:01:11.954099+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -54,9 +54,9 @@
       "latest_observation": "20260814",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
         "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+        "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
       ],
       "metadata": {
         "usable_series": 3,
@@ -93,11 +93,11 @@
         "overlap_days": 120,
         "last_good_reused": [],
         "errors": {
-          "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
           "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+          "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
         },
-        "elapsed_seconds": 9.9
+        "elapsed_seconds": 9.92
       }
     },
     "krx": {

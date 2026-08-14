@@ -1,15 +1,15 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-14T09:54:49.498616+00:00",
+  "generated_at_utc": "2026-08-14T23:01:46.950169+00:00",
   "indices": {
     "kospi200": {
-      "per": 18.17,
+      "per": 18.63,
       "forward_per": null,
       "eps_growth_pct": null,
       "growth_adjusted_per": null,
-      "pbr": 2.24,
-      "dividend_yield": 0.85,
+      "pbr": 2.29,
+      "dividend_yield": 0.83,
       "available": true,
       "coverage": 1.0,
       "forward_data_available": false,
@@ -17,7 +17,7 @@
       "forward_proxy_sample_size": 0,
       "forward_proxy_market_cap_coverage": 0.0,
       "forward_proxy_growth_market_cap_coverage": 0.0,
-      "as_of": "2026-08-13",
+      "as_of": "2026-08-14",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
       "source_method": "pykrx_authenticated",
@@ -25,17 +25,15 @@
       "stale": false,
       "diagnostics": [
         "20260814:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260814:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260813:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300"
       ]
     },
     "kosdaq150": {
-      "per": 64.28,
+      "per": 64.45,
       "forward_per": null,
       "eps_growth_pct": null,
       "growth_adjusted_per": null,
-      "pbr": 4.37,
+      "pbr": 4.39,
       "dividend_yield": 0.36,
       "available": true,
       "coverage": 1.0,
@@ -44,7 +42,7 @@
       "forward_proxy_sample_size": 0,
       "forward_proxy_market_cap_coverage": 0.0,
       "forward_proxy_growth_market_cap_coverage": 0.0,
-      "as_of": "2026-08-13",
+      "as_of": "2026-08-14",
       "source": "KRX 지수 투자지표 (pykrx 세션)",
       "source_url": "https://data.krx.co.kr/",
       "source_method": "pykrx_authenticated",
@@ -52,8 +50,6 @@
       "stale": false,
       "diagnostics": [
         "20260814:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260814:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "20260813:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250"
       ]
     }
@@ -80,6 +76,7 @@
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://www.tigeretf.com/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
       "official_and_naver_unavailable_public_snapshot_used",
+      "reit:live_failed_last_good_reused",
       "reit:live_failed_last_good_reused",
       "reit:live_failed_last_good_reused",
       "reit:live_failed_last_good_reused",
