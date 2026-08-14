@@ -4,50 +4,50 @@
   "status": "ok",
   "forecast_operational": true,
   "data_mode": "monetary_plus_policy",
-  "latest_observation": "20260812",
+  "latest_observation": "20260813",
   "current": {
-    "liquidity_score": 0.0887,
+    "liquidity_score": 0.105,
     "grade": "유동성 중립",
     "observations": {
-      "m1_yoy": 10.019,
-      "m2_yoy": 5.783,
-      "lf_yoy": 8.056,
-      "market_policy_gap_pctp": 0.877,
-      "expected_policy_change_3m_pctp": 0.047
+      "m1_yoy": 10.085,
+      "m2_yoy": 5.977,
+      "lf_yoy": 8.52,
+      "market_policy_gap_pctp": 0.866,
+      "expected_policy_change_3m_pctp": 0.046
     }
   },
   "forecast_path": [
     {
       "months": 3,
-      "liquidity_score": 0.123,
+      "liquidity_score": 0.1514,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 5.522,
-      "policy_impulse": -0.0627,
+      "expected_m2_yoy_pct": 5.844,
+      "policy_impulse": -0.0613,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
-      "forecast_quality_score": 90,
+      "forecast_quality_score": 88,
       "production_candidate": "balanced_10_05",
       "prediction_status": "forecast"
     },
     {
       "months": 6,
-      "liquidity_score": 0.1128,
-      "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 5.903,
-      "policy_impulse": -0.072,
+      "liquidity_score": 0.1397,
+      "grade": "유동성 소폭확장",
+      "expected_m2_yoy_pct": 6.398,
+      "policy_impulse": -0.0707,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
-      "forecast_quality_score": 93,
+      "forecast_quality_score": 92,
       "production_candidate": "legacy_30_10",
       "prediction_status": "forecast"
     },
     {
       "months": 12,
-      "liquidity_score": 0.099,
-      "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 5.87,
+      "liquidity_score": 0.1233,
+      "grade": "유동성 소폭확장",
+      "expected_m2_yoy_pct": 6.302,
       "policy_impulse": -0.076,
-      "validation_shrinkage": 0.9928,
+      "validation_shrinkage": 0.997,
       "quality_grade": "B",
       "forecast_quality_score": 80,
       "production_candidate": "legacy_30_10",
@@ -59,24 +59,24 @@
     "primary_horizon": "3m",
     "oos_by_horizon": {
       "3m": {
-        "samples": 161,
+        "samples": 162,
         "rmse_pctp": 0.96,
-        "persistence_rmse_pctp": 1.04,
-        "persistence_skill_pct": 7.683,
-        "direction_accuracy": 0.6087,
+        "persistence_rmse_pctp": 1.037,
+        "persistence_skill_pct": 7.399,
+        "direction_accuracy": 0.6,
         "strict_skill_passed": true,
         "grade": "A",
-        "forecast_quality_score": 90,
+        "forecast_quality_score": 88,
         "method": "expanding_origin_prequential_candidate_selection_future_m2_yoy",
         "benchmark": "current_m2_yoy_persistence",
         "selected_model_counts": {
           "persistence": 78,
           "peer_10": 11,
-          "balanced_10_05": 72
+          "balanced_10_05": 73
         },
         "production_candidate": "balanced_10_05",
         "candidate_rmse_pctp": {
-          "persistence": 1.04,
+          "persistence": 1.037,
           "peer_10": 0.958,
           "balanced_10_05": 0.942,
           "balanced_10_10": 0.948,
@@ -87,14 +87,14 @@
         "selection_no_lookahead": true
       },
       "6m": {
-        "samples": 158,
-        "rmse_pctp": 1.416,
-        "persistence_rmse_pctp": 1.613,
-        "persistence_skill_pct": 12.207,
-        "direction_accuracy": 0.631,
+        "samples": 159,
+        "rmse_pctp": 1.42,
+        "persistence_rmse_pctp": 1.611,
+        "persistence_skill_pct": 11.874,
+        "direction_accuracy": 0.6235,
         "strict_skill_passed": true,
         "grade": "A",
-        "forecast_quality_score": 93,
+        "forecast_quality_score": 92,
         "method": "expanding_origin_prequential_candidate_selection_future_m2_yoy",
         "benchmark": "current_m2_yoy_persistence",
         "selected_model_counts": {
@@ -102,26 +102,26 @@
           "balanced_10_10": 7,
           "peer_10": 5,
           "balanced_10_05": 7,
-          "legacy_30_10": 72
+          "legacy_30_10": 73
         },
         "production_candidate": "legacy_30_10",
         "candidate_rmse_pctp": {
-          "persistence": 1.613,
-          "peer_10": 1.483,
-          "balanced_10_05": 1.452,
-          "balanced_10_10": 1.431,
-          "moderate_15_10": 1.413,
-          "legacy_30_10": 1.391
+          "persistence": 1.611,
+          "peer_10": 1.482,
+          "balanced_10_05": 1.453,
+          "balanced_10_10": 1.432,
+          "moderate_15_10": 1.414,
+          "legacy_30_10": 1.395
         },
         "selection_min_matured_errors": 24,
         "selection_no_lookahead": true
       },
       "12m": {
-        "samples": 152,
-        "rmse_pctp": 2.572,
-        "persistence_rmse_pctp": 2.733,
-        "persistence_skill_pct": 5.913,
-        "direction_accuracy": 0.5422,
+        "samples": 153,
+        "rmse_pctp": 2.565,
+        "persistence_rmse_pctp": 2.728,
+        "persistence_skill_pct": 5.964,
+        "direction_accuracy": 0.5476,
         "strict_skill_passed": true,
         "grade": "B",
         "forecast_quality_score": 80,
@@ -129,7 +129,7 @@
         "benchmark": "current_m2_yoy_persistence",
         "selected_model_counts": {
           "persistence": 61,
-          "legacy_30_10": 72,
+          "legacy_30_10": 73,
           "balanced_10_10": 4,
           "peer_10": 2,
           "moderate_15_10": 3,
@@ -137,24 +137,24 @@
         },
         "production_candidate": "legacy_30_10",
         "candidate_rmse_pctp": {
-          "persistence": 2.733,
-          "peer_10": 2.614,
-          "balanced_10_05": 2.596,
-          "balanced_10_10": 2.585,
-          "moderate_15_10": 2.572,
-          "legacy_30_10": 2.547
+          "persistence": 2.728,
+          "peer_10": 2.609,
+          "balanced_10_05": 2.59,
+          "balanced_10_10": 2.579,
+          "moderate_15_10": 2.566,
+          "legacy_30_10": 2.541
         },
         "selection_min_matured_errors": 24,
         "selection_no_lookahead": true
       }
     },
     "quality_grade": "A",
-    "forecast_quality_score": 90,
+    "forecast_quality_score": 88,
     "quality_score_semantics": "future_m2_yoy_oos_skill_accuracy_and_samples_not_probability"
   },
   "quality": {
-    "model_quality_score": 90,
-    "forecast_quality_score": 90,
+    "model_quality_score": 88,
+    "forecast_quality_score": 88,
     "forecast_quality_grade": "A",
     "input_data_quality_score": 99,
     "quality_score_semantics": "forecast_quality_is_oos_based; input_quality_is_coverage_availability",
@@ -163,5 +163,5 @@
     "monetary_aggregate_available": true,
     "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
   },
-  "generated_at": "2026-08-13T14:17:01.813388+09:00"
+  "generated_at": "2026-08-14T13:32:09.258890+09:00"
 }

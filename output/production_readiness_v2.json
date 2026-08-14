@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-13T14:17:01.813388+09:00",
+  "generated_at": "2026-08-14T13:32:09.258890+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
     "level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",
@@ -24,7 +24,7 @@
   },
   "liquidity": {
     "forecast_operational": true,
-    "forecast_quality_score": 90,
+    "forecast_quality_score": 88,
     "forecast_quality_grade": "A",
     "input_data_quality_score": 99,
     "quality_score_semantics": "forecast_quality_is_oos_based; input_quality_is_coverage_availability",

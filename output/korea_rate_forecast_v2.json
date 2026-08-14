@@ -5,13 +5,13 @@
   "engine_scope": "korea_only_us_engine_read_only",
   "current": {
     "kr_base_rate_pct": 2.75,
-    "market_reference_rate_pct": 3.627,
-    "market_policy_gap_pctp": 0.877,
+    "market_reference_rate_pct": 3.616,
+    "market_policy_gap_pctp": 0.866,
     "core_cpi_yoy": 0.025,
     "industrial_3m_annualized": 0.05511,
-    "usdkrw_3m_change": -0.05654,
+    "usdkrw_3m_change": -0.05887,
     "us_current_effective_rate_pct": 3.63,
-    "us_3meeting_rate_change_pctp": 0.133,
+    "us_3meeting_rate_change_pctp": 0.113,
     "us_path_filter": {
       "mode": "monthly_curve_stabilized",
       "accepted": 11,
@@ -22,9 +22,9 @@
   "regime": {
     "name": "inflation_defense",
     "scores": {
-      "inflation_defense": 1.2861,
+      "inflation_defense": 1.2784,
       "growth_support": 0.0,
-      "fx_defense": 0.2667,
+      "fx_defense": 0.2267,
       "financial_stability": 0.35
     }
   },
@@ -33,10 +33,10 @@
       "meeting_ahead": 1,
       "probabilities": {
         "hold": 0.571,
-        "hike": 0.308,
-        "cut": 0.121
+        "hike": 0.307,
+        "cut": 0.122
       },
-      "expected_rate_pct": 2.797,
+      "expected_rate_pct": 2.796,
       "modal_rate_pct": 2.75,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
@@ -46,9 +46,9 @@
       "probabilities": {
         "hold": 0.509,
         "hike": 0.26,
-        "cut": 0.231
+        "cut": 0.232
       },
-      "expected_rate_pct": 2.804,
+      "expected_rate_pct": 2.803,
       "modal_rate_pct": 2.75,
       "most_likely_action": "hold",
       "probability_type": "model_estimate"
@@ -68,7 +68,7 @@
   ],
   "validation": {
     "samples": 166,
-    "brier_score": 0.5129,
+    "brier_score": 0.5128,
     "benchmark_brier": 0.5759,
     "brier_skill_score": 0.1095,
     "accuracy": 0.6325,
@@ -2896,11 +2896,11 @@
         "benchmark_brier": 0.257521
       },
       {
-        "origin": "20260812",
+        "origin": "20260813",
         "probabilities": {
-          "hold": 0.577841,
-          "hike": 0.311185,
-          "cut": 0.110974
+          "hold": 0.579223,
+          "hike": 0.309537,
+          "cut": 0.11124
         },
         "benchmark_probabilities": {
           "hold": 0.589286,
@@ -2909,7 +2909,7 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.28737,
+        "brier": 0.285241,
         "benchmark_brier": 0.254464
       }
     ],
@@ -2933,7 +2933,7 @@
       "live_reference": "kr_gov_2y",
       "pre_2y_proxy": "kr_gov_3y",
       "first_2y_date": "20210310",
-      "observations": 3375
+      "observations": 3376
     },
     "calibration_weight": 0.616,
     "quality_gate": {
@@ -2997,5 +2997,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-13T14:17:01.813388+09:00"
+  "generated_at": "2026-08-14T13:32:09.258890+09:00"
 }
