@@ -19,6 +19,7 @@ from src.models.rate_validation import evaluate_rate_vintage_snapshots
 from src.models.korea_equity_environment import build_and_write as build_korea_equity_environment
 from src.models.korea_comprehensive_market import build_and_write as build_comprehensive_market
 from src.core import data_quality as dq
+from src.core.alerting import send_alerts
 
 
 ENGINE_VERSION = "4.8.0-long-history-rate-oos-vintage-accumulator"
@@ -286,6 +287,13 @@ def main() -> None:
         result.source: dq.compute_source_failure_tracking(result.source, result.status, prev_health)
         for result in results
     }
+
+    # Phase 3 — Active alerting (Telegram / Slack)
+    try:
+        send_alerts(failure_tracking, dq_summary, ENGINE_VERSION, now_iso, prev_health)
+    except Exception as exc:
+        print(f"[ALERT-ERR] 알림 모듈 예외: {type(exc).__name__}: {exc}", flush=True)
+
     health = {
         "schema_version": settings["schema_version"],
         "engine_version": ENGINE_VERSION,
