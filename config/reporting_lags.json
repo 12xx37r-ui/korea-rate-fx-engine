@@ -1,0 +1,35 @@
+{
+  "_note": "한국 거시지표 공표 시차(Reporting Lag) 레지스트리. lag_days=기준일 대비 실제 공표일까지 평균 소요일수.",
+  "ecos": {
+    "kr_base_rate":       { "lag_days": 0,  "frequency": "event",    "source": "한국은행 금통위 당일 공표" },
+    "kr_gov_3y":          { "lag_days": 1,  "frequency": "daily",    "source": "KRX/한국은행 T+1" },
+    "kr_gov_10y":         { "lag_days": 1,  "frequency": "daily",    "source": "KRX/한국은행 T+1" },
+    "kr_cd_91":           { "lag_days": 1,  "frequency": "daily",    "source": "CD금리 T+1" },
+    "kr_cp_91":           { "lag_days": 1,  "frequency": "daily",    "source": "CP금리 T+1" },
+    "usd_krw_ecos":       { "lag_days": 1,  "frequency": "daily",    "source": "한국은행 T+1" },
+    "kr_m1":              { "lag_days": 45, "frequency": "monthly",  "source": "한국은행 M+6주 발표" },
+    "kr_m2":              { "lag_days": 45, "frequency": "monthly",  "source": "한국은행 M+6주 발표" },
+    "kr_cpi":             { "lag_days": 10, "frequency": "monthly",  "source": "통계청 익월 첫째 주" },
+    "kr_ppi":             { "lag_days": 21, "frequency": "monthly",  "source": "한국은행 M+3주" },
+    "kr_trade_balance":   { "lag_days": 10, "frequency": "monthly",  "source": "관세청 익월 초" },
+    "kr_industrial_prod": { "lag_days": 35, "frequency": "monthly",  "source": "통계청 M+5주" },
+    "kr_leading_index":   { "lag_days": 40, "frequency": "monthly",  "source": "통계청 경기선행지수 M+6주" },
+    "kr_coincident_index":{ "lag_days": 40, "frequency": "monthly",  "source": "통계청 동행지수 M+6주" }
+  },
+  "kosis": {
+    "kosis_cpi":          { "lag_days": 10, "frequency": "monthly",  "source": "통계청 익월 초" },
+    "kosis_gdp":          { "lag_days": 75, "frequency": "quarterly","source": "한국은행 Q+11주 (속보치)" }
+  },
+  "global": {
+    "us_10y":             { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" },
+    "us_2y":              { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" },
+    "us_breakeven_10y":   { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" },
+    "vix":                { "lag_days": 1,  "frequency": "daily",    "source": "CBOE T+1" },
+    "hy_oas":             { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" },
+    "broad_dollar":       { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" },
+    "usd_krw_yahoo":      { "lag_days": 1,  "frequency": "daily",    "source": "Yahoo Finance T+1" },
+    "usd_cny":            { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" },
+    "usd_jpy":            { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" },
+    "wti":                { "lag_days": 1,  "frequency": "daily",    "source": "FRED T+1" }
+  }
+}

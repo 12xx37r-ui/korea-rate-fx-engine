@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Any
 
 from src.core.io import read_json, write_json
+from src.core.pit_database import pit_coverage_check
 
 
 SCHEMA_VERSION = "1.0.0"
@@ -272,6 +273,147 @@ def _reuse_equity_component(equity_env: dict[str, Any], key: str) -> dict[str, A
     return {**comp, "source": "korea_equity_environment.json"}
 
 
+# ── 팩터 B 보강: KOSPI vs KOSDAQ Breadth 이원화 ───────────────────────────────
+def _factor_breadth_dualtrack(equity_env: dict[str, Any], raw_equity: dict[str, Any]) -> dict[str, Any]:
+    """KOSPI(수출·반도체 대형주) vs KOSDAQ(내수·중소형주) Breadth 이원화.
+
+    composite score_normalized는 기존 equity_env 값을 유지하여
+    Current Score 가중합 계산에 영향을 주지 않는다.
+    dual_track은 디커플링 분석용 보조 출력이다.
+    """
+    comp = (equity_env.get("components") or {}).get("breadth") or {}
+    if not comp.get("available"):
+        return {
+            "available": False, "score_normalized": None,
+            "reason": "Breadth 데이터 미수집", "data_status": "DATA_PENDING",
+            "source": "korea_equity_environment.json",
+        }
+
+    raw_br = raw_equity.get("breadth") or {}
+    kospi_br  = raw_br.get("kospi") or {}
+    kosdaq_br = raw_br.get("kosdaq") or {}
+
+    dual_track: dict[str, Any] = {}
+
+    # KOSPI -반도체·수출 대형주 편중 (삼성전자·SK하이닉스 시총비중 30~35%)
+    k_adv = int(kospi_br.get("advances") or 0)
+    k_dec = int(kospi_br.get("declines") or 0)
+    k_tot = k_adv + k_dec
+    if k_tot > 0:
+        k_adb = (k_adv - k_dec) / k_tot
+        dual_track["export_large_cap"] = {
+            "market": "KOSPI",
+            "advances": k_adv, "declines": k_dec,
+            "valid_symbols": kospi_br.get("valid_symbols"),
+            "ad_balance": _r(k_adb, 4),
+            "signal": _r(_clamp(k_adb, -1, 1), 4),
+            "note": "반도체·수출 대형주 편중 -지수 왜곡 위험 구간",
+        }
+
+    # KOSDAQ -내수·중소형·바이오 성장주
+    q_adv = int(kosdaq_br.get("advances") or 0)
+    q_dec = int(kosdaq_br.get("declines") or 0)
+    q_tot = q_adv + q_dec
+    if q_tot > 0:
+        q_adb = (q_adv - q_dec) / q_tot
+        dual_track["domestic_small_cap"] = {
+            "market": "KOSDAQ",
+            "advances": q_adv, "declines": q_dec,
+            "valid_symbols": kosdaq_br.get("valid_symbols"),
+            "ad_balance": _r(q_adb, 4),
+            "signal": _r(_clamp(q_adb, -1, 1), 4),
+            "note": "내수·바이오·중소형 성장주 -체감 시장 온도계",
+        }
+
+    # 디커플링 탐지: KOSPI 강세인데 KOSDAQ 약세 → 반도체 쏠림 착시 경보
+    if "export_large_cap" in dual_track and "domestic_small_cap" in dual_track:
+        k_sig = dual_track["export_large_cap"]["signal"]
+        q_sig = dual_track["domestic_small_cap"]["signal"]
+        divergence = _r(q_sig - k_sig, 4)   # 양수=KOSDAQ우세, 음수=KOSPI우세
+        decoupling = abs(divergence) > 0.30
+        dual_track["divergence"] = {
+            "kosdaq_minus_kospi_signal": divergence,
+            "decoupling_detected": decoupling,
+            "interpretation": (
+                "KOSDAQ 우세 -내수·중소형 체감 강세" if divergence > 0.20 else
+                "KOSPI 우세 -반도체·수출 주도 (체감 괴리 위험)" if divergence < -0.20 else
+                "동조 -디커플링 없음"
+            ),
+            "alert": (
+                "반도체 쏠림 착시 경보: 종합지수 강세이나 내수·중소형 약세 가능성"
+                if k_sig > 0.20 and q_sig < -0.10 else None
+            ),
+        }
+
+    return {
+        **comp,
+        "dual_track": dual_track,
+        "source": "korea_equity_environment.json + raw_korea_equity_environment.json",
+        "detail": comp.get("detail", "") + " | KOSPI vs KOSDAQ Breadth 이원화",
+    }
+
+
+# ── 팩터 C 보강: KOSPI200 vs KOSDAQ150 이익 이원화 ───────────────────────────
+def _factor_earnings_dualtrack(equity_env: dict[str, Any]) -> dict[str, Any]:
+    """KOSPI200(반도체·대형) vs KOSDAQ150(내수·성장) 이익 성장 이원화.
+
+    composite score_normalized는 기존 equity_env 값 유지.
+    """
+    comp = (equity_env.get("components") or {}).get("earnings_revision") or {}
+    if not comp.get("available"):
+        return {
+            "available": False, "score_normalized": None,
+            "reason": "이익 데이터 미수집", "data_status": "DATA_PENDING",
+            "source": "korea_equity_environment.json",
+        }
+
+    evidence_list = comp.get("evidence") or []
+    dual_track: dict[str, Any] = {}
+
+    for item in evidence_list:
+        if not isinstance(item, dict) or not item.get("available"):
+            continue
+        idx = str(item.get("index") or "").lower()
+        growth = _num(item.get("growth_pct"))
+        if "kospi" in idx:
+            dual_track["export_large_cap"] = {
+                "index": item.get("index"),
+                "growth_pct": _r(growth, 2),
+                "eps_proxy_recent": _r(_num(item.get("recent_eps_proxy")), 4),
+                "samples": item.get("samples"),
+                "note": "KOSPI200 -반도체·수출 대형주 이익 집중",
+            }
+        elif "kosdaq" in idx:
+            dual_track["domestic_small_cap"] = {
+                "index": item.get("index"),
+                "growth_pct": _r(growth, 2),
+                "eps_proxy_recent": _r(_num(item.get("recent_eps_proxy")), 4),
+                "samples": item.get("samples"),
+                "note": "KOSDAQ150 -내수·바이오·성장주 이익",
+            }
+
+    # 이익 성장 디커플링
+    if "export_large_cap" in dual_track and "domestic_small_cap" in dual_track:
+        ex_g = _num(dual_track["export_large_cap"]["growth_pct"]) or 0.0
+        do_g = _num(dual_track["domestic_small_cap"]["growth_pct"]) or 0.0
+        spread = _r(do_g - ex_g, 2)
+        dual_track["earnings_divergence"] = {
+            "kosdaq150_minus_kospi200_growth_pct": spread,
+            "interpretation": (
+                "내수·중소형 이익 우위 -반수출 국면" if spread > 5 else
+                "반도체·수출 이익 독주 -지수 왜곡 위험" if spread < -10 else
+                "이익 성장 동조"
+            ),
+        }
+
+    return {
+        **comp,
+        "dual_track": dual_track,
+        "source": "korea_equity_environment.json",
+        "detail": comp.get("detail", "") + " | KOSPI200 vs KOSDAQ150 이익 이원화",
+    }
+
+
 # ── 팩터 F: 금리·유동성·신용 ─────────────────────────────────────────────────
 def _factor_rate_liquidity_credit(
     ecos: dict[str, Any],
@@ -428,15 +570,150 @@ def _factor_fx(
             "data_status": "DATA_PENDING", "pending": pending,
         }
 
-    score = _clamp(sum(signals) / len(signals), -1, 1)
+    raw_score = _clamp(sum(signals) / len(signals), -1, 1)
+
+    # ── 비선형 FX 레짐 탐지 ────────────────────────────────────────────────
+    # 한국 증시 환율 특성: 완만한 원화약세=수출호재 / 임계치 돌파=외국인 패닉셀
+    # 선형 신호에 비선형 배율을 적용해 위기 국면 가중치를 급증시킨다.
+    fx_regime = "NORMAL"
+    regime_multiplier = 1.0
+
+    if len(krw_series) >= 22:
+        current_krw = krw_series[-1][1]
+
+        # 1개월 롤링 변동성 (일별 수익률 표준편차 × √252, 연환산 %)
+        recent = [v for _, v in krw_series[-23:]]
+        daily_rets = [recent[i] / recent[i - 1] - 1.0 for i in range(1, len(recent))]
+        if len(daily_rets) >= 15:
+            mu = sum(daily_rets) / len(daily_rets)
+            vol_ann = math.sqrt(sum((r - mu) ** 2 for r in daily_rets) / len(daily_rets) * 252) * 100
+            evidence["usd_krw_vol_1m_ann_pct"] = _r(vol_ann, 2)
+
+        # 역사적 레벨 분위수
+        hist_prices = [v for _, v in krw_series[-400:]]
+        pct_level = _percentile(hist_prices, current_krw)
+        if pct_level is not None:
+            evidence["usd_krw_level_percentile"] = _r(pct_level, 3)
+
+        # 임계값 체계 (원·달러 기준)
+        # 1,360 초과=경계 / 1,420 초과=위기 / 변동성 40% 초과=추가 경계
+        high_vol = evidence.get("usd_krw_vol_1m_ann_pct", 0) > 40.0
+        if current_krw >= 1420.0 or (current_krw >= 1380.0 and high_vol):
+            fx_regime = "CRISIS"
+            regime_multiplier = 2.5   # 음수 신호 2.5배 증폭 (외국인 패닉셀 반영)
+        elif current_krw >= 1360.0 or high_vol:
+            fx_regime = "CAUTION"
+            regime_multiplier = 1.5
+
+        evidence["fx_regime"] = fx_regime
+        evidence["fx_regime_multiplier"] = regime_multiplier if fx_regime != "NORMAL" else None
+        evidence["fx_crisis_thresholds"] = {"caution_krw": 1360, "crisis_krw": 1420}
+
+    # 비선형 배율 적용: 음수(원화약세·악재) 신호만 증폭
+    if fx_regime != "NORMAL" and raw_score < 0:
+        score = _clamp(raw_score * regime_multiplier, -1, 1)
+    else:
+        score = raw_score
+
     return {
         "available": True,
         "score_normalized": _r(score),
+        "raw_score_before_regime": _r(raw_score, 4),
         "signal_count": len(signals),
         "evidence": evidence,
         "pending": pending,
         "source": "raw_global_market + korea_krw_strength_forecast",
-        "detail": "USD/KRW 1M/3M 추세·원화강도예측·달러인덱스 복합신호",
+        "detail": (
+            "USD/KRW 1M/3M 추세·원화강도예측·달러인덱스 복합신호 "
+            "+ 비선형 레짐 탐지(NORMAL/CAUTION/CRISIS)"
+        ),
+    }
+
+
+# ── 파생수급 오버레이 (E. 수급 보조) ─────────────────────────────────────────
+def _overlay_derivative_flow(krx_data: dict[str, Any]) -> dict[str, Any]:
+    """KRX 파생·수급 오버레이: 외국인 선물 순매수·프로그램매매·신용융자 비율.
+
+    단기 수급 선행 신호를 E. 수급 팩터 보조 레이어로 편입한다.
+    Current Score 가중합(CURRENT_WEIGHTS)에는 포함되지 않으며
+    별도 overlay_score로 출력한다.
+
+    활성화 조건 (krx_apis.json futures_daily_non_equity enabled=true 설정 후):
+      krx_data["futures_daily"]      : 외국인 KOSPI200 선물 누적 순매수
+      krx_data["program_trading"]    : 차익/비차익 잔고
+      krx_data["customer_deposit"]   : 고객예탁금
+      krx_data["margin_loan"]        : 신용융자 잔고
+    """
+    signals: list[float] = []
+    evidence: dict[str, Any] = {}
+    pending: list[str] = []
+
+    # 1. 외국인 KOSPI200 선물 누적 순매수 방향
+    futures_rows = krx_data.get("futures_daily") or []
+    if futures_rows:
+        net_positions = [_num(r.get("foreign_net")) for r in futures_rows[-20:] if isinstance(r, dict)]
+        net_vals = [v for v in net_positions if v is not None]
+        if net_vals:
+            recent_net = net_vals[-1]
+            avg_net = sum(net_vals) / len(net_vals)
+            fut_signal = _clamp(math.tanh((recent_net - avg_net) / max(abs(avg_net), 1e-6)), -1, 1)
+            signals.append(fut_signal)
+            evidence["foreign_futures_net_signal"] = _r(fut_signal, 4)
+    else:
+        pending.append("KOSPI200_선물_외국인수급_미수집 (krx_apis.json futures_daily_non_equity 활성화 필요)")
+
+    # 2. 프로그램매매 차익잔고 방향 (차익잔고 증가=매도압력↑)
+    program_rows = krx_data.get("program_trading") or []
+    if program_rows:
+        arb_balance = [_num(r.get("arbitrage_balance")) for r in program_rows[-10:] if isinstance(r, dict)]
+        arb_vals = [v for v in arb_balance if v is not None]
+        if len(arb_vals) >= 5:
+            arb_change = arb_vals[-1] - arb_vals[0]
+            arb_signal = _clamp(math.tanh(-arb_change / 1e12), -1, 1)
+            signals.append(arb_signal)
+            evidence["program_arb_balance_signal"] = _r(arb_signal, 4)
+    else:
+        pending.append("프로그램매매_차익잔고_미수집")
+
+    # 3. 고객예탁금 대비 신용융자 비율 (비율 급증=과열·역전 위험)
+    deposit_rows = krx_data.get("customer_deposit") or []
+    margin_rows  = krx_data.get("margin_loan") or []
+    if deposit_rows and margin_rows:
+        dep = _num((deposit_rows[-1] or {}).get("value"))
+        mar = _num((margin_rows[-1] or {}).get("value"))
+        if dep and mar and dep > 0:
+            ratio = mar / dep
+            # 0.5 이상(예탁금의 50% 신용융자)=과열, 0.2 미만=건강
+            ratio_signal = _clamp(-(ratio - 0.35) / 0.15, -1, 1)
+            signals.append(ratio_signal)
+            evidence["margin_deposit_ratio"] = _r(ratio, 4)
+            evidence["margin_ratio_signal"] = _r(ratio_signal, 4)
+    else:
+        pending.append("고객예탁금_신용융자비율_미수집")
+
+    if not signals:
+        return {
+            "available": False,
+            "overlay_active": False,
+            "score_normalized": None,
+            "data_status": "DATA_PENDING",
+            "pending": pending,
+            "activation_guide": (
+                "krx_apis.json 내 futures_daily_non_equity enabled=true 및 API ID 설정 후 자동 활성화. "
+                "DATA_PENDING 상태에서는 Current Score에 영향 없음."
+            ),
+        }
+
+    score = _clamp(sum(signals) / len(signals), -1, 1)
+    return {
+        "available": True,
+        "overlay_active": True,
+        "score_normalized": _r(score),
+        "signal_count": len(signals),
+        "evidence": evidence,
+        "pending": pending,
+        "source": "raw_krx.json (파생수급)",
+        "detail": "KOSPI200 선물 외국인순매수 · 차익잔고 · 신용융자비율 단기 수급 오버레이",
     }
 
 
@@ -1035,15 +1312,25 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
     strength = _safe_read(output_dir / "korea_krw_strength_forecast.json", {})
     liquidity = _safe_read(output_dir / "korea_krw_liquidity_forecast.json", {})
     us_policy = _safe_read(output_dir / "us_input.json", {})
+    krx_data  = _safe_read(output_dir / "raw_krx.json", {})
 
     # ── Data Quality Gate ──
     dq = _dq_check(equity_env, raw_equity, ecos, global_data)
 
+    # ── PiT 커버리지 검사 (live 모드에서는 필터링 없음, 백테스트에서만 활용) ──
+    pit_report = pit_coverage_check(
+        {k: v for k, v in ecos.items() if isinstance(v, list)},
+        as_of_date=None,   # live 실행
+    )
+
     # ── 팩터 계산 (각 팩터 독립, 기존 equity_env 최대 재사용) ──
+    # B. Breadth: 이원화 (KOSPI 수출·대형 vs KOSDAQ 내수·중소형)
+    # C. Earnings: 이원화 (KOSPI200 vs KOSDAQ150)
+    # G. FX: 비선형 레짐 (NORMAL/CAUTION/CRISIS) 적용
     factors: dict[str, dict] = {
         "price_trend":           _factor_price_trend(raw_equity),
-        "breadth":               _reuse_equity_component(equity_env, "breadth"),
-        "earnings":              _reuse_equity_component(equity_env, "earnings_revision"),
+        "breadth":               _factor_breadth_dualtrack(equity_env, raw_equity),
+        "earnings":              _factor_earnings_dualtrack(equity_env),
         "valuation":             _reuse_equity_component(equity_env, "valuation"),
         "flow":                  _reuse_equity_component(equity_env, "flow"),
         "rate_liquidity_credit": _factor_rate_liquidity_credit(ecos, rate_forecast, liquidity, equity_env),
@@ -1051,6 +1338,9 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
         "market_risk":           _factor_market_risk(global_data),
         "external":              _factor_external(global_data, us_policy),
     }
+
+    # 파생수급 오버레이 (E. 수급 보조, CURRENT_WEIGHTS 외 별도 출력)
+    derivative_overlay = _overlay_derivative_flow(krx_data)
 
     # ── Current Score ──
     current_score = _build_current_score(factors)
@@ -1089,7 +1379,7 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
         p = periods.get(key) or {}
         return p.get(field) if p.get("available") else None
 
-    # GAS 대시보드용 플랫 스키마 (_dashboard) — 중첩 없이 1-depth 키만 사용
+    # GAS 대시보드용 플랫 스키마 (_dashboard) -중첩 없이 1-depth 키만 사용
     dashboard_flat: dict[str, Any] = {
         "generated_at_utc":       gen_at,
         "current_score":          cur_s,
@@ -1133,6 +1423,8 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
         "current_score": current_score,
         "trend_score": trend_score,
         "forward_score": forward_score,
+        "derivative_overlay": derivative_overlay,
+        "pit_coverage": pit_report,
         "data_quality_gate": dq,
         "_dashboard": dashboard_flat,
         "data_sources": {
