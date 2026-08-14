@@ -18,6 +18,7 @@ from src.models.krw_liquidity import build_krw_liquidity_forecast
 from src.models.rate_validation import evaluate_rate_vintage_snapshots
 from src.models.korea_equity_environment import build_and_write as build_korea_equity_environment
 from src.models.korea_comprehensive_market import build_and_write as build_comprehensive_market
+from src.core import data_quality as dq
 
 
 ENGINE_VERSION = "4.8.0-long-history-rate-oos-vintage-accumulator"
@@ -113,6 +114,7 @@ def main() -> None:
         "strength": output_dir / "korea_krw_strength_forecast.json",
     }
     previous = {key: _safe_read(path, {}) for key, path in paths.items()}
+    prev_health = _safe_read(output_dir / "api_health.json", {})
 
     results = [
         run_collector("US_POLICY_ENGINE", us_policy, output_dir, timeout, retries),
@@ -144,6 +146,21 @@ def main() -> None:
         write_json(paths["krx"], krx_data)
     if us_policy_data:
         write_json(paths["us"], us_policy_data)
+
+    # Phase 2 — Data Quality Gate: validate merged raw data (zero new API calls)
+    dq_ecos = dq.validate_raw_ecos(ecos_data, previous["ecos"])
+    dq_global = dq.validate_raw_global(global_data, previous["global"])
+    dq_summary = {
+        "ecos": dq_ecos,
+        "global": dq_global,
+        "all_passed": dq_ecos["passed"] and dq_global["passed"],
+        "all_issues": dq_ecos["issues"] + dq_global["issues"],
+        "all_warnings": dq_ecos["warnings"] + dq_global["warnings"],
+    }
+    if dq_summary["all_issues"]:
+        print(f"[DQ-WARN] Data Quality Gate 이슈: {dq_summary['all_issues']}", flush=True)
+    elif dq_summary["all_warnings"]:
+        print(f"[DQ-NOTICE] Data Quality 경고: {dq_summary['all_warnings']}", flush=True)
 
     # Korea-equity-specific sub-engine. Keep it isolated from all existing rate/FX
     # contracts. It runs AFTER continuity-merged raw files are written so credit
@@ -265,11 +282,17 @@ def main() -> None:
         for result in results
         if result.source.lower() in required and result.status not in {"ok", "degraded", "not_configured"}
     ]
+    failure_tracking = {
+        result.source: dq.compute_source_failure_tracking(result.source, result.status, prev_health)
+        for result in results
+    }
     health = {
         "schema_version": settings["schema_version"],
         "engine_version": ENGINE_VERSION,
         "generated_at": now_iso,
         "sources": {result.source: result.to_dict() for result in results},
+        "failure_tracking": failure_tracking,
+        "data_quality": dq_summary,
         "api_credentials": {
             "status": "action_required" if credential_alerts else "ok",
             "action_required": bool(credential_alerts),
