@@ -1,12 +1,12 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-14T13:32:09.258890+09:00",
+  "generated_at": "2026-08-14T18:53:21.872077+09:00",
   "rate": {
     "samples": 166,
-    "brier_score": 0.5128,
+    "brier_score": 0.5129,
     "benchmark_brier": 0.5759,
-    "brier_skill_score": 0.1095,
+    "brier_skill_score": 0.1094,
     "accuracy": 0.6325,
     "accuracy_wilson_lower_95": 0.557,
     "log_loss": 0.8589,
@@ -2832,11 +2832,11 @@
         "benchmark_brier": 0.257521
       },
       {
-        "origin": "20260813",
+        "origin": "20260814",
         "probabilities": {
-          "hold": 0.579223,
-          "hike": 0.309537,
-          "cut": 0.11124
+          "hold": 0.576328,
+          "hike": 0.312989,
+          "cut": 0.110684
         },
         "benchmark_probabilities": {
           "hold": 0.589286,
@@ -2845,7 +2845,7 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.285241,
+        "brier": 0.289711,
         "benchmark_brier": 0.254464
       }
     ],
@@ -2869,7 +2869,7 @@
       "live_reference": "kr_gov_2y",
       "pre_2y_proxy": "kr_gov_3y",
       "first_2y_date": "20210310",
-      "observations": 3376
+      "observations": 3377
     },
     "calibration_weight": 0.616,
     "quality_gate": {
@@ -2893,7 +2893,7 @@
       },
       "observed": {
         "samples": 166,
-        "brier_skill_score": 0.1095,
+        "brier_skill_score": 0.1094,
         "accuracy": 0.6325,
         "accuracy_wilson_lower_95": 0.557,
         "active_input_coverage": 1.0,
@@ -2930,7 +2930,7 @@
   },
   "fx": {
     "samples": 600,
-    "rmse_pct": 4.022,
+    "rmse_pct": 4.023,
     "mae_pct": 3.155,
     "active_direction_accuracy": 0.4893,
     "all_origin_direction_accuracy": 0.4893,
@@ -2941,10 +2941,10 @@
     "oos_by_horizon": {
       "1m": {
         "samples": 609,
-        "rmse_pct": 2.337,
+        "rmse_pct": 2.338,
         "mae_pct": 1.837,
         "random_walk_rmse_pct": 2.339,
-        "persistence_skill_pct": 0.066,
+        "persistence_skill_pct": 0.067,
         "direction_accuracy": 0.5179,
         "active_direction_accuracy": 0.5179,
         "active_signal_coverage": 1.0,
@@ -2952,20 +2952,20 @@
         "weights": {
           "contrarian_60": 0.1758,
           "macro_public_factors": 0.0,
-          "mean_reversion_252": 0.1686,
-          "momentum_120": 0.1424,
-          "momentum_20": 0.1778,
+          "mean_reversion_252": 0.1685,
+          "momentum_120": 0.1423,
+          "momentum_20": 0.178,
           "momentum_60": 0.1378,
           "trend_acceleration": 0.1977
         },
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -2.408,
+          "persistence_skill_pct": -2.395,
           "direction_accuracy": 0.2833,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
-        "shrinkage": 0.467,
+        "shrinkage": 0.4672,
         "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
         "benchmark": "random_walk_no_change_evaluation_only",
         "grade": "C",
@@ -2974,16 +2974,16 @@
       },
       "3m": {
         "samples": 600,
-        "rmse_pct": 4.022,
+        "rmse_pct": 4.023,
         "mae_pct": 3.155,
-        "random_walk_rmse_pct": 4.019,
+        "random_walk_rmse_pct": 4.02,
         "persistence_skill_pct": -0.08,
         "direction_accuracy": 0.4893,
         "active_direction_accuracy": 0.4893,
         "active_signal_coverage": 1.0,
         "interval_80_coverage": 0.7817,
         "weights": {
-          "contrarian_60": 0.2183,
+          "contrarian_60": 0.2184,
           "macro_public_factors": 0.0,
           "mean_reversion_252": 0.2006,
           "momentum_120": 0.1231,
@@ -2994,7 +2994,7 @@
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -7.011,
+          "persistence_skill_pct": -6.998,
           "direction_accuracy": 0.27,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
@@ -3095,8 +3095,8 @@
       "level": "검증 C등급",
       "observed": {
         "samples": 600,
-        "rmse_pct": 4.022,
-        "random_walk_rmse_pct": 4.019,
+        "rmse_pct": 4.023,
+        "random_walk_rmse_pct": 4.02,
         "persistence_skill_pct": -0.08,
         "active_direction_accuracy": 0.4893,
         "active_signal_coverage": 1.0,
@@ -3124,9 +3124,9 @@
           "level": "검증 C등급",
           "observed": {
             "samples": 609,
-            "rmse_pct": 2.337,
+            "rmse_pct": 2.338,
             "random_walk_rmse_pct": 2.339,
-            "persistence_skill_pct": 0.066,
+            "persistence_skill_pct": 0.067,
             "active_direction_accuracy": 0.5179,
             "active_signal_coverage": 1.0,
             "interval_80_coverage": 0.7964,
@@ -3144,8 +3144,8 @@
           "level": "검증 C등급",
           "observed": {
             "samples": 600,
-            "rmse_pct": 4.022,
-            "random_walk_rmse_pct": 4.019,
+            "rmse_pct": 4.023,
+            "random_walk_rmse_pct": 4.02,
             "persistence_skill_pct": -0.08,
             "active_direction_accuracy": 0.4893,
             "active_signal_coverage": 1.0,
