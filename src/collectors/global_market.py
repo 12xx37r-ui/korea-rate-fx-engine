@@ -63,6 +63,16 @@ FRED_BOOTSTRAP_DAYS = 900
 OVERLAP_DAYS = 120
 HARD_FLOOR = "2018-01-01"
 
+# Task 1: 반도체 마이크로 팩터 - Yahoo Finance 로 수집
+# SOX(^SOX), TWII(^TWII), NVDA, TSM 일봉
+YAHOO_EQUITY: dict[str, str] = {
+    "sox": "^SOX",
+    "twii": "^TWII",
+    "nvda": "NVDA",
+    "tsm": "TSM",
+}
+YAHOO_EQUITY_DAYS = 90  # 20d/60d 모멘텀 계산에 충분한 기간
+
 
 def _safe_previous(path: Path) -> dict[str, Any]:
     try:
@@ -252,6 +262,79 @@ def _bis_eer_api(previous: dict[str, Any]) -> tuple[dict[str, list[dict[str, Any
         return _parse_bis_eer_csv(response.text), start_period, mode
 
 
+def _yahoo_equity_ohlcv(symbol: str, days: int = YAHOO_EQUITY_DAYS) -> list[dict[str, Any]]:
+    """Yahoo Finance에서 주식/지수 일봉 종가를 수집한다."""
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+    with requests.Session() as session:
+        session.headers.update({"User-Agent": "korea-rate-fx-engine/5.0"})
+        response = session.get(
+            url,
+            params={"range": f"{days}d", "interval": "1d", "events": "history"},
+            timeout=(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS),
+        )
+        response.raise_for_status()
+        payload = response.json()
+    result = (((payload or {}).get("chart") or {}).get("result") or [])
+    if not result:
+        return []
+    node = result[0] or {}
+    timestamps = node.get("timestamp") or []
+    quotes = (((node.get("indicators") or {}).get("quote") or [{}])[0]) or {}
+    closes = quotes.get("close") or []
+    rows: list[dict[str, Any]] = []
+    for ts, close in zip(timestamps, closes):
+        if close is None:
+            continue
+        try:
+            value = float(close)
+            date_str = datetime.fromtimestamp(int(ts), tz=timezone.utc).strftime("%Y%m%d")
+        except (TypeError, ValueError, OSError):
+            continue
+        rows.append({"date": date_str, "value": value, "source": "Yahoo Finance", "symbol": symbol})
+    return rows
+
+
+def _momentum_pct(rows: list[dict[str, Any]], window: int) -> float | None:
+    """window일 전 대비 현재 등락률(%)."""
+    if len(rows) < window + 1:
+        return None
+    try:
+        current = float(rows[-1]["value"])
+        past = float(rows[-(window + 1)]["value"])
+        return round((current / past - 1.0) * 100.0, 4) if past != 0 else None
+    except (TypeError, ValueError, KeyError):
+        return None
+
+
+def _collect_yahoo_equity(previous: dict[str, Any]) -> dict[str, Any]:
+    """SOX, TWII, NVDA, TSM 일봉 + 20d/60d 모멘텀을 수집한다."""
+    rows_by_key: dict[str, list[dict[str, Any]]] = {}
+    errors: dict[str, str] = {}
+
+    for key, symbol in YAHOO_EQUITY.items():
+        old = list(previous.get(key) or [])
+        try:
+            fresh = _yahoo_equity_ohlcv(symbol)
+            merged = _merge_rows(old, fresh)
+            rows_by_key[key] = merged
+            if not fresh and old:
+                errors[key] = "stale_reused"
+        except Exception as exc:
+            rows_by_key[key] = old
+            errors[key] = f"{type(exc).__name__}: {str(exc)[:120]}"
+
+    momentum: dict[str, Any] = {}
+    for key in YAHOO_EQUITY:
+        rows = rows_by_key.get(key) or []
+        momentum[key] = {
+            "latest": rows[-1]["value"] if rows else None,
+            "mom_20d_pct": _momentum_pct(rows, 20),
+            "mom_60d_pct": _momentum_pct(rows, 60),
+        }
+
+    return {"rows": rows_by_key, "momentum": momentum, "errors": errors}
+
+
 def _yahoo_usdkrw() -> list[dict[str, Any]]:
     url = "https://query1.finance.yahoo.com/v8/finance/chart/KRW=X"
     with requests.Session() as session:
@@ -369,13 +452,39 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             last_good_reused.append("usd_krw_yahoo")
         print(f"[GLOBAL_MARKET] usd_krw_yahoo: failed once; last-good reused={bool(yahoo_old)}", flush=True)
 
+    # Task 1: 반도체 마이크로 팩터 수집 (SOX, TWII, NVDA, TSM)
+    semi_previous = {k: list(previous.get(k) or []) for k in YAHOO_EQUITY}
+    try:
+        request_count += len(YAHOO_EQUITY)
+        semi_result = _collect_yahoo_equity(semi_previous)
+        for key in YAHOO_EQUITY:
+            payload[key] = semi_result["rows"].get(key, semi_previous[key])
+            if semi_result["errors"].get(key) and semi_previous.get(key):
+                last_good_reused.append(key)
+        payload["semiconductor_momentum"] = semi_result["momentum"]
+        semi_errors = {k: v for k, v in semi_result["errors"].items() if v != "stale_reused"}
+        if semi_errors:
+            errors.update({f"semi_{k}": v for k, v in semi_errors.items()})
+        mom = semi_result["momentum"]
+        print(
+            f"[GLOBAL_MARKET] semiconductor: sox_20d={mom.get('sox', {}).get('mom_20d_pct')}% "
+            f"nvda_20d={mom.get('nvda', {}).get('mom_20d_pct')}% "
+            f"tsm_20d={mom.get('tsm', {}).get('mom_20d_pct')}%",
+            flush=True,
+        )
+    except Exception as exc:
+        errors["semiconductor"] = f"{type(exc).__name__}: {exc}"
+        for key in YAHOO_EQUITY:
+            payload[key] = semi_previous.get(key, [])
+        payload["semiconductor_momentum"] = {}
+        print(f"[GLOBAL_MARKET] semiconductor: failed; last-good reused | {exc}", flush=True)
+
     write_json(path, payload)
 
-    fresh_fred_count = sum(bool(group_meta.get(g, {}).get("fresh_series")) for g in FRED_GROUPS)
-    usable_count = sum(bool(values) for values in payload.values())
-    # Forecasting does not depend on this status: the FX engine has ECOS macro
-    # factors as a validated fallback. This status only describes optional global data.
+    total_series = len(FRED) + 1 + len(YAHOO_EQUITY)  # FRED + usd_krw_yahoo + 반도체4
+    usable_count = sum(bool(values) for key, values in payload.items() if isinstance(values, list))
     critical_live = sum(bool(payload.get(k)) for k in ("broad_dollar", "us_2y", "usd_cny", "usd_jpy", "krw_neer", "krw_reer"))
+    semi_live = sum(bool(payload.get(k)) for k in YAHOO_EQUITY)
     if critical_live >= 4 and payload.get("usd_krw_yahoo"):
         status = "ok"
     elif usable_count:
@@ -383,20 +492,23 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     else:
         status = "error"
 
-    latest = max((str(rows[-1].get("date") or "") for rows in payload.values() if isinstance(rows, list) and rows), default=None)
+    latest = max(
+        (str(rows[-1].get("date") or "") for rows in payload.values() if isinstance(rows, list) and rows),
+        default=None,
+    )
     return SourceResult(
         source="global_market",
         status=status,
-        message=f"{usable_count}/{len(FRED)+1} series usable; 4 normal bounded requests, BIS monthly refresh makes max 5",
+        message=f"{usable_count}/{total_series} series usable; semiconductor micro-factors included",
         latest_observation=latest,
         payload_path=str(path),
         warnings=[f"{key}: {value}" for key, value in errors.items()],
         metadata={
             "usable_series": usable_count,
-            "series_total": len(FRED) + 1,
+            "series_total": total_series,
+            "semiconductor_live": semi_live,
+            "semiconductor_symbols": list(YAHOO_EQUITY.keys()),
             "request_count": request_count,
-            "max_external_requests": 5,
-            "normal_external_requests": 4,
             "bis_monthly_cache_skip_enabled": True,
             "fred_group_count": len(FRED_GROUPS),
             "fred_groups_parallel": True,

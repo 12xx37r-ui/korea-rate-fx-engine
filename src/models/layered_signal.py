@@ -103,11 +103,72 @@ def _extract_kospi_closes(equity_raw: dict[str, Any]) -> list[float]:
     return closes
 
 
+def compute_flow_momentum(krx_data: dict[str, Any]) -> dict[str, Any]:
+    """Task 2: 단기 수급 신호(Flow Momentum) 레이어.
+
+    외국인 KOSPI 현물 5d/20d 누적 순매수와 선물 추세를 결합하여
+    월간 거시 지표의 시차를 보완하는 단기 흐름 신호를 산출한다.
+    """
+    supply = (krx_data.get("supply_demand") or {})
+    if not supply.get("available"):
+        return {"available": False, "score_normalized": None, "reason": "수급 데이터 없음"}
+
+    flow_summary = supply.get("flow_momentum_summary") or {}
+    cum_5d = _num(flow_summary.get("cum_5d_net"))
+    cum_20d = _num(flow_summary.get("cum_20d_net"))
+    momentum_signal = flow_summary.get("momentum_signal")
+    futures_trend = flow_summary.get("futures_trend")
+    basis_signal = flow_summary.get("basis_signal")
+
+    scores: list[float] = []
+    evidence: dict[str, Any] = {
+        "cum_5d_net": cum_5d,
+        "cum_20d_net": cum_20d,
+        "momentum_signal": momentum_signal,
+        "futures_trend": futures_trend,
+        "basis_signal": basis_signal,
+    }
+
+    # 5d 누적 순매수 방향 (단기)
+    if cum_5d is not None:
+        norm_5d = math.tanh(cum_5d / 5e11)  # 5000억 기준 포화
+        scores.append(norm_5d * 0.4)
+
+    # 20d 누적 순매수 방향 (중기)
+    if cum_20d is not None:
+        norm_20d = math.tanh(cum_20d / 2e12)  # 2조 기준 포화
+        scores.append(norm_20d * 0.35)
+
+    # 선물 추세
+    if futures_trend == "매수우위":
+        scores.append(0.15)
+    elif futures_trend == "매도우위":
+        scores.append(-0.15)
+
+    # 베이시스 신호
+    if basis_signal and "콘탱고" in basis_signal:
+        scores.append(0.1)
+    elif basis_signal and "백워데이션" in basis_signal:
+        scores.append(-0.1)
+
+    if not scores:
+        return {"available": False, "score_normalized": None, "evidence": evidence}
+
+    score_norm = _clamp(sum(scores), -1.0, 1.0)
+    return {
+        "available": True,
+        "score_normalized": _round(score_norm),
+        "evidence": evidence,
+        "detail": "외국인 현물 5d/20d 누적순매수 + 선물 추세 + 베이시스 결합",
+    }
+
+
 def compute_layer2(
     equity_raw: dict[str, Any],
     realtime: dict[str, Any],
+    krx_data: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Layer 2: 기술적 지표 + 단기 수급 필터."""
+    """Layer 2: 기술적 지표 + 단기 수급 필터 + Flow Momentum (Task 2)."""
     closes = _extract_kospi_closes(equity_raw)
     signals: list[str] = []
     evidence: dict[str, Any] = {}
@@ -182,6 +243,20 @@ def compute_layer2(
         else:
             scores.append(-(vkospi - 22.5) / 22.5 * 0.4)
 
+    # Task 2: Flow Momentum 통합 (외국인 수급 단기 시차 보완)
+    flow_momentum = compute_flow_momentum(krx_data or {})
+    evidence["flow_momentum"] = {
+        "score_normalized": flow_momentum.get("score_normalized"),
+        "available": flow_momentum.get("available"),
+    }
+    if flow_momentum.get("available") and flow_momentum.get("score_normalized") is not None:
+        fm_score = float(flow_momentum["score_normalized"])
+        scores.append(fm_score * 0.8)  # Flow Momentum 가중치
+        if fm_score >= 0.3:
+            signals.append("수급_외국인_매수우위")
+        elif fm_score <= -0.3:
+            signals.append("수급_외국인_매도우위")
+
     if not scores:
         return {
             "available": False,
@@ -206,6 +281,7 @@ def compute_layer2(
         "signals": signals,
         "oversold_exit_signal": oversold_exit_signal,
         "oversold_indicators_count": oversold_count,
+        "flow_momentum": flow_momentum,
         "evidence": evidence,
     }
 
@@ -299,8 +375,9 @@ def build_layered_output(
     equity_raw: dict[str, Any],
     realtime: dict[str, Any],
     regime: dict[str, Any],
+    krx_data: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    layer2 = compute_layer2(equity_raw, realtime)
+    layer2 = compute_layer2(equity_raw, realtime, krx_data=krx_data)
     signal = compute_combined_signal(layer1_score, layer2, regime)
     return {
         "model_version": MODEL_VERSION,

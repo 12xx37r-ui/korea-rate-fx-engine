@@ -10,15 +10,25 @@ from src.models.volatility_regime import build_regime_output
 from src.models.layered_signal import build_layered_output
 
 
-SCHEMA_VERSION = "2.0.0"
-MODEL_VERSION = "korea-equity-environment-v2.0-layered-regime-enhanced"
+SCHEMA_VERSION = "3.0.0"
+MODEL_VERSION = "korea-equity-environment-v3.0-semiconductor-pbr-band"
+
+# Task 1: 반도체 마이크로 팩터 통합 → semiconductor 최소 30% 비중
+# 기존 컴포넌트 합산 비중 = 70%, SemiconductorCycleScore = 30%
 COMPONENT_WEIGHTS = {
-    "flow": 0.30,
-    "breadth": 0.25,
-    "valuation": 0.20,
-    "earnings_revision": 0.15,
-    "credit_spread": 0.10,
+    "flow": 0.21,           # 기존 0.30 × 0.70
+    "breadth": 0.175,       # 기존 0.25 × 0.70
+    "valuation": 0.14,      # 기존 0.20 × 0.70
+    "earnings_revision": 0.105,  # 기존 0.15 × 0.70
+    "credit_spread": 0.07,  # 기존 0.10 × 0.70
+    "semiconductor": 0.30,  # Task 1 신설
 }
+
+# Task 3: PBR 밸류에이션 밴드 기준
+PBR_EXTREME_LOW = 0.8    # 이하: 극단적 저평가 → 기계적 하방 지지
+PBR_LOW = 1.0            # 이하: 저평가 구간
+PBR_FAIR = 1.3           # 적정 밸류에이션 기준
+PBR_HIGH = 1.6           # 이상: 고평가 구간
 
 
 def _num(value: Any) -> float | None:
@@ -189,6 +199,168 @@ def _valuation_component(raw: dict[str, Any], fundamentals: dict[str, Any]) -> d
         "score_normalized": _round(_clamp(score, -1, 1)),
         "evidence": evidence,
         "detail": "현재 PER·PBR의 최근 약 1.5년 KRX 분포 백분위. 낮을수록 우호.",
+    }
+
+
+class SemiconductorCycleScore:
+    """Task 1: 글로벌 반도체 사이클 점수 산출.
+
+    SOX, TWII, NVDA, TSM의 20d/60d 모멘텀을 가중 합산하여
+    한국 수출/반도체 의존도를 반영한 선행 지표를 생성한다.
+    """
+
+    # 각 지표 가중치 (합 = 1.0)
+    WEIGHTS = {
+        "sox": 0.35,   # 필라델피아 반도체 지수 (한국 수출 연동도 최고)
+        "nvda": 0.25,  # NVDA AI 수요 프록시
+        "tsm": 0.25,   # TSM 대만 공급망 (삼성/SK하이닉스와 경쟁·협력)
+        "twii": 0.15,  # 대만 가권 (반도체 밸류체인 전체)
+    }
+    # 20d/60d 모멘텀 내부 가중치
+    MOM_W_20D = 0.6
+    MOM_W_60D = 0.4
+
+    @classmethod
+    def compute(cls, global_data: dict[str, Any]) -> dict[str, Any]:
+        momentum = global_data.get("semiconductor_momentum") or {}
+        if not momentum:
+            return {
+                "available": False,
+                "score_normalized": None,
+                "reason": "global_market에 semiconductor_momentum 데이터 없음",
+            }
+
+        scores: list[float] = []
+        weights_used: float = 0.0
+        evidence: dict[str, Any] = {}
+
+        for key, weight in cls.WEIGHTS.items():
+            info = momentum.get(key) or {}
+            m20 = _num(info.get("mom_20d_pct"))
+            m60 = _num(info.get("mom_60d_pct"))
+            latest = _num(info.get("latest"))
+            evidence[key] = {
+                "latest": _round(latest),
+                "mom_20d_pct": _round(m20),
+                "mom_60d_pct": _round(m60),
+            }
+            if m20 is None and m60 is None:
+                continue
+            # 모멘텀 → tanh 포화 정규화 (-1 ~ 1)
+            m20_norm = math.tanh(m20 / 10.0) if m20 is not None else 0.0
+            m60_norm = math.tanh(m60 / 15.0) if m60 is not None else 0.0
+            # 20d가 없으면 60d 단독 사용
+            if m20 is None:
+                combined = m60_norm
+            elif m60 is None:
+                combined = m20_norm
+            else:
+                combined = cls.MOM_W_20D * m20_norm + cls.MOM_W_60D * m60_norm
+            scores.append(combined * weight)
+            weights_used += weight
+
+        if weights_used < 0.3:
+            return {
+                "available": False,
+                "score_normalized": None,
+                "evidence": evidence,
+                "reason": f"유효 가중치 합 {weights_used:.2f} < 0.30: 반도체 데이터 부족",
+            }
+
+        score_norm = sum(scores) / weights_used
+        return {
+            "available": True,
+            "score_normalized": _round(_clamp(score_norm, -1.0, 1.0)),
+            "weights_used": _round(weights_used),
+            "evidence": evidence,
+            "detail": "SOX 35% + NVDA 25% + TSM 25% + TWII 15% 가중 20d/60d 모멘텀 tanh 정규화",
+        }
+
+
+def _pbr_valuation_band(
+    raw: dict[str, Any],
+    fundamentals: dict[str, Any],
+    base_score: float | None,
+) -> dict[str, Any]:
+    """Task 3: KOSPI PBR 밸류에이션 밴드 및 평균 회귀 로직.
+
+    PBR ≤ 0.8 (극단적 저평가) 구간에서는 거시 지표 부진에도 불구하고
+    '기계적 하방 지지 / 밸류에이션 리바운드' 가중치를 부여하여
+    숏 신호를 억제하고 분할 매수 시그널로 전환한다.
+    """
+    indices = fundamentals.get("indices") or {}
+    pbr_values: list[float] = []
+    for key in ("kospi200", "kosdaq150"):
+        pbr = _num((indices.get(key) or {}).get("pbr"))
+        if pbr is not None and pbr > 0:
+            pbr_values.append(pbr)
+
+    # valuation_history에서 최신 PBR 보완
+    if not pbr_values:
+        histories = raw.get("valuation_history") or {}
+        for key in ("kospi200", "kosdaq150"):
+            rows = list(((histories.get(key) or {}).get("rows") or []))
+            if rows:
+                pbr = _num(rows[-1].get("pbr"))
+                if pbr is not None and pbr > 0:
+                    pbr_values.append(pbr)
+
+    if not pbr_values:
+        return {
+            "available": False,
+            "pbr": None,
+            "band": "데이터 없음",
+            "adjusted_score": base_score,
+            "adjustment": 0,
+            "signal_override": None,
+        }
+
+    pbr = sum(pbr_values) / len(pbr_values)
+
+    # 밴드 분류
+    if pbr <= PBR_EXTREME_LOW:
+        band = "극단적_저평가"
+        # 기계적 하방 지지: 점수를 50점 이상으로 강제 하한 설정 + 분할매수 신호
+        adjustment = max(0, 50 - (base_score or 0))
+        adjusted_score = max(50, base_score or 0)
+        signal_override = "분할_매수_시그널 (PBR 극단 저평가 하방 지지)"
+    elif pbr <= PBR_LOW:
+        band = "저평가"
+        # 부드러운 하향 지지: 거시 불리 시에도 최소 10점 보너스
+        adjustment = 10.0 * (PBR_LOW - pbr) / (PBR_LOW - PBR_EXTREME_LOW)
+        adjusted_score = min(100, (base_score or 0) + adjustment)
+        signal_override = "숏_신호_억제 (PBR 저평가 구간)" if (base_score or 0) < 43 else None
+    elif pbr <= PBR_FAIR:
+        band = "적정"
+        adjustment = 0
+        adjusted_score = base_score
+        signal_override = None
+    elif pbr <= PBR_HIGH:
+        band = "고평가"
+        adjustment = -5.0
+        adjusted_score = max(0, (base_score or 0) + adjustment)
+        signal_override = None
+    else:
+        band = "과열"
+        adjustment = -10.0
+        adjusted_score = max(0, (base_score or 0) + adjustment)
+        signal_override = "과열_경고 (PBR 고평가)"
+
+    return {
+        "available": True,
+        "pbr": _round(pbr, 3),
+        "pbr_samples": len(pbr_values),
+        "band": band,
+        "adjusted_score": round(_clamp(adjusted_score or 0, 0, 100)),
+        "adjustment": _round(adjustment),
+        "signal_override": signal_override,
+        "thresholds": {
+            "extreme_low": PBR_EXTREME_LOW,
+            "low": PBR_LOW,
+            "fair": PBR_FAIR,
+            "high": PBR_HIGH,
+        },
+        "interpretation": f"KOSPI PBR {pbr:.3f}x → {band}: {signal_override or '조정 없음'}",
     }
 
 
@@ -384,6 +556,7 @@ def build_and_write(
     history_path = output_dir / "korea_equity_environment_history.json"
     prior_history = _safe_read(history_path, [])
     prior_history = list(prior_history) if isinstance(prior_history, list) else []
+    global_data = _safe_read(output_dir / "raw_global_market.json", {})
 
     flow = _combine_flow(raw)
     breadth = _combine_breadth(raw)
@@ -391,26 +564,35 @@ def build_and_write(
     earnings_revision = _history_revision_component(fundamentals, prior_history, raw)
     credit_spread = _credit_component(raw, prior_history)
 
+    # Task 1: 반도체 마이크로 팩터 (SemiconductorCycleScore)
+    semiconductor = SemiconductorCycleScore.compute(global_data)
+
     component_map = {
         "flow": flow,
         "breadth": breadth,
         "valuation": valuation,
         "earnings_revision": earnings_revision,
         "credit_spread": credit_spread,
+        "semiconductor": semiconductor,
     }
     weighted_sum = 0.0
     active_weight = 0.0
     for name, component in component_map.items():
-        score = _num(component.get("score_normalized"))
+        comp_score = _num(component.get("score_normalized"))
         weight = COMPONENT_WEIGHTS[name]
-        if component.get("available") and score is not None:
-            weighted_sum += score * weight
+        if component.get("available") and comp_score is not None:
+            weighted_sum += comp_score * weight
             active_weight += weight
 
     score = None
     if active_weight >= 0.55:
         normalized = weighted_sum / active_weight
         score = round(_clamp(50.0 + normalized * 50.0, 0, 100))
+
+    # Task 3: PBR 밸류에이션 밴드 적용
+    pbr_band = _pbr_valuation_band(raw, fundamentals, score)
+    # PBR 조정 후 점수를 최종 Layer 1 기준으로 사용
+    score_after_pbr = pbr_band.get("adjusted_score") if pbr_band.get("available") else score
 
     data_coverage_pct = round(active_weight * 100)
     stale_sections = []
@@ -421,27 +603,30 @@ def build_and_write(
     if (raw.get("credit") or {}).get("stale"):
         stale_sections.append("credit")
 
-    # 개선 5~8: 변동성 레짐 감지 + EMP + 비선형 충격 + 서킷브레이커
+    # 변동성 레짐 감지 + EMP + 비선형 충격 + 서킷브레이커
     realtime = realtime_risk or {}
-    global_data = _safe_read(output_dir / "raw_global_market.json", {})
     ecos_data = _safe_read(output_dir / "raw_ecos.json", {})
 
+    # Task 3 PBR 조정 점수를 레짐 계산에 전달
     regime_output = {}
     layered_output = {}
     try:
-        regime_output = build_regime_output(score, realtime, global_data, ecos_data)
+        regime_output = build_regime_output(score_after_pbr, realtime, global_data, ecos_data)
     except Exception as exc:
         regime_output = {"available": False, "error": f"{type(exc).__name__}: {str(exc)[:180]}"}
 
-    # 개선 2: 레이어드 듀얼 모델 (Layer 1 거시 + Layer 2 기술/수급)
+    # 개선 2 + Task 2: 레이어드 듀얼 모델 (Layer 1 거시 + Layer 2 기술/수급 + Flow Momentum)
+    krx_data = _safe_read(output_dir / "raw_krx.json", {})
     try:
-        layered_output = build_layered_output(score, raw, realtime, regime_output)
+        layered_output = build_layered_output(score_after_pbr, raw, realtime, regime_output, krx_data=krx_data)
     except Exception as exc:
         layered_output = {"available": False, "error": f"{type(exc).__name__}: {str(exc)[:180]}"}
 
     # 최종 점수: 레짐 조정 후 점수 사용 (서킷브레이커 발동 시 None)
+    # PBR 극단 저평가 구간에서는 서킷브레이커 발동에도 '하방 지지' 경보는 유지
     circuit_breaker = bool(regime_output.get("circuit_breaker"))
-    final_score = regime_output.get("final_score") if regime_output.get("final_score_valid") else score
+    pbr_override = pbr_band.get("signal_override") if pbr_band.get("available") else None
+    final_score = regime_output.get("final_score") if regime_output.get("final_score_valid") else score_after_pbr
     if circuit_breaker:
         final_score = None
 
@@ -466,9 +651,15 @@ def build_and_write(
         "stale_sections": stale_sections,
         "components": component_map,
         "weights": COMPONENT_WEIGHTS,
-        # 개선 2: 레이어드 듀얼 모델 출력
+        # Task 1: 반도체 마이크로 팩터
+        "semiconductor_cycle": semiconductor,
+        # Task 2: 레이어드 듀얼 모델 출력 (Flow Momentum 포함)
         "layered_signal": layered_output,
-        # 개선 5~8: 변동성 레짐 / EMP / 비선형 충격 / 서킷브레이커
+        # Task 3: PBR 밸류에이션 밴드
+        "pbr_valuation_band": pbr_band,
+        "pbr_signal_override": pbr_override,
+        "score_after_pbr": score_after_pbr,
+        # 변동성 레짐 / EMP / 비선형 충격 / 서킷브레이커
         "volatility_regime": regime_output,
         "current_inputs": {
             "kospi200": (fundamentals.get("indices") or {}).get("kospi200") or {},
