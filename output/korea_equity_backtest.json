@@ -1,0 +1,30 @@
+{
+  "model_version": "backtest-v1.0",
+  "generated_at_utc": "2026-08-15T05:35:12.431832+00:00",
+  "data_summary": {
+    "price_samples": 320,
+    "signal_samples": 16,
+    "price_range": {
+      "start": "2025-04-23",
+      "end": "2026-08-14"
+    }
+  },
+  "scenarios": {
+    "conservative": {
+      "description": "보수적: 환경점수 70+ 매수, 43 미만 매도, 최대 15일 보유",
+      "available": false,
+      "reason": "시뮬레이션 기간 내 매매 신호 없음"
+    },
+    "standard": {
+      "description": "표준: 환경점수 58+ 매수, 43 미만 매도, 최대 20일 보유",
+      "available": false,
+      "reason": "시뮬레이션 기간 내 매매 신호 없음"
+    },
+    "aggressive": {
+      "description": "적극적: 환경점수 50+ 매수, 35 미만 매도, 최대 30일 보유",
+      "available": false,
+      "reason": "시뮬레이션 기간 내 매매 신호 없음"
+    }
+  },
+  "disclaimer": "과거 시뮬레이션 결과이며 미래 수익을 보장하지 않습니다. 거래비용·슬리피지 미반영."
+}

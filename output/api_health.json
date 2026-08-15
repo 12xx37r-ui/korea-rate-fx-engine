@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
-  "engine_version": "4.8.0-long-history-rate-oos-vintage-accumulator",
-  "generated_at": "2026-08-15T08:01:11.954099+09:00",
+  "engine_version": "5.0.0-layered-regime-realtime-enhanced",
+  "generated_at": "2026-08-15T14:34:15.045604+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -49,37 +49,42 @@
     "global_market": {
       "source": "global_market",
       "status": "degraded",
-      "message": "3/14 series usable; 4 normal bounded requests, BIS monthly refresh makes max 5",
+      "message": "7/18 series usable; semiconductor micro-factors included",
       "rows": 0,
-      "latest_observation": "20260814",
+      "latest_observation": "20260815",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
         "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
         "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
       ],
       "metadata": {
-        "usable_series": 3,
-        "series_total": 14,
-        "request_count": 5,
-        "max_external_requests": 5,
-        "normal_external_requests": 4,
+        "usable_series": 7,
+        "series_total": 18,
+        "semiconductor_live": 4,
+        "semiconductor_symbols": [
+          "sox",
+          "twii",
+          "nvda",
+          "tsm"
+        ],
+        "request_count": 9,
         "bis_monthly_cache_skip_enabled": true,
         "fred_group_count": 3,
         "fred_groups_parallel": true,
         "group_meta": {
           "currency": {
-            "start": "2024-02-26",
+            "start": "2024-02-27",
             "mode": "bootstrap_recent",
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
           },
           "rates_risk": {
-            "start": "2024-02-26",
+            "start": "2024-02-27",
             "mode": "bootstrap_recent",
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
           },
           "commodities": {
-            "start": "2024-02-26",
+            "start": "2024-02-27",
             "mode": "bootstrap_recent",
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
           },
@@ -93,22 +98,31 @@
         "overlap_days": 120,
         "last_good_reused": [],
         "errors": {
-          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
           "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
           "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
         },
-        "elapsed_seconds": 9.92
+        "elapsed_seconds": 11.35
       }
     },
     "krx": {
       "source": "krx",
-      "status": "not_configured",
-      "message": "config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
-      "rows": 0,
+      "status": "ok",
+      "message": "KRX 공식API + pykrx 외국인수급/선물/베이시스 수집",
+      "rows": 1,
       "latest_observation": null,
-      "payload_path": null,
+      "payload_path": "output/raw_krx.json",
       "warnings": [],
-      "metadata": {}
+      "metadata": {
+        "supply_demand_available": true,
+        "flow_momentum_summary": {
+          "cum_5d_net": 3844363331527.0,
+          "cum_20d_net": 2376908964421.0,
+          "momentum_signal": "강한_순매수",
+          "futures_trend": "매수우위",
+          "basis_signal": null
+        }
+      }
     },
     "kosis": {
       "source": "kosis",
@@ -177,8 +191,7 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "global_market: 3/14 series usable; 4 normal bounded requests, BIS monthly refresh makes max 5",
-    "krx: config/krx_apis.json에 승인된 실제 endpoint와 API ID를 입력해야 합니다.",
+    "global_market: 7/18 series usable; semiconductor micro-factors included",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }

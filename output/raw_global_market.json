@@ -190,6 +190,12 @@
       "value": 1416.47998046875,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
+    },
+    {
+      "date": "20260815",
+      "value": 1412.0,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
     }
   ],
   "krw_neer": [
@@ -4011,5 +4017,2153 @@
       "source": "BIS",
       "series_id": "WS_EER"
     }
-  ]
+  ],
+  "sox": [
+    {
+      "date": "20260408",
+      "value": 8510.919921875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260409",
+      "value": 8689.5302734375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260410",
+      "value": 8889.830078125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260413",
+      "value": 9039.51953125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260414",
+      "value": 9224.1201171875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260415",
+      "value": 9239.2900390625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260416",
+      "value": 9329.349609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260417",
+      "value": 9555.8798828125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260420",
+      "value": 9599.2099609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260421",
+      "value": 9647.2099609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260422",
+      "value": 9909.26953125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260423",
+      "value": 10078.5703125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260424",
+      "value": 10513.66015625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260427",
+      "value": 10408.0400390625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260428",
+      "value": 10035.580078125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260429",
+      "value": 10271.2998046875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260430",
+      "value": 10503.7001953125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260501",
+      "value": 10595.33984375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260504",
+      "value": 10534.66015625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260505",
+      "value": 10980.580078125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260506",
+      "value": 11472.75,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260507",
+      "value": 11160.990234375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260508",
+      "value": 11775.5,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260511",
+      "value": 12081.0400390625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260512",
+      "value": 11717.259765625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260513",
+      "value": 12017.98046875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260514",
+      "value": 12073.7802734375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260515",
+      "value": 11588.4599609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260518",
+      "value": 11302.51953125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260519",
+      "value": 11305.5,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260520",
+      "value": 11813.2900390625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260521",
+      "value": 11964.080078125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260522",
+      "value": 12202.5400390625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260526",
+      "value": 12876.91015625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260527",
+      "value": 12702.1904296875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260528",
+      "value": 12829.1396484375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260529",
+      "value": 12829.3798828125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260601",
+      "value": 12965.650390625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260602",
+      "value": 13726.26953125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260603",
+      "value": 13916.9599609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260604",
+      "value": 13617.5,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260605",
+      "value": 12220.759765625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260608",
+      "value": 12906.6904296875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260609",
+      "value": 12657.8095703125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260610",
+      "value": 12206.4599609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260611",
+      "value": 13171.4404296875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260612",
+      "value": 13371.4697265625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260615",
+      "value": 14099.6201171875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260616",
+      "value": 13294.2197265625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260617",
+      "value": 13477.0703125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260618",
+      "value": 14341.7802734375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260622",
+      "value": 14634.7197265625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260623",
+      "value": 13482.509765625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260624",
+      "value": 13458.2001953125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260625",
+      "value": 13940.8701171875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260626",
+      "value": 13203.5703125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260629",
+      "value": 13709.66015625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260630",
+      "value": 14246.9599609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260701",
+      "value": 13353.2802734375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260702",
+      "value": 12626.2197265625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260706",
+      "value": 12900.1396484375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260707",
+      "value": 12300.51953125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260708",
+      "value": 12574.9697265625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260709",
+      "value": 12960.0,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260710",
+      "value": 12967.16015625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260713",
+      "value": 12347.7802734375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260714",
+      "value": 12661.9296875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260715",
+      "value": 12398.8896484375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260716",
+      "value": 11867.5,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260717",
+      "value": 11673.8896484375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260720",
+      "value": 11743.849609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260723",
+      "value": 12343.83984375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260724",
+      "value": 11818.8798828125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260727",
+      "value": 11554.8798828125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260728",
+      "value": 11035.6796875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260729",
+      "value": 10447.490234375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260730",
+      "value": 11302.990234375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260803",
+      "value": 11430.349609375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260804",
+      "value": 12179.259765625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260805",
+      "value": 12008.8798828125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260806",
+      "value": 12048.6904296875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260807",
+      "value": 12356.7900390625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260810",
+      "value": 11993.8603515625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260811",
+      "value": 12098.4697265625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260812",
+      "value": 12399.3798828125,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260813",
+      "value": 12456.0,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260814",
+      "value": 12417.0498046875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    }
+  ],
+  "twii": [
+    {
+      "date": "20260409",
+      "value": 34861.16015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260410",
+      "value": 35417.828125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260413",
+      "value": 35457.2890625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260414",
+      "value": 36296.12109375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260415",
+      "value": 36722.140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260416",
+      "value": 37132.01953125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260417",
+      "value": 36804.33984375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260420",
+      "value": 36958.80078125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260421",
+      "value": 37605.109375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260422",
+      "value": 37878.46875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260423",
+      "value": 37714.1484375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260424",
+      "value": 38932.3984375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260427",
+      "value": 39616.62890625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260428",
+      "value": 39521.73046875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260429",
+      "value": 39303.5,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260430",
+      "value": 38926.62890625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260504",
+      "value": 40705.140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260505",
+      "value": 40769.2890625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260506",
+      "value": 41138.8515625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260507",
+      "value": 41933.78125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260508",
+      "value": 41603.94140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260511",
+      "value": 41790.05859375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260512",
+      "value": 41898.3203125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260513",
+      "value": 41374.5,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260514",
+      "value": 41751.75,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260515",
+      "value": 41172.359375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260518",
+      "value": 40891.8203125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260519",
+      "value": 40175.55859375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260520",
+      "value": 40020.8203125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260521",
+      "value": 41368.2109375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260522",
+      "value": 42267.96875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260525",
+      "value": 43644.3984375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260526",
+      "value": 43525.37109375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260527",
+      "value": 44256.80078125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260528",
+      "value": 43636.44140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260529",
+      "value": 44732.94140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260601",
+      "value": 45337.91015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260602",
+      "value": 45557.30859375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260603",
+      "value": 46459.16015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260604",
+      "value": 45677.4609375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260605",
+      "value": 45070.94140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260608",
+      "value": 43502.78125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260609",
+      "value": 44704.44140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260610",
+      "value": 43225.5390625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260611",
+      "value": 43149.4609375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260612",
+      "value": 44169.0390625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260615",
+      "value": 45396.98828125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260616",
+      "value": 45809.19140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260617",
+      "value": 45877.390625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260618",
+      "value": 46465.19921875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260622",
+      "value": 47741.51171875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260623",
+      "value": 47100.6484375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260624",
+      "value": 46043.6015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260625",
+      "value": 46255.26171875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260626",
+      "value": 44571.76171875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260629",
+      "value": 44999.8984375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260630",
+      "value": 46125.91015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260701",
+      "value": 47018.98828125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260702",
+      "value": 46744.16015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260703",
+      "value": 46780.62109375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260706",
+      "value": 46556.390625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260707",
+      "value": 45479.109375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260708",
+      "value": 45734.41015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260709",
+      "value": 45354.609375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260713",
+      "value": 45380.51953125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260714",
+      "value": 44737.94921875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260715",
+      "value": 45631.58984375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260716",
+      "value": 45624.98046875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260717",
+      "value": 42671.26953125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260720",
+      "value": 42449.69921875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260723",
+      "value": 44850.80859375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260724",
+      "value": 43654.83984375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260727",
+      "value": 43634.19140625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260728",
+      "value": 41603.359375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260729",
+      "value": 40039.1796875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260730",
+      "value": 39933.30078125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260803",
+      "value": 43386.41015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260804",
+      "value": 43360.66015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260805",
+      "value": 44611.6015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260806",
+      "value": 44396.69921875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260807",
+      "value": 44225.91015625,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260810",
+      "value": 44928.76171875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260811",
+      "value": 45120.71875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260812",
+      "value": 45518.0703125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260813",
+      "value": 46021.48046875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260814",
+      "value": 45811.01171875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    }
+  ],
+  "nvda": [
+    {
+      "date": "20260408",
+      "value": 182.0800018310547,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260409",
+      "value": 183.91000366210938,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260410",
+      "value": 188.6300048828125,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260413",
+      "value": 189.30999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260414",
+      "value": 196.50999450683594,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260415",
+      "value": 198.8699951171875,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260416",
+      "value": 198.35000610351562,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260417",
+      "value": 201.67999267578125,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260420",
+      "value": 202.05999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260421",
+      "value": 199.8800048828125,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260422",
+      "value": 202.5,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260423",
+      "value": 199.63999938964844,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260424",
+      "value": 208.27000427246094,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260427",
+      "value": 216.61000061035156,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260428",
+      "value": 213.1699981689453,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260429",
+      "value": 209.25,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260430",
+      "value": 199.57000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260501",
+      "value": 198.4499969482422,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260504",
+      "value": 198.47999572753906,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260505",
+      "value": 196.5,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260506",
+      "value": 207.8300018310547,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260507",
+      "value": 211.5,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260508",
+      "value": 215.1999969482422,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260511",
+      "value": 219.44000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260512",
+      "value": 220.77999877929688,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260513",
+      "value": 225.8300018310547,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260514",
+      "value": 235.74000549316406,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260515",
+      "value": 225.32000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260518",
+      "value": 222.32000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260519",
+      "value": 220.61000061035156,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260520",
+      "value": 223.47000122070312,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260521",
+      "value": 219.50999450683594,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260522",
+      "value": 215.3300018310547,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260526",
+      "value": 214.86000061035156,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260527",
+      "value": 212.60000610351562,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260528",
+      "value": 214.25,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260529",
+      "value": 211.13999938964844,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260601",
+      "value": 224.36000061035156,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260602",
+      "value": 222.82000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260603",
+      "value": 214.75,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260604",
+      "value": 218.66000366210938,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260605",
+      "value": 205.10000610351562,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260608",
+      "value": 208.63999938964844,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260609",
+      "value": 208.19000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260610",
+      "value": 200.4199981689453,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260611",
+      "value": 204.8699951171875,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260612",
+      "value": 205.19000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260615",
+      "value": 212.4499969482422,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260616",
+      "value": 207.41000366210938,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260617",
+      "value": 204.64999389648438,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260618",
+      "value": 210.69000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260622",
+      "value": 208.64999389648438,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260623",
+      "value": 200.0399932861328,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260624",
+      "value": 199.0,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260625",
+      "value": 195.74000549316406,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260626",
+      "value": 192.52999877929688,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260629",
+      "value": 194.97000122070312,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260630",
+      "value": 200.08999633789062,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260701",
+      "value": 197.5800018310547,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260702",
+      "value": 194.8300018310547,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260706",
+      "value": 195.5500030517578,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260707",
+      "value": 196.92999267578125,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260708",
+      "value": 204.1199951171875,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260709",
+      "value": 202.77999877929688,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260710",
+      "value": 210.9600067138672,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260713",
+      "value": 203.52999877929688,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260714",
+      "value": 211.8000030517578,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260715",
+      "value": 212.5,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260716",
+      "value": 207.39999389648438,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260717",
+      "value": 202.80999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260720",
+      "value": 203.27999877929688,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260721",
+      "value": 207.2899932861328,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260722",
+      "value": 212.05999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260723",
+      "value": 208.75999450683594,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260724",
+      "value": 206.83999633789062,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260727",
+      "value": 196.50999450683594,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260728",
+      "value": 197.00999450683594,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260729",
+      "value": 190.00999450683594,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260730",
+      "value": 195.0399932861328,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260731",
+      "value": 200.75,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260803",
+      "value": 206.63999938964844,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260804",
+      "value": 211.94000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260805",
+      "value": 219.22000122070312,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260806",
+      "value": 218.99000549316406,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260807",
+      "value": 223.9600067138672,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260810",
+      "value": 217.5500030517578,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260811",
+      "value": 217.5,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260812",
+      "value": 224.08999633789062,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260813",
+      "value": 225.3000030517578,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    },
+    {
+      "date": "20260814",
+      "value": 225.16000366210938,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
+    }
+  ],
+  "tsm": [
+    {
+      "date": "20260408",
+      "value": 365.8999938964844,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260409",
+      "value": 365.489990234375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260410",
+      "value": 370.6000061035156,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260413",
+      "value": 369.57000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260414",
+      "value": 379.8900146484375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260415",
+      "value": 375.1000061035156,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260416",
+      "value": 363.3500061035156,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260417",
+      "value": 370.5,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260420",
+      "value": 366.239990234375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260421",
+      "value": 368.0799865722656,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260422",
+      "value": 387.44000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260423",
+      "value": 382.6600036621094,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260424",
+      "value": 402.4599914550781,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260427",
+      "value": 404.9800109863281,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260428",
+      "value": 392.3399963378906,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260429",
+      "value": 393.8299865722656,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260430",
+      "value": 396.05999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260501",
+      "value": 397.6700134277344,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260504",
+      "value": 401.6099853515625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260505",
+      "value": 394.4100036621094,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260506",
+      "value": 419.5,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260507",
+      "value": 414.1499938964844,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260508",
+      "value": 411.67999267578125,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260511",
+      "value": 404.5400085449219,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260512",
+      "value": 397.2799987792969,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260513",
+      "value": 399.79998779296875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260514",
+      "value": 417.7200012207031,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260515",
+      "value": 404.3500061035156,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260518",
+      "value": 395.95001220703125,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260519",
+      "value": 392.6099853515625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260520",
+      "value": 401.6199951171875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260521",
+      "value": 407.1499938964844,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260522",
+      "value": 404.5199890136719,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260526",
+      "value": 412.32000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260527",
+      "value": 422.7300109863281,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260528",
+      "value": 424.8599853515625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260529",
+      "value": 418.45001220703125,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260601",
+      "value": 435.6300048828125,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260602",
+      "value": 446.69000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260603",
+      "value": 436.69000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260604",
+      "value": 444.9200134277344,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260605",
+      "value": 415.1700134277344,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260608",
+      "value": 426.79998779296875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260609",
+      "value": 427.9200134277344,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260610",
+      "value": 408.75,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260611",
+      "value": 421.07000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260612",
+      "value": 423.92999267578125,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260615",
+      "value": 441.3999938964844,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260616",
+      "value": 425.8299865722656,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260617",
+      "value": 432.1499938964844,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260618",
+      "value": 462.1199951171875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260622",
+      "value": 467.6700134277344,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260623",
+      "value": 436.3900146484375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260624",
+      "value": 440.8299865722656,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260625",
+      "value": 434.989990234375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260626",
+      "value": 432.3500061035156,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260629",
+      "value": 455.1000061035156,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260630",
+      "value": 477.57000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260701",
+      "value": 444.2300109863281,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260702",
+      "value": 434.1600036621094,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260706",
+      "value": 451.7900085449219,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260707",
+      "value": 432.57000732421875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260708",
+      "value": 436.9800109863281,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260709",
+      "value": 436.9599914550781,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260710",
+      "value": 434.1099853515625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260713",
+      "value": 421.5799865722656,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260714",
+      "value": 420.3900146484375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260715",
+      "value": 419.4800109863281,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260716",
+      "value": 409.739990234375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260717",
+      "value": 398.3699951171875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260720",
+      "value": 402.29998779296875,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260721",
+      "value": 424.6099853515625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260722",
+      "value": 421.2099914550781,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260723",
+      "value": 415.5799865722656,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260724",
+      "value": 403.4100036621094,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260727",
+      "value": 399.0899963378906,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260728",
+      "value": 392.30999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260729",
+      "value": 374.6700134277344,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260730",
+      "value": 403.30999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260731",
+      "value": 404.25,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260803",
+      "value": 406.1099853515625,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260804",
+      "value": 417.1700134277344,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260805",
+      "value": 414.0,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260806",
+      "value": 418.20001220703125,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260807",
+      "value": 420.0400085449219,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260810",
+      "value": 418.4700012207031,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260811",
+      "value": 422.05999755859375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260812",
+      "value": 429.1499938964844,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260813",
+      "value": 430.489990234375,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    },
+    {
+      "date": "20260814",
+      "value": 426.3500061035156,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
+    }
+  ],
+  "semiconductor_momentum": {
+    "sox": {
+      "latest": 12417.0498046875,
+      "mom_20d_pct": -1.934,
+      "mom_60d_pct": 2.8431
+    },
+    "twii": {
+      "latest": 45811.01171875,
+      "mom_20d_pct": 2.3986,
+      "mom_60d_pct": 11.2664
+    },
+    "nvda": {
+      "latest": 225.16000366210938,
+      "mom_20d_pct": 11.0202,
+      "mom_60d_pct": 2.0625
+    },
+    "tsm": {
+      "latest": 426.3500061035156,
+      "mom_20d_pct": 7.0236,
+      "mom_60d_pct": 8.5938
+    }
+  }
 }
