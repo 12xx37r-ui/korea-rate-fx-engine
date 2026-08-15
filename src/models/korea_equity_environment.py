@@ -6,10 +6,12 @@ from pathlib import Path
 from typing import Any
 
 from src.core.io import read_json, write_json
+from src.models.volatility_regime import build_regime_output
+from src.models.layered_signal import build_layered_output
 
 
-SCHEMA_VERSION = "1.0.0"
-MODEL_VERSION = "korea-equity-environment-v1.2-close-per-earnings-fallback"
+SCHEMA_VERSION = "2.0.0"
+MODEL_VERSION = "korea-equity-environment-v2.0-layered-regime-enhanced"
 COMPONENT_WEIGHTS = {
     "flow": 0.30,
     "breadth": 0.25,
@@ -373,7 +375,11 @@ def _update_history(path: Path, row: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
-def build_and_write(output_dir: Path, raw: dict[str, Any]) -> dict[str, Any]:
+def build_and_write(
+    output_dir: Path,
+    raw: dict[str, Any],
+    realtime_risk: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     fundamentals = _safe_read(output_dir / "korea_asset_fundamentals.json", {})
     history_path = output_dir / "korea_equity_environment_history.json"
     prior_history = _safe_read(history_path, [])
@@ -415,20 +421,55 @@ def build_and_write(output_dir: Path, raw: dict[str, Any]) -> dict[str, Any]:
     if (raw.get("credit") or {}).get("stale"):
         stale_sections.append("credit")
 
+    # 개선 5~8: 변동성 레짐 감지 + EMP + 비선형 충격 + 서킷브레이커
+    realtime = realtime_risk or {}
+    global_data = _safe_read(output_dir / "raw_global_market.json", {})
+    ecos_data = _safe_read(output_dir / "raw_ecos.json", {})
+
+    regime_output = {}
+    layered_output = {}
+    try:
+        regime_output = build_regime_output(score, realtime, global_data, ecos_data)
+    except Exception as exc:
+        regime_output = {"available": False, "error": f"{type(exc).__name__}: {str(exc)[:180]}"}
+
+    # 개선 2: 레이어드 듀얼 모델 (Layer 1 거시 + Layer 2 기술/수급)
+    try:
+        layered_output = build_layered_output(score, raw, realtime, regime_output)
+    except Exception as exc:
+        layered_output = {"available": False, "error": f"{type(exc).__name__}: {str(exc)[:180]}"}
+
+    # 최종 점수: 레짐 조정 후 점수 사용 (서킷브레이커 발동 시 None)
+    circuit_breaker = bool(regime_output.get("circuit_breaker"))
+    final_score = regime_output.get("final_score") if regime_output.get("final_score_valid") else score
+    if circuit_breaker:
+        final_score = None
+
     result = {
         "schema_version": SCHEMA_VERSION,
         "engine_version": MODEL_VERSION,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
+        # Layer 1 기본 점수
         "score": score,
         "score_valid": score is not None,
         "bias": _band(score),
+        # 레짐 조정 후 최종 점수
+        "final_score": final_score,
+        "final_score_valid": final_score is not None,
+        "final_bias": _band(final_score),
+        "circuit_breaker": circuit_breaker,
+        "circuit_breaker_action": regime_output.get("circuit_breaker_action"),
         "data_coverage_pct": data_coverage_pct,
         "active_weight": _round(active_weight, 3),
         "complete_for_market_card": bool(score is not None and data_coverage_pct == 100),
         "stale_sections": stale_sections,
         "components": component_map,
         "weights": COMPONENT_WEIGHTS,
+        # 개선 2: 레이어드 듀얼 모델 출력
+        "layered_signal": layered_output,
+        # 개선 5~8: 변동성 레짐 / EMP / 비선형 충격 / 서킷브레이커
+        "volatility_regime": regime_output,
         "current_inputs": {
             "kospi200": (fundamentals.get("indices") or {}).get("kospi200") or {},
             "kosdaq150": (fundamentals.get("indices") or {}).get("kosdaq150") or {},
@@ -438,19 +479,22 @@ def build_and_write(output_dir: Path, raw: dict[str, Any]) -> dict[str, Any]:
             "score_scale": "0~15 매우 불리 · 16~30 불리 · 31~42 약불리 · 43~57 중립 · 58~69 약우호 · 70~84 우호 · 85~100 매우 우호",
             "meaning": "객관적 시장 입력을 규칙기반으로 합성한 직접시장 환경점수이며 수익률 확률이나 보장이 아닙니다.",
             "coverage_rule": "활성 가중치 합이 55% 미만이면 점수를 계산하지 않습니다.",
+            "circuit_breaker_rule": "USD/KRW 3일 변화가 3σ 초과 또는 VKOSPI 45 이상 시 서킷브레이커 발동, 방향성 예측 정지",
+            "layered_signal_rule": "Layer1(거시 우호≥58) AND Layer2(과매도 탈출 신호) 동시 충족 시에만 BUY_SIGNAL 발생",
         },
         "call_efficiency": {
             "reuses_existing_asset_fundamentals": True,
             "reuses_existing_raw_ecos_gov3y": True,
-            "new_live_calls_target_per_run": 7,
-            "gas_extra_api_calls_required": 0,
+            "realtime_risk_collector_added": True,
             "history_is_local_committed_json": True,
         },
         "limitations": [
             "이익환경은 공개 forward 성장 대용치를 우선 사용합니다. 비어 있으면 기존 KRX 지수 종가/PER에서 계산한 후행 EPS 대용치 추세를 사용하며 실제 증권사 forward revision으로 오인하지 않습니다.",
             "외국인·기관 수급은 KRX 거래대금 기준이며 기관합계가 없으면 기관 세부주체를 합산합니다.",
-            "breadth는 기간 상승/하락 종목 비율을 사용합니다. 호출량이 큰 종목별 200일 이동평균 breadth는 의도적으로 제외했습니다.",
-            "밸류에이션과 신용스프레드는 절대 임의 기준보다 각자의 실제 과거분포 백분위를 우선 사용합니다.",
+            "CDS 프리미엄은 직접 데이터 미확보로 한미 국채 스프레드 + HY OAS로 근사합니다.",
+            "VKOSPI는 pykrx 조회 가능 시 실시간 반영, 불가 시 이전 값 재사용합니다.",
+            "서킷브레이커 발동 시 환경점수는 무효화되며 위험회피 최고단계 신호만 출력됩니다.",
+            "레이어드 기술적 지표는 기존 KRX 지수 종가/PER에서 계산한 KOSPI200 일봉 데이터를 활용합니다.",
             "모든 신규 기능은 이 전용 JSON에만 기록되며 기존 korea_rate_fx_outlook 계열 스키마는 변경하지 않습니다.",
         ],
     }

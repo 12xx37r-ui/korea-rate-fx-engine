@@ -9,6 +9,7 @@ from typing import Any
 
 from src.collectors import ecos, global_market, kosis, krx, reb, us_policy
 from src.collectors import korea_asset_fundamentals, korea_equity_environment
+from src.collectors import realtime_risk
 from src.core.io import read_json, write_json
 from src.core.result import SourceResult
 from src.models.krw_strength import build_snapshot, build_krw_strength_forecast
@@ -17,9 +18,10 @@ from src.models.korea_outlook_v3 import build_v3
 from src.models.krw_liquidity import build_krw_liquidity_forecast
 from src.models.rate_validation import evaluate_rate_vintage_snapshots
 from src.models.korea_equity_environment import build_and_write as build_korea_equity_environment
+from src.models.backtest import run_backtest
 
 
-ENGINE_VERSION = "4.8.0-long-history-rate-oos-vintage-accumulator"
+ENGINE_VERSION = "5.0.0-layered-regime-realtime-enhanced"
 
 
 def _safe_read(path: Path, default: Any) -> Any:
@@ -144,19 +146,54 @@ def main() -> None:
     if us_policy_data:
         write_json(paths["us"], us_policy_data)
 
+    # 개선 1: 실시간 위험 선행 지표 수집 (VKOSPI, SOX, NVDA, CDS 프록시)
+    realtime_data: dict[str, Any] = {}
+    try:
+        print("[START] REALTIME_RISK collector", flush=True)
+        realtime_data = realtime_risk.collect(output_dir, timeout=min(timeout, 20))
+        print(
+            f"[DONE] REALTIME_RISK | vkospi={realtime_data.get('vkospi', {}).get('latest')} "
+            f"sox_1d={realtime_data.get('semiconductor', {}).get('sox_1d_pct')}%",
+            flush=True,
+        )
+    except Exception as exc:
+        print(f"[WARN] REALTIME_RISK | {type(exc).__name__}: {exc}", flush=True)
+
     # Korea-equity-specific sub-engine. Keep it isolated from all existing rate/FX
     # contracts. It runs AFTER continuity-merged raw files are written so credit
     # spread and other reused inputs see the same last-good data as the core engine.
+    # 개선 2,5~8: 레이어드 듀얼 모델 + 변동성 레짐 + EMP + 비선형 충격 + 서킷브레이커
     try:
         equity_raw = korea_equity_environment.collect(output_dir, timeout=min(timeout, 20))
-        equity_environment = build_korea_equity_environment(output_dir, equity_raw)
+        equity_environment = build_korea_equity_environment(output_dir, equity_raw, realtime_risk=realtime_data)
+        circuit_breaker = equity_environment.get("circuit_breaker", False)
+        signal = (equity_environment.get("layered_signal") or {}).get("combined_signal") or {}
         print(
             f"[DONE] KOREA_EQUITY_ENVIRONMENT | score={equity_environment.get('score')} "
-            f"bias={equity_environment.get('bias')} coverage={equity_environment.get('data_coverage_pct')}%",
+            f"final_score={equity_environment.get('final_score')} "
+            f"bias={equity_environment.get('final_bias')} "
+            f"regime={equity_environment.get('volatility_regime', {}).get('regime')} "
+            f"circuit_breaker={circuit_breaker} "
+            f"signal={signal.get('signal')} "
+            f"coverage={equity_environment.get('data_coverage_pct')}%",
             flush=True,
         )
     except Exception as exc:
         print(f"[WARN] KOREA_EQUITY_ENVIRONMENT | {type(exc).__name__}: {exc}", flush=True)
+
+    # 개선 4: 백테스트 시뮬레이션 (빈티지 쌓인 후 유효)
+    try:
+        backtest_result = run_backtest(output_dir)
+        write_json(output_dir / "korea_equity_backtest.json", backtest_result)
+        std_scenario = backtest_result.get("scenarios", {}).get("standard") or {}
+        print(
+            f"[DONE] BACKTEST | trades={std_scenario.get('total_trades')} "
+            f"win_rate={std_scenario.get('win_rate_pct')}% "
+            f"total_return={std_scenario.get('total_return_pct')}%",
+            flush=True,
+        )
+    except Exception as exc:
+        print(f"[WARN] BACKTEST | {type(exc).__name__}: {exc}", flush=True)
 
     source_status = {result.source.lower(): result.status for result in results}
     # Normalise collector aliases used by the modelling code.
