@@ -51,6 +51,9 @@ jobs:
           PYTHONUNBUFFERED: "1"
         run: python -u -m src.main
 
+      - name: Build Korea comprehensive market output
+        run: python -u scripts/run_korea_comprehensive_market.py
+
       - name: Commit outputs
         run: |
           git config user.name "github-actions[bot]"
