@@ -1065,6 +1065,9 @@ def _strength_oos_candidates(levels: list[float], origin: int, horizon: int) -> 
         "mom6": _clip_strength_return(0.55 * d6 * scale6),
         "mom12": _clip_strength_return(0.45 * d12 * scale12),
         "contrarian3": _clip_strength_return(-0.30 * d3 * scale3),
+        "contrarian6": _clip_strength_return(-0.24 * d6 * scale6),
+        "contrarian12": _clip_strength_return(-0.18 * d12 * scale12),
+        "reversal_blend": _clip_strength_return(-0.20*d3*scale3 - 0.14*d6*scale6 - 0.08*d12*scale12),
         "blend": _clip_strength_return(0.32*d3*scale3 + 0.28*d6*scale6 + 0.15*d12*scale12),
     }
 
@@ -1111,7 +1114,14 @@ def _krw_strength_independent_oos(
         for origin in range(start, len(levels)-horizon):
             candidates = _strength_oos_candidates(levels, origin, horizon)
             mature = {name: errs for name, errs in losses.items() if len(errs) >= 24}
-            selected = min(mature, key=lambda name: mean(mature[name])) if mature else "zero"
+            if mature:
+                def candidate_score(name: str) -> float:
+                    errs = mature[name]
+                    recent = errs[-48:]
+                    return 0.60 * mean(recent) + 0.40 * mean(errs)
+                selected = min(mature, key=candidate_score)
+            else:
+                selected = "zero"
             pred = candidates[selected]
             actual = levels[origin+horizon] - levels[origin]
             selected_counts[selected] = selected_counts.get(selected, 0) + 1
@@ -1162,7 +1172,8 @@ def _krw_strength_independent_oos(
         "primary_quality_score": primary.get("forecast_quality_score"),
         "oos_by_horizon": result,
         "no_lookahead": True,
-        "selection_method": "expanding_origin_prequential_candidate_selection",
+        "selection_method": "expanding_origin_prequential_recent_plus_long_candidate_selection",
+        "selection_rule": "60% recent-48 + 40% expanding matured squared error; no lookahead",
     }
 
 
@@ -1190,7 +1201,7 @@ def build_krw_strength_forecast(
     if spot is None or len(fx_values) < 61:
         return {
             "schema_version": "1.0.0",
-            "engine_version": "1.3.0-live-fx-overlay-provenance",
+            "engine_version": "1.4.0-prequential-candidate-tournament",
             "status": "insufficient_history",
             "forecast_operational": False,
             "forecast_path": [],
@@ -1458,7 +1469,7 @@ def build_krw_strength_forecast(
     }
     return {
         "schema_version": "1.0.0",
-        "engine_version": "1.3.0-live-fx-overlay-provenance",
+        "engine_version": "1.4.0-prequential-candidate-tournament",
         "status": "ok",
         "forecast_operational": True,
         "current": {

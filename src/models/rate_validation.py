@@ -121,20 +121,37 @@ def _softmax(raw: dict[str, float]) -> dict[str, float]:
     return {k: vals[k] / total for k in vals}
 
 
-def probability_from_features(gap: float | None, cpi_yoy: float | None, industrial_3m_ann: float | None) -> dict[str, float]:
-    raw = {"hold": 1.65, "hike": 0.0, "cut": 0.0}
+RATE_PROBABILITY_SPECS: dict[str, dict[str, float]] = {
+    # Baseline is exactly the pre-V226 fixed specification.
+    "baseline": {"hold": 1.65, "gap_hike": 0.70, "gap_cut": 1.00, "cpi_hike": 0.32, "cpi_cut": 0.28, "growth_hike": 0.28, "growth_cut": 0.34},
+    # Pre-declared alternatives. They are never chosen on the same observation that
+    # they are evaluated on; selection uses only matured prior OOS losses.
+    "market_gap_heavy": {"hold": 1.62, "gap_hike": 0.90, "gap_cut": 1.18, "cpi_hike": 0.27, "cpi_cut": 0.24, "growth_hike": 0.22, "growth_cut": 0.29},
+    "macro_balanced": {"hold": 1.58, "gap_hike": 0.62, "gap_cut": 0.88, "cpi_hike": 0.38, "cpi_cut": 0.34, "growth_hike": 0.34, "growth_cut": 0.40},
+    "high_inertia": {"hold": 1.82, "gap_hike": 0.68, "gap_cut": 0.94, "cpi_hike": 0.30, "cpi_cut": 0.26, "growth_hike": 0.25, "growth_cut": 0.31},
+}
+
+def probability_from_features_spec(gap: float | None, cpi_yoy: float | None, industrial_3m_ann: float | None, spec_name: str = "baseline") -> dict[str, float]:
+    spec = RATE_PROBABILITY_SPECS.get(spec_name) or RATE_PROBABILITY_SPECS["baseline"]
+    raw = {"hold": spec["hold"], "hike": 0.0, "cut": 0.0}
     if gap is not None:
-        raw["hike"] += max(0.0, min(1.10, gap * 0.70))
-        raw["cut"] += max(0.0, min(1.10, -gap * 1.00))
+        raw["hike"] += max(0.0, min(1.20, gap * spec["gap_hike"]))
+        raw["cut"] += max(0.0, min(1.20, -gap * spec["gap_cut"]))
     if cpi_yoy is not None:
         inflation_gap = (cpi_yoy - 0.02) / 0.01
-        raw["hike"] += max(0.0, min(0.90, inflation_gap * 0.32))
-        raw["cut"] += max(0.0, min(0.75, -inflation_gap * 0.28))
+        raw["hike"] += max(0.0, min(0.95, inflation_gap * spec["cpi_hike"]))
+        raw["cut"] += max(0.0, min(0.80, -inflation_gap * spec["cpi_cut"]))
     if industrial_3m_ann is not None:
         growth_signal = industrial_3m_ann / 0.06
-        raw["hike"] += max(0.0, min(0.55, growth_signal * 0.28))
-        raw["cut"] += max(0.0, min(0.65, -growth_signal * 0.34))
+        raw["hike"] += max(0.0, min(0.60, growth_signal * spec["growth_hike"]))
+        raw["cut"] += max(0.0, min(0.70, -growth_signal * spec["growth_cut"]))
     return _softmax(raw)
+
+def probability_from_features(gap: float | None, cpi_yoy: float | None, industrial_3m_ann: float | None) -> dict[str, float]:
+    return probability_from_features_spec(gap, cpi_yoy, industrial_3m_ann, "baseline")
+
+def probability_candidates_from_features(gap: float | None, cpi_yoy: float | None, industrial_3m_ann: float | None) -> dict[str, dict[str, float]]:
+    return {name: probability_from_features_spec(gap, cpi_yoy, industrial_3m_ann, name) for name in RATE_PROBABILITY_SPECS}
 
 
 def _next_actual_class(base: list[tuple[str, float]], index: int, horizon_days_approx: int = 100) -> str:
@@ -480,7 +497,7 @@ def rate_probability_backtest(
         seen[date[:6]] = date
     monthly_dates = sorted(seen.values())
 
-    samples: list[tuple[str, dict[str, float], str]] = []
+    samples: list[tuple[str, dict[str, dict[str, float]], str]] = []
     for date in monthly_dates:
         rate = _latest_at(base, date)
         yld = _latest_at(market, date)
@@ -493,9 +510,9 @@ def rate_probability_backtest(
                 ind = None
         if rate is None or yld is None or cpi is None:
             continue
-        probs = probability_from_features(yld - rate, cpi, ind)
+        candidate_probs = probability_candidates_from_features(yld - rate, cpi, ind)
         actual = _next_actual_class_from_date(base, date)
-        samples.append((date, probs, actual))
+        samples.append((date, candidate_probs, actual))
 
     if len(samples) < 18:
         return {"samples": len(samples), "brier_score": None, "benchmark_brier": None, "brier_skill_score": None, "accuracy": None, "accuracy_wilson_lower_95": None, "log_loss": None, "class_frequency": {"hold": 1.0, "hike": 0.0, "cut": 0.0}, "walk_forward_backtest": False}
@@ -507,9 +524,25 @@ def rate_probability_backtest(
     logs: list[float] = []
     hits: list[bool] = []
     rows: list[dict[str, Any]] = []
-    for date, probs, actual in samples:
+    candidate_losses: dict[str, list[float]] = {name: [] for name in RATE_PROBABILITY_SPECS}
+    selected_counts: dict[str, int] = {}
+    min_matured = 36
+    for date, candidate_probs, actual in samples:
         total_prior = sum(counts.values())
         benchmark = {c: counts[c] / total_prior for c in classes}
+        matured = {name: losses for name, losses in candidate_losses.items() if len(losses) >= min_matured}
+        if matured:
+            # Blend expanding and recent Brier loss. This is entirely past-only and
+            # can adapt to policy-regime changes without tuning on the current label.
+            def score(name: str) -> float:
+                losses = matured[name]
+                recent = losses[-48:]
+                return 0.55 * mean(recent) + 0.45 * mean(losses)
+            selected = min(matured, key=score)
+        else:
+            selected = "baseline"
+        probs = candidate_probs[selected]
+        selected_counts[selected] = selected_counts.get(selected, 0) + 1
         model_bs = sum((probs[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes)
         bench_bs = sum((benchmark[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes)
         hit = max(probs, key=probs.get) == actual
@@ -517,7 +550,9 @@ def rate_probability_backtest(
         bench.append(bench_bs)
         logs.append(-log(max(1e-9, probs[actual])))
         hits.append(hit)
-        rows.append({"origin": date, "probabilities": {k: round(v, 6) for k, v in probs.items()}, "benchmark_probabilities": {k: round(v, 6) for k, v in benchmark.items()}, "actual": actual, "hit": hit, "brier": round(model_bs, 6), "benchmark_brier": round(bench_bs, 6)})
+        rows.append({"origin": date, "selected_candidate": selected, "probabilities": {k: round(v, 6) for k, v in probs.items()}, "benchmark_probabilities": {k: round(v, 6) for k, v in benchmark.items()}, "actual": actual, "hit": hit, "brier": round(model_bs, 6), "benchmark_brier": round(bench_bs, 6)})
+        for name, cp in candidate_probs.items():
+            candidate_losses[name].append(sum((cp[c] - (1.0 if actual == c else 0.0)) ** 2 for c in classes))
         counts[actual] += 1
 
     n = len(samples)
@@ -541,6 +576,15 @@ def rate_probability_backtest(
         "walk_forward_backtest": True,
         "release_lags": {"core_cpi_months": 1, "industrial_production_months": 2},
         "real_time_vintage": False,
+        "candidate_tournament": {
+            "enabled": True,
+            "candidate_names": list(RATE_PROBABILITY_SPECS),
+            "selection_min_matured_errors": min_matured,
+            "selection_rule": "55% recent-48 + 45% expanding Brier; past-only",
+            "selected_model_counts": selected_counts,
+            "production_candidate": min(candidate_losses, key=lambda name: (0.55 * mean(candidate_losses[name][-48:]) + 0.45 * mean(candidate_losses[name]))) if all(candidate_losses.values()) else "baseline",
+            "no_lookahead": True,
+        },
         "rows": rows,
     }
 

@@ -338,17 +338,20 @@ def build_rate_forecast_v2(
     us_current, us_rates, us_path_meta = _us_path(us_policy)
     us_change = (mean(us_rates[:3]) - us_current) if us_current is not None and us_rates else None
 
-    raw = probability_from_features(policy_gap, inflation, growth)
+    tournament_probe = rate_probability_backtest(
+        ecos.get("kr_base_rate", []),
+        combine_market_rate_rows_for_backtest(ecos.get("kr_gov_2y", []), ecos.get("kr_gov_3y", []))[0],
+        cpi_series,
+        kosis.get("industrial_production", []),
+    )
+    production_candidate = ((tournament_probe.get("candidate_tournament") or {}).get("production_candidate") or "baseline")
+    from src.models.rate_validation import probability_from_features_spec
+    raw = probability_from_features_spec(policy_gap, inflation, growth, production_candidate)
     validation_market_rows, validation_market_meta = combine_market_rate_rows_for_backtest(
         ecos.get("kr_gov_2y", []),
         ecos.get("kr_gov_3y", []),
     )
-    backtest = rate_probability_backtest(
-        ecos.get("kr_base_rate", []),
-        validation_market_rows,
-        cpi_series,
-        kosis.get("industrial_production", []),
-    )
+    backtest = tournament_probe
     vintage_validation = vintage_validation if isinstance(vintage_validation, dict) else {}
     backtest["real_time_vintage"] = bool(vintage_validation.get("qualified"))
     backtest["real_time_vintage_validation"] = vintage_validation
@@ -400,7 +403,7 @@ def build_rate_forecast_v2(
     status = "ok" if current_rate is not None and market_rate is not None else "partial"
     return {
         "schema_version": "2.0.0",
-        "engine_version": "2.9.0-long-history-oos-vintage-gate",
+        "engine_version": "2.10.0-prequential-candidate-tournament",
         "status": status,
         "engine_scope": "korea_only_us_engine_read_only",
         "current": {
@@ -430,6 +433,7 @@ def build_rate_forecast_v2(
                 "used_in_fixed_rate_model": False,
             },
             "core_cpi": cpi_meta,
+            "live_probability_candidate": production_candidate,
         },
         "limitations": [
             "금통위별 직접 선물가격이 없어 확률은 모형 추정치입니다.",

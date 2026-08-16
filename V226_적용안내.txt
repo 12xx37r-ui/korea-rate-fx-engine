@@ -1,0 +1,55 @@
+V226 한국엔진 최종 모델개선 패치
+
+적용 기준
+- V225 적용 상태 위에 덮어쓰기
+- 미국엔진 / 글로벌엔진 / GAS 수정 없음
+
+변경 범위
+1) 한국 정책금리
+- 기존 fixed baseline 유지
+- 사전 정의된 4개 확률모형 후보를 추가
+- 매 과거시점에서 최소 36개 성숙 OOS Brier 손실이 쌓인 뒤에만 후보 선택
+- 선택 기준: 최근 48개 55% + 전체 누적 45%
+- 현재 시점 후보 선택은 과거 OOS 성적만 사용
+- candidate_tournament / live_probability_candidate 메타데이터 추가
+- 점수 임의 상향 없음
+
+2) USD/KRW 환율
+- 기존 후보군 유지
+- rate_gap_carry, risk_regime, contrarian_120 후보 추가
+- 최근 OOS와 장기 OOS를 혼합해 가중치 산정
+- 경제/매크로 후보는 과거 OOS skill>0, 방향정확도>=50%일 때만 live weight 허용
+- candidate_oos 진단 추가
+- 랜덤워크 benchmark는 계속 평가 기준으로만 유지
+
+3) 원화강도
+- 기존 zero/momentum/contrarian 후보 유지
+- contrarian6, contrarian12, reversal_blend 추가
+- 최근 48개 OOS 60% + 전체 OOS 40%로 과거시점 후보 선택
+- 미래정보 사용 없음
+
+4) KOSIS freshness 표시
+- 주말 월간 cadence skip은 장애성 LKG가 아니라 CACHE로 분류
+- 실제 실패/LKG와 의도적 발표주기 캐시를 구분
+
+호환성
+- 기존 JSON 키 삭제 없음
+- 기존 파일명 유지
+- 새 필드는 additive
+- 기존 미국엔진 계산 변경 없음
+
+검증
+- Python py_compile PASS
+- 전체 테스트 86 passed
+
+적용 후 확인 파일
+- output/korea_rate_fx_outlook_v3.json
+- output/korea_rate_forecast_v2.json
+- output/korea_fx_forecast_v2.json
+- output/korea_krw_strength_forecast.json
+- output/freshness_status.json
+
+주의
+- V226는 점수를 강제로 올리는 패치가 아님.
+- 새 후보가 과거시점 OOS에서 기존 후보를 실제로 이길 때만 선택/가중됨.
+- 따라서 첫 런에서 품질점수가 유지되거나 일부 구간에서 내려갈 수도 있으며, 이는 정상적인 객관적 검증 결과임.

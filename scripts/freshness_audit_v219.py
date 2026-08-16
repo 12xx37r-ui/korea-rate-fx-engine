@@ -76,13 +76,16 @@ def main() -> None:
         age = age_hours(latest)
         meta = src.get("metadata") if isinstance(src.get("metadata"), dict) else {}
         reused = bool(meta.get("last_good_reused") or meta.get("circuit_last_good_reused"))
+        cadence_skip = bool(meta.get("cadence_skips"))
         status = classify(
             available=src.get("status") in {"ok", "degraded", "not_configured"} and bool(src),
-            reused=reused,
+            reused=(reused and not cadence_skip),
             fallback=src.get("status") == "not_configured",
             age=age,
             max_age=max_age,
         )
+        if cadence_skip and status not in {"UNAVAILABLE", "FALLBACK"}:
+            status = "CACHE"
         items.append({
             "source": name,
             "status": status,
@@ -92,6 +95,7 @@ def main() -> None:
             "age_hours": round(age, 2) if age is not None else None,
             "max_age_hours": max_age,
             "last_good_reused": reused,
+            "cadence_skip": cadence_skip,
             "warnings": src.get("warnings") or [],
         })
 
@@ -122,7 +126,7 @@ def main() -> None:
 
     payload = {
         "schema_version": "1.0.0",
-        "patch_version": "V219-retry-and-live-source-refresh",
+        "patch_version": "V226-final-model-tournament-and-cadence-status",
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "engine_generated_at": v3.get("generated_at"),
         "compatibility": {
@@ -130,7 +134,8 @@ def main() -> None:
             "existing_field_semantics_changed": False,
             "new_network_calls": 1,
             "conditional_retry_calls": "FRED failed groups + KOSIS failed requests only",
-            "model_formulas_changed": False,
+            "model_formulas_changed": True,
+            "model_change_scope": "Korea rate/FX/KRW-strength candidate tournaments only; OOS/past-only selection",
         },
         "items": items,
         "summary": {

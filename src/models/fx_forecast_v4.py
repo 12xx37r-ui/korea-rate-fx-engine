@@ -24,7 +24,7 @@ from typing import Any
 
 
 HORIZONS: dict[int, int] = {1: 21, 3: 63, 6: 126, 12: 252}
-MODEL_VERSION = "4.6.0-continuous-oos-macro-gated"
+MODEL_VERSION = "4.7.0-prequential-regime-candidate-tournament"
 
 
 def _clip(value: float, lo: float, hi: float) -> float:
@@ -283,6 +283,29 @@ def _candidate_returns(values: list[float], dates: list[str], t: int, horizon_ob
         "mean_reversion_252": _clip(-gap252 * 0.24 * min(1.5, horizon_obs / 126.0), -0.075, 0.075),
         "trend_acceleration": _clip(acceleration * 0.22 * sqrt_scale, -0.055, 0.055),
     }
+    # Additional pre-declared economic candidates. They remain harmless unless their
+    # already-matured OOS record earns weight in _weights().
+    us2 = lookups["us_2y"].value(dates[t])
+    kr2 = lookups["kr_2y"].value(dates[t])
+    if us2 is not None and kr2 is not None:
+        rate_gap = us2 - kr2  # percentage points
+        candidates["rate_gap_carry"] = _clip((rate_gap / 100.0) * 0.85 * sqrt_scale, -0.04, 0.04)
+
+    vix = lookups["vix"].value(dates[t])
+    hy = lookups["hy_oas"].value(dates[t])
+    if vix is not None or hy is not None:
+        risk = 0.0
+        denom = 0
+        if vix is not None:
+            risk += _clip((vix - 20.0) / 20.0, -1.5, 1.5); denom += 1
+        if hy is not None:
+            risk += _clip((hy - 4.0) / 4.0, -1.5, 1.5); denom += 1
+        candidates["risk_regime"] = _clip((risk / max(1, denom)) * 0.010 * sqrt_scale, -0.035, 0.035)
+
+    # A slower reversal candidate is useful at 6-12m and is evaluated identically
+    # to every other candidate under the same past-only walk-forward process.
+    candidates["contrarian_120"] = _clip(-r120 * 0.16 * linear_scale, -0.065, 0.065)
+
     macro, macro_meta = _macro_return(dates[t], horizon_obs, lookups)
     if macro is not None:
         candidates["macro_public_factors"] = macro
@@ -307,17 +330,23 @@ def _weights(
         if len(errors) < 35:
             scores[name] = 1.0
             continue
-        rmse = _rmse(errors) or bench
-        skill = 1.0 - rmse / max(1e-9, bench)
-        dacc = mean(hits) if hits else 0.5
-        # Strongly penalise persistent benchmark underperformance while avoiding all-or-nothing gating.
-        if name == "macro_public_factors" and (skill <= 0.0 or dacc < 0.50):
-            # Macro is an optional overlay.  Use only matured past-only OOS evidence
-            # to decide whether it deserves live weight; never force it into production.
+        rmse_long = _rmse(errors) or bench
+        rmse_recent = _rmse(errors[-90:]) or rmse_long
+        bench_recent = _rmse(benchmark_errors[-90:]) or bench
+        skill_long = 1.0 - rmse_long / max(1e-9, bench)
+        skill_recent = 1.0 - rmse_recent / max(1e-9, bench_recent)
+        skill = 0.55 * skill_recent + 0.45 * skill_long
+        dacc_long = mean(hits) if hits else 0.5
+        dacc_recent = mean(hits[-90:]) if hits else 0.5
+        dacc = 0.55 * dacc_recent + 0.45 * dacc_long
+        # Optional macro/economic overlays must demonstrate positive matured OOS
+        # contribution before receiving production weight. Technical candidates are
+        # softly penalised rather than hard-gated to avoid accidental spot-copy output.
+        if name in {"macro_public_factors", "rate_gap_carry", "risk_regime"} and (skill <= 0.0 or dacc < 0.50):
             scores[name] = 0.0
             continue
-        performance = exp(_clip(skill * 6.0, -2.5, 2.5))
-        directional = _clip(0.75 + 0.50 * dacc, 0.75, 1.25)
+        performance = exp(_clip(skill * 7.0, -2.8, 2.8))
+        directional = _clip(0.72 + 0.56 * dacc, 0.72, 1.28)
         scores[name] = performance * directional
     total = sum(scores.values()) or 1.0
     return {name: scores[name] / total for name in candidate_names}
@@ -466,6 +495,18 @@ def _walk_forward(values: list[float], dates: list[str], horizon_obs: int, looku
     macro_dacc = mean(macro_hits) if macro_hits else None
     macro_gate_passed = bool(len(macro_errors) >= 35 and macro_skill is not None and macro_skill > 0.0 and macro_dacc is not None and macro_dacc >= 0.50)
     residual_sigma = _rmse(ensemble_errors[-300:]) or rmse
+    candidate_oos = {}
+    for name in sorted(model_names_seen):
+        errs = (model_errors.get(name) or [])[-300:]
+        hits = (direction_hits.get(name) or [])[-300:]
+        crmse = _rmse(errs)
+        cbench = _rmse(benchmark_errors[-300:])
+        candidate_oos[name] = {
+            "samples": len(errs),
+            "skill_pct": round((1.0 - crmse / cbench) * 100.0, 3) if crmse is not None and cbench else None,
+            "direction_accuracy": round(mean(hits), 4) if hits else None,
+            "live_weight": round(float(live_weights.get(name, 0.0)), 6),
+        }
     return {
         "samples": n,
         "rmse_pct": round(rmse * 100.0, 3) if rmse is not None else None,
@@ -486,7 +527,9 @@ def _walk_forward(values: list[float], dates: list[str], horizon_obs: int, looku
         },
         "shrinkage": round(_validation_shrinkage(ensemble_errors, benchmark_errors), 4),
         "residual_sigma": residual_sigma,
-        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "method": "expanding_walk_forward_weekly_origins_prequential_regime_candidate_tournament",
+        "candidate_oos": candidate_oos,
+        "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
         "benchmark": "random_walk_no_change_evaluation_only",
     }
 
