@@ -54,8 +54,8 @@ jobs:
       - name: Build Korea comprehensive market output
         run: python -u scripts/run_korea_comprehensive_market.py
 
-      - name: Build V218 refetch freshness status
-        run: python -u scripts/freshness_audit_v218.py
+      - name: Build V219 refetch freshness status
+        run: python -u scripts/freshness_audit_v219.py
 
       - name: Commit outputs
         run: |
