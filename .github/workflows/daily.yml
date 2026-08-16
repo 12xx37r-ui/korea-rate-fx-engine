@@ -40,6 +40,7 @@ jobs:
         env:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
           KOSIS_API_KEY: ${{ secrets.KOSIS_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           KRX_API_KEY: ${{ secrets.KRX_API_KEY }}
           KRX_ID: ${{ secrets.KRX_ID }}
           KRX_PW: ${{ secrets.KRX_PW }}
