@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import io
+import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
@@ -58,6 +59,8 @@ FRED_GROUPS: dict[str, dict[str, str]] = {
 BIS_EER_API_URL = "https://stats.bis.org/api/v1/data/WS_EER/M.N+R.B.KR/all"
 CONNECT_TIMEOUT_SECONDS = 3
 READ_TIMEOUT_SECONDS = 20
+FRED_API_URL = "https://api.stlouisfed.org/fred/series/observations"
+FRED_API_KEY_ENV = "FRED_API_KEY"
 FRED_RETRY_ATTEMPTS = 2
 FRED_RETRY_BACKOFF_SECONDS = 1.5
 FRED_RETRY_LOOKBACK_DAYS = 45
@@ -179,49 +182,66 @@ def _group_start(previous: dict[str, Any], group: dict[str, str]) -> tuple[str, 
     return min(item["start"] for item in plan), "mixed_incremental_bootstrap"
 
 
-def _fred_batch(group: dict[str, str], start_date: str) -> dict[str, list[dict[str, Any]]]:
-    url = "https://fred.stlouisfed.org/graph/fredgraph.csv"
-    series_ids = list(group.values())
+def _fred_series_api(series_id: str, start_date: str) -> list[dict[str, Any]]:
+    """Fetch one FRED series from the official observations API.
+
+    V224 moves the primary path away from the fredgraph CSV web endpoint.
+    The official API is intentionally single-series and supports observation_start,
+    which makes incremental retrieval deterministic and small.
+    """
+    api_key = os.getenv(FRED_API_KEY_ENV, "").strip()
+    if not api_key:
+        raise RuntimeError(f"{FRED_API_KEY_ENV} is not configured")
     with requests.Session() as session:
-        session.headers.update({"User-Agent": "korea-rate-fx-engine/5.3", **NO_CACHE_HEADERS})
+        session.headers.update({"User-Agent": "korea-rate-fx-engine/5.4", **NO_CACHE_HEADERS})
         response = session.get(
-            url,
+            FRED_API_URL,
             params={
-                "id": ",".join(series_ids),
-                "cosd": start_date,
-                # Cache-buster only changes the HTTP request URL; FRED series IDs
-                # and model inputs are unchanged.
-                "_ts": str(time.time_ns()),
+                "series_id": series_id,
+                "api_key": api_key,
+                "file_type": "json",
+                "observation_start": start_date,
+                "sort_order": "asc",
             },
             timeout=(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS),
         )
         response.raise_for_status()
-        text = response.text
-
-    reader = csv.DictReader(io.StringIO(text))
-    fieldnames = set(reader.fieldnames or [])
-    if not ({"observation_date", "DATE", "date"} & fieldnames):
-        raise ValueError(f"FRED CSV date column missing: {sorted(fieldnames)[:8]}")
-    present_ids = [sid for sid in series_ids if sid in fieldnames]
-    if not present_ids:
-        raise ValueError("FRED CSV contains none of the requested series")
-
-    by_id: dict[str, list[dict[str, Any]]] = {sid: [] for sid in series_ids}
-    for row in reader:
-        raw_date = row.get("observation_date") or row.get("DATE") or row.get("date") or ""
-        date = str(raw_date).replace("-", "")[:8]
-        if not date:
+        data = response.json()
+    observations = data.get("observations") if isinstance(data, dict) else None
+    if not isinstance(observations, list):
+        raise ValueError(f"FRED API observations missing for {series_id}")
+    rows: list[dict[str, Any]] = []
+    for item in observations:
+        if not isinstance(item, dict):
             continue
-        for sid in present_ids:
-            raw = row.get(sid)
-            if raw in (None, "", "."):
-                continue
-            try:
-                value = float(raw)
-            except (TypeError, ValueError):
-                continue
-            by_id[sid].append({"date": date, "value": value, "source": "FRED", "series_id": sid})
-    return {key: by_id.get(sid, []) for key, sid in group.items()}
+        raw_date = item.get("date")
+        raw_value = item.get("value")
+        if not raw_date or raw_value in (None, "", "."):
+            continue
+        try:
+            value = float(raw_value)
+        except (TypeError, ValueError):
+            continue
+        rows.append({
+            "date": str(raw_date).replace("-", "")[:8],
+            "value": value,
+            "source": "FRED",
+            "series_id": series_id,
+        })
+    return rows
+
+
+def _fred_batch(group: dict[str, str], start_date: str) -> dict[str, list[dict[str, Any]]]:
+    """Fetch a logical subset through the official FRED API.
+
+    The outer collector may still batch keys that share an incremental start for
+    compatibility, but network calls are series-specific because the official
+    observations endpoint is series-specific.
+    """
+    out: dict[str, list[dict[str, Any]]] = {}
+    for key, series_id in group.items():
+        out[key] = _fred_series_api(series_id, start_date)
+    return out
 
 
 def _fred_retry_start(start_date: str, previous: dict[str, Any], group: dict[str, str]) -> str:
@@ -849,6 +869,9 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             "fred_groups_parallel": True,
             "fred_series_aware_incremental": True,
             "fred_read_timeout_seconds": READ_TIMEOUT_SECONDS,
+            "fred_transport": "official_api_series_observations",
+            "fred_api_host": "api.stlouisfed.org",
+            "fred_api_key_configured": bool(os.getenv(FRED_API_KEY_ENV, "").strip()),
             "group_meta": group_meta,
             "bootstrap_days": FRED_BOOTSTRAP_DAYS,
             "overlap_days": OVERLAP_DAYS,

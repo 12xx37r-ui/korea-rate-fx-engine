@@ -165,3 +165,34 @@ def test_v219_fx_weekend_calendar_guardrail():
     from datetime import datetime, timezone
     assert global_market._fx_weekend_state(datetime(2026,8,16,5,0,tzinfo=timezone.utc)) == "CLOSED"
     assert global_market._fx_weekend_state(datetime(2026,8,17,5,0,tzinfo=timezone.utc)) == "OPEN"
+
+
+def test_v224_official_fred_api_series_observations(monkeypatch):
+    calls = []
+    class Resp:
+        def raise_for_status(self): pass
+        def json(self):
+            return {"observations": [{"date": "2026-08-14", "value": "3.75"}]}
+    class Session:
+        headers = {}
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def get(self, url, params, timeout):
+            calls.append((url, dict(params), timeout))
+            return Resp()
+    monkeypatch.setenv("FRED_API_KEY", "test-key")
+    monkeypatch.setattr(global_market.requests, "Session", Session)
+    rows = global_market._fred_series_api("DGS2", "2026-07-01")
+    assert calls[0][0] == "https://api.stlouisfed.org/fred/series/observations"
+    assert calls[0][1]["series_id"] == "DGS2"
+    assert calls[0][1]["observation_start"] == "2026-07-01"
+    assert calls[0][1]["file_type"] == "json"
+    assert rows[-1]["date"] == "20260814"
+    assert rows[-1]["value"] == 3.75
+
+
+def test_v224_fred_api_requires_secret(monkeypatch):
+    monkeypatch.delenv("FRED_API_KEY", raising=False)
+    import pytest
+    with pytest.raises(RuntimeError, match="FRED_API_KEY"):
+        global_market._fred_series_api("DGS2", "2026-07-01")
