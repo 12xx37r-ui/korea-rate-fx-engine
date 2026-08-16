@@ -5,6 +5,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
+import re
 
 from src.core.credentials import credential_issue, credential_metadata
 from src.core.ecos_resolver import EcosResolution, EcosResolver
@@ -25,6 +26,17 @@ ECOS_CONNECT_TIMEOUT_SECONDS = 4
 ECOS_READ_TIMEOUT_SECONDS = 10
 ECOS_REQUEST_RETRIES = 1
 ECOS_TRANSPORT_FAILURES_BEFORE_CIRCUIT = 3
+
+
+def _redact_secret_text(value: Any) -> str:
+    """Redact credentials from exception/log text before it is persisted or printed."""
+    text = str(value or "")
+    key = os.getenv("ECOS_API_KEY", "").strip()
+    if key:
+        text = text.replace(key, "***")
+    text = re.sub(r"(/api/StatisticSearch/)[^/]+(/)", r"\1***\2", text, flags=re.IGNORECASE)
+    text = re.sub(r"([?&](?:api[_-]?key|key|token|authorization)=)[^&\s]+", r"\1***", text, flags=re.IGNORECASE)
+    return text
 
 
 def _is_transport_failure(exc: Exception) -> bool:
@@ -381,12 +393,13 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             )
         except Exception as exc:
             # A temporary API failure must not erase committed official history.
+            safe_exc = _redact_secret_text(exc)
             if old_rows:
                 payloads[name] = list(old_rows)
                 incremental_reused.append(name)
-                detail = f"{name}: {exc}; 직전 정상 이력 유지"
+                detail = f"{name}: {safe_exc}; 직전 정상 이력 유지"
             else:
-                detail = f"{name}: {exc}"
+                detail = f"{name}: {safe_exc}"
             warnings.append(detail)
             if credential_issue(exc):
                 auth_failures.append(detail)
@@ -397,7 +410,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 ecos_transport_failures += 1
                 if ecos_transport_failures >= ECOS_TRANSPORT_FAILURES_BEFORE_CIRCUIT:
                     ecos_circuit_open = True
-                    ecos_circuit_reason = f"{type(exc).__name__}: {exc}"
+                    ecos_circuit_reason = f"{type(exc).__name__}: {safe_exc}"
                     print(
                         f"[ECOS] circuit breaker opened after {ecos_transport_failures} transport failures; "
                         f"remaining series will reuse last-good history",

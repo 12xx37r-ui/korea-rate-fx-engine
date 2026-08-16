@@ -1,0 +1,37 @@
+V227 한국엔진 최종 안정화 패치
+
+적용 기준
+- V226이 이미 적용된 한국엔진 위에 덮어씁니다.
+- 미국엔진 / 글로벌엔진 / GAS는 수정하지 않습니다.
+
+변경 내용
+1) 원화강도 production guardrail
+- V226에서 3m/6m 독립 OOS가 V225보다 후퇴한 것을 확인하여 3m/6m는 검증된 pre-V226 후보군/expanding selection으로 고정합니다.
+- V226에서 개선된 12m 확장 후보군만 유지합니다.
+- 출력에 horizon별 production_guardrail 메타데이터를 추가합니다.
+
+2) 금리 / FX
+- V226 금리 tournament는 유지합니다. Brier가 소폭 개선되었으므로 되돌리지 않습니다.
+- V226 FX tournament도 유지합니다. 3m/6m/12m RMSE skill이 V225보다 소폭 개선되어 강제 롤백하지 않습니다.
+- 기존 OOS/랜덤워크 benchmark/quality gate는 그대로 유지합니다.
+
+3) Credential 로그 마스킹
+- ECOS_API_KEY와 KOSIS_API_KEY가 requests exception URL에 포함되어도 warnings/콘솔/상태 JSON에 원문이 남지 않도록 마스킹합니다.
+- 키 교체가 불가능한 상황을 전제로 노출면을 차단합니다.
+- Secret 자체의 이름/값/사용 방식은 변경하지 않습니다.
+
+4) Freshness
+- patch_version을 V227-final-production-guardrails-and-secret-redaction 으로 갱신합니다.
+- KOSIS 주말 cadence skip -> CACHE 규칙은 V226 그대로 유지합니다.
+
+검증
+- python py_compile PASS
+- 전체 pytest: 89 passed
+- 기존 키 삭제 없음. 새 메타데이터만 additive.
+
+적용 후
+- 한국엔진 workflow 1회 실행
+- korea_rate_fx_outlook_v3.json / korea_krw_strength_forecast.json / freshness_status.json 확인
+- ECOS/KOSIS가 timeout 나더라도 exception URL에 실제 key 값이 남지 않는지 확인
+
+V227 이후에는 구조/모델 튜닝 패치를 중단하고 실시간 vintage 누적 및 실제 OOS 성과 관찰 단계로 전환하는 것을 권장합니다.

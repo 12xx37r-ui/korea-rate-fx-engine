@@ -1050,7 +1050,7 @@ def _clip_strength_return(value: float, bound: float = 0.18) -> float:
     return max(-bound, min(bound, value))
 
 
-def _strength_oos_candidates(levels: list[float], origin: int, horizon: int) -> dict[str, float]:
+def _strength_oos_candidates(levels: list[float], origin: int, horizon: int, *, enhanced: bool = True) -> dict[str, float]:
     def delta(k: int) -> float:
         if origin < k:
             return 0.0
@@ -1059,17 +1059,21 @@ def _strength_oos_candidates(levels: list[float], origin: int, horizon: int) -> 
     scale3 = horizon / 3.0
     scale6 = horizon / 6.0
     scale12 = horizon / 12.0
-    return {
+    base = {
         "zero": 0.0,
         "mom3": _clip_strength_return(0.50 * d3 * scale3),
         "mom6": _clip_strength_return(0.55 * d6 * scale6),
         "mom12": _clip_strength_return(0.45 * d12 * scale12),
         "contrarian3": _clip_strength_return(-0.30 * d3 * scale3),
-        "contrarian6": _clip_strength_return(-0.24 * d6 * scale6),
-        "contrarian12": _clip_strength_return(-0.18 * d12 * scale12),
-        "reversal_blend": _clip_strength_return(-0.20*d3*scale3 - 0.14*d6*scale6 - 0.08*d12*scale12),
         "blend": _clip_strength_return(0.32*d3*scale3 + 0.28*d6*scale6 + 0.15*d12*scale12),
     }
+    if enhanced:
+        base.update({
+            "contrarian6": _clip_strength_return(-0.24 * d6 * scale6),
+            "contrarian12": _clip_strength_return(-0.18 * d12 * scale12),
+            "reversal_blend": _clip_strength_return(-0.20*d3*scale3 - 0.14*d6*scale6 - 0.08*d12*scale12),
+        })
+    return base
 
 
 def _krw_strength_independent_oos(
@@ -1111,15 +1115,23 @@ def _krw_strength_independent_oos(
         active = 0
         selected_counts: dict[str, int] = {}
         start = max(24, 12 + horizon)
+        # V227 production guardrail: the V226 expanded tournament materially
+        # improved the 12m independent OOS result but degraded the primary 3m
+        # and 6m records.  Freeze the pre-V226 candidate universe/selection at
+        # 3m and 6m, while retaining the independently better 12m extension.
+        enhanced = horizon == 12
         for origin in range(start, len(levels)-horizon):
-            candidates = _strength_oos_candidates(levels, origin, horizon)
+            candidates = _strength_oos_candidates(levels, origin, horizon, enhanced=enhanced)
             mature = {name: errs for name, errs in losses.items() if len(errs) >= 24}
             if mature:
-                def candidate_score(name: str) -> float:
-                    errs = mature[name]
-                    recent = errs[-48:]
-                    return 0.60 * mean(recent) + 0.40 * mean(errs)
-                selected = min(mature, key=candidate_score)
+                if enhanced:
+                    def candidate_score(name: str) -> float:
+                        errs = mature[name]
+                        recent = errs[-48:]
+                        return 0.60 * mean(recent) + 0.40 * mean(errs)
+                    selected = min(mature, key=candidate_score)
+                else:
+                    selected = min(mature, key=lambda name: mean(mature[name]))
             else:
                 selected = "zero"
             pred = candidates[selected]
@@ -1161,6 +1173,10 @@ def _krw_strength_independent_oos(
             "selection_min_matured_errors": 24,
             "selection_no_lookahead": True,
             "benchmark": "zero_change_in_independent_krw_strength_target",
+            "production_guardrail": {
+                "mode": "legacy_pre_v226" if horizon in (3, 6) else "enhanced_v226",
+                "reason": "V226 3m/6m OOS regressed; 12m OOS improved",
+            },
         }
     primary = result.get("3m", {})
     return {
@@ -1172,8 +1188,8 @@ def _krw_strength_independent_oos(
         "primary_quality_score": primary.get("forecast_quality_score"),
         "oos_by_horizon": result,
         "no_lookahead": True,
-        "selection_method": "expanding_origin_prequential_recent_plus_long_candidate_selection",
-        "selection_rule": "60% recent-48 + 40% expanding matured squared error; no lookahead",
+        "selection_method": "horizon_guarded_prequential_candidate_selection",
+        "selection_rule": "3m/6m frozen pre-V226 expanding selection; 12m V226 recent+long selection; no lookahead",
     }
 
 
@@ -1201,7 +1217,7 @@ def build_krw_strength_forecast(
     if spot is None or len(fx_values) < 61:
         return {
             "schema_version": "1.0.0",
-            "engine_version": "1.4.0-prequential-candidate-tournament",
+            "engine_version": "1.4.1-production-guardrail",
             "status": "insufficient_history",
             "forecast_operational": False,
             "forecast_path": [],
@@ -1469,7 +1485,7 @@ def build_krw_strength_forecast(
     }
     return {
         "schema_version": "1.0.0",
-        "engine_version": "1.4.0-prequential-candidate-tournament",
+        "engine_version": "1.4.1-production-guardrail",
         "status": "ok",
         "forecast_operational": True,
         "current": {

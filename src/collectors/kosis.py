@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -15,6 +16,15 @@ FETCH_TIMEOUT_SECONDS = 6
 FETCH_RETRIES = 2
 INCREMENTAL_MONTHS = 18
 WEEKEND_CACHE_SKIP_ENABLED = True
+
+
+def _redact_secret_text(value: Any) -> str:
+    text = str(value or "")
+    key = os.getenv("KOSIS_API_KEY", "").strip()
+    if key:
+        text = text.replace(key, "***")
+    text = re.sub(r"([?&](?:api[_-]?key|key|token|authorization)=)[^&\s]+", r"\1***", text, flags=re.IGNORECASE)
+    return text
 
 
 def _validate_payload(payload: Any) -> list[dict[str, Any]]:
@@ -179,7 +189,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 flush=True,
             )
         except Exception as exc:
-            detail = f"{name}: {exc}"
+            safe_exc = _redact_secret_text(exc)
+            detail = f"{name}: {safe_exc}"
             warnings.append(detail)
             is_auth = credential_issue(exc)
             is_network = _is_transport_failure(exc)
@@ -188,7 +199,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             if old_rows:
                 payloads[name] = list(old_rows)
                 last_good_reused.append(name)
-            print(f"[KOSIS] {name}: failed: {exc}; 직전 정상 이력 유지={bool(old_rows)}", flush=True)
+            print(f"[KOSIS] {name}: failed: {safe_exc}; 직전 정상 이력 유지={bool(old_rows)}", flush=True)
 
             # V219: authentication failures still open the circuit immediately.
             # Transport failures do NOT skip the next independent monthly series:

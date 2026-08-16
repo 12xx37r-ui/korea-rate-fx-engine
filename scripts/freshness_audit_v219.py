@@ -126,7 +126,7 @@ def main() -> None:
 
     payload = {
         "schema_version": "1.0.0",
-        "patch_version": "V226-final-model-tournament-and-cadence-status",
+        "patch_version": "V227-final-production-guardrails-and-secret-redaction",
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "engine_generated_at": v3.get("generated_at"),
         "compatibility": {
@@ -135,7 +135,7 @@ def main() -> None:
             "new_network_calls": 1,
             "conditional_retry_calls": "FRED failed groups + KOSIS failed requests only",
             "model_formulas_changed": True,
-            "model_change_scope": "Korea rate/FX/KRW-strength candidate tournaments only; OOS/past-only selection",
+            "model_change_scope": "Korea rate/FX/KRW-strength candidate tournaments with V227 production guardrails; OOS/past-only selection",
         },
         "items": items,
         "summary": {
