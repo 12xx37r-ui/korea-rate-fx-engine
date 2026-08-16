@@ -1,6 +1,6 @@
 {
   "schema_version": "4.0.0",
-  "captured_at": "2026-08-16T15:37:35.783338+09:00",
+  "captured_at": "2026-08-16T15:46:30.709023+09:00",
   "rate_forecast": {
     "schema_version": "2.0.0",
     "engine_version": "5.0.0-layered-regime-realtime-enhanced/rate",
@@ -3186,7 +3186,7 @@
       "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
       "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
     ],
-    "generated_at": "2026-08-16T15:37:35.783338+09:00"
+    "generated_at": "2026-08-16T15:46:30.709023+09:00"
   },
   "fx_forecast": {
     "schema_version": "4.0.0",
@@ -4232,7 +4232,7 @@
       "랜덤워크는 검증 기준모형으로만 사용하며 실전 중심값으로 대체하지 않습니다.",
       "검증력이 약하면 예측폭과 품질등급을 낮추지만 예측 자체는 계속 산출합니다."
     ],
-    "generated_at": "2026-08-16T15:37:35.783338+09:00"
+    "generated_at": "2026-08-16T15:46:30.709023+09:00"
   },
   "krw_liquidity_forecast": {
     "schema_version": "1.1.0",
@@ -4277,7 +4277,7 @@
       "kr_base_rate": {
         "source": "ECOS",
         "cadence": "event/monthly",
-        "observation": "20260813",
+        "observation": "20260814",
         "value": 2.75,
         "available": true
       },
@@ -4291,7 +4291,7 @@
       "expected_policy_path": {
         "source": "korea_rate_forecast_v2",
         "cadence": "workflow",
-        "observation": "2026-08-16T15:37:35.783338+09:00",
+        "observation": "2026-08-16T15:46:30.709023+09:00",
         "value": 0.052,
         "available": true
       }
@@ -4474,11 +4474,11 @@
       "monetary_aggregate_available": true,
       "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
     },
-    "generated_at": "2026-08-16T15:37:35.783338+09:00"
+    "generated_at": "2026-08-16T15:46:30.709023+09:00"
   },
   "krw_strength_forecast": {
     "schema_version": "1.0.0",
-    "engine_version": "1.4.0-prequential-candidate-tournament",
+    "engine_version": "1.4.1-production-guardrail",
     "status": "ok",
     "forecast_operational": true,
     "current": {
@@ -4507,9 +4507,9 @@
         ],
         "fx_anchor": 1420.2,
         "quality_grade": "B",
-        "model_quality_score": 84,
+        "model_quality_score": 85,
         "independent_oos_grade": "B",
-        "independent_oos_quality_score": 77,
+        "independent_oos_quality_score": 79,
         "independent_oos_strict_passed": true,
         "prediction_status": "forecast"
       },
@@ -4528,9 +4528,9 @@
         ],
         "fx_anchor": 1422.8,
         "quality_grade": "C",
-        "model_quality_score": 75,
+        "model_quality_score": 76,
         "independent_oos_grade": "C",
-        "independent_oos_quality_score": 64,
+        "independent_oos_quality_score": 66,
         "independent_oos_strict_passed": false,
         "prediction_status": "forecast"
       },
@@ -4632,7 +4632,7 @@
         "source": "Naver MarketIndex FX_USDKRW",
         "observation": "20260814",
         "market_time_utc": "2026-08-14T20:44:55+00:00",
-        "retrieved_at_utc": "2026-08-16T06:37:51.494480+00:00",
+        "retrieved_at_utc": "2026-08-16T06:46:42.041381+00:00",
         "market_state": "CLOSED",
         "live_overlay_applied": true
       },
@@ -4669,8 +4669,8 @@
     },
     "quality_improvement": {
       "score_inflation_forbidden": true,
-      "current_model_quality_score": 84,
-      "independent_oos_quality_score": 77,
+      "current_model_quality_score": 85,
+      "independent_oos_quality_score": 79,
       "weighted_factor_coverage_pct": 100.0,
       "missing_factor_groups": [],
       "objective_next_targets": {
@@ -4681,68 +4681,70 @@
         "active_direction_coverage_min": 0.2
       },
       "observed_primary_oos": {
-        "zero_benchmark_skill_pct": 0.958,
-        "direction_accuracy": 0.53,
-        "active_direction_coverage": 0.7299,
+        "zero_benchmark_skill_pct": 2.816,
+        "direction_accuracy": 0.534,
+        "active_direction_coverage": 0.7518,
         "samples": 137
       },
       "note": "점수는 임의 상향하지 않고 독립 OOS 성능과 입력 커버리지가 실제 개선될 때만 상승합니다."
     },
     "quality": {
       "grade": "B",
-      "model_quality_score": 84,
+      "model_quality_score": 85,
       "separate_oos_validated": true,
       "independent_oos_primary_grade": "B",
-      "independent_oos_quality_score": 77,
+      "independent_oos_quality_score": 79,
       "independent_oos_validation": {
         "separate_oos_validated": true,
         "target_definition": "-0.50*log(USD/KRW)+0.25*log(BIS_NEER)+0.25*log(BIS_REER); positive=KRW appreciation",
         "samples_available_months": 164,
         "primary_horizon": "3m",
         "primary_grade": "B",
-        "primary_quality_score": 77,
+        "primary_quality_score": 79,
         "oos_by_horizon": {
           "3m": {
             "samples": 137,
-            "rmse": 0.031833,
+            "rmse": 0.031236,
             "zero_benchmark_rmse": 0.032141,
-            "zero_benchmark_skill_pct": 0.958,
-            "direction_accuracy": 0.53,
-            "active_direction_coverage": 0.7299,
+            "zero_benchmark_skill_pct": 2.816,
+            "direction_accuracy": 0.534,
+            "active_direction_coverage": 0.7518,
             "strict_skill_passed": true,
             "grade": "B",
-            "forecast_quality_score": 77,
+            "forecast_quality_score": 79,
             "selected_model_counts": {
-              "zero": 28,
-              "reversal_blend": 28,
-              "contrarian3": 63,
-              "contrarian6": 11,
-              "contrarian12": 4,
-              "mom12": 3
+              "zero": 24,
+              "contrarian3": 113
             },
             "selection_min_matured_errors": 24,
             "selection_no_lookahead": true,
-            "benchmark": "zero_change_in_independent_krw_strength_target"
+            "benchmark": "zero_change_in_independent_krw_strength_target",
+            "production_guardrail": {
+              "mode": "legacy_pre_v226",
+              "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+            }
           },
           "6m": {
             "samples": 134,
-            "rmse": 0.038641,
+            "rmse": 0.038189,
             "zero_benchmark_rmse": 0.038165,
-            "zero_benchmark_skill_pct": -1.249,
-            "direction_accuracy": 0.5395,
-            "active_direction_coverage": 0.5672,
+            "zero_benchmark_skill_pct": -0.063,
+            "direction_accuracy": 0.5769,
+            "active_direction_coverage": 0.3881,
             "strict_skill_passed": false,
             "grade": "C",
-            "forecast_quality_score": 64,
+            "forecast_quality_score": 66,
             "selected_model_counts": {
-              "zero": 52,
-              "contrarian12": 36,
-              "contrarian3": 43,
-              "contrarian6": 3
+              "zero": 81,
+              "contrarian3": 53
             },
             "selection_min_matured_errors": 24,
             "selection_no_lookahead": true,
-            "benchmark": "zero_change_in_independent_krw_strength_target"
+            "benchmark": "zero_change_in_independent_krw_strength_target",
+            "production_guardrail": {
+              "mode": "legacy_pre_v226",
+              "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+            }
           },
           "12m": {
             "samples": 128,
@@ -4760,12 +4762,16 @@
             },
             "selection_min_matured_errors": 24,
             "selection_no_lookahead": true,
-            "benchmark": "zero_change_in_independent_krw_strength_target"
+            "benchmark": "zero_change_in_independent_krw_strength_target",
+            "production_guardrail": {
+              "mode": "enhanced_v226",
+              "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+            }
           }
         },
         "no_lookahead": true,
-        "selection_method": "expanding_origin_prequential_recent_plus_long_candidate_selection",
-        "selection_rule": "60% recent-48 + 40% expanding matured squared error; no lookahead"
+        "selection_method": "horizon_guarded_prequential_candidate_selection",
+        "selection_rule": "3m/6m frozen pre-V226 expanding selection; 12m V226 recent+long selection; no lookahead"
       },
       "quality_score_semantics": "70% independent KRW-strength OOS quality + 30% weighted factor coverage; not a probability",
       "validation_basis": "independent observable KRW-strength target OOS + weighted factor coverage"
@@ -4774,7 +4780,7 @@
       "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
       "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
     ],
-    "generated_at": "2026-08-16T15:37:35.783338+09:00"
+    "generated_at": "2026-08-16T15:46:30.709023+09:00"
   },
   "unified_outlook_v3": {
     "schema_version": "3.2.0",
@@ -5243,8 +5249,8 @@
       "market_spot_source": "Naver MarketIndex FX_USDKRW",
       "market_spot_status": "CACHE",
       "market_state": "CLOSED",
-      "market_spot_retrieved_at_utc": "2026-08-16T06:37:51.494480+00:00",
-      "market_spot_age_minutes": 2033.84,
+      "market_spot_retrieved_at_utc": "2026-08-16T06:46:42.041381+00:00",
+      "market_spot_age_minutes": 2042.62,
       "rebased_forecast_path": [
         {
           "months": 1,
@@ -5405,7 +5411,7 @@
         "kr_base_rate": {
           "source": "ECOS",
           "cadence": "event/monthly",
-          "observation": "20260813",
+          "observation": "20260814",
           "value": 2.75,
           "available": true
         },
@@ -5419,7 +5425,7 @@
         "expected_policy_path": {
           "source": "korea_rate_forecast_v2",
           "cadence": "workflow",
-          "observation": "2026-08-16T15:37:35.783338+09:00",
+          "observation": "2026-08-16T15:46:30.709023+09:00",
           "value": 0.052,
           "available": true
         }
@@ -5602,11 +5608,11 @@
         "monetary_aggregate_available": true,
         "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
       },
-      "generated_at": "2026-08-16T15:37:35.783338+09:00"
+      "generated_at": "2026-08-16T15:46:30.709023+09:00"
     },
     "krw_strength": {
       "schema_version": "1.0.0",
-      "engine_version": "1.4.0-prequential-candidate-tournament",
+      "engine_version": "1.4.1-production-guardrail",
       "status": "ok",
       "forecast_operational": true,
       "current": {
@@ -5635,9 +5641,9 @@
           ],
           "fx_anchor": 1420.2,
           "quality_grade": "B",
-          "model_quality_score": 84,
+          "model_quality_score": 85,
           "independent_oos_grade": "B",
-          "independent_oos_quality_score": 77,
+          "independent_oos_quality_score": 79,
           "independent_oos_strict_passed": true,
           "prediction_status": "forecast"
         },
@@ -5656,9 +5662,9 @@
           ],
           "fx_anchor": 1422.8,
           "quality_grade": "C",
-          "model_quality_score": 75,
+          "model_quality_score": 76,
           "independent_oos_grade": "C",
-          "independent_oos_quality_score": 64,
+          "independent_oos_quality_score": 66,
           "independent_oos_strict_passed": false,
           "prediction_status": "forecast"
         },
@@ -5760,7 +5766,7 @@
           "source": "Naver MarketIndex FX_USDKRW",
           "observation": "20260814",
           "market_time_utc": "2026-08-14T20:44:55+00:00",
-          "retrieved_at_utc": "2026-08-16T06:37:51.494480+00:00",
+          "retrieved_at_utc": "2026-08-16T06:46:42.041381+00:00",
           "market_state": "CLOSED",
           "live_overlay_applied": true
         },
@@ -5797,8 +5803,8 @@
       },
       "quality_improvement": {
         "score_inflation_forbidden": true,
-        "current_model_quality_score": 84,
-        "independent_oos_quality_score": 77,
+        "current_model_quality_score": 85,
+        "independent_oos_quality_score": 79,
         "weighted_factor_coverage_pct": 100.0,
         "missing_factor_groups": [],
         "objective_next_targets": {
@@ -5809,68 +5815,70 @@
           "active_direction_coverage_min": 0.2
         },
         "observed_primary_oos": {
-          "zero_benchmark_skill_pct": 0.958,
-          "direction_accuracy": 0.53,
-          "active_direction_coverage": 0.7299,
+          "zero_benchmark_skill_pct": 2.816,
+          "direction_accuracy": 0.534,
+          "active_direction_coverage": 0.7518,
           "samples": 137
         },
         "note": "점수는 임의 상향하지 않고 독립 OOS 성능과 입력 커버리지가 실제 개선될 때만 상승합니다."
       },
       "quality": {
         "grade": "B",
-        "model_quality_score": 84,
+        "model_quality_score": 85,
         "separate_oos_validated": true,
         "independent_oos_primary_grade": "B",
-        "independent_oos_quality_score": 77,
+        "independent_oos_quality_score": 79,
         "independent_oos_validation": {
           "separate_oos_validated": true,
           "target_definition": "-0.50*log(USD/KRW)+0.25*log(BIS_NEER)+0.25*log(BIS_REER); positive=KRW appreciation",
           "samples_available_months": 164,
           "primary_horizon": "3m",
           "primary_grade": "B",
-          "primary_quality_score": 77,
+          "primary_quality_score": 79,
           "oos_by_horizon": {
             "3m": {
               "samples": 137,
-              "rmse": 0.031833,
+              "rmse": 0.031236,
               "zero_benchmark_rmse": 0.032141,
-              "zero_benchmark_skill_pct": 0.958,
-              "direction_accuracy": 0.53,
-              "active_direction_coverage": 0.7299,
+              "zero_benchmark_skill_pct": 2.816,
+              "direction_accuracy": 0.534,
+              "active_direction_coverage": 0.7518,
               "strict_skill_passed": true,
               "grade": "B",
-              "forecast_quality_score": 77,
+              "forecast_quality_score": 79,
               "selected_model_counts": {
-                "zero": 28,
-                "reversal_blend": 28,
-                "contrarian3": 63,
-                "contrarian6": 11,
-                "contrarian12": 4,
-                "mom12": 3
+                "zero": 24,
+                "contrarian3": 113
               },
               "selection_min_matured_errors": 24,
               "selection_no_lookahead": true,
-              "benchmark": "zero_change_in_independent_krw_strength_target"
+              "benchmark": "zero_change_in_independent_krw_strength_target",
+              "production_guardrail": {
+                "mode": "legacy_pre_v226",
+                "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+              }
             },
             "6m": {
               "samples": 134,
-              "rmse": 0.038641,
+              "rmse": 0.038189,
               "zero_benchmark_rmse": 0.038165,
-              "zero_benchmark_skill_pct": -1.249,
-              "direction_accuracy": 0.5395,
-              "active_direction_coverage": 0.5672,
+              "zero_benchmark_skill_pct": -0.063,
+              "direction_accuracy": 0.5769,
+              "active_direction_coverage": 0.3881,
               "strict_skill_passed": false,
               "grade": "C",
-              "forecast_quality_score": 64,
+              "forecast_quality_score": 66,
               "selected_model_counts": {
-                "zero": 52,
-                "contrarian12": 36,
-                "contrarian3": 43,
-                "contrarian6": 3
+                "zero": 81,
+                "contrarian3": 53
               },
               "selection_min_matured_errors": 24,
               "selection_no_lookahead": true,
-              "benchmark": "zero_change_in_independent_krw_strength_target"
+              "benchmark": "zero_change_in_independent_krw_strength_target",
+              "production_guardrail": {
+                "mode": "legacy_pre_v226",
+                "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+              }
             },
             "12m": {
               "samples": 128,
@@ -5888,12 +5896,16 @@
               },
               "selection_min_matured_errors": 24,
               "selection_no_lookahead": true,
-              "benchmark": "zero_change_in_independent_krw_strength_target"
+              "benchmark": "zero_change_in_independent_krw_strength_target",
+              "production_guardrail": {
+                "mode": "enhanced_v226",
+                "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+              }
             }
           },
           "no_lookahead": true,
-          "selection_method": "expanding_origin_prequential_recent_plus_long_candidate_selection",
-          "selection_rule": "60% recent-48 + 40% expanding matured squared error; no lookahead"
+          "selection_method": "horizon_guarded_prequential_candidate_selection",
+          "selection_rule": "3m/6m frozen pre-V226 expanding selection; 12m V226 recent+long selection; no lookahead"
         },
         "quality_score_semantics": "70% independent KRW-strength OOS quality + 30% weighted factor coverage; not a probability",
         "validation_basis": "independent observable KRW-strength target OOS + weighted factor coverage"
@@ -5902,7 +5914,7 @@
         "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
         "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
       ],
-      "generated_at": "2026-08-16T15:37:35.783338+09:00"
+      "generated_at": "2026-08-16T15:46:30.709023+09:00"
     },
     "factor_panel": {
       "1m": {
@@ -6174,13 +6186,13 @@
       "fx_market": {
         "status": "CACHE",
         "as_of_utc": "2026-08-14T20:44:55+00:00",
-        "age_minutes": 2033.84,
+        "age_minutes": 2042.62,
         "source": "Naver MarketIndex FX_USDKRW",
         "model_anchor_preserved": true,
         "public_current_uses_latest_overlay": true,
         "rebased_path_available": true,
         "market_state": "CLOSED",
-        "retrieved_at_utc": "2026-08-16T06:37:51.494480+00:00"
+        "retrieved_at_utc": "2026-08-16T06:46:42.041381+00:00"
       }
     },
     "certification": {
@@ -6194,12 +6206,12 @@
       "v3_production_enabled": true,
       "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
     },
-    "generated_at": "2026-08-16T15:37:35.783338+09:00",
+    "generated_at": "2026-08-16T15:46:30.709023+09:00",
     "engine_version": "5.0.0-layered-regime-realtime-enhanced"
   },
   "source_status": {
     "us_policy_engine": "ok",
-    "ecos": "degraded",
+    "ecos": "ok",
     "global_market": "ok",
     "krx": "ok",
     "kosis": "ok",

@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-16T15:37:35.783338+09:00",
+  "generated_at": "2026-08-16T15:46:30.709023+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5119,
@@ -3663,59 +3663,61 @@
   },
   "krw_strength": {
     "grade": "B",
-    "model_quality_score": 84,
+    "model_quality_score": 85,
     "separate_oos_validated": true,
     "independent_oos_primary_grade": "B",
-    "independent_oos_quality_score": 77,
+    "independent_oos_quality_score": 79,
     "independent_oos_validation": {
       "separate_oos_validated": true,
       "target_definition": "-0.50*log(USD/KRW)+0.25*log(BIS_NEER)+0.25*log(BIS_REER); positive=KRW appreciation",
       "samples_available_months": 164,
       "primary_horizon": "3m",
       "primary_grade": "B",
-      "primary_quality_score": 77,
+      "primary_quality_score": 79,
       "oos_by_horizon": {
         "3m": {
           "samples": 137,
-          "rmse": 0.031833,
+          "rmse": 0.031236,
           "zero_benchmark_rmse": 0.032141,
-          "zero_benchmark_skill_pct": 0.958,
-          "direction_accuracy": 0.53,
-          "active_direction_coverage": 0.7299,
+          "zero_benchmark_skill_pct": 2.816,
+          "direction_accuracy": 0.534,
+          "active_direction_coverage": 0.7518,
           "strict_skill_passed": true,
           "grade": "B",
-          "forecast_quality_score": 77,
+          "forecast_quality_score": 79,
           "selected_model_counts": {
-            "zero": 28,
-            "reversal_blend": 28,
-            "contrarian3": 63,
-            "contrarian6": 11,
-            "contrarian12": 4,
-            "mom12": 3
+            "zero": 24,
+            "contrarian3": 113
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
-          "benchmark": "zero_change_in_independent_krw_strength_target"
+          "benchmark": "zero_change_in_independent_krw_strength_target",
+          "production_guardrail": {
+            "mode": "legacy_pre_v226",
+            "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+          }
         },
         "6m": {
           "samples": 134,
-          "rmse": 0.038641,
+          "rmse": 0.038189,
           "zero_benchmark_rmse": 0.038165,
-          "zero_benchmark_skill_pct": -1.249,
-          "direction_accuracy": 0.5395,
-          "active_direction_coverage": 0.5672,
+          "zero_benchmark_skill_pct": -0.063,
+          "direction_accuracy": 0.5769,
+          "active_direction_coverage": 0.3881,
           "strict_skill_passed": false,
           "grade": "C",
-          "forecast_quality_score": 64,
+          "forecast_quality_score": 66,
           "selected_model_counts": {
-            "zero": 52,
-            "contrarian12": 36,
-            "contrarian3": 43,
-            "contrarian6": 3
+            "zero": 81,
+            "contrarian3": 53
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
-          "benchmark": "zero_change_in_independent_krw_strength_target"
+          "benchmark": "zero_change_in_independent_krw_strength_target",
+          "production_guardrail": {
+            "mode": "legacy_pre_v226",
+            "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+          }
         },
         "12m": {
           "samples": 128,
@@ -3733,12 +3735,16 @@
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
-          "benchmark": "zero_change_in_independent_krw_strength_target"
+          "benchmark": "zero_change_in_independent_krw_strength_target",
+          "production_guardrail": {
+            "mode": "enhanced_v226",
+            "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+          }
         }
       },
       "no_lookahead": true,
-      "selection_method": "expanding_origin_prequential_recent_plus_long_candidate_selection",
-      "selection_rule": "60% recent-48 + 40% expanding matured squared error; no lookahead"
+      "selection_method": "horizon_guarded_prequential_candidate_selection",
+      "selection_rule": "3m/6m frozen pre-V226 expanding selection; 12m V226 recent+long selection; no lookahead"
     },
     "quality_score_semantics": "70% independent KRW-strength OOS quality + 30% weighted factor coverage; not a probability",
     "validation_basis": "independent observable KRW-strength target OOS + weighted factor coverage"
