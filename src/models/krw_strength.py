@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 from math import exp, tanh, sqrt, log
 from statistics import mean, median
 from typing import Any
@@ -68,6 +69,85 @@ def _values(
     for period, value in pairs:
         dedup[period] = value
     return [dedup[k] for k in sorted(dedup)]
+
+
+
+
+def _normalise_date(value: Any) -> str:
+    text = str(value or "").strip().replace("-", "").replace(".", "")
+    return text[:8] if len(text) >= 8 and text[:8].isdigit() else text
+
+
+def _latest_row_meta(rows: list[dict[str, Any]] | None, source: str) -> dict[str, Any]:
+    latest_period = None
+    latest_value = None
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        period = _row_period(row)
+        value = None
+        for key in ("DATA_VALUE", "DT", "value"):
+            try:
+                raw = row.get(key)
+                if raw not in (None, "", "-"):
+                    value = float(str(raw).replace(",", ""))
+                    break
+            except (TypeError, ValueError):
+                continue
+        if period and value is not None and (latest_period is None or period >= latest_period):
+            latest_period = period
+            latest_value = value
+    return {"source": source, "observation": latest_period, "value": latest_value}
+
+
+def _apply_live_usdkrw_overlay(
+    merged_fx: list[tuple[str, float]],
+    spot_meta: dict[str, Any],
+    global_data: dict[str, Any],
+) -> tuple[list[tuple[str, float]], dict[str, Any], float | None]:
+    """Overlay the freshly fetched market spot on current-state calculations only.
+
+    Historical OOS remains based on the original merged series.  The live overlay may
+    replace/append only the last observation so current KRW strength is aligned with
+    the same market spot published by the unified FX card.
+    """
+    base_spot = merged_fx[-1][1] if merged_fx else None
+    snap = global_data.get("usd_krw_market_snapshot") if isinstance(global_data, dict) else None
+    if not isinstance(snap, dict):
+        return list(merged_fx), dict(spot_meta or {}), base_spot
+    try:
+        price = float(snap.get("price"))
+    except (TypeError, ValueError):
+        return list(merged_fx), dict(spot_meta or {}), base_spot
+    if not 800.0 <= price <= 2500.0:
+        return list(merged_fx), dict(spot_meta or {}), base_spot
+    obs = None
+    try:
+        raw_time = snap.get("market_time_utc")
+        if raw_time:
+            obs = datetime.fromisoformat(str(raw_time).replace("Z", "+00:00")).strftime("%Y%m%d")
+    except Exception:
+        obs = None
+    live = list(merged_fx)
+    if live:
+        last_date = _normalise_date(live[-1][0])
+        if obs and obs > last_date:
+            live.append((obs, price))
+        else:
+            live[-1] = (live[-1][0], price)
+    elif obs:
+        live = [(obs, price)]
+    meta = {
+        "date": obs or (spot_meta or {}).get("date"),
+        "source": snap.get("source") or "market_snapshot",
+        "value": price,
+        "market_time_utc": snap.get("market_time_utc"),
+        "retrieved_at_utc": snap.get("retrieved_at_utc"),
+        "market_state": snap.get("market_state"),
+        "live_overlay_applied": True,
+        "model_anchor_value": base_spot,
+    }
+    return live, meta, base_spot
 
 
 def _pct(
@@ -1100,13 +1180,15 @@ def build_krw_strength_forecast(
     """
     global_data = global_data or {}
     merged_fx, spot_meta = _merge_fx_series(ecos, global_data)
+    # OOS remains anchored to the historical series; only the current/live layer is overlaid.
     independent_oos = _krw_strength_independent_oos(merged_fx, global_data)
-    fx_values = [value for _, value in merged_fx]
+    live_merged_fx, spot_meta, model_anchor_spot = _apply_live_usdkrw_overlay(merged_fx, spot_meta, global_data)
+    fx_values = [value for _, value in live_merged_fx]
     spot = fx_values[-1] if fx_values else None
     if spot is None or len(fx_values) < 61:
         return {
             "schema_version": "1.0.0",
-            "engine_version": "1.2.0-bis-eer-independent-oos",
+            "engine_version": "1.3.0-live-fx-overlay-provenance",
             "status": "insufficient_history",
             "forecast_operational": False,
             "forecast_path": [],
@@ -1128,6 +1210,11 @@ def build_krw_strength_forecast(
             "one_year_percentile": round(fx_pctile, 4) if fx_pctile is not None else None,
             "ret20_pct": round(r20 * 100.0, 3),
             "ret60_pct": round(r60 * 100.0, 3),
+            "source": spot_meta.get("source"),
+            "observation": spot_meta.get("date"),
+            "market_time_utc": spot_meta.get("market_time_utc"),
+            "live_overlay_applied": bool(spot_meta.get("live_overlay_applied")),
+            "model_anchor_usdkrw": round(model_anchor_spot, 4) if model_anchor_spot is not None else None,
         }
     }
 
@@ -1246,6 +1333,11 @@ def build_krw_strength_forecast(
             point = float(point)
         except (TypeError, ValueError):
             point = spot
+        # The FX model itself keeps its historical anchor/OOS.  For the current KRW
+        # strength view, translate absolute forecast levels to the freshly fetched spot
+        # while preserving the model's relative move.
+        if model_anchor_spot and spot and point is not None and abs(float(model_anchor_spot)) > 1e-9:
+            point = float(point) * float(spot) / float(model_anchor_spot)
         change_pct = row.get("change_pct")
         try:
             change = float(change_pct) / 100.0
@@ -1323,9 +1415,48 @@ def build_krw_strength_forecast(
     latest_neer = _generic_values(global_data.get("krw_neer", []))
     latest_reer = _generic_values(global_data.get("krw_reer", []))
     primary = next((row for row in forecast_path if row["months"] == 3), {})
+    freshness = {
+        "usdkrw": {
+            "source": spot_meta.get("source"),
+            "observation": spot_meta.get("date"),
+            "market_time_utc": spot_meta.get("market_time_utc"),
+            "retrieved_at_utc": spot_meta.get("retrieved_at_utc"),
+            "market_state": spot_meta.get("market_state"),
+            "live_overlay_applied": bool(spot_meta.get("live_overlay_applied")),
+        },
+        "krw_neer": _latest_row_meta(global_data.get("krw_neer", []), "BIS EER"),
+        "krw_reer": _latest_row_meta(global_data.get("krw_reer", []), "BIS EER"),
+        "us_2y": _latest_row_meta(global_data.get("us_2y", []), "FRED/Global collector"),
+        "kr_2y": _latest_row_meta((ecos or {}).get("kr_gov_2y", []) or (ecos or {}).get("kr_gov_3y", []), "ECOS"),
+        "current_account": _latest_row_meta((ecos or {}).get("current_account", []), "ECOS"),
+        "fx_reserves": _latest_row_meta((ecos or {}).get("fx_reserves", []), "ECOS"),
+    }
+    primary_oos = ((independent_oos.get("oos_by_horizon") or {}).get("3m") or {}) if isinstance(independent_oos, dict) else {}
+    missing_groups = [name for name in group_weights if name not in factor_groups]
+    improvement = {
+        "score_inflation_forbidden": True,
+        "current_model_quality_score": primary.get("model_quality_score"),
+        "independent_oos_quality_score": independent_oos.get("primary_quality_score") if isinstance(independent_oos, dict) else None,
+        "weighted_factor_coverage_pct": round(weighted_group_coverage * 100.0, 1),
+        "missing_factor_groups": missing_groups,
+        "objective_next_targets": {
+            "weighted_factor_coverage_pct": 100.0,
+            "independent_oos_grade": "A",
+            "zero_benchmark_skill_pct_min": 5.0,
+            "direction_accuracy_min": 0.56,
+            "active_direction_coverage_min": 0.20,
+        },
+        "observed_primary_oos": {
+            "zero_benchmark_skill_pct": primary_oos.get("zero_benchmark_skill_pct"),
+            "direction_accuracy": primary_oos.get("direction_accuracy"),
+            "active_direction_coverage": primary_oos.get("active_direction_coverage"),
+            "samples": primary_oos.get("samples"),
+        },
+        "note": "점수는 임의 상향하지 않고 독립 OOS 성능과 입력 커버리지가 실제 개선될 때만 상승합니다.",
+    }
     return {
         "schema_version": "1.0.0",
-        "engine_version": "1.2.0-bis-eer-independent-oos",
+        "engine_version": "1.3.0-live-fx-overlay-provenance",
         "status": "ok",
         "forecast_operational": True,
         "current": {
@@ -1333,6 +1464,8 @@ def build_krw_strength_forecast(
             "grade": _strength_label_100(current_score),
             "usdkrw": round(spot, 4),
             "usdkrw_source": spot_meta.get("source"),
+            "usdkrw_model_anchor": round(model_anchor_spot, 4) if model_anchor_spot is not None else None,
+            "usdkrw_live_overlay_applied": bool(spot_meta.get("live_overlay_applied")),
             "neer": latest_neer[-1] if latest_neer else None,
             "reer": latest_reer[-1] if latest_reer else None,
         },
@@ -1345,6 +1478,8 @@ def build_krw_strength_forecast(
             "group_coverage": round(group_coverage, 3),
             "weighted_group_coverage": round(weighted_group_coverage, 3),
         },
+        "input_freshness": freshness,
+        "quality_improvement": improvement,
         "quality": {
             "grade": primary.get("quality_grade"),
             "model_quality_score": primary.get("model_quality_score"),

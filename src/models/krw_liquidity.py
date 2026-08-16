@@ -17,7 +17,7 @@ from statistics import mean
 from typing import Any
 
 
-MODEL_VERSION = "1.3.0-prequential-candidate-liquidity-oos"
+MODEL_VERSION = "1.4.0-input-provenance-objective-quality"
 
 
 def _float(value: Any) -> float | None:
@@ -51,6 +51,20 @@ def _series(rows: list[dict[str, Any]] | None) -> list[tuple[str, float]]:
         if date and value is not None:
             dedup[date] = value
     return sorted(dedup.items())
+
+
+
+
+def _series_meta(series: list[tuple[str, float]], source: str, cadence: str) -> dict[str, Any]:
+    if not series:
+        return {"source": source, "cadence": cadence, "observation": None, "value": None, "available": False}
+    return {
+        "source": source,
+        "cadence": cadence,
+        "observation": series[-1][0],
+        "value": series[-1][1],
+        "available": True,
+    }
 
 
 def _pct(values: list[float], periods: int) -> float | None:
@@ -350,6 +364,43 @@ def build_krw_liquidity_forecast(ecos: dict[str, Any], rate_v2: dict[str, Any] |
     forecast_quality = int(primary.get("forecast_quality_score") or 0)
     data_mode = "monetary_plus_policy" if current_m2_yoy is not None else "policy_market_proxy"
     latest_dates = [s[-1][0] for s in (m1, m2, lf, base, y2) if s]
+    input_freshness = {
+        "kr_m1": _series_meta(m1, "ECOS", "monthly"),
+        "kr_m2": _series_meta(m2, "ECOS", "monthly"),
+        "kr_lf": _series_meta(lf, "ECOS", "monthly"),
+        "kr_base_rate": _series_meta(base, "ECOS", "event/monthly"),
+        "kr_gov_2y_or_3y": _series_meta(y2, "ECOS", "trading-day"),
+        "expected_policy_path": {
+            "source": "korea_rate_forecast_v2",
+            "cadence": "workflow",
+            "observation": ((rate_v2 or {}).get("current") or {}).get("as_of") or (rate_v2 or {}).get("generated_at"),
+            "value": round(rate_3m, 3),
+            "available": rate_v2 is not None,
+        },
+    }
+    improvement = {
+        "score_inflation_forbidden": True,
+        "current_forecast_quality_score": forecast_quality,
+        "current_input_quality_score": input_quality,
+        "objective_next_targets": {
+            "persistence_skill_pct_min": 7.5,
+            "direction_accuracy_min": 0.58,
+            "samples_min": 100,
+            "input_data_quality_score": 100,
+        },
+        "observed_primary_oos": {
+            "samples": primary.get("samples"),
+            "persistence_skill_pct": primary.get("persistence_skill_pct"),
+            "direction_accuracy": primary.get("direction_accuracy"),
+            "production_candidate": primary.get("production_candidate"),
+        },
+        "safe_upgrade_paths": [
+            "후보모형 추가는 expanding-origin OOS에서 persistence를 실제로 이길 때만 production 후보로 채택",
+            "월간 통화량 발표 빈티지 누적 및 revision-aware 검증",
+            "ECOS 한국 자료를 핵심 입력으로 유지하고 해외 FRED 계열은 핵심 유동성 점수에 직접 혼합하지 않음",
+        ],
+        "note": "A등급/88점은 임의로 올리지 않고 미래 M2 YoY OOS가 실제 개선될 때만 상승합니다.",
+    }
 
     return {
         "schema_version": "1.1.0",
@@ -363,6 +414,13 @@ def build_krw_liquidity_forecast(ecos: dict[str, Any], rate_v2: dict[str, Any] |
             "grade": _grade(current_score),
             "observations": observations,
         },
+        "input_freshness": input_freshness,
+        "foreign_core_dependency": {
+            "uses_fred_in_core_liquidity_score": False,
+            "core_sources": ["ECOS", "korea_rate_forecast_v2"],
+            "note": "원화 유동성 핵심 점수는 한국 통화량·한국 시장금리·한국 정책경로로 구성합니다.",
+        },
+        "quality_improvement": improvement,
         "forecast_path": forecast_path,
         "validation": {
             "separate_oos_validated": True,

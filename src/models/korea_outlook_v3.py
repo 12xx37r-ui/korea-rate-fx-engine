@@ -188,6 +188,56 @@ def build_v3(
         and abs(float(row.get("point_forecast")) - spot) >= 0.05
         for row in forecasts
     )
+    rate_observed = rate_gate.get("observed") or {}
+    rate_vintage = rate_validation_summary.get("real_time_vintage_validation") or {}
+    rate_quality_improvement = {
+        "score_inflation_forbidden": True,
+        "current_forecast_quality_score": rate_gate.get("forecast_quality_score") or rate_validation.get("forecast_quality_score"),
+        "objective_blockers": [
+            item for item in [
+                "실시간 원본 빈티지 표본 부족" if not rate_validation_summary.get("real_time_vintage") else None,
+                "Brier skill 0.15 미만" if (_float(rate_observed.get("brier_skill_score")) is not None and float(rate_observed.get("brier_skill_score")) < 0.15) else None,
+                "방향 정확도 65% 미만" if (_float(rate_observed.get("accuracy")) is not None and float(rate_observed.get("accuracy")) < 0.65) else None,
+            ] if item
+        ],
+        "objective_next_targets": {
+            "real_time_vintage_matured_samples_min": 24,
+            "brier_skill_score_min": 0.15,
+            "accuracy_min": 0.65,
+            "accuracy_wilson_lower_95_min": 0.56,
+        },
+        "observed": {
+            "samples": rate_observed.get("samples"),
+            "brier_skill_score": rate_observed.get("brier_skill_score"),
+            "accuracy": rate_observed.get("accuracy"),
+            "accuracy_wilson_lower_95": rate_observed.get("accuracy_wilson_lower_95"),
+            "real_time_vintage_samples": rate_vintage.get("samples"),
+        },
+        "note": "한국 금리 품질은 임의 가중치 조정이 아니라 빈티지 표본과 OOS proper-score/정확도가 실제 개선될 때만 상향합니다.",
+    }
+    fx_observed = fx_gate.get("observed") or {}
+    fx_quality_improvement = {
+        "score_inflation_forbidden": True,
+        "current_model_quality_score": fx_observed.get("model_quality_score"),
+        "objective_blockers": [
+            item for item in [
+                "랜덤워크 대비 RMSE 우위 미확인" if (_float(fx_observed.get("persistence_skill_pct")) is not None and float(fx_observed.get("persistence_skill_pct")) <= 0) else None,
+                "활성 방향 적중률 52% 미만" if (_float(fx_observed.get("active_direction_accuracy")) is not None and float(fx_observed.get("active_direction_accuracy")) < 0.52) else None,
+            ] if item
+        ],
+        "objective_next_targets": {
+            "persistence_skill_pct_min": 1.0,
+            "active_direction_accuracy_min": 0.52,
+            "interval_80_coverage_range": [0.75, 0.85],
+            "minimum_oos_samples": 600,
+        },
+        "safe_upgrade_paths": [
+            "기존 랜덤워크 benchmark를 유지한 expanding/walk-forward 후보모형 경쟁",
+            "금리차·달러·위험선호·원자재·대외수지 신호는 발표시차를 적용한 과거시점 값만 사용",
+            "새 후보는 OOS에서 benchmark를 이기지 못하면 production에 채택하지 않음",
+        ],
+        "note": "최신 spot overlay는 현재 수준만 보정하며 과거 OOS 성적을 소급해 높이지 않습니다.",
+    }
 
     return {
         "schema_version": "3.2.0",
@@ -201,6 +251,7 @@ def build_v3(
             "calendar_horizon_estimates": rate_month,
             "quality_gate": rate_gate,
             "validation_summary": rate_validation_summary,
+            "quality_improvement": rate_quality_improvement,
             "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 재구성 OOS와 실시간 원본 빈티지 엄격검증을 분리합니다.",
         },
         "fx": {
@@ -228,6 +279,7 @@ def build_v3(
             "market_spot_retrieved_at_utc": retrieved_at_utc,
             "market_spot_age_minutes": round(market_age_minutes, 2) if market_age_minutes is not None else None,
             "rebased_forecast_path": rebased_forecasts,
+            "quality_improvement": fx_quality_improvement,
         },
         "krw_liquidity": liquidity or {},
         "krw_strength": krw_strength or {},
