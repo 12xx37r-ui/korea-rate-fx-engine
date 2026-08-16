@@ -564,11 +564,13 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     # Three compact FRED groups run in parallel. Worst-case wall time is one group
     # timeout rather than three sequential timeouts.
     futures = {}
-    with ThreadPoolExecutor(max_workers=len(FRED_GROUPS)) as pool:
+    with ThreadPoolExecutor(max_workers=min(2, len(FRED_GROUPS))) as pool:
         for name, group in FRED_GROUPS.items():
             start_date, mode = _group_start(previous, group)
             group_meta[name] = {"start": start_date, "mode": mode}
             print(f"[GLOBAL_MARKET] FRED {name}: {len(group)} series | start={start_date} | mode={mode}", flush=True)
+            if futures:
+                time.sleep(0.25)
             futures[pool.submit(_fred_batch, group, start_date)] = (name, group)
             request_count += 1
 
