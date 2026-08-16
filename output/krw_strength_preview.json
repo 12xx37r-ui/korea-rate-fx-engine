@@ -101,8 +101,8 @@
         "ret20_pct": -2.893,
         "ret60_pct": -6.518,
         "source": "Naver MarketIndex FX_USDKRW",
-        "observation": "20260814",
-        "market_time_utc": "2026-08-14T20:44:55+00:00",
+        "observation": "20260816",
+        "market_time_utc": "2026-08-16T21:02:33+00:00",
         "live_overlay_applied": true,
         "model_anchor_usdkrw": 1416.48
       },
@@ -152,10 +152,10 @@
   "input_freshness": {
     "usdkrw": {
       "source": "Naver MarketIndex FX_USDKRW",
-      "observation": "20260814",
-      "market_time_utc": "2026-08-14T20:44:55+00:00",
-      "retrieved_at_utc": "2026-08-16T17:33:20.168152+00:00",
-      "market_state": "CLOSED",
+      "observation": "20260816",
+      "market_time_utc": "2026-08-16T21:02:33+00:00",
+      "retrieved_at_utc": "2026-08-16T21:05:40.033687+00:00",
+      "market_state": "OPEN",
       "live_overlay_applied": true
     },
     "krw_neer": {
@@ -302,5 +302,5 @@
     "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
     "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
   ],
-  "generated_at": "2026-08-17T02:33:09.330641+09:00"
+  "generated_at": "2026-08-17T06:05:28.611912+09:00"
 }

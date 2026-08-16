@@ -157,7 +157,7 @@
   },
   "fx": {
     "current_usdkrw": 1418.5,
-    "current_date": "20260814",
+    "current_date": "20260816",
     "current_source": "Naver MarketIndex FX_USDKRW",
     "recent_change_pct": {
       "5d": 0.304,
@@ -461,12 +461,12 @@
       }
     ],
     "market_spot": 1418.5,
-    "market_spot_as_of_utc": "2026-08-14T20:44:55+00:00",
+    "market_spot_as_of_utc": "2026-08-16T21:02:33+00:00",
     "market_spot_source": "Naver MarketIndex FX_USDKRW",
-    "market_spot_status": "CACHE",
-    "market_state": "CLOSED",
-    "market_spot_retrieved_at_utc": "2026-08-16T17:33:20.168152+00:00",
-    "market_spot_age_minutes": 2689.26,
+    "market_spot_status": "LIVE",
+    "market_state": "OPEN",
+    "market_spot_retrieved_at_utc": "2026-08-16T21:05:40.033687+00:00",
+    "market_spot_age_minutes": 3.98,
     "rebased_forecast_path": [
       {
         "months": 1,
@@ -641,7 +641,7 @@
       "expected_policy_path": {
         "source": "korea_rate_forecast_v2",
         "cadence": "workflow",
-        "observation": "2026-08-17T02:33:09.330641+09:00",
+        "observation": "2026-08-17T06:05:28.611912+09:00",
         "value": 0.052,
         "available": true
       }
@@ -824,7 +824,7 @@
       "monetary_aggregate_available": true,
       "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
     },
-    "generated_at": "2026-08-17T02:33:09.330641+09:00"
+    "generated_at": "2026-08-17T06:05:28.611912+09:00"
   },
   "krw_strength": {
     "schema_version": "1.0.0",
@@ -929,8 +929,8 @@
           "ret20_pct": -2.893,
           "ret60_pct": -6.518,
           "source": "Naver MarketIndex FX_USDKRW",
-          "observation": "20260814",
-          "market_time_utc": "2026-08-14T20:44:55+00:00",
+          "observation": "20260816",
+          "market_time_utc": "2026-08-16T21:02:33+00:00",
           "live_overlay_applied": true,
           "model_anchor_usdkrw": 1416.48
         },
@@ -980,10 +980,10 @@
     "input_freshness": {
       "usdkrw": {
         "source": "Naver MarketIndex FX_USDKRW",
-        "observation": "20260814",
-        "market_time_utc": "2026-08-14T20:44:55+00:00",
-        "retrieved_at_utc": "2026-08-16T17:33:20.168152+00:00",
-        "market_state": "CLOSED",
+        "observation": "20260816",
+        "market_time_utc": "2026-08-16T21:02:33+00:00",
+        "retrieved_at_utc": "2026-08-16T21:05:40.033687+00:00",
+        "market_state": "OPEN",
         "live_overlay_applied": true
       },
       "krw_neer": {
@@ -1130,7 +1130,7 @@
       "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
       "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
     ],
-    "generated_at": "2026-08-17T02:33:09.330641+09:00"
+    "generated_at": "2026-08-17T06:05:28.611912+09:00"
   },
   "factor_panel": {
     "1m": {
@@ -1400,15 +1400,15 @@
   },
   "source_freshness": {
     "fx_market": {
-      "status": "CACHE",
-      "as_of_utc": "2026-08-14T20:44:55+00:00",
-      "age_minutes": 2689.26,
+      "status": "LIVE",
+      "as_of_utc": "2026-08-16T21:02:33+00:00",
+      "age_minutes": 3.98,
       "source": "Naver MarketIndex FX_USDKRW",
       "model_anchor_preserved": true,
       "public_current_uses_latest_overlay": true,
       "rebased_path_available": true,
-      "market_state": "CLOSED",
-      "retrieved_at_utc": "2026-08-16T17:33:20.168152+00:00"
+      "market_state": "OPEN",
+      "retrieved_at_utc": "2026-08-16T21:05:40.033687+00:00"
     }
   },
   "certification": {
@@ -1422,6 +1422,6 @@
     "v3_production_enabled": true,
     "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
   },
-  "generated_at": "2026-08-17T02:33:09.330641+09:00",
+  "generated_at": "2026-08-17T06:05:28.611912+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }

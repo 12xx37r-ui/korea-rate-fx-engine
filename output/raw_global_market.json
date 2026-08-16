@@ -43542,21 +43542,21 @@
   "usd_krw_market_snapshot": {
     "symbol": "FX_USDKRW",
     "price": 1418.5,
-    "market_time_utc": "2026-08-14T20:44:55+00:00",
-    "retrieved_at_utc": "2026-08-16T17:33:20.168152+00:00",
-    "market_state": "CLOSED",
+    "market_time_utc": "2026-08-16T21:02:33+00:00",
+    "retrieved_at_utc": "2026-08-16T21:05:40.033687+00:00",
+    "market_state": "OPEN",
     "source": "Naver MarketIndex FX_USDKRW",
     "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
     "provider_code": "FX_USDKRW",
     "provider_market_state": "OPEN",
-    "calendar_market_state": "CLOSED"
+    "calendar_market_state": "OPEN"
   },
   "usd_krw_market_snapshot_candidates": {
     "naver": {
       "symbol": "FX_USDKRW",
       "price": 1418.5,
-      "market_time_utc": "2026-08-14T20:44:55+00:00",
-      "retrieved_at_utc": "2026-08-16T17:33:20.168152+00:00",
+      "market_time_utc": "2026-08-16T21:02:33+00:00",
+      "retrieved_at_utc": "2026-08-16T21:05:40.033687+00:00",
       "market_state": "OPEN",
       "source": "Naver MarketIndex FX_USDKRW",
       "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
