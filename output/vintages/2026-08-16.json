@@ -1,6 +1,6 @@
 {
   "schema_version": "4.0.0",
-  "captured_at": "2026-08-16T13:48:24.898134+09:00",
+  "captured_at": "2026-08-16T14:07:18.421736+09:00",
   "rate_forecast": {
     "schema_version": "2.0.0",
     "engine_version": "5.0.0-layered-regime-realtime-enhanced/rate",
@@ -3000,7 +3000,7 @@
       "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
       "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
     ],
-    "generated_at": "2026-08-16T13:48:24.898134+09:00"
+    "generated_at": "2026-08-16T14:07:18.421736+09:00"
   },
   "fx_forecast": {
     "schema_version": "4.0.0",
@@ -3696,7 +3696,7 @@
       "랜덤워크는 검증 기준모형으로만 사용하며 실전 중심값으로 대체하지 않습니다.",
       "검증력이 약하면 예측폭과 품질등급을 낮추지만 예측 자체는 계속 산출합니다."
     ],
-    "generated_at": "2026-08-16T13:48:24.898134+09:00"
+    "generated_at": "2026-08-16T14:07:18.421736+09:00"
   },
   "krw_liquidity_forecast": {
     "schema_version": "1.1.0",
@@ -3863,7 +3863,7 @@
       "monetary_aggregate_available": true,
       "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
     },
-    "generated_at": "2026-08-16T13:48:24.898134+09:00"
+    "generated_at": "2026-08-16T14:07:18.421736+09:00"
   },
   "krw_strength_forecast": {
     "schema_version": "1.0.0",
@@ -4075,7 +4075,7 @@
       "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
       "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
     ],
-    "generated_at": "2026-08-16T13:48:24.898134+09:00"
+    "generated_at": "2026-08-16T14:07:18.421736+09:00"
   },
   "unified_outlook_v3": {
     "schema_version": "3.2.0",
@@ -4212,9 +4212,9 @@
       "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 재구성 OOS와 실시간 원본 빈티지 엄격검증을 분리합니다."
     },
     "fx": {
-      "current_usdkrw": 1412.0,
-      "current_date": "20260816",
-      "current_source": "Yahoo",
+      "current_usdkrw": 1418.5,
+      "current_date": "20260814",
+      "current_source": "Naver MarketIndex FX_USDKRW",
       "recent_change_pct": {
         "5d": -0.013,
         "20d": -3.906,
@@ -4223,87 +4223,95 @@
       "forecast_path": [
         {
           "months": 1,
-          "point_forecast": 1410.6,
-          "mid": 1410.6,
+          "point_forecast": 1417.093555,
+          "mid": 1417.093555,
           "change_pct": -0.097,
           "direction": "neutral",
           "up_probability": 0.4441,
           "neutral_probability": 0.0806,
           "down_probability": 0.4753,
           "range_50": [
-            1387.1,
-            1434.1
+            1393.485375,
+            1440.701735
           ],
           "range_80": [
-            1366.0,
-            1455.3
+            1372.288244,
+            1461.999327
           ],
           "quality_grade": "C",
           "model_quality_score": 70,
-          "prediction_status": "forecast"
+          "prediction_status": "forecast",
+          "model_change_pct": -0.097,
+          "market_spot_anchor": 1418.5
         },
         {
           "months": 3,
-          "point_forecast": 1412.1,
-          "mid": 1412.1,
+          "point_forecast": 1418.60046,
+          "mid": 1418.60046,
           "change_pct": 0.01,
           "direction": "neutral",
           "up_probability": 0.4784,
           "neutral_probability": 0.045,
           "down_probability": 0.4766,
           "range_50": [
-            1370.0,
-            1454.3
+            1376.306657,
+            1460.994724
           ],
           "range_80": [
-            1332.1,
-            1492.2
+            1338.232188,
+            1499.069193
           ],
           "quality_grade": "C",
           "model_quality_score": 65,
-          "prediction_status": "forecast"
+          "prediction_status": "forecast",
+          "model_change_pct": 0.01,
+          "market_spot_anchor": 1418.5
         },
         {
           "months": 6,
-          "point_forecast": 1412.6,
-          "mid": 1412.6,
+          "point_forecast": 1419.102762,
+          "mid": 1419.102762,
           "change_pct": 0.042,
           "direction": "neutral",
           "up_probability": 0.4773,
           "neutral_probability": 0.0516,
           "down_probability": 0.4711,
           "range_50": [
-            1360.6,
-            1464.6
+            1366.863385,
+            1471.342139
           ],
           "range_80": [
-            1313.7,
-            1511.5
+            1319.747486,
+            1518.458038
           ],
           "quality_grade": "C",
           "model_quality_score": 64,
-          "prediction_status": "forecast"
+          "prediction_status": "forecast",
+          "model_change_pct": 0.042,
+          "market_spot_anchor": 1418.5
         },
         {
           "months": 12,
-          "point_forecast": 1411.7,
-          "mid": 1411.7,
+          "point_forecast": 1418.198619,
+          "mid": 1418.198619,
           "change_pct": -0.023,
           "direction": "neutral",
           "up_probability": 0.4701,
           "neutral_probability": 0.0572,
           "down_probability": 0.4727,
           "range_50": [
-            1345.3,
-            1478.1
+            1351.492953,
+            1484.904285
           ],
           "range_80": [
-            1285.5,
-            1537.8
+            1291.41767,
+            1544.879108
           ],
           "quality_grade": "C",
           "model_quality_score": 62,
-          "prediction_status": "forecast"
+          "prediction_status": "forecast",
+          "model_change_pct": -0.023,
+          "market_spot_anchor": 1418.5
         }
       ],
       "quality_gate": {
@@ -4424,18 +4432,16 @@
       "production_use": true,
       "production_model": "continuous_oos_weighted_ensemble_v4",
       "model_anchor_usdkrw": 1412.0,
-      "market_spot": 1412.0,
-      "market_spot_as_of_utc": "2026-08-16T03:30:34+00:00",
-      "market_spot_source": "Yahoo Finance chart metadata",
-      "market_spot_status": "LIVE",
-      "market_spot_age_minutes": 79.05,
-      "rebased_forecast_path": [
+      "model_forecast_path": [
         {
           "months": 1,
-          "model_change_pct": -0.097,
-          "market_spot_anchor": 1412.0,
           "point_forecast": 1410.6,
           "mid": 1410.6,
+          "change_pct": -0.097,
+          "direction": "neutral",
+          "up_probability": 0.4441,
+          "neutral_probability": 0.0806,
+          "down_probability": 0.4753,
           "range_50": [
             1387.1,
             1434.1
@@ -4443,14 +4449,20 @@
           "range_80": [
             1366.0,
             1455.3
-          ]
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 70,
+          "prediction_status": "forecast"
         },
         {
           "months": 3,
-          "model_change_pct": 0.01,
-          "market_spot_anchor": 1412.0,
           "point_forecast": 1412.1,
           "mid": 1412.1,
+          "change_pct": 0.01,
+          "direction": "neutral",
+          "up_probability": 0.4784,
+          "neutral_probability": 0.045,
+          "down_probability": 0.4766,
           "range_50": [
             1370.0,
             1454.3
@@ -4458,14 +4470,20 @@
           "range_80": [
             1332.1,
             1492.2
-          ]
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 65,
+          "prediction_status": "forecast"
         },
         {
           "months": 6,
-          "model_change_pct": 0.042,
-          "market_spot_anchor": 1412.0,
           "point_forecast": 1412.6,
           "mid": 1412.6,
+          "change_pct": 0.042,
+          "direction": "neutral",
+          "up_probability": 0.4773,
+          "neutral_probability": 0.0516,
+          "down_probability": 0.4711,
           "range_50": [
             1360.6,
             1464.6
@@ -4473,14 +4491,20 @@
           "range_80": [
             1313.7,
             1511.5
-          ]
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 64,
+          "prediction_status": "forecast"
         },
         {
           "months": 12,
-          "model_change_pct": -0.023,
-          "market_spot_anchor": 1412.0,
           "point_forecast": 1411.7,
           "mid": 1411.7,
+          "change_pct": -0.023,
+          "direction": "neutral",
+          "up_probability": 0.4701,
+          "neutral_probability": 0.0572,
+          "down_probability": 0.4727,
           "range_50": [
             1345.3,
             1478.1
@@ -4488,7 +4512,111 @@
           "range_80": [
             1285.5,
             1537.8
-          ]
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 62,
+          "prediction_status": "forecast"
+        }
+      ],
+      "market_spot": 1418.5,
+      "market_spot_as_of_utc": "2026-08-14T20:44:55+00:00",
+      "market_spot_source": "Naver MarketIndex FX_USDKRW",
+      "market_spot_status": "LIVE",
+      "market_state": "OPEN",
+      "market_spot_retrieved_at_utc": "2026-08-16T05:07:44.229187+00:00",
+      "market_spot_age_minutes": 1943.71,
+      "rebased_forecast_path": [
+        {
+          "months": 1,
+          "point_forecast": 1417.093555,
+          "mid": 1417.093555,
+          "change_pct": -0.097,
+          "direction": "neutral",
+          "up_probability": 0.4441,
+          "neutral_probability": 0.0806,
+          "down_probability": 0.4753,
+          "range_50": [
+            1393.485375,
+            1440.701735
+          ],
+          "range_80": [
+            1372.288244,
+            1461.999327
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 70,
+          "prediction_status": "forecast",
+          "model_change_pct": -0.097,
+          "market_spot_anchor": 1418.5
+        },
+        {
+          "months": 3,
+          "point_forecast": 1418.60046,
+          "mid": 1418.60046,
+          "change_pct": 0.01,
+          "direction": "neutral",
+          "up_probability": 0.4784,
+          "neutral_probability": 0.045,
+          "down_probability": 0.4766,
+          "range_50": [
+            1376.306657,
+            1460.994724
+          ],
+          "range_80": [
+            1338.232188,
+            1499.069193
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 65,
+          "prediction_status": "forecast",
+          "model_change_pct": 0.01,
+          "market_spot_anchor": 1418.5
+        },
+        {
+          "months": 6,
+          "point_forecast": 1419.102762,
+          "mid": 1419.102762,
+          "change_pct": 0.042,
+          "direction": "neutral",
+          "up_probability": 0.4773,
+          "neutral_probability": 0.0516,
+          "down_probability": 0.4711,
+          "range_50": [
+            1366.863385,
+            1471.342139
+          ],
+          "range_80": [
+            1319.747486,
+            1518.458038
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 64,
+          "prediction_status": "forecast",
+          "model_change_pct": 0.042,
+          "market_spot_anchor": 1418.5
+        },
+        {
+          "months": 12,
+          "point_forecast": 1418.198619,
+          "mid": 1418.198619,
+          "change_pct": -0.023,
+          "direction": "neutral",
+          "up_probability": 0.4701,
+          "neutral_probability": 0.0572,
+          "down_probability": 0.4727,
+          "range_50": [
+            1351.492953,
+            1484.904285
+          ],
+          "range_80": [
+            1291.41767,
+            1544.879108
+          ],
+          "quality_grade": "C",
+          "model_quality_score": 62,
+          "prediction_status": "forecast",
+          "model_change_pct": -0.023,
+          "market_spot_anchor": 1418.5
         }
       ]
     },
@@ -4657,7 +4785,7 @@
         "monetary_aggregate_available": true,
         "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
       },
-      "generated_at": "2026-08-16T13:48:24.898134+09:00"
+      "generated_at": "2026-08-16T14:07:18.421736+09:00"
     },
     "krw_strength": {
       "schema_version": "1.0.0",
@@ -4869,7 +4997,7 @@
         "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
         "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
       ],
-      "generated_at": "2026-08-16T13:48:24.898134+09:00"
+      "generated_at": "2026-08-16T14:07:18.421736+09:00"
     },
     "factor_panel": {
       "1m": {
@@ -5076,11 +5204,14 @@
     "source_freshness": {
       "fx_market": {
         "status": "LIVE",
-        "as_of_utc": "2026-08-16T03:30:34+00:00",
-        "age_minutes": 79.05,
-        "source": "Yahoo Finance chart metadata",
+        "as_of_utc": "2026-08-14T20:44:55+00:00",
+        "age_minutes": 1943.71,
+        "source": "Naver MarketIndex FX_USDKRW",
         "model_anchor_preserved": true,
-        "rebased_path_available": true
+        "public_current_uses_latest_overlay": true,
+        "rebased_path_available": true,
+        "market_state": "OPEN",
+        "retrieved_at_utc": "2026-08-16T05:07:44.229187+00:00"
       }
     },
     "certification": {
@@ -5094,7 +5225,7 @@
       "v3_production_enabled": true,
       "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
     },
-    "generated_at": "2026-08-16T13:48:24.898134+09:00",
+    "generated_at": "2026-08-16T14:07:18.421736+09:00",
     "engine_version": "5.0.0-layered-regime-realtime-enhanced"
   },
   "source_status": {
