@@ -196,6 +196,12 @@
       "value": 1412.0,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
+    },
+    {
+      "date": "20260816",
+      "value": 1412.0,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
     }
   ],
   "krw_neer": [
@@ -4446,6 +4452,18 @@
       "symbol": "^SOX"
     },
     {
+      "date": "20260721",
+      "value": 12356.16015625,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260722",
+      "value": 12410.669921875,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
       "date": "20260723",
       "value": 12343.83984375,
       "source": "Yahoo Finance",
@@ -4478,6 +4496,12 @@
     {
       "date": "20260730",
       "value": 11302.990234375,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260731",
+      "value": 11311.080078125,
       "source": "Yahoo Finance",
       "symbol": "^SOX"
     },
@@ -4964,6 +4988,18 @@
       "symbol": "^TWII"
     },
     {
+      "date": "20260721",
+      "value": 44232.87109375,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260722",
+      "value": 44825.78125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
       "date": "20260723",
       "value": 44850.80859375,
       "source": "Yahoo Finance",
@@ -4996,6 +5032,12 @@
     {
       "date": "20260730",
       "value": 39933.30078125,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
+    },
+    {
+      "date": "20260731",
+      "value": 43119.75,
       "source": "Yahoo Finance",
       "symbol": "^TWII"
     },
@@ -6147,13 +6189,13 @@
   "semiconductor_momentum": {
     "sox": {
       "latest": 12417.0498046875,
-      "mom_20d_pct": -1.934,
-      "mom_60d_pct": 2.8431
+      "mom_20d_pct": 6.366,
+      "mom_60d_pct": 9.8319
     },
     "twii": {
       "latest": 45811.01171875,
-      "mom_20d_pct": 2.3986,
-      "mom_60d_pct": 11.2664
+      "mom_20d_pct": 7.358,
+      "mom_60d_pct": 14.4679
     },
     "nvda": {
       "latest": 225.16000366210938,

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.0",
-  "generated_at_utc": "2026-08-15T05:35:01.258365+00:00",
+  "generated_at_utc": "2026-08-16T04:11:45.868697+00:00",
   "vkospi": {
     "available": true,
     "latest": 5531.96,
@@ -380,10 +380,10 @@
   },
   "usdkrw_volatility": {
     "latest_rate": 1412.0,
-    "change_1d_pct": -0.3163,
-    "change_3d_pct": -0.3149,
-    "std_5d": 2.2129,
-    "std_10d": 5.7005
+    "change_1d_pct": 0.0,
+    "change_3d_pct": -0.3423,
+    "std_5d": 2.2562,
+    "std_10d": 4.3917
   },
   "cds_proxy": {
     "available": false,
@@ -391,33 +391,15 @@
   },
   "foreign_futures": {
     "available": true,
-    "period_start": "20260716",
-    "period_end": "20260815",
-    "foreign_net_value": 1522732103286.0,
-    "foreign_buy_value": 257581882538676.0,
+    "period_start": "20260717",
+    "period_end": "20260816",
+    "foreign_net_value": 2904097512865.0,
+    "foreign_buy_value": 245693345457862.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
   "semiconductor_raw": {
     "sox": [
-      {
-        "date": "20260515",
-        "value": 11588.4599609375,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260518",
-        "value": 11302.51953125,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260519",
-        "value": 11305.5,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
       {
         "date": "20260520",
         "value": 11813.2900390625,
@@ -665,6 +647,18 @@
         "symbol": "^SOX"
       },
       {
+        "date": "20260721",
+        "value": 12356.16015625,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260722",
+        "value": 12410.669921875,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
         "date": "20260723",
         "value": 12343.83984375,
         "source": "Yahoo Finance",
@@ -697,6 +691,12 @@
       {
         "date": "20260730",
         "value": 11302.990234375,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260731",
+        "value": 11311.080078125,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       },
@@ -1487,24 +1487,6 @@
     ],
     "sp500": [
       {
-        "date": "20260515",
-        "value": 7408.5,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260518",
-        "value": 7403.0498046875,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260519",
-        "value": 7353.60986328125,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
         "date": "20260520",
         "value": 7432.97021484375,
         "source": "Yahoo Finance",
@@ -1751,6 +1733,18 @@
         "symbol": "^GSPC"
       },
       {
+        "date": "20260721",
+        "value": 7509.2001953125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260722",
+        "value": 7498.9599609375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
         "date": "20260723",
         "value": 7408.2998046875,
         "source": "Yahoo Finance",
@@ -1783,6 +1777,12 @@
       {
         "date": "20260730",
         "value": 7437.6298828125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260731",
+        "value": 7489.72021484375,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
       },
@@ -2210,5 +2210,5 @@
       "ticker": "1024"
     }
   ],
-  "elapsed_seconds": 1.24
+  "elapsed_seconds": 1.04
 }

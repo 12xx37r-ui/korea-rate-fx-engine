@@ -1,11 +1,11 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-15T05:35:12.408783+00:00",
+  "generated_at_utc": "2026-08-16T04:11:57.061004+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
-  "score": 66,
+  "score": 70,
   "score_valid": true,
-  "bias": "약우호",
+  "bias": "우호",
   "final_score": null,
   "final_score_valid": false,
   "final_bias": "데이터 부족",
@@ -104,13 +104,13 @@
     },
     "semiconductor": {
       "available": true,
-      "score_normalized": 0.321915,
+      "score_normalized": 0.576337,
       "weights_used": 1.0,
       "evidence": {
         "sox": {
           "latest": 12417.049805,
-          "mom_20d_pct": -1.934,
-          "mom_60d_pct": 2.8431
+          "mom_20d_pct": 6.366,
+          "mom_60d_pct": 9.8319
         },
         "nvda": {
           "latest": 225.160004,
@@ -124,8 +124,8 @@
         },
         "twii": {
           "latest": 45811.011719,
-          "mom_20d_pct": 2.3986,
-          "mom_60d_pct": 11.2664
+          "mom_20d_pct": 7.358,
+          "mom_60d_pct": 14.4679
         }
       },
       "detail": "SOX 35% + NVDA 25% + TSM 25% + TWII 15% 가중 20d/60d 모멘텀 tanh 정규화"
@@ -141,13 +141,13 @@
   },
   "semiconductor_cycle": {
     "available": true,
-    "score_normalized": 0.321915,
+    "score_normalized": 0.576337,
     "weights_used": 1.0,
     "evidence": {
       "sox": {
         "latest": 12417.049805,
-        "mom_20d_pct": -1.934,
-        "mom_60d_pct": 2.8431
+        "mom_20d_pct": 6.366,
+        "mom_60d_pct": 9.8319
       },
       "nvda": {
         "latest": 225.160004,
@@ -161,8 +161,8 @@
       },
       "twii": {
         "latest": 45811.011719,
-        "mom_20d_pct": 2.3986,
-        "mom_60d_pct": 11.2664
+        "mom_20d_pct": 7.358,
+        "mom_60d_pct": 14.4679
       }
     },
     "detail": "SOX 35% + NVDA 25% + TSM 25% + TWII 15% 가중 20d/60d 모멘텀 tanh 정규화"
@@ -176,7 +176,7 @@
     "pbr": 3.34,
     "pbr_samples": 2,
     "band": "과열",
-    "adjusted_score": 56,
+    "adjusted_score": 60,
     "adjustment": -10.0,
     "signal_override": "과열_경고 (PBR 고평가)",
     "thresholds": {
@@ -188,10 +188,10 @@
     "interpretation": "KOSPI PBR 3.340x → 과열: 과열_경고 (PBR 고평가)"
   },
   "pbr_signal_override": "과열_경고 (PBR 고평가)",
-  "score_after_pbr": 56,
+  "score_after_pbr": 60,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-15T05:35:12.407460+00:00",
+    "generated_at_utc": "2026-08-16T04:11:57.059235+00:00",
     "regime": "crisis",
     "circuit_breaker": true,
     "circuit_breaker_reasons": [
@@ -205,38 +205,38 @@
     "shock_multiplier": {
       "available": true,
       "penalty": 0.0,
-      "z_score": -0.0552,
-      "abs_z": 0.0552,
+      "z_score": -0.0779,
+      "abs_z": 0.0779,
       "regime_label": "정상",
       "formula": "penalty = z^2 * 3.0 (|z|>2 구간), (|z|-1)*5.0 (1<|z|<=2), 0 (정상)"
     },
     "emp": {
       "available": true,
-      "emp_score": -2.2883,
+      "emp_score": -2.156,
       "components_count": 1,
       "evidence": {
-        "fx_change_pct": -4.5765,
+        "fx_change_pct": -4.3121,
         "reserve_change_pct": null,
         "rate_differential_pct": null
       },
       "interpretation": "양수=원화절하 압력 증가, 음수=원화절상 압력"
     },
     "emp_adjustment": {
-      "adjusted_score": 59.4325,
-      "original_score": 56,
-      "emp_score": -2.2883,
-      "adjustment": 3.4325,
+      "adjusted_score": 63.234,
+      "original_score": 60,
+      "emp_score": -2.156,
+      "adjustment": 3.234,
       "emp_applied": true
     },
-    "macro_env_score_original": 56,
-    "macro_env_score_after_emp": 59.4325,
+    "macro_env_score_original": 60,
+    "macro_env_score_after_emp": 63.234,
     "final_score": null,
     "final_score_valid": false,
     "regime_evidence": {
-      "fx_3d_change_pct": -0.3149,
-      "fx_std_5d": 2.2129,
-      "fx_std_10d": 5.7005,
-      "fx_z_score": 0.0552,
+      "fx_3d_change_pct": -0.3423,
+      "fx_std_5d": 2.2562,
+      "fx_std_10d": 4.3917,
+      "fx_z_score": 0.0779,
       "vkospi_latest": 5531.96,
       "cds_proxy": null
     }

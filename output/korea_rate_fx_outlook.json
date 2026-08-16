@@ -8,11 +8,11 @@
     "kr_gov_2y_pct": 3.639,
     "kr_gov_3y_pct": 3.796,
     "kr_gov_10y_pct": 4.313,
-    "krw_strength_score": 0.6394,
+    "krw_strength_score": 0.6388,
     "krw_strength_grade": "강약",
     "krw_absolute_level_score": 0.6905,
     "krw_absolute_level_grade": "강강",
-    "krw_short_term_momentum_score": 0.5445,
+    "krw_short_term_momentum_score": 0.5428,
     "krw_short_term_momentum_grade": "강약",
     "usdkrw_1y_percentile": 0.1548
   },
@@ -34,18 +34,18 @@
         "probability": 0.155
       }
     },
-    "usdkrw_mid": 1411.9,
+    "usdkrw_mid": 1412.1,
     "usdkrw_range": [
-      1331.8,
-      1492.0
+      1332.1,
+      1492.2
     ],
     "usdkrw_direction": "neutral",
-    "usdkrw_up_probability": 0.4768,
+    "usdkrw_up_probability": 0.4784,
     "usdkrw_neutral_probability": 0.045,
-    "usdkrw_down_probability": 0.4782,
+    "usdkrw_down_probability": 0.4766,
     "usdkrw_model_quality_grade": "C",
     "usdkrw_model_quality_score": 65,
-    "krw_strength_score": 0.4543,
+    "krw_strength_score": 0.4485,
     "krw_strength_grade": "강약",
     "confidence": 0.74,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -80,15 +80,15 @@
     "fx_backtest_samples": 600,
     "fx_backtest_rmse_pct": 4.022,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.04209,
-    "fx_3m_change": -0.05967,
-    "fx_forecast_bias_pct": -7e-05,
+    "fx_1m_change": -0.03906,
+    "fx_3m_change": -0.06229,
+    "fx_forecast_bias_pct": 7e-05,
     "policy_market_gap_pctp": 0.889,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "4.0.0-probability-validation-split"
   },
-  "generated_at": "2026-08-15T14:34:15.045604+09:00",
+  "generated_at": "2026-08-16T13:11:00.354508+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }
