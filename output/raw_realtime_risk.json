@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.2-vkospi-source-guard",
-  "generated_at_utc": "2026-08-16T09:01:52.395572+00:00",
+  "generated_at_utc": "2026-08-16T13:01:43.147638+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -1495,5 +1495,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 0.48
+  "elapsed_seconds": 0.46
 }

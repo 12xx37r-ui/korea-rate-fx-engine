@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "korea-equity-environment-collector-v1.2-close-per-earnings-fallback",
-  "generated_at_utc": "2026-08-16T09:02:05.908489+00:00",
+  "generated_at_utc": "2026-08-16T13:01:53.882668+00:00",
   "period_start": "20260710",
   "period_end": "20260814",
   "flows": {
@@ -6196,12 +6196,10 @@
       }
     ],
     "history_samples": 374,
-    "stale": true,
-    "source": "한국은행 ECOS",
+    "stale": false,
+    "source": "한국은행 ECOS 시장금리(일별)",
     "source_url": "https://ecos.bok.or.kr/",
-    "diagnostics": [
-      "credit_ecos:HttpError:요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20260630/20260816/010300000/?/? (Caused by ConnectTimeoutErro"
-    ]
+    "diagnostics": []
   },
   "source_status": {
     "pykrx_available": true,

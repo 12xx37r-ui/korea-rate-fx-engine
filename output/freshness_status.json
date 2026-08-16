@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "patch_version": "V227-final-production-guardrails-and-secret-redaction",
-  "generated_at_utc": "2026-08-16T09:02:20.996909+00:00",
-  "engine_generated_at": "2026-08-16T18:01:22.622419+09:00",
+  "generated_at_utc": "2026-08-16T13:02:14.637592+00:00",
+  "engine_generated_at": "2026-08-16T22:00:49.942814+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
@@ -26,19 +26,15 @@
     },
     {
       "source": "ecos",
-      "status": "LKG",
-      "collector_status": "degraded",
+      "status": "LIVE",
+      "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260814",
-      "age_hours": 57.04,
+      "age_hours": 61.04,
       "max_age_hours": 96.0,
-      "last_good_reused": true,
+      "last_good_reused": false,
       "cadence_skip": false,
-      "warnings": [
-        "kr_base_rate: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/722Y001/D/20260724/20260816/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f91b9aec050>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
-        "usdkrw: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/731Y001/D/20260724/20260816/0000001/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f91b9aec8c0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
-        "kr_gov_2y: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/817Y002/D/20260724/20260816/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f91b9aed400>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지"
-      ]
+      "warnings": []
     },
     {
       "source": "global_market",
@@ -46,7 +42,7 @@
       "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260816",
-      "age_hours": 9.04,
+      "age_hours": 13.04,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -70,7 +66,7 @@
       "collector_status": "ok",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1113.04,
+      "age_hours": 1117.04,
       "max_age_hours": 1080.0,
       "last_good_reused": true,
       "cadence_skip": true,
@@ -84,9 +80,9 @@
       "status": "CACHE",
       "cadence": "intraday-when-market-open",
       "observation_at": "2026-08-14T20:44:55+00:00",
-      "retrieved_at": "2026-08-16T09:01:39.488079+00:00",
+      "retrieved_at": "2026-08-16T13:01:28.446921+00:00",
       "market_state": "CLOSED",
-      "age_hours": 36.29,
+      "age_hours": 40.29,
       "max_age_hours": 3.0,
       "value": 1418.5,
       "provider": "Naver MarketIndex FX_USDKRW",
@@ -94,9 +90,9 @@
     }
   ],
   "summary": {
-    "live": 3,
+    "live": 4,
     "cache": 2,
-    "lkg": 1,
+    "lkg": 0,
     "fallback": 0,
     "unavailable": 0
   }
