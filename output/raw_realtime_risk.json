@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.0",
-  "generated_at_utc": "2026-08-16T06:01:53.744981+00:00",
+  "generated_at_utc": "2026-08-16T06:21:26.106864+00:00",
   "vkospi": {
     "available": true,
     "latest": 5531.96,
@@ -386,8 +386,13 @@
     "std_10d": 4.3917
   },
   "cds_proxy": {
-    "available": false,
-    "reason": "한-미 국채 데이터 부재"
+    "available": true,
+    "kr_gov_latest_pct": 4.313,
+    "us_10y_latest_pct": 4.63,
+    "kr_us_spread_pct": -0.317,
+    "hy_oas_pct": 2.71,
+    "cds_proxy_score": 0.225,
+    "note": "CDS 직접 데이터 미확보: 한미 국채 스프레드 + HY OAS 가중치로 근사"
   },
   "foreign_futures": {
     "available": true,
@@ -2210,5 +2215,5 @@
       "ticker": "1024"
     }
   ],
-  "elapsed_seconds": 0.92
+  "elapsed_seconds": 0.91
 }

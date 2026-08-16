@@ -1,22 +1,23 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-16T06:02:16.076552+00:00",
+  "generated_at_utc": "2026-08-16T06:21:47.374912+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
-    "current_score": 69,
-    "current_regime": "약호황",
+    "current_score": 70,
+    "current_regime": "호황",
     "trend_score": 44,
     "trend_direction": "강한 개선",
-    "forward_overall": 69,
-    "forward_regime": "약호황",
-    "forward_confidence_pct": 78,
+    "forward_overall": 70,
+    "forward_regime": "호황",
+    "forward_confidence_pct": 100,
     "positive_factors": [
       "price_trend",
       "breadth",
       "earnings",
       "flow",
-      "fx"
+      "fx",
+      "market_risk"
     ],
     "negative_factors": [],
     "data_quality": {
@@ -26,16 +27,17 @@
     }
   },
   "current_score": {
-    "score": 69,
+    "score": 70,
     "score_valid": true,
-    "regime": "약호황",
-    "coverage_pct": 85,
+    "regime": "호황",
+    "coverage_pct": 100,
     "positive_factors": [
       "price_trend",
       "breadth",
       "earnings",
       "flow",
-      "fx"
+      "fx",
+      "market_risk"
     ],
     "negative_factors": [],
     "weights": {
@@ -226,16 +228,18 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5275,
-        "raw_score_before_regime": 0.5275,
-        "signal_count": 2,
+        "score_normalized": 0.4772,
+        "raw_score_before_regime": 0.4772,
+        "signal_count": 3,
         "evidence": {
           "usd_krw_current": 1412.0,
           "usd_krw_1m_change_pct": -4.58,
           "fx_1m_signal": 0.9097,
-          "krw_strength_score": 57.27,
+          "krw_strength_score": 57.18,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.1454,
+          "krw_strength_signal": 0.1436,
+          "broad_dollar_1m_change_pct": -1.19,
+          "dollar_signal": 0.3784,
           "usd_krw_vol_1m_ann_pct": 9.65,
           "usd_krw_level_percentile": 0.062,
           "fx_regime": "CAUTION",
@@ -245,35 +249,45 @@
             "crisis_krw": 1420
           }
         },
-        "pending": [
-          "BROAD_DOLLAR_FRED_미수집"
-        ],
+        "pending": [],
         "source": "raw_global_market + korea_krw_strength_forecast",
         "detail": "USD/KRW 1M/3M 추세·원화강도예측·달러인덱스 복합신호 + 비선형 레짐 탐지(NORMAL/CAUTION/CRISIS)"
       },
       "market_risk": {
-        "available": false,
-        "score_normalized": null,
-        "reason": "시장위험 지표 미수집/연결대기 (FRED VIX·HY OAS)",
-        "data_status": "DATA_PENDING",
-        "pending": [
-          "VIX_FRED_미수집",
-          "HY_OAS_FRED_미수집"
-        ]
+        "available": true,
+        "score_normalized": 0.8613,
+        "signal_count": 2,
+        "evidence": {
+          "vix_current": 14.63,
+          "vix_percentile": 0.034,
+          "vix_signal": 0.9325,
+          "hy_oas_current": 2.71,
+          "hy_oas_percentile": 0.105,
+          "hy_oas_signal": 0.79
+        },
+        "pending": [],
+        "source": "raw_global_market (FRED)",
+        "detail": "VIX·HY OAS 과거분포 백분위 기반 시장위험 신호"
       },
       "external": {
-        "available": false,
-        "score_normalized": null,
-        "reason": "대외시장환경 데이터 미수집/연결대기",
-        "data_status": "DATA_PENDING",
-        "pending": [
-          "US_10Y_FRED_미수집",
-          "USD_CNY_FRED_미수집"
-        ]
+        "available": true,
+        "score_normalized": 0.0464,
+        "signal_count": 2,
+        "evidence": {
+          "us_10y_current": 4.63,
+          "us_10y_1m_change": 0.06,
+          "us10y_signal": -0.1194,
+          "usd_cny_current": 6.7474,
+          "usd_cny_1m_change_pct": -0.43,
+          "cny_signal": 0.2122
+        },
+        "pending": [],
+        "source": "us_input + raw_global_market",
+        "detail": "미국 금리정책 방향·미국 10Y·USD/CNY 복합신호"
       }
     },
     "interpretation": "0~14:극심한불황 · 15~29:불황 · 30~39:약세 · 40~49:약간불리 · 50~59:중립 · 60~69:약호황 · 70~79:호황 · 80~89:강한호황 · 90~100:과열",
-    "coverage_rule": "활성 가중치 합 85% (50% 미만 시 점수 미산출)"
+    "coverage_rule": "활성 가중치 합 100% (50% 미만 시 점수 미산출)"
   },
   "trend_score": {
     "score": 44,
@@ -291,19 +305,19 @@
   },
   "forward_score": {
     "overall": {
-      "score": 69,
+      "score": 70,
       "score_valid": true,
-      "regime": "약호황",
+      "regime": "호황",
       "direction": "상승 우세",
-      "confidence_pct": 78
+      "confidence_pct": 100
     },
     "periods": {
       "1m": {
         "available": true,
-        "score": 65,
+        "score": 70,
         "direction": "상승 우세",
-        "bias": "약강",
-        "signal_count": 5,
+        "bias": "강약",
+        "signal_count": 6,
         "evidence": {}
       },
       "3m": {
@@ -327,14 +341,14 @@
       },
       "12m": {
         "available": true,
-        "score": 76,
+        "score": 72,
         "direction": "상승 우세",
         "bias": "강약",
-        "signal_count": 5,
+        "signal_count": 6,
         "evidence": {}
       }
     },
-    "coverage_note": "유효 팩터 7/9 · 유효 기간 4/4"
+    "coverage_note": "유효 팩터 9/9 · 유효 기간 4/4"
   },
   "derivative_overlay": {
     "available": false,
@@ -361,44 +375,44 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-16T06:02:16.076552+00:00",
-    "current_score": 69,
-    "current_regime": "약호황",
+    "generated_at_utc": "2026-08-16T06:21:47.374912+00:00",
+    "current_score": 70,
+    "current_regime": "호황",
     "trend_score": 44,
     "trend_direction": "강한 개선",
     "trend_method": "embedded_series",
-    "forward_overall": 69,
-    "forward_confidence_pct": 78,
-    "forward_1m_score": 65,
+    "forward_overall": 70,
+    "forward_confidence_pct": 100,
+    "forward_1m_score": 70,
     "forward_1m_direction": "상승 우세",
     "forward_3m_score": 58,
     "forward_3m_direction": "소폭 상승 우세",
     "forward_6m_score": 78,
     "forward_6m_direction": "상승 우세",
-    "forward_12m_score": 76,
+    "forward_12m_score": 72,
     "forward_12m_direction": "상승 우세",
-    "coverage_pct": 85,
+    "coverage_pct": 100,
     "factors_available": [
       "price_trend",
       "breadth",
       "earnings",
       "flow",
       "fx",
+      "market_risk",
       "valuation",
-      "rate_liquidity_credit"
+      "rate_liquidity_credit",
+      "external"
     ],
     "factors_positive": [
       "price_trend",
       "breadth",
       "earnings",
       "flow",
-      "fx"
+      "fx",
+      "market_risk"
     ],
     "factors_negative": [],
-    "factors_pending": [
-      "market_risk",
-      "external"
-    ],
+    "factors_pending": [],
     "dq_passed": true,
     "dq_issues_count": 0,
     "dq_warnings_count": 0

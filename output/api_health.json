@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-16T14:58:54.887300+09:00",
+  "generated_at": "2026-08-16T15:20:26.981351+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -48,18 +48,14 @@
     },
     "global_market": {
       "source": "global_market",
-      "status": "degraded",
-      "message": "7/18 series usable; semiconductor micro-factors included",
+      "status": "ok",
+      "message": "18/18 series usable; semiconductor micro-factors included",
       "rows": 0,
       "latest_observation": "20260816",
       "payload_path": "output/raw_global_market.json",
-      "warnings": [
-        "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-        "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
-      ],
+      "warnings": [],
       "metadata": {
-        "usable_series": 7,
+        "usable_series": 18,
         "series_total": 18,
         "semiconductor_live": 4,
         "semiconductor_symbols": [
@@ -68,64 +64,113 @@
           "nvda",
           "tsm"
         ],
-        "request_count": 17,
+        "request_count": 18,
         "bis_monthly_cache_skip_enabled": true,
         "fred_group_count": 3,
         "fred_groups_parallel": true,
+        "fred_series_aware_incremental": true,
+        "fred_read_timeout_seconds": 20,
+        "fred_transport": "official_api_series_observations",
+        "fred_api_host": "api.stlouisfed.org",
+        "fred_api_key_configured": true,
         "group_meta": {
           "currency": {
-            "start": "2024-02-28",
-            "mode": "bootstrap_recent",
-            "first_error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-            "attempts": 2,
-            "retry_start": "2024-02-28",
-            "recovered_on_retry": false,
-            "critical_series_fallback": {
-              "attempted": [
-                "broad_dollar",
-                "usd_cny",
-                "usd_jpy"
-              ],
-              "recovered": [],
-              "errors": {
-                "broad_dollar": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-                "usd_cny": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-                "usd_jpy": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+            "mode": "series_aware",
+            "plan": [
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "broad_dollar"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "usd_cny"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "usd_jpy"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "usd_krw_fred"
+                ]
               }
-            },
-            "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+            ],
+            "attempts": 4,
+            "fresh_series": 4
           },
           "rates_risk": {
-            "start": "2024-02-28",
-            "mode": "bootstrap_recent",
-            "first_error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-            "attempts": 2,
-            "retry_start": "2024-02-28",
-            "recovered_on_retry": false,
-            "critical_series_fallback": {
-              "attempted": [
-                "us_2y"
-              ],
-              "recovered": [],
-              "errors": {
-                "us_2y": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+            "mode": "series_aware",
+            "plan": [
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "us_2y"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "us_10y"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "us_breakeven_10y"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "vix"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "hy_oas"
+                ]
               }
-            },
-            "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+            ],
+            "attempts": 5,
+            "fresh_series": 5
           },
           "commodities": {
-            "start": "2024-02-28",
-            "mode": "bootstrap_recent",
-            "first_error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
+            "mode": "series_aware",
+            "plan": [
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "wti"
+                ]
+              },
+              {
+                "start": "2024-02-28",
+                "mode": "bootstrap_missing",
+                "keys": [
+                  "commodity_index"
+                ]
+              }
+            ],
             "attempts": 2,
-            "retry_start": "2024-02-28",
-            "recovered_on_retry": false,
-            "critical_series_fallback": {
-              "attempted": [],
-              "recovered": [],
-              "errors": {}
-            },
-            "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+            "fresh_series": 2
           },
           "bis_eer": {
             "mode": "incremental",
@@ -134,14 +179,10 @@
           }
         },
         "bootstrap_days": 900,
-        "overlap_days": 120,
+        "overlap_days": 45,
         "last_good_reused": [],
-        "errors": {
-          "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-          "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
-        },
-        "elapsed_seconds": 147.76
+        "errors": {},
+        "elapsed_seconds": 4.55
       }
     },
     "krx": {
@@ -165,12 +206,15 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "ok",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2",
+      "status": "degraded",
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
-      "warnings": [],
+      "warnings": [
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f172936ad20>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
+        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f172936be30>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
+      ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
@@ -178,9 +222,15 @@
         "max_external_requests": 2,
         "circuit_open": false,
         "circuit_reason": "",
-        "network_failures": [],
+        "network_failures": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "per_series_network_retries": 2,
-        "last_good_reused": [],
+        "last_good_reused": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "credential_status": "valid",
         "secret_name": "KOSIS_API_KEY",
         "action_required": false,
@@ -218,7 +268,7 @@
         "status": "valid",
         "action_required": false,
         "action": "없음",
-        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
+        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
       }
     ]
   },
@@ -232,7 +282,7 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "global_market: 7/18 series usable; semiconductor micro-factors included",
+    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }
