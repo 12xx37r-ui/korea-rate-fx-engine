@@ -24,7 +24,7 @@ def test_v3_does_not_force_minimum_drift():
     assert all(abs(float(x['change_pct'])) < 7.6 for x in out['fx']['forecast_path'])
 
 
-def test_v218_public_current_prefers_market_overlay_and_preserves_model_anchor():
+def test_v219_public_current_prefers_market_overlay_and_preserves_model_anchor():
     rate,fx,ecos,g=_sample()
     g=dict(g)
     g['usd_krw_market_snapshot']={
@@ -43,3 +43,18 @@ def test_v218_public_current_prefers_market_overlay_and_preserves_model_anchor()
     assert out['fx']['model_forecast_path'][0]['point_forecast'] == 1414.0
     assert round(out['fx']['rebased_forecast_path'][0]['point_forecast'], 2) == round(1414.0*(1418.5/1400.0),2)
     assert out['source_freshness']['fx_market']['model_anchor_preserved'] is True
+
+
+def test_v219_open_flag_with_old_timestamp_is_cache():
+    rate,fx,ecos,g=_sample()
+    g=dict(g)
+    g['usd_krw_market_snapshot']={
+        'price':1418.5,
+        'market_time_utc':'2020-01-01T00:00:00+00:00',
+        'market_state':'OPEN',
+        'source':'Naver MarketIndex FX_USDKRW',
+    }
+    out=build_v3(rate,fx,ecos,{}, {},g,{'current_effective_rate':4.0,'meeting_path':[]})
+    assert out['fx']['current_usdkrw'] == 1418.5
+    assert out['fx']['market_spot_status'] == 'CACHE'
+    assert out['source_freshness']['fx_market']['status'] == 'CACHE'

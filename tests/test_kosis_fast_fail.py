@@ -16,7 +16,7 @@ def test_network_timeout_is_not_credential_error():
     assert credential_issue(text) is False
 
 
-def test_kosis_opens_circuit_after_one_network_failure(monkeypatch, tmp_path: Path):
+def test_kosis_isolates_network_failure_and_attempts_each_series(monkeypatch, tmp_path: Path):
     monkeypatch.setenv("KOSIS_API_KEY", "test")
     monkeypatch.setattr(kosis, "_cached_resolution", lambda name, version: _resolved(name))
     calls = {"n": 0}
@@ -32,8 +32,8 @@ def test_kosis_opens_circuit_after_one_network_failure(monkeypatch, tmp_path: Pa
         encoding="utf-8",
     )
     result = kosis.collect(tmp_path, timeout=30, retries=3)
-    assert calls["n"] == 1
+    assert calls["n"] == 2
     assert result.status == "degraded"
-    assert result.metadata["circuit_open"] is True
-    assert result.metadata["circuit_reason"] == "network_timeout"
+    assert result.metadata["circuit_open"] is False
+    assert result.metadata["network_failures"] == ["cpi_core", "industrial_production"]
     assert len(result.metadata["last_good_reused"]) == 2

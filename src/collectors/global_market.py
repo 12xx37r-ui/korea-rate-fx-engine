@@ -5,6 +5,7 @@ import io
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Any
 
@@ -57,6 +58,9 @@ FRED_GROUPS: dict[str, dict[str, str]] = {
 BIS_EER_API_URL = "https://stats.bis.org/api/v1/data/WS_EER/M.N+R.B.KR/all"
 CONNECT_TIMEOUT_SECONDS = 3
 READ_TIMEOUT_SECONDS = 15
+FRED_RETRY_ATTEMPTS = 2
+FRED_RETRY_BACKOFF_SECONDS = 1.5
+FRED_RETRY_LOOKBACK_DAYS = 60
 BIS_READ_TIMEOUT_SECONDS = 10
 BIS_REFRESH_MAX_AGE_DAYS = 45
 FRED_BOOTSTRAP_DAYS = 900
@@ -139,10 +143,16 @@ def _fred_batch(group: dict[str, str], start_date: str) -> dict[str, list[dict[s
     url = "https://fred.stlouisfed.org/graph/fredgraph.csv"
     series_ids = list(group.values())
     with requests.Session() as session:
-        session.headers.update({"User-Agent": "korea-rate-fx-engine/4.5"})
+        session.headers.update({"User-Agent": "korea-rate-fx-engine/5.3", **NO_CACHE_HEADERS})
         response = session.get(
             url,
-            params={"id": ",".join(series_ids), "cosd": start_date},
+            params={
+                "id": ",".join(series_ids),
+                "cosd": start_date,
+                # Cache-buster only changes the HTTP request URL; FRED series IDs
+                # and model inputs are unchanged.
+                "_ts": str(time.time_ns()),
+            },
             timeout=(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS),
         )
         response.raise_for_status()
@@ -172,6 +182,22 @@ def _fred_batch(group: dict[str, str], start_date: str) -> dict[str, list[dict[s
                 continue
             by_id[sid].append({"date": date, "value": value, "source": "FRED", "series_id": sid})
     return {key: by_id.get(sid, []) for key, sid in group.items()}
+
+
+def _fred_retry_start(start_date: str, previous: dict[str, Any], group: dict[str, str]) -> str:
+    """Use a smaller incremental window on retry when committed history exists.
+
+    This lowers FRED response size after a timeout while preserving the merged
+    historical series. Bootstrap runs keep their original start date.
+    """
+    if not all(isinstance(previous.get(key), list) and previous.get(key) for key in group):
+        return start_date
+    floor = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=FRED_RETRY_LOOKBACK_DAYS)
+    try:
+        original = datetime.strptime(start_date, "%Y-%m-%d")
+        return max(original, floor).strftime("%Y-%m-%d")
+    except Exception:
+        return floor.strftime("%Y-%m-%d")
 
 
 def _parse_bis_eer_csv(text: str) -> dict[str, list[dict[str, Any]]]:
@@ -489,6 +515,25 @@ def _naver_usdkrw_snapshot() -> dict[str, Any]:
     }
 
 
+def _fx_weekend_state(now_utc: datetime | None = None) -> str:
+    """Return OPEN/CLOSED for the standard interbank FX trading week.
+
+    The provider can expose a stale OPEN flag over the weekend. The engine uses
+    the New York FX week (Sun 17:00 -> Fri 17:00 ET) as a guardrail. Holidays are
+    intentionally not guessed here; stale timestamps still prevent false LIVE.
+    """
+    now_utc = now_utc or datetime.now(timezone.utc)
+    ny = now_utc.astimezone(ZoneInfo("America/New_York"))
+    wd = ny.weekday()  # Mon=0 ... Sun=6
+    if wd == 5:
+        return "CLOSED"
+    if wd == 6:
+        return "OPEN" if ny.hour >= 17 else "CLOSED"
+    if wd == 4 and ny.hour >= 17:
+        return "CLOSED"
+    return "OPEN"
+
+
 def _select_usdkrw_snapshot(naver: dict[str, Any], yahoo: dict[str, Any], previous: dict[str, Any]) -> dict[str, Any]:
     for candidate in (naver, yahoo, previous):
         if isinstance(candidate, dict) and candidate.get("price") is not None:
@@ -527,12 +572,14 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             futures[pool.submit(_fred_batch, group, start_date)] = (name, group)
             request_count += 1
 
+        failed_groups: list[tuple[str, dict[str, str], Exception]] = []
         for future in as_completed(futures):
             name, group = futures[future]
             try:
                 fresh = future.result()
                 fresh_nonempty = sum(bool(v) for v in fresh.values())
                 group_meta[name]["fresh_series"] = fresh_nonempty
+                group_meta[name]["attempts"] = 1
                 print(f"[GLOBAL_MARKET] FRED {name}: fresh_series={fresh_nonempty}/{len(group)}", flush=True)
                 for key in group:
                     old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
@@ -540,15 +587,44 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                     payload[key] = _merge_rows(old_rows, fresh_rows)
                     if not fresh_rows and old_rows:
                         last_good_reused.append(key)
-            except Exception as exc:  # bounded worker exceptions only
-                errors[f"fred_{name}"] = f"{type(exc).__name__}: {exc}"
-                group_meta[name]["error"] = errors[f"fred_{name}"]
-                print(f"[GLOBAL_MARKET] FRED {name}: failed once; no per-series retry | {type(exc).__name__}: {exc}", flush=True)
-                for key in group:
-                    old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
-                    payload[key] = list(old_rows)
-                    if old_rows:
-                        last_good_reused.append(key)
+            except Exception as exc:
+                failed_groups.append((name, group, exc))
+                group_meta[name]["first_error"] = f"{type(exc).__name__}: {exc}"
+                group_meta[name]["attempts"] = 1
+                print(f"[GLOBAL_MARKET] FRED {name}: first attempt failed; queued one bounded retry | {type(exc).__name__}: {exc}", flush=True)
+
+    # V219: retry only groups that actually failed. Retries run sequentially to
+    # avoid hammering the same FRED endpoint with three simultaneous second tries.
+    for retry_index, (name, group, first_exc) in enumerate(failed_groups, start=1):
+        time.sleep(FRED_RETRY_BACKOFF_SECONDS * retry_index)
+        retry_start = _fred_retry_start(group_meta[name]["start"], previous, group)
+        try:
+            request_count += 1
+            fresh = _fred_batch(group, retry_start)
+            fresh_nonempty = sum(bool(v) for v in fresh.values())
+            group_meta[name]["retry_start"] = retry_start
+            group_meta[name]["fresh_series"] = fresh_nonempty
+            group_meta[name]["attempts"] = 2
+            group_meta[name]["recovered_on_retry"] = True
+            print(f"[GLOBAL_MARKET] FRED {name}: retry recovered {fresh_nonempty}/{len(group)} series | start={retry_start}", flush=True)
+            for key in group:
+                old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
+                fresh_rows = fresh.get(key, [])
+                payload[key] = _merge_rows(old_rows, fresh_rows)
+                if not fresh_rows and old_rows:
+                    last_good_reused.append(key)
+        except Exception as exc:
+            errors[f"fred_{name}"] = f"{type(exc).__name__}: {exc}"
+            group_meta[name]["retry_start"] = retry_start
+            group_meta[name]["attempts"] = 2
+            group_meta[name]["recovered_on_retry"] = False
+            group_meta[name]["error"] = errors[f"fred_{name}"]
+            print(f"[GLOBAL_MARKET] FRED {name}: retry failed; last-good retained | {type(exc).__name__}: {exc}", flush=True)
+            for key in group:
+                old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
+                payload[key] = list(old_rows)
+                if old_rows:
+                    last_good_reused.append(key)
 
     # BIS EER is authoritative for KRW NEER/REER. Because it is monthly, reuse
     # a fresh local merged history and only make one SDMX call per release cycle.
@@ -595,6 +671,14 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
         errors["usd_krw_naver"] = f"{type(exc).__name__}: {exc}"
 
     chosen_snapshot = _select_usdkrw_snapshot(naver_snapshot, yahoo_snapshot, yahoo_snapshot_old)
+    if chosen_snapshot:
+        provider_state = str(chosen_snapshot.get("market_state") or "").upper() or None
+        calendar_state = _fx_weekend_state()
+        # Provider OPEN can be stale over weekends; calendar CLOSED wins. On open
+        # days keep the provider state for audit and let timestamp freshness decide LIVE.
+        chosen_snapshot["provider_market_state"] = provider_state
+        chosen_snapshot["calendar_market_state"] = calendar_state
+        chosen_snapshot["market_state"] = "CLOSED" if calendar_state == "CLOSED" else (provider_state or calendar_state)
     payload["usd_krw_market_snapshot"] = chosen_snapshot
     payload["usd_krw_market_snapshot_candidates"] = {
         "naver": naver_snapshot,

@@ -143,15 +143,16 @@ def build_v3(
     market_age_minutes = _iso_age_minutes(market_time_utc)
     market_state = str(market_snapshot.get("market_state") or "").upper()
     retrieved_at_utc = market_snapshot.get("retrieved_at_utc")
-    # V218: a quote fetched on this run is the public current value. OPEN quotes are
-    # LIVE; CLOSED quotes are the latest available CACHE. If the provider omits a
-    # market state, timestamp freshness is used conservatively.
+    # V219: a successful refetch does not automatically mean the observation is
+    # live. CLOSED/PRE/POST are CACHE, and even an OPEN flag must have a recent
+    # market timestamp. This prevents stale provider state from labelling a weekend
+    # quote as LIVE while still publishing the newest quote actually retrieved.
     if market_spot is None:
         market_status = "UNAVAILABLE"
     elif market_state in {"CLOSE", "CLOSED", "POST", "PRE"}:
         market_status = "CACHE"
     elif market_state in {"OPEN", "REGULAR", "CONTINUOUS"}:
-        market_status = "LIVE"
+        market_status = "LIVE" if market_age_minutes is not None and market_age_minutes <= 180 else "CACHE"
     elif market_age_minutes is not None:
         market_status = "LIVE" if market_age_minutes <= 180 else "CACHE"
     else:

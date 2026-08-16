@@ -10,8 +10,8 @@ from src.core.io import read_json, write_json
 from src.core.kosis_resolver import DATA_URL, ResolvedSeries, resolve_series
 from src.core.result import SourceResult
 
-FETCH_TIMEOUT_SECONDS = 4
-FETCH_RETRIES = 1
+FETCH_TIMEOUT_SECONDS = 6
+FETCH_RETRIES = 2
 INCREMENTAL_MONTHS = 18
 
 
@@ -108,6 +108,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     external_requests = 0
     circuit_open = False
     circuit_reason = ""
+    network_failures: list[str] = []
 
     for name, spec in series.items():
         old_rows = previous.get(name) if isinstance(previous.get(name), list) else []
@@ -171,13 +172,17 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 last_good_reused.append(name)
             print(f"[KOSIS] {name}: failed: {exc}; 직전 정상 이력 유지={bool(old_rows)}", flush=True)
 
-            # One KOSIS transport/auth failure means the next call is overwhelmingly
-            # likely to fail too.  Open the circuit immediately; do not spend another
-            # 30~90 seconds on the second monthly series.
-            if is_network or is_auth:
+            # V219: authentication failures still open the circuit immediately.
+            # Transport failures do NOT skip the next independent monthly series:
+            # each enabled series gets its own bounded two-attempt fetch so a single
+            # timeout cannot prevent the other series from refreshing.
+            if is_auth:
                 circuit_open = True
-                circuit_reason = "network_timeout" if is_network else "credential"
+                circuit_reason = "credential"
                 print(f"[KOSIS] circuit breaker opened | reason={circuit_reason}", flush=True)
+            elif is_network:
+                network_failures.append(name)
+                print(f"[KOSIS] transport failure isolated to {name}; continuing next series", flush=True)
 
     write_json(data_path, payloads)
     write_json(resolution_path, resolutions)
@@ -198,6 +203,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                     "external_request_count": external_requests,
                     "circuit_open": circuit_open,
                     "circuit_reason": circuit_reason,
+                    "network_failures": sorted(set(network_failures)),
+                    "per_series_network_retries": FETCH_RETRIES,
                 },
             )
         return SourceResult(
@@ -207,6 +214,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 "external_request_count": external_requests,
                 "circuit_open": circuit_open,
                 "circuit_reason": circuit_reason,
+                "network_failures": sorted(set(network_failures)),
+                "per_series_network_retries": FETCH_RETRIES,
             },
         )
 
@@ -223,6 +232,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             "max_external_requests": len(series),
             "circuit_open": circuit_open,
             "circuit_reason": circuit_reason,
+            "network_failures": sorted(set(network_failures)),
+            "per_series_network_retries": FETCH_RETRIES,
             "last_good_reused": sorted(set(last_good_reused)),
             **credential_metadata("KOSIS_API_KEY", "valid"),
         },

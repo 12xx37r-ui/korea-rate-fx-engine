@@ -52,7 +52,7 @@ def test_global_market_uses_three_parallel_fred_groups_plus_yahoo(monkeypatch, t
     assert data["usd_krw_market_snapshot"]["price"] == 1418.5
 
 
-def test_fred_group_failures_do_not_fan_out_and_reuse_last_good(monkeypatch, tmp_path: Path):
+def test_fred_group_failures_get_one_bounded_retry_then_reuse_last_good(monkeypatch, tmp_path: Path):
     previous = {
         key: [{"date": "20260806", "value": 1.0, "source": "FRED", "series_id": sid}]
         for key, sid in global_market.FRED.items()
@@ -72,8 +72,8 @@ def test_fred_group_failures_do_not_fan_out_and_reuse_last_good(monkeypatch, tmp
     monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
-    assert len(calls) == 3
-    assert result.metadata["request_count"] == 3 + 1 + 1 + len(global_market.YAHOO_EQUITY)
+    assert len(calls) == 6
+    assert result.metadata["request_count"] == 6 + 2 + len(global_market.YAHOO_EQUITY)
     assert len(result.metadata["last_good_reused"]) >= sum(len(g) for g in global_market.FRED_GROUPS.values())
 
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
@@ -104,7 +104,7 @@ def test_bis_eer_csv_parser_combined_nominal_real():
     assert out["krw_reer"][-1]["value"] == 98.7
 
 
-def test_v218_naver_current_quote_is_preferred(monkeypatch, tmp_path: Path):
+def test_v219_naver_current_quote_is_preferred(monkeypatch, tmp_path: Path):
     monkeypatch.setattr(global_market, "_fred_batch", lambda group,start: _fresh_for(group))
     monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date":"20260814","value":1412.0,"source":"Yahoo Finance"}], {"price":1412.0,"source":"Yahoo Finance chart metadata"}))
     monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {"price":1418.5,"market_state":"CLOSE","source":"Naver MarketIndex FX_USDKRW","retrieved_at_utc":"2026-08-16T05:00:00+00:00"})
@@ -114,3 +114,9 @@ def test_v218_naver_current_quote_is_preferred(monkeypatch, tmp_path: Path):
     data=json.loads((tmp_path/"raw_global_market.json").read_text(encoding="utf-8"))
     assert data["usd_krw_market_snapshot"]["price"] == 1418.5
     assert data["usd_krw_market_snapshot"]["source"].startswith("Naver")
+
+
+def test_v219_fx_weekend_calendar_guardrail():
+    from datetime import datetime, timezone
+    assert global_market._fx_weekend_state(datetime(2026,8,16,5,0,tzinfo=timezone.utc)) == "CLOSED"
+    assert global_market._fx_weekend_state(datetime(2026,8,17,5,0,tzinfo=timezone.utc)) == "OPEN"
