@@ -1,6 +1,6 @@
 {
   "engine_version": "4.0.0-probability-validation-split",
-  "generated_at_utc": "2026-08-16T03:29:16.341687+00:00",
+  "generated_at_utc": "2026-08-16T04:24:09.557734+00:00",
   "next_fomc": "2026-09-16",
   "fomc_dates": [
     "2015-01-28",
@@ -440,119 +440,119 @@
         "contract_month": "2026-08",
         "price": 96.368,
         "implied_average_rate": 3.632,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQU26.CBT",
         "contract_month": "2026-09",
         "price": 96.335,
         "implied_average_rate": 3.665,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQV26.CBT",
         "contract_month": "2026-10",
         "price": 96.28,
         "implied_average_rate": 3.72,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQX26.CBT",
         "contract_month": "2026-11",
         "price": 96.235,
         "implied_average_rate": 3.765,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQZ26.CBT",
         "contract_month": "2026-12",
         "price": 96.165,
         "implied_average_rate": 3.835,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQF27.CBT",
         "contract_month": "2027-01",
         "price": 96.13,
         "implied_average_rate": 3.87,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQG27.CBT",
         "contract_month": "2027-02",
         "price": 96.09,
         "implied_average_rate": 3.91,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQH27.CBT",
         "contract_month": "2027-03",
         "price": 96.065,
         "implied_average_rate": 3.935,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQJ27.CBT",
         "contract_month": "2027-04",
         "price": 96.03,
         "implied_average_rate": 3.97,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQK27.CBT",
         "contract_month": "2027-05",
         "price": 96.01,
         "implied_average_rate": 3.99,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQM27.CBT",
         "contract_month": "2027-06",
         "price": 95.995,
         "implied_average_rate": 4.005,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQN27.CBT",
         "contract_month": "2027-07",
         "price": 95.99,
         "implied_average_rate": 4.01,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQQ27.CBT",
         "contract_month": "2027-08",
         "price": 95.99,
         "implied_average_rate": 4.01,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQU27.CBT",
         "contract_month": "2027-09",
         "price": 95.995,
         "implied_average_rate": 4.005,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQV27.CBT",
         "contract_month": "2027-10",
         "price": 96.0,
         "implied_average_rate": 4.0,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQX27.CBT",
         "contract_month": "2027-11",
         "price": 96.01,
         "implied_average_rate": 3.99,
-        "observation_count": 5
+        "observation_count": 4
       },
       {
         "symbol": "ZQZ27.CBT",
         "contract_month": "2027-12",
         "price": 96.025,
         "implied_average_rate": 3.975,
-        "observation_count": 5
+        "observation_count": 4
       }
     ],
     "sofr": [
@@ -1190,119 +1190,119 @@
           "contract_month": "2026-08",
           "price": 96.368,
           "implied_average_rate": 3.632,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQU26.CBT",
           "contract_month": "2026-09",
           "price": 96.335,
           "implied_average_rate": 3.665,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQV26.CBT",
           "contract_month": "2026-10",
           "price": 96.28,
           "implied_average_rate": 3.72,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQX26.CBT",
           "contract_month": "2026-11",
           "price": 96.235,
           "implied_average_rate": 3.765,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQZ26.CBT",
           "contract_month": "2026-12",
           "price": 96.165,
           "implied_average_rate": 3.835,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQF27.CBT",
           "contract_month": "2027-01",
           "price": 96.13,
           "implied_average_rate": 3.87,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQG27.CBT",
           "contract_month": "2027-02",
           "price": 96.09,
           "implied_average_rate": 3.91,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQH27.CBT",
           "contract_month": "2027-03",
           "price": 96.065,
           "implied_average_rate": 3.935,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQJ27.CBT",
           "contract_month": "2027-04",
           "price": 96.03,
           "implied_average_rate": 3.97,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQK27.CBT",
           "contract_month": "2027-05",
           "price": 96.01,
           "implied_average_rate": 3.99,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQM27.CBT",
           "contract_month": "2027-06",
           "price": 95.995,
           "implied_average_rate": 4.005,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQN27.CBT",
           "contract_month": "2027-07",
           "price": 95.99,
           "implied_average_rate": 4.01,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQQ27.CBT",
           "contract_month": "2027-08",
           "price": 95.99,
           "implied_average_rate": 4.01,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQU27.CBT",
           "contract_month": "2027-09",
           "price": 95.995,
           "implied_average_rate": 4.005,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQV27.CBT",
           "contract_month": "2027-10",
           "price": 96.0,
           "implied_average_rate": 4.0,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQX27.CBT",
           "contract_month": "2027-11",
           "price": 96.01,
           "implied_average_rate": 3.99,
-          "observation_count": 5
+          "observation_count": 4
         },
         {
           "symbol": "ZQZ27.CBT",
           "contract_month": "2027-12",
           "price": 96.025,
           "implied_average_rate": 3.975,
-          "observation_count": 5
+          "observation_count": 4
         }
       ],
       "sofr": [
@@ -1754,7 +1754,7 @@
       "월말·불안정 회의 5건은 직접 월물곡선으로 안정화",
       "자동가중치 최적화 비활성: need 40 labeled snapshots; have 4"
     ],
-    "generated_at": "2026-08-16T03:29:16.341687+00:00",
+    "generated_at": "2026-08-16T04:24:09.557734+00:00",
     "engine_version": "4.0.0-probability-validation-split"
   }
 }

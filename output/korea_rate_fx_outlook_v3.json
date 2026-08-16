@@ -510,7 +510,7 @@
       "monetary_aggregate_available": true,
       "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
     },
-    "generated_at": "2026-08-16T13:11:00.354508+09:00"
+    "generated_at": "2026-08-16T13:24:23.175240+09:00"
   },
   "krw_strength": {
     "schema_version": "1.0.0",
@@ -722,7 +722,7 @@
       "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
       "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
     ],
-    "generated_at": "2026-08-16T13:11:00.354508+09:00"
+    "generated_at": "2026-08-16T13:24:23.175240+09:00"
   },
   "factor_panel": {
     "1m": {
@@ -937,6 +937,6 @@
     "v3_production_enabled": true,
     "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
   },
-  "generated_at": "2026-08-16T13:11:00.354508+09:00",
+  "generated_at": "2026-08-16T13:24:23.175240+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }

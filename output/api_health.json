@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-16T13:11:00.354508+09:00",
+  "generated_at": "2026-08-16T13:24:23.175240+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -55,8 +55,8 @@
       "payload_path": "output/raw_global_market.json",
       "warnings": [
         "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-        "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+        "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
       ],
       "metadata": {
         "usable_series": 7,
@@ -99,10 +99,10 @@
         "last_good_reused": [],
         "errors": {
           "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-          "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
-          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
+          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)",
+          "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=9)"
         },
-        "elapsed_seconds": 10.44
+        "elapsed_seconds": 10.48
       }
     },
     "krx": {
@@ -132,7 +132,7 @@
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
       "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f4121afd490>, 'Connection to kosis.kr timed out. (connect timeout=4)'))",
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f7c82394380>, 'Connection to kosis.kr timed out. (connect timeout=4)'))",
         "industrial_production: 외부호출 생략 · circuit open · 직전 정상 이력 유지=True"
       ],
       "metadata": {
