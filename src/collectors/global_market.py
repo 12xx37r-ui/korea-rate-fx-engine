@@ -61,6 +61,8 @@ READ_TIMEOUT_SECONDS = 15
 FRED_RETRY_ATTEMPTS = 2
 FRED_RETRY_BACKOFF_SECONDS = 1.5
 FRED_RETRY_LOOKBACK_DAYS = 60
+FRED_CRITICAL_FALLBACK_KEYS = ("broad_dollar", "usd_cny", "usd_jpy", "us_2y")
+FRED_CRITICAL_FALLBACK_PACING_SECONDS = 0.75
 BIS_READ_TIMEOUT_SECONDS = 10
 BIS_REFRESH_MAX_AGE_DAYS = 45
 FRED_BOOTSTRAP_DAYS = 900
@@ -616,17 +618,55 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
                 if not fresh_rows and old_rows:
                     last_good_reused.append(key)
         except Exception as exc:
-            errors[f"fred_{name}"] = f"{type(exc).__name__}: {exc}"
-            group_meta[name]["retry_start"] = retry_start
-            group_meta[name]["attempts"] = 2
-            group_meta[name]["recovered_on_retry"] = False
-            group_meta[name]["error"] = errors[f"fred_{name}"]
-            print(f"[GLOBAL_MARKET] FRED {name}: retry failed; last-good retained | {type(exc).__name__}: {exc}", flush=True)
+            # V222: a combined CSV request can time out even when an individual
+            # critical series is reachable.  Recover only the few series that feed
+            # KRW-strength/rate-gap, and only after both bounded group attempts fail.
+            # This is conditional failure recovery, not normal-path fan-out.
+            critical = {key: group[key] for key in FRED_CRITICAL_FALLBACK_KEYS if key in group}
+            recovered: list[str] = []
+            critical_errors: dict[str, str] = {}
+            for critical_index, (key, sid) in enumerate(critical.items()):
+                if critical_index:
+                    time.sleep(FRED_CRITICAL_FALLBACK_PACING_SECONDS)
+                try:
+                    request_count += 1
+                    one = _fred_batch({key: sid}, retry_start)
+                    fresh_rows = one.get(key, [])
+                    old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
+                    payload[key] = _merge_rows(old_rows, fresh_rows)
+                    if fresh_rows:
+                        recovered.append(key)
+                    elif old_rows:
+                        last_good_reused.append(key)
+                except Exception as one_exc:
+                    critical_errors[key] = f"{type(one_exc).__name__}: {one_exc}"
+                    old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
+                    payload[key] = list(old_rows)
+                    if old_rows:
+                        last_good_reused.append(key)
             for key in group:
+                if key in critical:
+                    continue
                 old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
                 payload[key] = list(old_rows)
                 if old_rows:
                     last_good_reused.append(key)
+            group_meta[name]["retry_start"] = retry_start
+            group_meta[name]["attempts"] = 2
+            group_meta[name]["recovered_on_retry"] = False
+            group_meta[name]["critical_series_fallback"] = {
+                "attempted": list(critical),
+                "recovered": recovered,
+                "errors": critical_errors,
+            }
+            if recovered:
+                group_meta[name]["partial_recovery"] = True
+                print(f"[GLOBAL_MARKET] FRED {name}: group retry failed but critical fallback recovered={recovered}", flush=True)
+            unresolved_critical = [key for key in critical if key not in recovered]
+            if unresolved_critical or not critical:
+                errors[f"fred_{name}"] = f"{type(exc).__name__}: {exc}"
+                group_meta[name]["error"] = errors[f"fred_{name}"]
+            print(f"[GLOBAL_MARKET] FRED {name}: retry failed; bounded critical fallback completed", flush=True)
 
     # BIS EER is authoritative for KRW NEER/REER. Because it is monthly, reuse
     # a fresh local merged history and only make one SDMX call per release cycle.

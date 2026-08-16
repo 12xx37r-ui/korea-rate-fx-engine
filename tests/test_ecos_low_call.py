@@ -51,7 +51,7 @@ def test_transport_failure_detector():
     assert not ecos._is_transport_failure(RuntimeError("ECOS 오류 INFO-200: 해당하는 데이터가 없습니다."))
 
 
-def test_collect_opens_circuit_after_first_transport_failure(monkeypatch, tmp_path):
+def test_collect_allows_bounded_independent_probes_before_transport_circuit(monkeypatch, tmp_path):
     config = {
         "series": {
             "kr_base_rate": {
@@ -98,7 +98,7 @@ def test_collect_opens_circuit_after_first_transport_failure(monkeypatch, tmp_pa
     monkeypatch.setattr(ecos.EcosResolver, "save", lambda self: None)
 
     result = ecos.collect(tmp_path, timeout=30, retries=3)
-    assert calls["fetch"] == 1
+    assert calls["fetch"] == 2
     assert result.status == "degraded"
-    assert result.metadata["circuit_breaker_open"] is True
-    assert "usdkrw" in result.metadata["circuit_last_good_reused"]
+    assert result.metadata["circuit_breaker_open"] is False
+    assert "usdkrw" in result.metadata["last_good_reused"]

@@ -24,6 +24,7 @@ MONTHLY_OVERLAP_MONTHS = 4
 ECOS_CONNECT_TIMEOUT_SECONDS = 4
 ECOS_READ_TIMEOUT_SECONDS = 10
 ECOS_REQUEST_RETRIES = 1
+ECOS_TRANSPORT_FAILURES_BEFORE_CIRCUIT = 3
 
 
 def _is_transport_failure(exc: Exception) -> bool:
@@ -298,6 +299,7 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     circuit_reused: list[str] = []
     ecos_circuit_open = False
     ecos_circuit_reason = ""
+    ecos_transport_failures = 0
     # Do not inherit the global 30 s x 3 retry policy for one host.  Accuracy is
     # preserved by committed last-good history; a later scheduled run retries fresh.
     ecos_timeout: tuple[float, float] = (ECOS_CONNECT_TIMEOUT_SECONDS, ECOS_READ_TIMEOUT_SECONDS)
@@ -389,13 +391,24 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             if credential_issue(exc):
                 auth_failures.append(detail)
             if _is_transport_failure(exc):
-                ecos_circuit_open = True
-                ecos_circuit_reason = f"{type(exc).__name__}: {exc}"
-                print(
-                    f"[ECOS] circuit breaker opened after transport failure; "
-                    f"remaining series will reuse last-good history",
-                    flush=True,
-                )
+                # V222: one transient ECOS connect failure must not suppress every
+                # remaining series.  Permit a few independent probes first; only
+                # repeated host-level transport failures open the per-run breaker.
+                ecos_transport_failures += 1
+                if ecos_transport_failures >= ECOS_TRANSPORT_FAILURES_BEFORE_CIRCUIT:
+                    ecos_circuit_open = True
+                    ecos_circuit_reason = f"{type(exc).__name__}: {exc}"
+                    print(
+                        f"[ECOS] circuit breaker opened after {ecos_transport_failures} transport failures; "
+                        f"remaining series will reuse last-good history",
+                        flush=True,
+                    )
+                else:
+                    print(
+                        f"[ECOS] transient transport failure {ecos_transport_failures}/"
+                        f"{ECOS_TRANSPORT_FAILURES_BEFORE_CIRCUIT}; next series may still probe live",
+                        flush=True,
+                    )
             print(f"[ECOS] {name}: failed: {detail}", flush=True)
 
     resolver.save()

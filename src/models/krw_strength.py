@@ -41,10 +41,12 @@ def grade_from_score(score: float) -> str:
 
 
 def _row_period(row: dict[str, Any]) -> str:
-    for key in ("TIME", "PRD_DE", "TIME_PERIOD", "DATE", "baseYm", "WRTTIME"): 
+    for key in ("TIME", "PRD_DE", "TIME_PERIOD", "DATE", "date", "baseYm", "WRTTIME"): 
         value = row.get(key)
         if value not in (None, ""):
             text = str(value).replace("-", "").replace(".", "")
+            if key == "date" and text.isdigit():
+                return text
             return text.zfill(14) if text.isdigit() else text
     return ""
 

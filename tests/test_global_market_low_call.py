@@ -72,8 +72,8 @@ def test_fred_group_failures_get_one_bounded_retry_then_reuse_last_good(monkeypa
     monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
-    assert len(calls) == 6
-    assert result.metadata["request_count"] == 6 + 2 + len(global_market.YAHOO_EQUITY)
+    assert len(calls) == 10  # V222: 6 group attempts + 4 critical per-series fallbacks
+    assert result.metadata["request_count"] == 10 + 2 + len(global_market.YAHOO_EQUITY)
     assert len(result.metadata["last_good_reused"]) >= sum(len(g) for g in global_market.FRED_GROUPS.values())
 
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
