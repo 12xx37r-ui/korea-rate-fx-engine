@@ -1,16 +1,16 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-16T06:21:36.752054+00:00",
+  "generated_at_utc": "2026-08-16T06:29:53.506404+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
   "score": 70,
   "score_valid": true,
   "bias": "우호",
-  "final_score": null,
-  "final_score_valid": false,
-  "final_bias": "데이터 부족",
-  "circuit_breaker": true,
-  "circuit_breaker_action": "현금비중최대화/헤지필요 - 방향성 예측 일시 정지",
+  "final_score": 62.814,
+  "final_score_valid": true,
+  "final_bias": "약우호",
+  "circuit_breaker": false,
+  "circuit_breaker_action": null,
   "data_coverage_pct": 100,
   "active_weight": 1.0,
   "complete_for_market_card": true,
@@ -191,16 +191,14 @@
   "score_after_pbr": 60,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-16T06:21:36.750435+00:00",
-    "regime": "crisis",
-    "circuit_breaker": true,
-    "circuit_breaker_reasons": [
-      "VKOSPI 5532.0 ≥ 45.0"
-    ],
-    "circuit_breaker_action": "현금비중최대화/헤지필요 - 방향성 예측 일시 정지",
+    "generated_at_utc": "2026-08-16T06:29:53.504639+00:00",
+    "regime": "normal",
+    "circuit_breaker": false,
+    "circuit_breaker_reasons": [],
+    "circuit_breaker_action": null,
     "dynamic_weights": {
-      "macro_env": 0.2,
-      "realtime_risk": 0.8
+      "macro_env": 0.7,
+      "realtime_risk": 0.3
     },
     "shock_multiplier": {
       "available": true,
@@ -230,14 +228,14 @@
     },
     "macro_env_score_original": 60,
     "macro_env_score_after_emp": 62.814,
-    "final_score": null,
-    "final_score_valid": false,
+    "final_score": 62.814,
+    "final_score_valid": true,
     "regime_evidence": {
       "fx_3d_change_pct": -0.3423,
       "fx_std_5d": 2.2562,
       "fx_std_10d": 4.3917,
       "fx_z_score": 0.0779,
-      "vkospi_latest": 5531.96,
+      "vkospi_latest": null,
       "cds_proxy": 0.225
     }
   },
@@ -2569,7 +2567,7 @@
     "이익환경은 공개 forward 성장 대용치를 우선 사용합니다. 비어 있으면 기존 KRX 지수 종가/PER에서 계산한 후행 EPS 대용치 추세를 사용하며 실제 증권사 forward revision으로 오인하지 않습니다.",
     "외국인·기관 수급은 KRX 거래대금 기준이며 기관합계가 없으면 기관 세부주체를 합산합니다.",
     "CDS 프리미엄은 직접 데이터 미확보로 한미 국채 스프레드 + HY OAS로 근사합니다.",
-    "VKOSPI는 pykrx 조회 가능 시 실시간 반영, 불가 시 이전 값 재사용합니다.",
+    "VKOSPI는 검증된 원천만 서킷브레이커에 사용하며, 출처가 검증되지 않은 지수값은 사용하지 않습니다.",
     "서킷브레이커 발동 시 환경점수는 무효화되며 위험회피 최고단계 신호만 출력됩니다.",
     "레이어드 기술적 지표는 기존 KRX 지수 종가/PER에서 계산한 KOSPI200 일봉 데이터를 활용합니다.",
     "모든 신규 기능은 이 전용 JSON에만 기록되며 기존 korea_rate_fx_outlook 계열 스키마는 변경하지 않습니다."

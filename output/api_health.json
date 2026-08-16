@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-16T15:20:26.981351+09:00",
+  "generated_at": "2026-08-16T15:29:18.902408+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -64,7 +64,7 @@
           "nvda",
           "tsm"
         ],
-        "request_count": 18,
+        "request_count": 12,
         "bis_monthly_cache_skip_enabled": true,
         "fred_group_count": 3,
         "fred_groups_parallel": true,
@@ -75,97 +75,61 @@
         "fred_api_key_configured": true,
         "group_meta": {
           "currency": {
-            "mode": "series_aware",
+            "mode": "incremental",
             "plan": [
               {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
+                "start": "2026-06-23",
+                "mode": "incremental",
                 "keys": [
-                  "broad_dollar"
-                ]
-              },
-              {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
-                "keys": [
-                  "usd_cny"
-                ]
-              },
-              {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
-                "keys": [
-                  "usd_jpy"
-                ]
-              },
-              {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
-                "keys": [
+                  "broad_dollar",
+                  "usd_cny",
+                  "usd_jpy",
                   "usd_krw_fred"
                 ]
               }
             ],
-            "attempts": 4,
+            "attempts": 1,
             "fresh_series": 4
           },
           "rates_risk": {
-            "mode": "series_aware",
+            "mode": "incremental",
             "plan": [
               {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
+                "start": "2026-06-29",
+                "mode": "incremental",
                 "keys": [
-                  "us_2y"
+                  "us_2y",
+                  "us_10y",
+                  "vix",
+                  "hy_oas"
                 ]
               },
               {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
-                "keys": [
-                  "us_10y"
-                ]
-              },
-              {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
+                "start": "2026-06-30",
+                "mode": "incremental",
                 "keys": [
                   "us_breakeven_10y"
                 ]
-              },
-              {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
-                "keys": [
-                  "vix"
-                ]
-              },
-              {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
-                "keys": [
-                  "hy_oas"
-                ]
               }
             ],
-            "attempts": 5,
+            "attempts": 2,
             "fresh_series": 5
           },
           "commodities": {
-            "mode": "series_aware",
+            "mode": "incremental",
             "plan": [
               {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
+                "start": "2026-05-17",
+                "mode": "incremental",
                 "keys": [
-                  "wti"
+                  "commodity_index"
                 ]
               },
               {
-                "start": "2024-02-28",
-                "mode": "bootstrap_missing",
+                "start": "2026-06-27",
+                "mode": "incremental",
                 "keys": [
-                  "commodity_index"
+                  "wti"
                 ]
               }
             ],
@@ -182,7 +146,7 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 4.55
+        "elapsed_seconds": 3.01
       }
     },
     "krx": {
@@ -206,31 +170,33 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "degraded",
+      "status": "ok",
       "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
       "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f172936ad20>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f172936be30>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
+        "cpi_core: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True",
+        "industrial_production: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True"
       ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
-        "external_request_count": 2,
+        "external_request_count": 0,
         "max_external_requests": 2,
         "circuit_open": false,
         "circuit_reason": "",
-        "network_failures": [
-          "cpi_core",
-          "industrial_production"
-        ],
+        "network_failures": [],
         "per_series_network_retries": 2,
         "last_good_reused": [
           "cpi_core",
           "industrial_production"
         ],
+        "cadence_skips": [
+          "cpi_core",
+          "industrial_production"
+        ],
+        "weekend_cache_skip_enabled": true,
         "credential_status": "valid",
         "secret_name": "KOSIS_API_KEY",
         "action_required": false,
@@ -282,7 +248,6 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }
