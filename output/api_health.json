@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-16T14:07:18.421736+09:00",
+  "generated_at": "2026-08-16T14:44:28.138876+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -20,22 +20,45 @@
     },
     "ecos": {
       "source": "ecos",
-      "status": "ok",
+      "status": "degraded",
       "message": "ECOS 국내 금리·환율·유동성 증분수집 완료",
       "rows": 17374,
       "latest_observation": "20260814",
       "payload_path": "output/raw_ecos.json",
-      "warnings": [],
+      "warnings": [
+        "kr_base_rate: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/722Y001/D/20260723/20260816/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7fc4b65ae360>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지"
+      ],
       "metadata": {
         "resolution_path": "output/ecos_resolution.json",
         "cache_version": 2,
         "incremental_fetch": true,
         "daily_overlap_days": 21,
         "monthly_overlap_months": 4,
-        "last_good_reused": [],
-        "circuit_breaker_open": false,
-        "circuit_breaker_reason": null,
-        "circuit_last_good_reused": [],
+        "last_good_reused": [
+          "current_account",
+          "fx_reserves",
+          "kr_base_rate",
+          "kr_gov_10y",
+          "kr_gov_2y",
+          "kr_gov_3y",
+          "kr_lf",
+          "kr_m1",
+          "kr_m2",
+          "usdkrw"
+        ],
+        "circuit_breaker_open": true,
+        "circuit_breaker_reason": "HttpError: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/722Y001/D/20260723/20260816/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7fc4b65ae360>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)'))",
+        "circuit_last_good_reused": [
+          "current_account",
+          "fx_reserves",
+          "kr_gov_10y",
+          "kr_gov_2y",
+          "kr_gov_3y",
+          "kr_lf",
+          "kr_m1",
+          "kr_m2",
+          "usdkrw"
+        ],
         "ecos_connect_timeout_seconds": 4,
         "ecos_read_timeout_seconds": 10,
         "ecos_request_retries": 1,
@@ -54,9 +77,9 @@
       "latest_observation": "20260816",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
+        "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
         "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-        "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
       ],
       "metadata": {
         "usable_series": 7,
@@ -68,7 +91,7 @@
           "nvda",
           "tsm"
         ],
-        "request_count": 10,
+        "request_count": 13,
         "bis_monthly_cache_skip_enabled": true,
         "fred_group_count": 3,
         "fred_groups_parallel": true,
@@ -76,16 +99,28 @@
           "currency": {
             "start": "2024-02-28",
             "mode": "bootstrap_recent",
+            "first_error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
+            "attempts": 2,
+            "retry_start": "2024-02-28",
+            "recovered_on_retry": false,
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
           },
           "rates_risk": {
             "start": "2024-02-28",
             "mode": "bootstrap_recent",
+            "first_error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
+            "attempts": 2,
+            "retry_start": "2024-02-28",
+            "recovered_on_retry": false,
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
           },
           "commodities": {
             "start": "2024-02-28",
             "mode": "bootstrap_recent",
+            "first_error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
+            "attempts": 2,
+            "retry_start": "2024-02-28",
+            "recovered_on_retry": false,
             "error": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
           },
           "bis_eer": {
@@ -98,11 +133,11 @@
         "overlap_days": 120,
         "last_good_reused": [],
         "errors": {
+          "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
           "fred_rates_risk": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
-          "fred_currency": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+          "fred_commodities": "ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
         },
-        "elapsed_seconds": 18.1
+        "elapsed_seconds": 86.75
       }
     },
     "krx": {
@@ -132,16 +167,21 @@
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
       "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7ff9ae29ebd0>, 'Connection to kosis.kr timed out. (connect timeout=4)'))",
-        "industrial_production: 외부호출 생략 · circuit open · 직전 정상 이력 유지=True"
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fc49d0534a0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
+        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fc49d07c680>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
       ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
-        "external_request_count": 1,
+        "external_request_count": 2,
         "max_external_requests": 2,
-        "circuit_open": true,
-        "circuit_reason": "network_timeout",
+        "circuit_open": false,
+        "circuit_reason": "",
+        "network_failures": [
+          "cpi_core",
+          "industrial_production"
+        ],
+        "per_series_network_retries": 2,
         "last_good_reused": [
           "cpi_core",
           "industrial_production"
@@ -197,6 +237,7 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
+    "ecos: ECOS 국내 금리·환율·유동성 증분수집 완료",
     "global_market: 7/18 series usable; semiconductor micro-factors included",
     "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."

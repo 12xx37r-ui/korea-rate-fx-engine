@@ -1,6 +1,6 @@
 {
   "engine_version": "4.0.0-probability-validation-split",
-  "generated_at_utc": "2026-08-16T04:48:12.901791+00:00",
+  "generated_at_utc": "2026-08-16T05:07:12.388174+00:00",
   "next_fomc": "2026-09-16",
   "fomc_dates": [
     "2015-01-28",
@@ -867,8 +867,10 @@
     "자동가중치 최적화 비활성: need 40 labeled snapshots; have 4"
   ],
   "freshness": {
-    "contract": "V217-additive-freshness-contract",
+    "contract": "V218-live-refetch-contract",
     "new_network_calls": 0,
+    "network_refetch_each_workflow": true,
+    "http_cache_bypass": true,
     "existing_pricing_semantics_changed": false,
     "market_rows_checked": 43,
     "market_rows_usable": 43,
@@ -877,7 +879,7 @@
         "group": "zq_continuous",
         "symbol": "ZQ=F",
         "market_time_utc": "2026-08-14T20:55:50+00:00",
-        "age_minutes": 1912.51,
+        "age_minutes": 1931.51,
         "status": "CACHE",
         "market_state": null
       },
@@ -885,7 +887,7 @@
         "group": "zq_curve",
         "symbol": "ZQF27.CBT",
         "market_time_utc": "2026-08-14T20:57:47+00:00",
-        "age_minutes": 1910.56,
+        "age_minutes": 1929.56,
         "status": "CACHE",
         "market_state": null
       },
@@ -893,7 +895,7 @@
         "group": "zq_curve",
         "symbol": "ZQG27.CBT",
         "market_time_utc": "2026-08-14T20:59:55+00:00",
-        "age_minutes": 1908.43,
+        "age_minutes": 1927.43,
         "status": "CACHE",
         "market_state": null
       },
@@ -901,7 +903,7 @@
         "group": "zq_curve",
         "symbol": "ZQH27.CBT",
         "market_time_utc": "2026-08-14T20:56:45+00:00",
-        "age_minutes": 1911.6,
+        "age_minutes": 1930.59,
         "status": "CACHE",
         "market_state": null
       },
@@ -909,7 +911,7 @@
         "group": "zq_curve",
         "symbol": "ZQJ27.CBT",
         "market_time_utc": "2026-08-14T20:46:42+00:00",
-        "age_minutes": 1921.65,
+        "age_minutes": 1940.64,
         "status": "CACHE",
         "market_state": null
       },
@@ -917,7 +919,7 @@
         "group": "zq_curve",
         "symbol": "ZQK27.CBT",
         "market_time_utc": "2026-08-14T20:38:14+00:00",
-        "age_minutes": 1930.11,
+        "age_minutes": 1949.11,
         "status": "CACHE",
         "market_state": null
       },
@@ -925,7 +927,7 @@
         "group": "zq_curve",
         "symbol": "ZQM27.CBT",
         "market_time_utc": "2026-08-14T20:55:58+00:00",
-        "age_minutes": 1912.38,
+        "age_minutes": 1931.38,
         "status": "CACHE",
         "market_state": null
       },
@@ -933,7 +935,7 @@
         "group": "zq_curve",
         "symbol": "ZQN27.CBT",
         "market_time_utc": "2026-08-14T20:55:58+00:00",
-        "age_minutes": 1912.38,
+        "age_minutes": 1931.38,
         "status": "CACHE",
         "market_state": null
       },
@@ -941,7 +943,7 @@
         "group": "zq_curve",
         "symbol": "ZQQ26.CBT",
         "market_time_utc": "2026-08-14T19:50:56+00:00",
-        "age_minutes": 1977.41,
+        "age_minutes": 1996.41,
         "status": "CACHE",
         "market_state": null
       },
@@ -949,7 +951,7 @@
         "group": "zq_curve",
         "symbol": "ZQQ27.CBT",
         "market_time_utc": "2026-08-14T17:40:20+00:00",
-        "age_minutes": 2108.01,
+        "age_minutes": 2127.01,
         "status": "CACHE",
         "market_state": null
       },
@@ -957,7 +959,7 @@
         "group": "zq_curve",
         "symbol": "ZQU26.CBT",
         "market_time_utc": "2026-08-14T20:58:58+00:00",
-        "age_minutes": 1909.38,
+        "age_minutes": 1928.38,
         "status": "CACHE",
         "market_state": null
       },
@@ -965,7 +967,7 @@
         "group": "zq_curve",
         "symbol": "ZQU27.CBT",
         "market_time_utc": "2026-08-14T19:03:29+00:00",
-        "age_minutes": 2024.86,
+        "age_minutes": 2043.86,
         "status": "CACHE",
         "market_state": null
       },
@@ -973,7 +975,7 @@
         "group": "zq_curve",
         "symbol": "ZQV26.CBT",
         "market_time_utc": "2026-08-14T20:55:50+00:00",
-        "age_minutes": 1912.51,
+        "age_minutes": 1931.51,
         "status": "CACHE",
         "market_state": null
       },
@@ -981,7 +983,7 @@
         "group": "zq_curve",
         "symbol": "ZQV27.CBT",
         "market_time_utc": "2026-08-14T15:20:21+00:00",
-        "age_minutes": 2248.0,
+        "age_minutes": 2266.99,
         "status": "CACHE",
         "market_state": null
       },
@@ -989,7 +991,7 @@
         "group": "zq_curve",
         "symbol": "ZQX26.CBT",
         "market_time_utc": "2026-08-14T20:59:32+00:00",
-        "age_minutes": 1908.81,
+        "age_minutes": 1927.81,
         "status": "CACHE",
         "market_state": null
       },
@@ -997,7 +999,7 @@
         "group": "zq_curve",
         "symbol": "ZQX27.CBT",
         "market_time_utc": "2026-08-14T17:10:01+00:00",
-        "age_minutes": 2138.33,
+        "age_minutes": 2157.33,
         "status": "CACHE",
         "market_state": null
       },
@@ -1005,7 +1007,7 @@
         "group": "zq_curve",
         "symbol": "ZQZ26.CBT",
         "market_time_utc": "2026-08-14T20:59:30+00:00",
-        "age_minutes": 1908.85,
+        "age_minutes": 1927.84,
         "status": "CACHE",
         "market_state": null
       },
@@ -1013,7 +1015,7 @@
         "group": "zq_curve",
         "symbol": "ZQZ27.CBT",
         "market_time_utc": "2026-07-23T11:46:06+00:00",
-        "age_minutes": 34142.25,
+        "age_minutes": 34161.24,
         "status": "CACHE",
         "market_state": null
       },
@@ -1021,7 +1023,7 @@
         "group": "sofr_curve",
         "symbol": "SR1F27.CME",
         "market_time_utc": "2026-08-14T20:59:30+00:00",
-        "age_minutes": 1908.85,
+        "age_minutes": 1927.84,
         "status": "CACHE",
         "market_state": null
       },
@@ -1029,7 +1031,7 @@
         "group": "sofr_curve",
         "symbol": "SR1G27.CME",
         "market_time_utc": "2026-08-14T20:59:55+00:00",
-        "age_minutes": 1908.43,
+        "age_minutes": 1927.43,
         "status": "CACHE",
         "market_state": null
       },
@@ -1037,7 +1039,7 @@
         "group": "sofr_curve",
         "symbol": "SR1H27.CME",
         "market_time_utc": "2026-08-14T20:38:01+00:00",
-        "age_minutes": 1930.33,
+        "age_minutes": 1949.33,
         "status": "CACHE",
         "market_state": null
       },
@@ -1045,7 +1047,7 @@
         "group": "sofr_curve",
         "symbol": "SR1J27.CME",
         "market_time_utc": "2026-08-14T20:46:38+00:00",
-        "age_minutes": 1921.71,
+        "age_minutes": 1940.71,
         "status": "CACHE",
         "market_state": null
       },
@@ -1053,7 +1055,7 @@
         "group": "sofr_curve",
         "symbol": "SR1K27.CME",
         "market_time_utc": "2026-08-14T20:55:45+00:00",
-        "age_minutes": 1912.6,
+        "age_minutes": 1931.59,
         "status": "CACHE",
         "market_state": null
       },
@@ -1061,7 +1063,7 @@
         "group": "sofr_curve",
         "symbol": "SR1M27.CME",
         "market_time_utc": "2026-08-14T20:12:58+00:00",
-        "age_minutes": 1955.38,
+        "age_minutes": 1974.38,
         "status": "CACHE",
         "market_state": null
       },
@@ -1069,7 +1071,7 @@
         "group": "sofr_curve",
         "symbol": "SR1N27.CME",
         "market_time_utc": "2026-08-14T19:45:05+00:00",
-        "age_minutes": 1983.26,
+        "age_minutes": 2002.26,
         "status": "CACHE",
         "market_state": null
       },
@@ -1077,7 +1079,7 @@
         "group": "sofr_curve",
         "symbol": "SR1Q26.CME",
         "market_time_utc": "2026-08-14T20:59:57+00:00",
-        "age_minutes": 1908.4,
+        "age_minutes": 1927.39,
         "status": "CACHE",
         "market_state": null
       },
@@ -1085,7 +1087,7 @@
         "group": "sofr_curve",
         "symbol": "SR1Q27.CME",
         "market_time_utc": "2026-08-14T15:07:53+00:00",
-        "age_minutes": 2260.46,
+        "age_minutes": 2279.46,
         "status": "CACHE",
         "market_state": null
       },
@@ -1093,7 +1095,7 @@
         "group": "sofr_curve",
         "symbol": "SR1U26.CME",
         "market_time_utc": "2026-08-14T20:59:59+00:00",
-        "age_minutes": 1908.36,
+        "age_minutes": 1927.36,
         "status": "CACHE",
         "market_state": null
       },
@@ -1101,7 +1103,7 @@
         "group": "sofr_curve",
         "symbol": "SR1U27.CME",
         "market_time_utc": "2026-08-13T14:04:14+00:00",
-        "age_minutes": 3764.11,
+        "age_minutes": 3783.11,
         "status": "CACHE",
         "market_state": null
       },
@@ -1109,7 +1111,7 @@
         "group": "sofr_curve",
         "symbol": "SR1V26.CME",
         "market_time_utc": "2026-08-14T20:59:59+00:00",
-        "age_minutes": 1908.36,
+        "age_minutes": 1927.36,
         "status": "CACHE",
         "market_state": null
       },
@@ -1117,7 +1119,7 @@
         "group": "sofr_curve",
         "symbol": "SR1V27.CME",
         "market_time_utc": "2026-08-14T15:38:39+00:00",
-        "age_minutes": 2229.7,
+        "age_minutes": 2248.69,
         "status": "CACHE",
         "market_state": null
       },
@@ -1125,7 +1127,7 @@
         "group": "sofr_curve",
         "symbol": "SR1X26.CME",
         "market_time_utc": "2026-08-14T20:59:30+00:00",
-        "age_minutes": 1908.85,
+        "age_minutes": 1927.84,
         "status": "CACHE",
         "market_state": null
       },
@@ -1133,7 +1135,7 @@
         "group": "sofr_curve",
         "symbol": "SR1Z26.CME",
         "market_time_utc": "2026-08-14T20:59:30+00:00",
-        "age_minutes": 1908.85,
+        "age_minutes": 1927.84,
         "status": "CACHE",
         "market_state": null
       },
@@ -1141,7 +1143,7 @@
         "group": "sofr_curve",
         "symbol": "SR3F27.CME",
         "market_time_utc": "2026-08-13T16:08:53+00:00",
-        "age_minutes": 3639.46,
+        "age_minutes": 3658.46,
         "status": "CACHE",
         "market_state": null
       },
@@ -1149,7 +1151,7 @@
         "group": "sofr_curve",
         "symbol": "SR3H27.CME",
         "market_time_utc": "2026-08-14T20:59:58+00:00",
-        "age_minutes": 1908.38,
+        "age_minutes": 1927.38,
         "status": "CACHE",
         "market_state": null
       },
@@ -1157,7 +1159,7 @@
         "group": "sofr_curve",
         "symbol": "SR3M27.CME",
         "market_time_utc": "2026-08-14T20:59:55+00:00",
-        "age_minutes": 1908.43,
+        "age_minutes": 1927.43,
         "status": "CACHE",
         "market_state": null
       },
@@ -1165,7 +1167,7 @@
         "group": "sofr_curve",
         "symbol": "SR3Q26.CME",
         "market_time_utc": "2026-08-14T15:38:38+00:00",
-        "age_minutes": 2229.71,
+        "age_minutes": 2248.71,
         "status": "CACHE",
         "market_state": null
       },
@@ -1173,7 +1175,7 @@
         "group": "sofr_curve",
         "symbol": "SR3U26.CME",
         "market_time_utc": "2026-08-14T20:59:59+00:00",
-        "age_minutes": 1908.36,
+        "age_minutes": 1927.36,
         "status": "CACHE",
         "market_state": null
       },
@@ -1181,7 +1183,7 @@
         "group": "sofr_curve",
         "symbol": "SR3U27.CME",
         "market_time_utc": "2026-08-14T20:59:55+00:00",
-        "age_minutes": 1908.43,
+        "age_minutes": 1927.43,
         "status": "CACHE",
         "market_state": null
       },
@@ -1189,7 +1191,7 @@
         "group": "sofr_curve",
         "symbol": "SR3V26.CME",
         "market_time_utc": "2026-08-14T14:19:52+00:00",
-        "age_minutes": 2308.48,
+        "age_minutes": 2327.48,
         "status": "CACHE",
         "market_state": null
       },
@@ -1197,7 +1199,7 @@
         "group": "sofr_curve",
         "symbol": "SR3X26.CME",
         "market_time_utc": "2026-08-14T14:19:52+00:00",
-        "age_minutes": 2308.48,
+        "age_minutes": 2327.48,
         "status": "CACHE",
         "market_state": null
       },
@@ -1205,7 +1207,7 @@
         "group": "sofr_curve",
         "symbol": "SR3Z26.CME",
         "market_time_utc": "2026-08-14T20:59:58+00:00",
-        "age_minutes": 1908.38,
+        "age_minutes": 1927.38,
         "status": "CACHE",
         "market_state": null
       },
@@ -1213,7 +1215,7 @@
         "group": "sofr_curve",
         "symbol": "SR3Z27.CME",
         "market_time_utc": "2026-08-14T20:59:18+00:00",
-        "age_minutes": 1909.05,
+        "age_minutes": 1928.04,
         "status": "CACHE",
         "market_state": null
       }
@@ -2107,7 +2109,7 @@
       "월말·불안정 회의 5건은 직접 월물곡선으로 안정화",
       "자동가중치 최적화 비활성: need 40 labeled snapshots; have 4"
     ],
-    "generated_at": "2026-08-16T04:48:12.901791+00:00",
+    "generated_at": "2026-08-16T05:07:12.388174+00:00",
     "engine_version": "4.0.0-probability-validation-split"
   }
 }

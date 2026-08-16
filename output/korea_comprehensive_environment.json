@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-16T05:08:37.914725+00:00",
+  "generated_at_utc": "2026-08-16T05:47:19.238853+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
     "current_score": 69,
@@ -226,16 +226,16 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5367,
-        "raw_score_before_regime": 0.5367,
+        "score_normalized": 0.5275,
+        "raw_score_before_regime": 0.5275,
         "signal_count": 2,
         "evidence": {
           "usd_krw_current": 1412.0,
           "usd_krw_1m_change_pct": -4.58,
           "fx_1m_signal": 0.9097,
-          "krw_strength_score": 58.19,
+          "krw_strength_score": 57.27,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.1638,
+          "krw_strength_signal": 0.1454,
           "usd_krw_vol_1m_ann_pct": 9.65,
           "usd_krw_level_percentile": 0.062,
           "fx_regime": "CAUTION",
@@ -361,7 +361,7 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-16T05:08:37.914725+00:00",
+    "generated_at_utc": "2026-08-16T05:47:19.238853+00:00",
     "current_score": 69,
     "current_regime": "약호황",
     "trend_score": 44,

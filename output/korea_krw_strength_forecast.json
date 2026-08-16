@@ -1,22 +1,24 @@
 {
   "schema_version": "1.0.0",
-  "engine_version": "1.2.0-bis-eer-independent-oos",
+  "engine_version": "1.3.0-live-fx-overlay-provenance",
   "status": "ok",
   "forecast_operational": true,
   "current": {
-    "strength_score": 58.19,
+    "strength_score": 57.27,
     "grade": "원화 약강세",
-    "usdkrw": 1412.0,
-    "usdkrw_source": "Yahoo",
+    "usdkrw": 1418.5,
+    "usdkrw_source": "Naver MarketIndex FX_USDKRW",
+    "usdkrw_model_anchor": 1412.0,
+    "usdkrw_live_overlay_applied": true,
     "neer": 81.99,
     "reer": 83.06
   },
   "forecast_path": [
     {
       "months": 3,
-      "strength_score": 68.63,
+      "strength_score": 67.54,
       "grade": "원화 강세",
-      "change_points": 10.44,
+      "change_points": 10.27,
       "direction": "up",
       "up_probability": 0.4766,
       "neutral_probability": 0.045,
@@ -25,7 +27,7 @@
         34.6,
         77.2
       ],
-      "fx_anchor": 1412.1,
+      "fx_anchor": 1418.6,
       "quality_grade": "B",
       "model_quality_score": 81,
       "independent_oos_grade": "B",
@@ -35,9 +37,9 @@
     },
     {
       "months": 6,
-      "strength_score": 68.42,
+      "strength_score": 67.11,
       "grade": "원화 강세",
-      "change_points": 10.23,
+      "change_points": 9.84,
       "direction": "up",
       "up_probability": 0.4711,
       "neutral_probability": 0.0516,
@@ -46,7 +48,7 @@
         28.1,
         77.2
       ],
-      "fx_anchor": 1412.6,
+      "fx_anchor": 1419.1,
       "quality_grade": "C",
       "model_quality_score": 71,
       "independent_oos_grade": "C",
@@ -56,9 +58,9 @@
     },
     {
       "months": 12,
-      "strength_score": 69.25,
+      "strength_score": 67.94,
       "grade": "원화 강세",
-      "change_points": 11.06,
+      "change_points": 10.67,
       "direction": "up",
       "up_probability": 0.4727,
       "neutral_probability": 0.0572,
@@ -67,7 +69,7 @@
         24.3,
         77.3
       ],
-      "fx_anchor": 1411.7,
+      "fx_anchor": 1418.2,
       "quality_grade": "C",
       "model_quality_score": 70,
       "independent_oos_grade": "C",
@@ -78,7 +80,7 @@
   ],
   "factor_panel": {
     "group_scores": {
-      "usdkrw_level_momentum": 0.6344,
+      "usdkrw_level_momentum": 0.5953,
       "effective_fx": -0.6617,
       "rate_gap": -0.3251,
       "external_balance": 0.8342
@@ -92,11 +94,16 @@
     },
     "details": {
       "usdkrw_level_momentum": {
-        "score": 0.6344,
-        "spot": 1412.0,
-        "one_year_percentile": 0.1548,
-        "ret20_pct": -3.906,
-        "ret60_pct": -6.229
+        "score": 0.5953,
+        "spot": 1418.5,
+        "one_year_percentile": 0.1746,
+        "ret20_pct": -3.464,
+        "ret60_pct": -5.798,
+        "source": "Naver MarketIndex FX_USDKRW",
+        "observation": "20260814",
+        "market_time_utc": "2026-08-14T20:44:55+00:00",
+        "live_overlay_applied": true,
+        "model_anchor_usdkrw": 1412.0
       },
       "krw_neer": {
         "score": -0.6688,
@@ -128,6 +135,69 @@
     "active_group_count": 4,
     "group_coverage": 0.8,
     "weighted_group_coverage": 0.85
+  },
+  "input_freshness": {
+    "usdkrw": {
+      "source": "Naver MarketIndex FX_USDKRW",
+      "observation": "20260814",
+      "market_time_utc": "2026-08-14T20:44:55+00:00",
+      "retrieved_at_utc": "2026-08-16T05:45:59.106143+00:00",
+      "market_state": "CLOSED",
+      "live_overlay_applied": true
+    },
+    "krw_neer": {
+      "source": "BIS EER",
+      "observation": null,
+      "value": null
+    },
+    "krw_reer": {
+      "source": "BIS EER",
+      "observation": null,
+      "value": null
+    },
+    "us_2y": {
+      "source": "FRED/Global collector",
+      "observation": null,
+      "value": null
+    },
+    "kr_2y": {
+      "source": "ECOS",
+      "observation": "00000020260814",
+      "value": 3.639
+    },
+    "current_account": {
+      "source": "ECOS",
+      "observation": "00000000202606",
+      "value": 49730.4
+    },
+    "fx_reserves": {
+      "source": "ECOS",
+      "observation": "00000000202607",
+      "value": 427948361.0
+    }
+  },
+  "quality_improvement": {
+    "score_inflation_forbidden": true,
+    "current_model_quality_score": 81,
+    "independent_oos_quality_score": 79,
+    "weighted_factor_coverage_pct": 85.0,
+    "missing_factor_groups": [
+      "global_currency"
+    ],
+    "objective_next_targets": {
+      "weighted_factor_coverage_pct": 100.0,
+      "independent_oos_grade": "A",
+      "zero_benchmark_skill_pct_min": 5.0,
+      "direction_accuracy_min": 0.56,
+      "active_direction_coverage_min": 0.2
+    },
+    "observed_primary_oos": {
+      "zero_benchmark_skill_pct": 3.043,
+      "direction_accuracy": 0.5283,
+      "active_direction_coverage": 0.7737,
+      "samples": 137
+    },
+    "note": "점수는 임의 상향하지 않고 독립 OOS 성능과 입력 커버리지가 실제 개선될 때만 상승합니다."
   },
   "quality": {
     "grade": "B",
@@ -208,5 +278,5 @@
     "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
     "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
   ],
-  "generated_at": "2026-08-16T14:07:18.421736+09:00"
+  "generated_at": "2026-08-16T14:44:28.138876+09:00"
 }
