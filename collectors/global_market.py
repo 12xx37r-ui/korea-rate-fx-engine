@@ -7,6 +7,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from threading import Lock
 from typing import Any
 
 import requests
@@ -59,6 +60,21 @@ BIS_EER_API_URL = "https://stats.bis.org/api/v1/data/WS_EER/M.N+R.B.KR/all"
 CONNECT_TIMEOUT_SECONDS = 3
 READ_TIMEOUT_SECONDS = 9
 FRED_MAX_RETRIES = 3
+
+# Serialize only FRED request starts so parallel groups stay below 2 req/s.
+_FRED_PACE_LOCK = Lock()
+_FRED_LAST_REQUEST = 0.0
+_FRED_MIN_INTERVAL_SECONDS = 0.60
+
+def _pace_fred() -> None:
+    global _FRED_LAST_REQUEST
+    with _FRED_PACE_LOCK:
+        now = time.monotonic()
+        wait = _FRED_MIN_INTERVAL_SECONDS - (now - _FRED_LAST_REQUEST)
+        if wait > 0:
+            time.sleep(wait)
+        _FRED_LAST_REQUEST = time.monotonic()
+
 BIS_READ_TIMEOUT_SECONDS = 10
 BIS_REFRESH_MAX_AGE_DAYS = 45
 FRED_BOOTSTRAP_DAYS = 900
@@ -134,6 +150,7 @@ def _fred_batch(group: dict[str, str], start_date: str) -> dict[str, list[dict[s
         try:
             with requests.Session() as session:
                 session.headers.update({"User-Agent": "korea-rate-fx-engine/4.5"})
+                _pace_fred()
                 response = session.get(
                     url,
                     params={"id": ",".join(series_ids), "cosd": start_date},
