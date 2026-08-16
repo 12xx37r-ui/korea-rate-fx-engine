@@ -27,7 +27,14 @@ def _fake_semiconductor(previous):
     return {"rows": rows, "momentum": momentum, "errors": {}}
 
 
-def test_global_market_uses_three_parallel_fred_groups_plus_yahoo(monkeypatch, tmp_path: Path):
+def _patch_non_fred(monkeypatch):
+    monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}], {"price": 1418.5, "market_time_utc": "2026-08-09T04:00:00+00:00", "source": "Yahoo Finance chart metadata"}))
+    monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {})
+    monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: ({"krw_neer":[{"date":"20260701","value":100.0,"source":"BIS"}], "krw_reer":[{"date":"20260701","value":101.0,"source":"BIS"}]}, "2000-01", "bootstrap"))
+    monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
+
+
+def test_v223_missing_fred_series_bootstrap_individually(monkeypatch, tmp_path: Path):
     calls = []
 
     def fake_fred(group, start):
@@ -35,28 +42,70 @@ def test_global_market_uses_three_parallel_fred_groups_plus_yahoo(monkeypatch, t
         return _fresh_for(group)
 
     monkeypatch.setattr(global_market, "_fred_batch", fake_fred)
-    monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}], {"price": 1418.5, "market_time_utc": "2026-08-09T04:00:00+00:00", "source": "Yahoo Finance chart metadata"}))
-    monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {})
-    monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: ({"krw_neer":[{"date":"20260701","value":100.0,"source":"BIS"}], "krw_reer":[{"date":"20260701","value":101.0,"source":"BIS"}]}, "2000-01", "bootstrap"))
-    monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
+    _patch_non_fred(monkeypatch)
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
-    assert len(calls) == 3
-    assert result.metadata["request_count"] == 3 + 1 + 1 + 1 + len(global_market.YAHOO_EQUITY)
-    assert result.metadata["fred_groups_parallel"] is True
+    # Empty cache: each of the 11 FRED series is bootstrapped independently.
+    assert len(calls) == sum(len(g) for g in global_market.FRED_GROUPS.values())
+    assert all(len(keys) == 1 for keys, _ in calls)
+    assert result.metadata["fred_series_aware_incremental"] is True
+    assert result.metadata["fred_read_timeout_seconds"] == 20
     assert result.status == "ok"
 
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
     assert data["broad_dollar"][-1]["date"] == "20260807"
     assert data["usd_krw_yahoo"][-1]["value"] == 1407.5
-    assert data["usd_krw_market_snapshot"]["price"] == 1418.5
 
 
-def test_fred_group_failures_get_one_bounded_retry_then_reuse_last_good(monkeypatch, tmp_path: Path):
+def test_v223_existing_history_batches_short_incremental_windows(monkeypatch, tmp_path: Path):
     previous = {
         key: [{"date": "20260806", "value": 1.0, "source": "FRED", "series_id": sid}]
         for key, sid in global_market.FRED.items()
     }
+    previous["krw_neer"] = [{"date": "20260801", "value": 100.0}]
+    previous["krw_reer"] = [{"date": "20260801", "value": 101.0}]
+    previous["usd_krw_yahoo"] = [{"date": "20260806", "value": 1410.0, "source": "Yahoo Finance"}]
+    (tmp_path / "raw_global_market.json").write_text(json.dumps(previous), encoding="utf-8")
+
+    calls = []
+    def fake_fred(group, start):
+        calls.append((tuple(group), start))
+        return _fresh_for(group)
+
+    monkeypatch.setattr(global_market, "_fred_batch", fake_fred)
+    monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}], {"price": 1418.5, "source": "Yahoo Finance chart metadata"}))
+    monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {})
+    monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: (_ for _ in ()).throw(AssertionError("fresh EER cache should skip BIS")))
+    monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
+
+    result = global_market.collect(tmp_path, timeout=30, retries=3)
+    assert len(calls) == 3
+    assert sorted(len(keys) for keys, _ in calls) == [2, 4, 5]
+    assert all(start > "2026-06-01" for _, start in calls)
+    assert result.status == "ok"
+
+
+def test_v223_one_missing_series_does_not_force_whole_group_bootstrap():
+    group = global_market.FRED_GROUPS["currency"]
+    previous = {key: [{"date": "20260801", "value": 1.0}] for key in group if key != "usd_krw_fred"}
+    plan = global_market._group_plan(previous, group)
+    incremental = [p for p in plan if p["mode"] == "incremental"]
+    bootstrap = [p for p in plan if p["mode"] == "bootstrap_missing"]
+    assert len(incremental) == 1
+    assert set(incremental[0]["keys"]) == {"broad_dollar", "usd_cny", "usd_jpy"}
+    assert len(bootstrap) == 1
+    assert bootstrap[0]["keys"] == ["usd_krw_fred"]
+    _, mode = global_market._group_start(previous, group)
+    assert mode == "mixed_incremental_bootstrap"
+
+
+def test_v223_failed_subset_gets_only_one_exact_retry(monkeypatch, tmp_path: Path):
+    previous = {
+        key: [{"date": "20260806", "value": 1.0, "source": "FRED", "series_id": sid}]
+        for key, sid in global_market.FRED.items()
+    }
+    previous["krw_neer"] = [{"date": "20260801", "value": 100.0}]
+    previous["krw_reer"] = [{"date": "20260801", "value": 101.0}]
     previous["usd_krw_yahoo"] = [{"date": "20260806", "value": 1410.0, "source": "Yahoo Finance"}]
     (tmp_path / "raw_global_market.json").write_text(json.dumps(previous), encoding="utf-8")
 
@@ -66,35 +115,31 @@ def test_fred_group_failures_get_one_bounded_retry_then_reuse_last_good(monkeypa
         raise requests.Timeout("fred timeout")
 
     monkeypatch.setattr(global_market, "_fred_batch", fail)
-    monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}], {"price": 1418.5, "market_time_utc": "2026-08-09T04:00:00+00:00", "source": "Yahoo Finance chart metadata"}))
+    monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}], {"price": 1418.5, "source": "Yahoo Finance chart metadata"}))
     monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {})
     monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: (_ for _ in ()).throw(AssertionError("fresh EER cache should skip BIS")))
     monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
+    monkeypatch.setattr(global_market.time, "sleep", lambda *_: None)
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
-    assert len(calls) == 10  # V222: 6 group attempts + 4 critical per-series fallbacks
-    assert result.metadata["request_count"] == 10 + 2 + len(global_market.YAHOO_EQUITY)
-    assert len(result.metadata["last_good_reused"]) >= sum(len(g) for g in global_market.FRED_GROUPS.values())
-
+    # 3 incremental group requests + one exact retry for each failed group.
+    assert len(calls) == 6
+    assert result.metadata["request_count"] == 6 + 2 + len(global_market.YAHOO_EQUITY)
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
     assert data["broad_dollar"][-1]["date"] == "20260806"
-    assert data["usd_krw_yahoo"][-1]["value"] == 1407.5
-    assert data["usd_krw_market_snapshot"]["price"] == 1418.5
 
 
-def test_fred_first_bootstrap_is_recent_not_2018():
-    start, mode = global_market._group_start({}, global_market.FRED_GROUPS["currency"])
-    assert mode == "bootstrap_recent"
+def test_fred_missing_bootstrap_is_recent_not_2018():
+    start, mode = global_market._series_start({}, "broad_dollar")
+    assert mode == "bootstrap_missing"
     assert start > "2023-01-01"
 
 
-def test_fred_existing_history_uses_incremental_overlap():
-    group = global_market.FRED_GROUPS["currency"]
-    previous = {key: [{"date": "20260801", "value": 1.0}] for key in group}
-    start, mode = global_market._group_start(previous, group)
+def test_fred_existing_history_uses_45_day_incremental_overlap():
+    previous = {"broad_dollar": [{"date": "20260801", "value": 1.0}]}
+    start, mode = global_market._series_start(previous, "broad_dollar")
     assert mode == "incremental"
-    assert "2026" in start or "2025" in start
-
+    assert start == "2026-06-17"
 
 
 def test_bis_eer_csv_parser_combined_nominal_real():

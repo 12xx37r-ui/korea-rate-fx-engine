@@ -57,16 +57,16 @@ FRED_GROUPS: dict[str, dict[str, str]] = {
 
 BIS_EER_API_URL = "https://stats.bis.org/api/v1/data/WS_EER/M.N+R.B.KR/all"
 CONNECT_TIMEOUT_SECONDS = 3
-READ_TIMEOUT_SECONDS = 15
+READ_TIMEOUT_SECONDS = 20
 FRED_RETRY_ATTEMPTS = 2
 FRED_RETRY_BACKOFF_SECONDS = 1.5
-FRED_RETRY_LOOKBACK_DAYS = 60
+FRED_RETRY_LOOKBACK_DAYS = 45
 FRED_CRITICAL_FALLBACK_KEYS = ("broad_dollar", "usd_cny", "usd_jpy", "us_2y")
 FRED_CRITICAL_FALLBACK_PACING_SECONDS = 0.75
 BIS_READ_TIMEOUT_SECONDS = 10
 BIS_REFRESH_MAX_AGE_DAYS = 45
 FRED_BOOTSTRAP_DAYS = 900
-OVERLAP_DAYS = 120
+OVERLAP_DAYS = 45
 HARD_FLOOR = "2018-01-01"
 
 # Task 1: 반도체 마이크로 팩터 - Yahoo Finance 로 수집
@@ -119,26 +119,64 @@ def _bootstrap_start() -> datetime:
     return max(floor, now - timedelta(days=FRED_BOOTSTRAP_DAYS))
 
 
-def _group_start(previous: dict[str, Any], group: dict[str, str]) -> tuple[str, str]:
-    latest_dates: list[datetime] = []
-    missing = False
-    for key in group:
-        rows = previous.get(key)
-        if not isinstance(rows, list) or not rows:
-            missing = True
-            continue
-        date_text = _date_text(rows[-1])
-        try:
-            latest_dates.append(datetime.strptime(date_text, "%Y%m%d"))
-        except (TypeError, ValueError):
-            missing = True
+def _series_start(previous: dict[str, Any], key: str) -> tuple[str, str]:
+    """Return a per-series fetch window.
+
+    V223 deliberately avoids promoting one missing series into a full-group
+    bootstrap. Existing series use a short overlap window; only a genuinely
+    missing series receives the bounded bootstrap window.
+    """
+    rows = previous.get(key)
     floor = datetime.strptime(HARD_FLOOR, "%Y-%m-%d")
-    if missing or len(latest_dates) != len(group):
-        return _bootstrap_start().strftime("%Y-%m-%d"), "bootstrap_recent"
-    start = min(latest_dates) - timedelta(days=OVERLAP_DAYS)
+    if not isinstance(rows, list) or not rows:
+        return _bootstrap_start().strftime("%Y-%m-%d"), "bootstrap_missing"
+    try:
+        latest = datetime.strptime(_date_text(rows[-1]), "%Y%m%d")
+    except (TypeError, ValueError):
+        return _bootstrap_start().strftime("%Y-%m-%d"), "bootstrap_missing"
+    start = latest - timedelta(days=OVERLAP_DAYS)
     if start < floor:
         start = floor
     return start.strftime("%Y-%m-%d"), "incremental"
+
+
+def _group_plan(previous: dict[str, Any], group: dict[str, str]) -> list[dict[str, Any]]:
+    """Build a low-payload plan without sacrificing series freshness.
+
+    Existing series that share the same incremental start are batched together.
+    Missing series are intentionally fetched one-by-one so a large mixed CSV
+    bootstrap cannot stall every member of the group.
+    """
+    incremental_buckets: dict[str, dict[str, str]] = {}
+    bootstrap_items: list[dict[str, Any]] = []
+    for key, sid in group.items():
+        start, mode = _series_start(previous, key)
+        if mode == "incremental":
+            incremental_buckets.setdefault(start, {})[key] = sid
+        else:
+            bootstrap_items.append({"start": start, "mode": mode, "group": {key: sid}, "keys": [key]})
+
+    plan = [
+        {"start": start, "mode": "incremental", "group": subset, "keys": list(subset)}
+        for start, subset in sorted(incremental_buckets.items())
+    ]
+    plan.extend(bootstrap_items)
+    return plan
+
+
+def _group_start(previous: dict[str, Any], group: dict[str, str]) -> tuple[str, str]:
+    """Backward-compatible summary helper used by tests/diagnostics.
+
+    Mixed groups are reported as ``mixed_incremental_bootstrap`` while actual
+    network planning is performed by :func:`_group_plan`.
+    """
+    plan = _group_plan(previous, group)
+    modes = {item["mode"] for item in plan}
+    if modes == {"incremental"}:
+        return min(item["start"] for item in plan), "incremental"
+    if modes == {"bootstrap_missing"}:
+        return min(item["start"] for item in plan), "bootstrap_missing"
+    return min(item["start"] for item in plan), "mixed_incremental_bootstrap"
 
 
 def _fred_batch(group: dict[str, str], start_date: str) -> dict[str, list[dict[str, Any]]]:
@@ -563,110 +601,125 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     started = time.monotonic()
     request_count = 0
 
-    # Three compact FRED groups run in parallel. Worst-case wall time is one group
-    # timeout rather than three sequential timeouts.
-    futures = {}
-    with ThreadPoolExecutor(max_workers=min(2, len(FRED_GROUPS))) as pool:
-        for name, group in FRED_GROUPS.items():
-            start_date, mode = _group_start(previous, group)
-            group_meta[name] = {"start": start_date, "mode": mode}
-            print(f"[GLOBAL_MARKET] FRED {name}: {len(group)} series | start={start_date} | mode={mode}", flush=True)
-            if futures:
-                time.sleep(0.25)
-            futures[pool.submit(_fred_batch, group, start_date)] = (name, group)
+    # V223: plan FRED work per series. Existing history uses a short incremental
+    # overlap; only missing series bootstrap, one series per request. This avoids
+    # the former failure mode where one empty member forced the whole group to
+    # download ~900 days and repeatedly hit the read timeout.
+    jobs: list[tuple[str, dict[str, str], str, str]] = []
+    for name, group in FRED_GROUPS.items():
+        plan = _group_plan(previous, group)
+        group_meta[name] = {
+            "mode": "incremental" if all(p["mode"] == "incremental" for p in plan) else "series_aware",
+            "plan": [{"start": p["start"], "mode": p["mode"], "keys": p["keys"]} for p in plan],
+            "attempts": 0,
+            "fresh_series": 0,
+        }
+        for item in plan:
+            subset = item["group"]
+            jobs.append((name, subset, item["start"], item["mode"]))
+            print(
+                f"[GLOBAL_MARKET] FRED {name}: {len(subset)} series | start={item['start']} | mode={item['mode']}",
+                flush=True,
+            )
+
+    failed_jobs: list[tuple[str, dict[str, str], str, str, Exception]] = []
+    # Two workers retain low burst pressure. Bootstrap jobs are single-series, so
+    # even a slow FRED response cannot block an entire logical group.
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        future_map = {}
+        for idx, (name, subset, start_date, mode) in enumerate(jobs):
+            if idx:
+                time.sleep(0.20)
+            future_map[pool.submit(_fred_batch, subset, start_date)] = (name, subset, start_date, mode)
             request_count += 1
 
-        failed_groups: list[tuple[str, dict[str, str], Exception]] = []
-        for future in as_completed(futures):
-            name, group = futures[future]
+        for future in as_completed(future_map):
+            name, subset, start_date, mode = future_map[future]
+            group_meta[name]["attempts"] += 1
             try:
                 fresh = future.result()
                 fresh_nonempty = sum(bool(v) for v in fresh.values())
-                group_meta[name]["fresh_series"] = fresh_nonempty
-                group_meta[name]["attempts"] = 1
-                print(f"[GLOBAL_MARKET] FRED {name}: fresh_series={fresh_nonempty}/{len(group)}", flush=True)
-                for key in group:
+                group_meta[name]["fresh_series"] += fresh_nonempty
+                for key in subset:
                     old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
                     fresh_rows = fresh.get(key, [])
                     payload[key] = _merge_rows(old_rows, fresh_rows)
                     if not fresh_rows and old_rows:
                         last_good_reused.append(key)
+                print(
+                    f"[GLOBAL_MARKET] FRED {name}: {mode} success {fresh_nonempty}/{len(subset)} | start={start_date}",
+                    flush=True,
+                )
             except Exception as exc:
-                failed_groups.append((name, group, exc))
-                group_meta[name]["first_error"] = f"{type(exc).__name__}: {exc}"
-                group_meta[name]["attempts"] = 1
-                print(f"[GLOBAL_MARKET] FRED {name}: first attempt failed; queued one bounded retry | {type(exc).__name__}: {exc}", flush=True)
+                failed_jobs.append((name, subset, start_date, mode, exc))
+                group_meta[name].setdefault("first_errors", []).append(
+                    {"keys": list(subset), "start": start_date, "error": f"{type(exc).__name__}: {exc}"}
+                )
+                print(
+                    f"[GLOBAL_MARKET] FRED {name}: {mode} first attempt failed; queued one bounded retry | "
+                    f"{type(exc).__name__}: {exc}",
+                    flush=True,
+                )
 
-    # V219: retry only groups that actually failed. Retries run sequentially to
-    # avoid hammering the same FRED endpoint with three simultaneous second tries.
-    for retry_index, (name, group, first_exc) in enumerate(failed_groups, start=1):
-        time.sleep(FRED_RETRY_BACKOFF_SECONDS * retry_index)
-        retry_start = _fred_retry_start(group_meta[name]["start"], previous, group)
+    # Retry only the exact failed subset. Incremental retry is narrowed to the
+    # recent lookback window; bootstrap retry stays single-series and therefore
+    # keeps payload bounded. No broad group retry is performed.
+    retry_jobs: list[tuple[str, dict[str, str], str, str, Exception]] = []
+    for job in failed_jobs:
+        name, subset, start_date, mode, first_exc = job
+        # Incremental failures get one retry. During first-time bootstrap, only
+        # the few KRW-critical series are retried; secondary missing series wait
+        # for the next workflow instead of extending an upstream outage.
+        if mode == "incremental" or any(key in FRED_CRITICAL_FALLBACK_KEYS for key in subset):
+            retry_jobs.append(job)
+        else:
+            group_meta[name].setdefault("retry_skipped", []).append({
+                "keys": list(subset), "reason": "noncritical_bootstrap_failure"
+            })
+            for key in subset:
+                old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
+                payload[key] = list(old_rows)
+                if old_rows:
+                    last_good_reused.append(key)
+            errors[f"fred_{name}_{'_'.join(subset)}"] = f"{type(first_exc).__name__}: {first_exc}"
+
+    for retry_index, (name, subset, start_date, mode, first_exc) in enumerate(retry_jobs, start=1):
+        time.sleep(FRED_RETRY_BACKOFF_SECONDS + min(1.5, 0.25 * retry_index))
+        retry_start = start_date
+        if mode == "incremental":
+            retry_start = _fred_retry_start(start_date, previous, subset)
         try:
             request_count += 1
-            fresh = _fred_batch(group, retry_start)
+            fresh = _fred_batch(subset, retry_start)
             fresh_nonempty = sum(bool(v) for v in fresh.values())
-            group_meta[name]["retry_start"] = retry_start
-            group_meta[name]["fresh_series"] = fresh_nonempty
-            group_meta[name]["attempts"] = 2
-            group_meta[name]["recovered_on_retry"] = True
-            print(f"[GLOBAL_MARKET] FRED {name}: retry recovered {fresh_nonempty}/{len(group)} series | start={retry_start}", flush=True)
-            for key in group:
+            group_meta[name]["attempts"] += 1
+            group_meta[name]["fresh_series"] += fresh_nonempty
+            group_meta[name].setdefault("recovered", []).extend([key for key, rows in fresh.items() if rows])
+            for key in subset:
                 old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
                 fresh_rows = fresh.get(key, [])
                 payload[key] = _merge_rows(old_rows, fresh_rows)
                 if not fresh_rows and old_rows:
                     last_good_reused.append(key)
+            print(
+                f"[GLOBAL_MARKET] FRED {name}: retry recovered {fresh_nonempty}/{len(subset)} | start={retry_start}",
+                flush=True,
+            )
         except Exception as exc:
-            # V222: a combined CSV request can time out even when an individual
-            # critical series is reachable.  Recover only the few series that feed
-            # KRW-strength/rate-gap, and only after both bounded group attempts fail.
-            # This is conditional failure recovery, not normal-path fan-out.
-            critical = {key: group[key] for key in FRED_CRITICAL_FALLBACK_KEYS if key in group}
-            recovered: list[str] = []
-            critical_errors: dict[str, str] = {}
-            for critical_index, (key, sid) in enumerate(critical.items()):
-                if critical_index:
-                    time.sleep(FRED_CRITICAL_FALLBACK_PACING_SECONDS)
-                try:
-                    request_count += 1
-                    one = _fred_batch({key: sid}, retry_start)
-                    fresh_rows = one.get(key, [])
-                    old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
-                    payload[key] = _merge_rows(old_rows, fresh_rows)
-                    if fresh_rows:
-                        recovered.append(key)
-                    elif old_rows:
-                        last_good_reused.append(key)
-                except Exception as one_exc:
-                    critical_errors[key] = f"{type(one_exc).__name__}: {one_exc}"
-                    old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
-                    payload[key] = list(old_rows)
-                    if old_rows:
-                        last_good_reused.append(key)
-            for key in group:
-                if key in critical:
-                    continue
+            group_meta[name]["attempts"] += 1
+            group_meta[name].setdefault("retry_errors", []).append(
+                {"keys": list(subset), "start": retry_start, "error": f"{type(exc).__name__}: {exc}"}
+            )
+            for key in subset:
                 old_rows = previous.get(key) if isinstance(previous.get(key), list) else []
                 payload[key] = list(old_rows)
                 if old_rows:
                     last_good_reused.append(key)
-            group_meta[name]["retry_start"] = retry_start
-            group_meta[name]["attempts"] = 2
-            group_meta[name]["recovered_on_retry"] = False
-            group_meta[name]["critical_series_fallback"] = {
-                "attempted": list(critical),
-                "recovered": recovered,
-                "errors": critical_errors,
-            }
-            if recovered:
-                group_meta[name]["partial_recovery"] = True
-                print(f"[GLOBAL_MARKET] FRED {name}: group retry failed but critical fallback recovered={recovered}", flush=True)
-            unresolved_critical = [key for key in critical if key not in recovered]
-            if unresolved_critical or not critical:
-                errors[f"fred_{name}"] = f"{type(exc).__name__}: {exc}"
-                group_meta[name]["error"] = errors[f"fred_{name}"]
-            print(f"[GLOBAL_MARKET] FRED {name}: retry failed; bounded critical fallback completed", flush=True)
+            errors[f"fred_{name}_{'_'.join(subset)}"] = f"{type(exc).__name__}: {exc}"
+            print(
+                f"[GLOBAL_MARKET] FRED {name}: retry failed for {list(subset)}; last-good retained",
+                flush=True,
+            )
 
     # BIS EER is authoritative for KRW NEER/REER. Because it is monthly, reuse
     # a fresh local merged history and only make one SDMX call per release cycle.
@@ -794,6 +847,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             "bis_monthly_cache_skip_enabled": True,
             "fred_group_count": len(FRED_GROUPS),
             "fred_groups_parallel": True,
+            "fred_series_aware_incremental": True,
+            "fred_read_timeout_seconds": READ_TIMEOUT_SECONDS,
             "group_meta": group_meta,
             "bootstrap_days": FRED_BOOTSTRAP_DAYS,
             "overlap_days": OVERLAP_DAYS,
