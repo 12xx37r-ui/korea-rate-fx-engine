@@ -175,10 +175,35 @@ def _collect_futures_flow(stock: Any) -> dict[str, Any]:
     return {"available": False, "diagnostics": diagnostics}
 
 
-def _collect_basis(stock: Any) -> dict[str, Any]:
-    """시장 베이시스(KOSPI200 선물가격 - KOSPI200 현물가격) 산출."""
-    today = date.today().strftime("%Y%m%d")
+def _collect_basis(stock: Any, previous_basis: dict[str, Any] | None = None) -> dict[str, Any]:
+    """시장 베이시스(KOSPI200 선물가격 - KOSPI200 현물가격) 산출.
+
+    휴장일에는 당일 빈 응답을 억지로 파싱하지 않는다. 주말은 네트워크
+    조회를 생략하고 직전 정상 베이시스를 CACHE로 유지한다. 평일 공휴일이나
+    일시적인 pykrx 스키마 오류도 이전 정상값이 있으면 동일하게 보존한다.
+    """
+    previous_basis = previous_basis or {}
+    today_date = date.today()
+    today = today_date.strftime("%Y%m%d")
     diagnostics: list[str] = []
+
+    if today_date.weekday() >= 5:
+        if previous_basis:
+            cached = dict(previous_basis)
+            cached.update({
+                "status": "CACHE",
+                "market_state": "CLOSED",
+                "cache_reason": "weekend",
+                "diagnostics": list(cached.get("diagnostics") or []) + ["basis:weekend_network_skip"],
+            })
+            return cached
+        return {
+            "available": False,
+            "status": "CACHE",
+            "market_state": "CLOSED",
+            "reason": "weekend_no_previous_basis",
+            "diagnostics": ["basis:weekend_network_skip"],
+        }
 
     try:
         # KOSPI200 현물 지수
@@ -207,6 +232,8 @@ def _collect_basis(stock: Any) -> dict[str, Any]:
         return {
             "available": True,
             "date": today,
+            "status": "LIVE",
+            "market_state": "OPEN_OR_RECENT",
             "kospi200_spot": _round(spot_close),
             "kospi200_futures": _round(futures_close),
             "basis": _round(basis),
@@ -226,6 +253,15 @@ def _collect_basis(stock: Any) -> dict[str, Any]:
             "diagnostics": diagnostics,
         }
 
+    if previous_basis:
+        cached = dict(previous_basis)
+        cached.update({
+            "status": "CACHE",
+            "market_state": "UNKNOWN_OR_CLOSED",
+            "cache_reason": "current_basis_unavailable",
+            "diagnostics": list(cached.get("diagnostics") or []) + diagnostics,
+        })
+        return cached
     return {"available": False, "reason": "현물/선물 모두 조회 실패", "diagnostics": diagnostics}
 
 
@@ -247,7 +283,7 @@ def _collect_pykrx_supply_demand(output_dir: Path) -> dict[str, Any]:
 
     foreign_spot_flow = _collect_foreign_spot_flow(stock)
     futures_flow = _collect_futures_flow(stock)
-    basis = _collect_basis(stock)
+    basis = _collect_basis(stock, previous.get("basis") or {})
 
     result = {
         "schema_version": "1.0.0",

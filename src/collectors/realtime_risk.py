@@ -19,7 +19,7 @@ from typing import Any
 from src.core.io import read_json, write_json
 
 
-COLLECTOR_VERSION = "realtime-risk-collector-v1.0"
+COLLECTOR_VERSION = "realtime-risk-collector-v1.2-vkospi-source-guard"
 YAHOO_SYMBOLS = {
     "sox": "^SOX",
     "nvda": "NVDA",
@@ -42,6 +42,26 @@ def _num(value: Any) -> float | None:
 
 def _round(value: float | None, digits: int = 4) -> float | None:
     return round(float(value), digits) if value is not None and math.isfinite(float(value)) else None
+
+
+def _sanitize_verified_vkospi_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Keep only VKOSPI rows that explicitly came from a verified source.
+
+    Older engine builds used a hard-coded pykrx index ticker as VKOSPI.  That
+    mapping is not reliable enough to drive a circuit breaker, so legacy rows
+    from that path are deliberately rejected rather than rescaled heuristically.
+    """
+    out: list[dict[str, Any]] = []
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        value = _num(row.get("value"))
+        if value is None or not (5.0 <= value <= 150.0):
+            continue
+        if row.get("source_validation") != "verified":
+            continue
+        out.append(dict(row))
+    return out
 
 
 def _safe_read(path: Path, default: Any) -> Any:
@@ -127,33 +147,24 @@ def _rolling_std(rows: list[dict[str, Any]], window: int = 10) -> float | None:
 
 
 def _collect_vkospi(previous_vkospi: list[dict[str, Any]]) -> dict[str, Any]:
-    try:
-        from pykrx import stock  # type: ignore
-        end = date.today()
-        start = end - timedelta(days=90)
-        frame = stock.get_index_ohlcv_by_date(
-            start.strftime("%Y%m%d"), end.strftime("%Y%m%d"), VKOSPI_TICKER
-        )
-        if frame is None or getattr(frame, "empty", True):
-            raise ValueError("VKOSPI frame empty")
-        rows = []
-        for idx, row in frame.iterrows():
-            close = _num(row.get("종가") if hasattr(row, "get") else None)
-            if close is None and hasattr(row, "get"):
-                close = _num(row.get("Close"))
-            if close is None:
-                continue
-            date_str = idx.strftime("%Y%m%d") if hasattr(idx, "strftime") else str(idx)[:8].replace("-", "")
-            rows.append({"date": date_str, "value": close, "source": "pykrx", "ticker": VKOSPI_TICKER})
-        return {"available": bool(rows), "rows": rows, "source": "pykrx VKOSPI"}
-    except Exception as exc:
-        return {
-            "available": bool(previous_vkospi),
-            "rows": previous_vkospi,
-            "stale": bool(previous_vkospi),
-            "reason": f"{type(exc).__name__}: {str(exc)[:180]}",
-        }
+    """Fail closed until a verifiable VKOSPI source is configured.
 
+    A volatility circuit breaker must never be driven by an unverified index
+    ticker.  Preserve only previously verified VKOSPI observations; otherwise
+    expose the input as unavailable so the regime model falls back to its other
+    risk inputs instead of manufacturing a crisis signal.
+    """
+    verified_previous = _sanitize_verified_vkospi_rows(previous_vkospi)
+    return {
+        "available": bool(verified_previous),
+        "rows": verified_previous,
+        "stale": bool(verified_previous),
+        "source": "verified VKOSPI last-good" if verified_previous else None,
+        "source_validation": "verified" if verified_previous else "unavailable",
+        "reason": (
+            "live VKOSPI source disabled: legacy pykrx ticker mapping is not verified for circuit-breaker use"
+        ),
+    }
 
 def _collect_foreign_futures(previous_futures: dict[str, Any]) -> dict[str, Any]:
     try:
@@ -282,6 +293,8 @@ def collect(output_dir: Path, timeout: int = 20) -> dict[str, Any]:
             "rows": vkospi_rows[-60:],
             "stale": vkospi_result.get("stale", False),
             "source": vkospi_result.get("source"),
+            "source_validation": vkospi_result.get("source_validation"),
+            "reason": vkospi_result.get("reason"),
         },
         "semiconductor": {
             "sox_latest": _round(sox_latest),

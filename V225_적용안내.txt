@@ -1,0 +1,40 @@
+V225 한국엔진 시장리스크/휴장일/KOSIS 보강 패치
+
+적용 기준: V224 적용 완료 상태
+수정 대상: 한국엔진만. 미국엔진/글로벌엔진/GAS 변경 없음.
+
+변경 내용
+1) VKOSPI 오탐 차단
+- 기존 hard-coded pykrx index ticker 기반 VKOSPI 값을 서킷브레이커 입력으로 사용하지 않도록 변경.
+- 검증되지 않은 과거 pykrx VKOSPI 행도 재사용하지 않음.
+- 검증된 source_validation=verified VKOSPI만 LKG 재사용 가능.
+- 따라서 5531.96 같은 잘못된 지수값으로 crisis/circuit_breaker가 발동하는 것을 차단.
+- 값이 없으면 VKOSPI는 unavailable로 두고 기존 FX/CDS 등 다른 위험입력으로 레짐을 계산.
+
+2) KRX 휴장일 안전처리
+- 주말에는 KOSPI200 basis 당일 index 조회를 생략.
+- 직전 정상 basis가 있으면 CACHE/CLOSED로 재사용.
+- 평일 공휴일/pykrx 오류 시에도 직전 정상 basis가 있으면 CACHE로 유지.
+- 기존 외국인 수급/선물 대용 로직은 유지.
+
+3) KOSIS 월간 cadence 보호
+- 주말 + 직전 정상 월간 이력이 있으면 외부 KOSIS 호출을 생략하고 last-good 사용.
+- 평일에는 기존대로 원천을 다시 확인하여 새 발표값을 놓치지 않음.
+- cadence skip은 장애가 아니므로 collector status를 degraded로 만들지 않음.
+- metadata에 cadence_skips, weekend_cache_skip_enabled 추가.
+
+호환성
+- 기존 계산식/기존 JSON 키 삭제 없음.
+- additive metadata만 추가.
+- 미국엔진/글로벌엔진 미수정.
+
+검증
+- Python py_compile PASS
+- 전체 pytest: 83 passed
+
+적용 후 확인할 로그
+- REALTIME_RISK: vkospi=None 또는 검증된 정상값이어야 함. 5531.96이 다시 나오면 안 됨.
+- KOREA_EQUITY_ENVIRONMENT: VKOSPI 오탐 때문에 circuit_breaker=True가 되면 안 됨.
+- KRX: 일요일에는 get_index_ohlcv_by_date 컬럼 KeyError가 basis 조회에서 발생하지 않아야 함.
+- KOSIS: 일요일에는 `weekend cadence skip` 로그가 뜨며 약 20~30초 timeout 대기가 없어야 함.
+- FRED는 V224 동작을 그대로 유지.

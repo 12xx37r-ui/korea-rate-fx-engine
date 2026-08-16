@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -13,6 +14,7 @@ from src.core.result import SourceResult
 FETCH_TIMEOUT_SECONDS = 6
 FETCH_RETRIES = 2
 INCREMENTAL_MONTHS = 18
+WEEKEND_CACHE_SKIP_ENABLED = True
 
 
 def _validate_payload(payload: Any) -> list[dict[str, Any]]:
@@ -109,9 +111,25 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
     circuit_open = False
     circuit_reason = ""
     network_failures: list[str] = []
+    cadence_skips: list[str] = []
 
     for name, spec in series.items():
         old_rows = previous.get(name) if isinstance(previous.get(name), list) else []
+
+        # Monthly KOSIS series do not need repeated weekend transport attempts when
+        # a usable last-good history already exists.  Weekdays still recheck the
+        # source so a newly released observation is not suppressed by an arbitrary TTL.
+        if WEEKEND_CACHE_SKIP_ENABLED and date.today().weekday() >= 5 and old_rows:
+            payloads[name] = list(old_rows)
+            last_good_reused.append(name)
+            cadence_skips.append(name)
+            warnings.append(f"{name}: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True")
+            print(
+                f"[KOSIS] {name}: weekend cadence skip | latest={_latest(old_rows)} | last-good=True",
+                flush=True,
+            )
+            continue
+
         if circuit_open:
             payloads[name] = list(old_rows)
             if old_rows:
@@ -219,7 +237,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             },
         )
 
-    status = "ok" if not warnings else "degraded"
+    non_cadence_warnings = [w for w in warnings if "주말 월간자료 외부호출 생략" not in w]
+    status = "ok" if not non_cadence_warnings else "degraded"
     return SourceResult(
         "kosis", status,
         f"KOSIS 국내 공식 지표 사용 가능 {usable}/{len(series)} · 신규성공 {fresh_success}/{len(series)}",
@@ -235,6 +254,8 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             "network_failures": sorted(set(network_failures)),
             "per_series_network_retries": FETCH_RETRIES,
             "last_good_reused": sorted(set(last_good_reused)),
+            "cadence_skips": sorted(set(cadence_skips)),
+            "weekend_cache_skip_enabled": WEEKEND_CACHE_SKIP_ENABLED,
             **credential_metadata("KOSIS_API_KEY", "valid"),
         },
     )

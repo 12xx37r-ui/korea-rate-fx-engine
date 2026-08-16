@@ -1,3 +1,4 @@
+from datetime import date as real_date
 from pathlib import Path
 
 from src.collectors import kosis
@@ -17,6 +18,12 @@ def test_network_timeout_is_not_credential_error():
 
 
 def test_kosis_isolates_network_failure_and_attempts_each_series(monkeypatch, tmp_path: Path):
+    class FakeWeekday(real_date):
+        @classmethod
+        def today(cls):
+            return cls(2026, 8, 17)
+
+    monkeypatch.setattr(kosis, "date", FakeWeekday)
     monkeypatch.setenv("KOSIS_API_KEY", "test")
     monkeypatch.setattr(kosis, "_cached_resolution", lambda name, version: _resolved(name))
     calls = {"n": 0}
