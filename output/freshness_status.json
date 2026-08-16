@@ -1,14 +1,15 @@
 {
   "schema_version": "1.0.0",
-  "patch_version": "V219-retry-and-live-source-refresh",
-  "generated_at_utc": "2026-08-16T06:30:05.153818+00:00",
-  "engine_generated_at": "2026-08-16T15:29:18.902408+09:00",
+  "patch_version": "V226-final-model-tournament-and-cadence-status",
+  "generated_at_utc": "2026-08-16T06:38:45.625906+00:00",
+  "engine_generated_at": "2026-08-16T15:37:35.783338+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
     "new_network_calls": 1,
     "conditional_retry_calls": "FRED failed groups + KOSIS failed requests only",
-    "model_formulas_changed": false
+    "model_formulas_changed": true,
+    "model_change_scope": "Korea rate/FX/KRW-strength candidate tournaments only; OOS/past-only selection"
   },
   "items": [
     {
@@ -20,18 +21,24 @@
       "age_hours": 0.0,
       "max_age_hours": 72.0,
       "last_good_reused": false,
+      "cadence_skip": false,
       "warnings": []
     },
     {
       "source": "ecos",
-      "status": "LIVE",
-      "collector_status": "ok",
+      "status": "LKG",
+      "collector_status": "degraded",
       "cadence": "daily/monthly",
       "observation_at": "20260814",
-      "age_hours": 54.5,
+      "age_hours": 54.65,
       "max_age_hours": 96.0,
-      "last_good_reused": false,
-      "warnings": []
+      "last_good_reused": true,
+      "cadence_skip": false,
+      "warnings": [
+        "kr_base_rate: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/722Y001/D/20260723/20260816/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f526a02bb00>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
+        "usdkrw: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/731Y001/D/20260724/20260816/0000001/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f526a040440>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
+        "kr_gov_2y: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20260724/20260816/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f526a040f80>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지"
+      ]
     },
     {
       "source": "global_market",
@@ -39,9 +46,10 @@
       "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260816",
-      "age_hours": 6.5,
+      "age_hours": 6.65,
       "max_age_hours": 96.0,
       "last_good_reused": false,
+      "cadence_skip": false,
       "warnings": []
     },
     {
@@ -53,17 +61,19 @@
       "age_hours": null,
       "max_age_hours": 96.0,
       "last_good_reused": false,
+      "cadence_skip": false,
       "warnings": []
     },
     {
       "source": "kosis",
-      "status": "LKG",
+      "status": "CACHE",
       "collector_status": "ok",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1110.5,
+      "age_hours": 1110.65,
       "max_age_hours": 1080.0,
       "last_good_reused": true,
+      "cadence_skip": true,
       "warnings": [
         "cpi_core: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True",
         "industrial_production: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True"
@@ -74,9 +84,9 @@
       "status": "CACHE",
       "cadence": "intraday-when-market-open",
       "observation_at": "2026-08-14T20:44:55+00:00",
-      "retrieved_at": "2026-08-16T06:29:28.541145+00:00",
+      "retrieved_at": "2026-08-16T06:37:51.494480+00:00",
       "market_state": "CLOSED",
-      "age_hours": 33.75,
+      "age_hours": 33.9,
       "max_age_hours": 3.0,
       "value": 1418.5,
       "provider": "Naver MarketIndex FX_USDKRW",
@@ -84,8 +94,8 @@
     }
   ],
   "summary": {
-    "live": 4,
-    "cache": 1,
+    "live": 3,
+    "cache": 2,
     "lkg": 1,
     "fallback": 0,
     "unavailable": 0

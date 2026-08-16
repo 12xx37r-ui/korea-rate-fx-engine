@@ -6,14 +6,14 @@
   "data_mode": "monetary_plus_policy",
   "latest_observation": "20260814",
   "current": {
-    "liquidity_score": 0.1019,
+    "liquidity_score": 0.1009,
     "grade": "유동성 중립",
     "observations": {
       "m1_yoy": 10.085,
       "m2_yoy": 5.977,
       "lf_yoy": 8.52,
       "market_policy_gap_pctp": 0.889,
-      "expected_policy_change_3m_pctp": 0.047
+      "expected_policy_change_3m_pctp": 0.052
     }
   },
   "input_freshness": {
@@ -55,8 +55,8 @@
     "expected_policy_path": {
       "source": "korea_rate_forecast_v2",
       "cadence": "workflow",
-      "observation": "2026-08-16T15:29:18.902408+09:00",
-      "value": 0.047,
+      "observation": "2026-08-16T15:37:35.783338+09:00",
+      "value": 0.052,
       "available": true
     }
   },
@@ -94,10 +94,10 @@
   "forecast_path": [
     {
       "months": 3,
-      "liquidity_score": 0.1485,
+      "liquidity_score": 0.1466,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 5.83,
-      "policy_impulse": -0.0627,
+      "expected_m2_yoy_pct": 5.827,
+      "policy_impulse": -0.0693,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
       "forecast_quality_score": 88,
@@ -106,10 +106,10 @@
     },
     {
       "months": 6,
-      "liquidity_score": 0.137,
+      "liquidity_score": 0.135,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 6.386,
-      "policy_impulse": -0.072,
+      "expected_m2_yoy_pct": 6.383,
+      "policy_impulse": -0.08,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
       "forecast_quality_score": 92,
@@ -118,10 +118,10 @@
     },
     {
       "months": 12,
-      "liquidity_score": 0.1213,
-      "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 6.293,
-      "policy_impulse": -0.076,
+      "liquidity_score": 0.1194,
+      "grade": "유동성 중립",
+      "expected_m2_yoy_pct": 6.29,
+      "policy_impulse": -0.084,
       "validation_shrinkage": 0.997,
       "quality_grade": "B",
       "forecast_quality_score": 80,
@@ -238,5 +238,5 @@
     "monetary_aggregate_available": true,
     "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
   },
-  "generated_at": "2026-08-16T15:29:18.902408+09:00"
+  "generated_at": "2026-08-16T15:37:35.783338+09:00"
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-16T06:29:31.881410Z",
+  "generated_at": "2026-08-16T06:37:55.981228Z",
   "available": true,
   "foreign_spot_flow": {
     "available": true,
@@ -33,6 +33,7 @@
     "reason": "현물/선물 모두 조회 실패",
     "diagnostics": [
       "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__",
+      "basis:weekend_network_skip",
       "basis:weekend_network_skip"
     ],
     "status": "CACHE",

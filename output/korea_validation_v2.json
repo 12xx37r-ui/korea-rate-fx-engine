@@ -1,15 +1,15 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-16T15:29:18.902408+09:00",
+  "generated_at": "2026-08-16T15:37:35.783338+09:00",
   "rate": {
     "samples": 166,
-    "brier_score": 0.5129,
+    "brier_score": 0.5119,
     "benchmark_brier": 0.5759,
-    "brier_skill_score": 0.1094,
+    "brier_skill_score": 0.1112,
     "accuracy": 0.6325,
     "accuracy_wilson_lower_95": 0.557,
-    "log_loss": 0.8589,
+    "log_loss": 0.8577,
     "class_frequency": {
       "hold": 0.5964,
       "hike": 0.1747,
@@ -25,9 +25,29 @@
       "industrial_production_months": 2
     },
     "real_time_vintage": false,
+    "candidate_tournament": {
+      "enabled": true,
+      "candidate_names": [
+        "baseline",
+        "market_gap_heavy",
+        "macro_balanced",
+        "high_inertia"
+      ],
+      "selection_min_matured_errors": 36,
+      "selection_rule": "55% recent-48 + 45% expanding Brier; past-only",
+      "selected_model_counts": {
+        "baseline": 47,
+        "macro_balanced": 43,
+        "high_inertia": 22,
+        "market_gap_heavy": 54
+      },
+      "production_candidate": "market_gap_heavy",
+      "no_lookahead": true
+    },
     "rows": [
       {
         "origin": "20121130",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.70238,
           "hike": 0.146742,
@@ -45,6 +65,7 @@
       },
       {
         "origin": "20121231",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.690842,
           "hike": 0.139339,
@@ -62,6 +83,7 @@
       },
       {
         "origin": "20130131",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.657183,
           "hike": 0.180433,
@@ -79,6 +101,7 @@
       },
       {
         "origin": "20130228",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.668271,
           "hike": 0.155692,
@@ -96,6 +119,7 @@
       },
       {
         "origin": "20130329",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.656247,
           "hike": 0.156111,
@@ -113,6 +137,7 @@
       },
       {
         "origin": "20130430",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.652653,
           "hike": 0.165521,
@@ -130,6 +155,7 @@
       },
       {
         "origin": "20130531",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.682421,
           "hike": 0.159437,
@@ -147,6 +173,7 @@
       },
       {
         "origin": "20130628",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.672417,
           "hike": 0.18713,
@@ -164,6 +191,7 @@
       },
       {
         "origin": "20130731",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.666264,
           "hike": 0.171689,
@@ -181,6 +209,7 @@
       },
       {
         "origin": "20130830",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.664027,
           "hike": 0.197272,
@@ -198,6 +227,7 @@
       },
       {
         "origin": "20130930",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.668117,
           "hike": 0.160527,
@@ -215,6 +245,7 @@
       },
       {
         "origin": "20131031",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.68284,
           "hike": 0.17453,
@@ -232,6 +263,7 @@
       },
       {
         "origin": "20131129",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.676792,
           "hike": 0.185743,
@@ -249,6 +281,7 @@
       },
       {
         "origin": "20131231",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.658988,
           "hike": 0.214453,
@@ -266,6 +299,7 @@
       },
       {
         "origin": "20140129",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.682971,
           "hike": 0.18214,
@@ -283,6 +317,7 @@
       },
       {
         "origin": "20140228",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.675042,
           "hike": 0.183956,
@@ -300,6 +335,7 @@
       },
       {
         "origin": "20140331",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.654104,
           "hike": 0.209268,
@@ -317,6 +353,7 @@
       },
       {
         "origin": "20140430",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.665414,
           "hike": 0.206794,
@@ -334,6 +371,7 @@
       },
       {
         "origin": "20140530",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.646484,
           "hike": 0.229359,
@@ -351,6 +389,7 @@
       },
       {
         "origin": "20140630",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.694883,
           "hike": 0.16149,
@@ -368,6 +407,7 @@
       },
       {
         "origin": "20140731",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.700108,
           "hike": 0.140293,
@@ -385,6 +425,7 @@
       },
       {
         "origin": "20140829",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.682861,
           "hike": 0.185995,
@@ -402,6 +443,7 @@
       },
       {
         "origin": "20140930",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.693494,
           "hike": 0.173321,
@@ -419,6 +461,7 @@
       },
       {
         "origin": "20141031",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.693395,
           "hike": 0.169657,
@@ -436,6 +479,7 @@
       },
       {
         "origin": "20141128",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.666512,
           "hike": 0.134809,
@@ -453,6 +497,7 @@
       },
       {
         "origin": "20141231",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.67305,
           "hike": 0.138438,
@@ -470,6 +515,7 @@
       },
       {
         "origin": "20150130",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.701948,
           "hike": 0.134809,
@@ -487,6 +533,7 @@
       },
       {
         "origin": "20150227",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.672967,
           "hike": 0.197789,
@@ -504,6 +551,7 @@
       },
       {
         "origin": "20150331",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.699365,
           "hike": 0.16237,
@@ -521,6 +569,7 @@
       },
       {
         "origin": "20150430",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.67057,
           "hike": 0.200648,
@@ -538,6 +587,7 @@
       },
       {
         "origin": "20150529",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.705518,
           "hike": 0.158308,
@@ -555,6 +605,7 @@
       },
       {
         "origin": "20150630",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.661711,
           "hike": 0.211208,
@@ -572,6 +623,7 @@
       },
       {
         "origin": "20150731",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.674883,
           "hike": 0.156357,
@@ -589,6 +641,7 @@
       },
       {
         "origin": "20150831",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.69662,
           "hike": 0.169594,
@@ -606,6 +659,7 @@
       },
       {
         "origin": "20150930",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.704429,
           "hike": 0.146494,
@@ -623,6 +677,7 @@
       },
       {
         "origin": "20151030",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.652297,
           "hike": 0.22243,
@@ -640,10 +695,11 @@
       },
       {
         "origin": "20151130",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.615533,
-          "hike": 0.266253,
-          "cut": 0.118213
+          "hold": 0.592001,
+          "hike": 0.286062,
+          "cut": 0.121937
         },
         "benchmark_probabilities": {
           "hold": 0.589744,
@@ -652,15 +708,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.23268,
+        "brier": 0.263163,
         "benchmark_brier": 0.316897
       },
       {
         "origin": "20151231",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.661555,
-          "hike": 0.211393,
-          "cut": 0.127052
+          "hold": 0.635494,
+          "hike": 0.23361,
+          "cut": 0.130896
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -669,15 +726,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.175374,
+        "brier": 0.204572,
         "benchmark_brier": 0.30125
       },
       {
         "origin": "20160129",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.705426,
-          "hike": 0.159097,
-          "cut": 0.135477
+          "hold": 0.688684,
+          "hike": 0.169464,
+          "cut": 0.141852
         },
         "benchmark_probabilities": {
           "hold": 0.609756,
@@ -686,15 +744,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.13044,
+        "brier": 0.145758,
         "benchmark_brier": 0.286734
       },
       {
         "origin": "20160229",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.697545,
-          "hike": 0.133964,
-          "cut": 0.168491
+          "hold": 0.678789,
+          "hike": 0.139814,
+          "cut": 0.181397
         },
         "benchmark_probabilities": {
           "hold": 0.619048,
@@ -703,11 +762,12 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.137814,
+        "brier": 0.155629,
         "benchmark_brier": 0.273243
       },
       {
         "origin": "20160331",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.696777,
           "hike": 0.133816,
@@ -725,10 +785,11 @@
       },
       {
         "origin": "20160429",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.696607,
-          "hike": 0.150885,
-          "cut": 0.152509
+          "hold": 0.677463,
+          "hike": 0.161487,
+          "cut": 0.16105
         },
         "benchmark_probabilities": {
           "hold": 0.613636,
@@ -737,15 +798,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.226269,
+        "brier": 1.188871,
         "benchmark_brier": 0.782025
       },
       {
         "origin": "20160531",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.70685,
-          "hike": 0.152985,
-          "cut": 0.140165
+          "hold": 0.688706,
+          "hike": 0.164014,
+          "cut": 0.14728
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -754,15 +816,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.262358,
+        "brier": 1.228348,
         "benchmark_brier": 0.747654
       },
       {
         "origin": "20160630",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.690211,
-          "hike": 0.169179,
-          "cut": 0.140611
+          "hold": 0.667537,
+          "hike": 0.184903,
+          "cut": 0.14756
         },
         "benchmark_probabilities": {
           "hold": 0.586957,
@@ -771,15 +834,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.144362,
+        "brier": 0.166494,
         "benchmark_brier": 0.324197
       },
       {
         "origin": "20160729",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.680189,
-          "hike": 0.176879,
-          "cut": 0.142932
+          "hold": 0.655832,
+          "hike": 0.195186,
+          "cut": 0.148982
         },
         "benchmark_probabilities": {
           "hold": 0.595745,
@@ -788,15 +852,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.153995,
+        "brier": 0.178745,
         "benchmark_brier": 0.310548
       },
       {
         "origin": "20160831",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.669759,
-          "hike": 0.173762,
-          "cut": 0.156478
+          "hold": 0.643432,
+          "hike": 0.188425,
+          "cut": 0.168143
         },
         "benchmark_probabilities": {
           "hold": 0.604167,
@@ -805,15 +870,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.163738,
+        "brier": 0.190917,
         "benchmark_brier": 0.297743
       },
       {
         "origin": "20160930",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.678546,
-          "hike": 0.162446,
-          "cut": 0.159008
+          "hold": 0.653086,
+          "hike": 0.175797,
+          "cut": 0.171117
         },
         "benchmark_probabilities": {
           "hold": 0.612245,
@@ -822,15 +888,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.155005,
+        "brier": 0.180535,
         "benchmark_brier": 0.285714
       },
       {
         "origin": "20161031",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.688146,
-          "hike": 0.159836,
-          "cut": 0.152018
+          "hold": 0.669956,
+          "hike": 0.166478,
+          "cut": 0.163565
         },
         "benchmark_probabilities": {
           "hold": 0.62,
@@ -839,11 +906,12 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.14591,
+        "brier": 0.163397,
         "benchmark_brier": 0.2744
       },
       {
         "origin": "20161130",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.674365,
           "hike": 0.178711,
@@ -861,6 +929,7 @@
       },
       {
         "origin": "20161230",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.672065,
           "hike": 0.169348,
@@ -878,6 +947,7 @@
       },
       {
         "origin": "20170131",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.64306,
           "hike": 0.202433,
@@ -895,6 +965,7 @@
       },
       {
         "origin": "20170228",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.654177,
           "hike": 0.205299,
@@ -912,6 +983,7 @@
       },
       {
         "origin": "20170331",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.616067,
           "hike": 0.251595,
@@ -929,10 +1001,11 @@
       },
       {
         "origin": "20170428",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.666561,
-          "hike": 0.186189,
-          "cut": 0.14725
+          "hold": 0.706084,
+          "hike": 0.163629,
+          "cut": 0.130286
         },
         "benchmark_probabilities": {
           "hold": 0.660714,
@@ -941,15 +1014,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.167531,
+        "brier": 0.130136,
         "benchmark_brier": 0.21875
       },
       {
         "origin": "20170531",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.624987,
-          "hike": 0.233027,
-          "cut": 0.141986
+          "hold": 0.671566,
+          "hike": 0.201252,
+          "cut": 0.127181
         },
         "benchmark_probabilities": {
           "hold": 0.666667,
@@ -958,15 +1032,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.215096,
+        "brier": 0.164546,
         "benchmark_brier": 0.211142
       },
       {
         "origin": "20170630",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.664217,
-          "hike": 0.184885,
-          "cut": 0.150899
+          "hold": 0.703884,
+          "hike": 0.162815,
+          "cut": 0.133301
         },
         "benchmark_probabilities": {
           "hold": 0.672414,
@@ -975,15 +1050,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.169703,
+        "brier": 0.131963,
         "benchmark_brier": 0.203924
       },
       {
         "origin": "20170731",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.649374,
-          "hike": 0.198911,
-          "cut": 0.151716
+          "hold": 0.691239,
+          "hike": 0.174406,
+          "cut": 0.134355
         },
         "benchmark_probabilities": {
           "hold": 0.677966,
@@ -992,15 +1068,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.185522,
+        "brier": 0.143802,
         "benchmark_brier": 0.19707
       },
       {
         "origin": "20170831",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.657547,
-          "hike": 0.178827,
-          "cut": 0.163626
+          "hold": 0.69805,
+          "hike": 0.158579,
+          "cut": 0.143371
         },
         "benchmark_probabilities": {
           "hold": 0.683333,
@@ -1009,15 +1086,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.133468,
+        "brier": 1.215819,
         "benchmark_brier": 1.523889
       },
       {
         "origin": "20170929",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.657462,
-          "hike": 0.209,
-          "cut": 0.133538
+          "hold": 0.697426,
+          "hike": 0.183541,
+          "cut": 0.119033
         },
         "benchmark_probabilities": {
           "hold": 0.672131,
@@ -1026,15 +1104,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.07577,
+        "brier": 1.167177,
         "benchmark_brier": 1.474335
       },
       {
         "origin": "20171031",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.62486,
-          "hike": 0.240914,
-          "cut": 0.134226
+          "hold": 0.592061,
+          "hike": 0.278965,
+          "cut": 0.128974
         },
         "benchmark_probabilities": {
           "hold": 0.66129,
@@ -1043,15 +1122,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.984678,
+        "brier": 0.887063,
         "benchmark_brier": 1.427159
       },
       {
         "origin": "20171130",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.615048,
-          "hike": 0.241255,
-          "cut": 0.143696
+          "hold": 0.603039,
+          "hike": 0.255789,
+          "cut": 0.141172
         },
         "benchmark_probabilities": {
           "hold": 0.650794,
@@ -1060,15 +1140,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.227041,
+        "brier": 0.242936,
         "benchmark_brier": 0.207609
       },
       {
         "origin": "20171229",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.631674,
-          "hike": 0.212245,
-          "cut": 0.156081
+          "hold": 0.613807,
+          "hike": 0.235434,
+          "cut": 0.150759
         },
         "benchmark_probabilities": {
           "hold": 0.65625,
@@ -1077,15 +1158,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.205073,
+        "brier": 0.227303,
         "benchmark_brier": 0.201172
       },
       {
         "origin": "20180131",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.626037,
-          "hike": 0.231738,
-          "cut": 0.142225
+          "hold": 0.601298,
+          "hike": 0.261275,
+          "cut": 0.137427
         },
         "benchmark_probabilities": {
           "hold": 0.661538,
@@ -1094,15 +1176,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.213779,
+        "brier": 0.246114,
         "benchmark_brier": 0.19503
       },
       {
         "origin": "20180228",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.601531,
-          "hike": 0.197488,
-          "cut": 0.200981
+          "hold": 0.58408,
+          "hike": 0.230313,
+          "cut": 0.185607
         },
         "benchmark_probabilities": {
           "hold": 0.666667,
@@ -1111,15 +1194,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.238173,
+        "brier": 0.260484,
         "benchmark_brier": 0.189164
       },
       {
         "origin": "20180330",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.626685,
-          "hike": 0.218467,
-          "cut": 0.154848
+          "hold": 0.605403,
+          "hike": 0.245902,
+          "cut": 0.148695
         },
         "benchmark_probabilities": {
           "hold": 0.671642,
@@ -1128,15 +1212,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.21107,
+        "brier": 0.238284,
         "benchmark_brier": 0.18356
       },
       {
         "origin": "20180430",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.623942,
-          "hike": 0.230284,
-          "cut": 0.145774
+          "hold": 0.602807,
+          "hike": 0.256075,
+          "cut": 0.141118
         },
         "benchmark_probabilities": {
           "hold": 0.676471,
@@ -1145,15 +1230,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.215701,
+        "brier": 0.243251,
         "benchmark_brier": 0.178201
       },
       {
         "origin": "20180531",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.639272,
-          "hike": 0.215496,
-          "cut": 0.145232
+          "hold": 0.681398,
+          "hike": 0.189559,
+          "cut": 0.129043
         },
         "benchmark_probabilities": {
           "hold": 0.681159,
@@ -1162,15 +1248,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.197655,
+        "brier": 0.154092,
         "benchmark_brier": 0.173073
       },
       {
         "origin": "20180629",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.622303,
-          "hike": 0.232306,
-          "cut": 0.145391
+          "hold": 0.667615,
+          "hike": 0.202622,
+          "cut": 0.129763
         },
         "benchmark_probabilities": {
           "hold": 0.685714,
@@ -1179,15 +1266,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.21776,
+        "brier": 0.168374,
         "benchmark_brier": 0.168163
       },
       {
         "origin": "20180731",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.638353,
-          "hike": 0.208271,
-          "cut": 0.153376
+          "hold": 0.680913,
+          "hike": 0.183253,
+          "cut": 0.135834
         },
         "benchmark_probabilities": {
           "hold": 0.690141,
@@ -1196,15 +1284,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.197689,
+        "brier": 0.153849,
         "benchmark_brier": 0.16346
       },
       {
         "origin": "20180831",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.622997,
-          "hike": 0.209577,
-          "cut": 0.167426
+          "hold": 0.668984,
+          "hike": 0.182935,
+          "cut": 0.148081
         },
         "benchmark_probabilities": {
           "hold": 0.694444,
@@ -1213,15 +1302,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.040926,
+        "brier": 1.137063,
         "benchmark_brier": 1.436728
       },
       {
         "origin": "20180928",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.642678,
-          "hike": 0.189376,
-          "cut": 0.167946
+          "hold": 0.685019,
+          "hike": 0.167242,
+          "cut": 0.147739
         },
         "benchmark_probabilities": {
           "hold": 0.684932,
@@ -1230,15 +1320,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.098352,
+        "brier": 1.184562,
         "benchmark_brier": 1.397636
       },
       {
         "origin": "20181031",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.66235,
-          "hike": 0.182903,
-          "cut": 0.154747
+          "hold": 0.702284,
+          "hike": 0.161214,
+          "cut": 0.136502
         },
         "benchmark_probabilities": {
           "hold": 0.675676,
@@ -1247,15 +1338,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.130302,
+        "brier": 1.215398,
         "benchmark_brier": 1.360117
       },
       {
         "origin": "20181130",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.68033,
-          "hike": 0.144818,
-          "cut": 0.174852
+          "hold": 0.718813,
+          "hike": 0.12871,
+          "cut": 0.152477
         },
         "benchmark_probabilities": {
           "hold": 0.666667,
@@ -1264,15 +1356,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.153734,
+        "brier": 0.118882,
         "benchmark_brier": 0.177422
       },
       {
         "origin": "20181231",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.700057,
-          "hike": 0.140902,
-          "cut": 0.159041
+          "hold": 0.735858,
+          "hike": 0.124786,
+          "cut": 0.139357
         },
         "benchmark_probabilities": {
           "hold": 0.671053,
@@ -1281,15 +1374,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.135113,
+        "brier": 0.104763,
         "benchmark_brier": 0.172784
       },
       {
         "origin": "20190131",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.667554,
-          "hike": 0.133609,
-          "cut": 0.198836
+          "hold": 0.708615,
+          "hike": 0.119514,
+          "cut": 0.171871
         },
         "benchmark_probabilities": {
           "hold": 0.675325,
@@ -1298,15 +1392,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.167907,
+        "brier": 0.128728,
         "benchmark_brier": 0.168325
       },
       {
         "origin": "20190228",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.666242,
-          "hike": 0.133721,
-          "cut": 0.200037
+          "hold": 0.707438,
+          "hike": 0.11964,
+          "cut": 0.172921
         },
         "benchmark_probabilities": {
           "hold": 0.679487,
@@ -1315,15 +1410,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.16929,
+        "brier": 0.129808,
         "benchmark_brier": 0.164037
       },
       {
         "origin": "20190329",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.67773,
-          "hike": 0.130158,
-          "cut": 0.192112
+          "hold": 0.71723,
+          "hike": 0.11621,
+          "cut": 0.166561
         },
         "benchmark_probabilities": {
           "hold": 0.683544,
@@ -1332,15 +1428,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.157706,
+        "brier": 0.121206,
         "benchmark_brier": 0.15991
       },
       {
         "origin": "20190430",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.624504,
-          "hike": 0.119936,
-          "cut": 0.255561
+          "hold": 0.672439,
+          "hike": 0.108952,
+          "cut": 0.218608
         },
         "benchmark_probabilities": {
           "hold": 0.6875,
@@ -1349,15 +1446,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 0.958579,
+        "brier": 1.074619,
         "benchmark_brier": 1.080938
       },
       {
         "origin": "20190531",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.663559,
-          "hike": 0.132339,
-          "cut": 0.204102
+          "hold": 0.70474,
+          "hike": 0.1181,
+          "cut": 0.177159
         },
         "benchmark_probabilities": {
           "hold": 0.679012,
@@ -1366,15 +1464,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.091279,
+        "brier": 1.187674,
         "benchmark_brier": 1.054412
       },
       {
         "origin": "20190628",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.638668,
-          "hike": 0.134686,
-          "cut": 0.226645
+          "hold": 0.683247,
+          "hike": 0.120349,
+          "cut": 0.196404
         },
         "benchmark_probabilities": {
           "hold": 0.670732,
@@ -1383,15 +1482,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.024116,
+        "brier": 1.127076,
         "benchmark_brier": 1.028852
       },
       {
         "origin": "20190731",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.60437,
-          "hike": 0.201177,
-          "cut": 0.194452
+          "hold": 0.654264,
+          "hike": 0.17416,
+          "cut": 0.171577
         },
         "benchmark_probabilities": {
           "hold": 0.662651,
@@ -1400,15 +1500,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.054643,
+        "brier": 1.144678,
         "benchmark_brier": 1.00421
       },
       {
         "origin": "20190830",
+        "selected_candidate": "high_inertia",
         "probabilities": {
-          "hold": 0.638868,
-          "hike": 0.134869,
-          "cut": 0.226263
+          "hold": 0.683336,
+          "hike": 0.120477,
+          "cut": 0.196187
         },
         "benchmark_probabilities": {
           "hold": 0.654762,
@@ -1417,15 +1518,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.025011,
+        "brier": 1.127579,
         "benchmark_brier": 0.980442
       },
       {
         "origin": "20190930",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.649769,
-          "hike": 0.142215,
-          "cut": 0.208016
+          "hold": 0.64652,
+          "hike": 0.141786,
+          "cut": 0.211694
         },
         "benchmark_probabilities": {
           "hold": 0.647059,
@@ -1434,15 +1536,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.069663,
+        "brier": 1.059517,
         "benchmark_brier": 0.957509
       },
       {
         "origin": "20191031",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.649835,
-          "hike": 0.165467,
-          "cut": 0.184697
+          "hold": 0.647954,
+          "hike": 0.17261,
+          "cut": 0.179436
         },
         "benchmark_probabilities": {
           "hold": 0.639535,
@@ -1451,15 +1554,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.184108,
+        "brier": 0.185928,
         "benchmark_brier": 0.21444
       },
       {
         "origin": "20191129",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.640558,
-          "hike": 0.187296,
-          "cut": 0.172146
+          "hold": 0.644073,
+          "hike": 0.185924,
+          "cut": 0.170002
         },
         "benchmark_probabilities": {
           "hold": 0.643678,
@@ -1468,15 +1572,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.193912,
+        "brier": 0.190152,
         "benchmark_brier": 0.209539
       },
       {
         "origin": "20191231",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.666923,
-          "hike": 0.143523,
-          "cut": 0.189554
+          "hold": 0.665853,
+          "hike": 0.149754,
+          "cut": 0.184393
         },
         "benchmark_probabilities": {
           "hold": 0.647727,
@@ -1485,15 +1590,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.122208,
+        "brier": 1.131001,
         "benchmark_brier": 0.954804
       },
       {
         "origin": "20200131",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.670702,
-          "hike": 0.143933,
-          "cut": 0.185365
+          "hold": 0.670987,
+          "hike": 0.147604,
+          "cut": 0.181408
         },
         "benchmark_probabilities": {
           "hold": 0.640449,
@@ -1502,15 +1608,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.134189,
+        "brier": 1.142103,
         "benchmark_brier": 0.933468
       },
       {
         "origin": "20200228",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.635174,
-          "hike": 0.161685,
-          "cut": 0.203141
+          "hold": 0.637703,
+          "hike": 0.157473,
+          "cut": 0.204824
         },
         "benchmark_probabilities": {
           "hold": 0.633333,
@@ -1519,15 +1626,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.064573,
+        "brier": 1.063767,
         "benchmark_brier": 0.91284
       },
       {
         "origin": "20200331",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.62093,
-          "hike": 0.197576,
-          "cut": 0.181493
+          "hold": 0.589523,
+          "hike": 0.208266,
+          "cut": 0.202211
         },
         "benchmark_probabilities": {
           "hold": 0.626374,
@@ -1536,15 +1644,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.094544,
+        "brier": 1.027379,
         "benchmark_brier": 0.892887
       },
       {
         "origin": "20200429",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.595322,
-          "hike": 0.13677,
-          "cut": 0.267908
+          "hold": 0.55209,
+          "hike": 0.133277,
+          "cut": 0.314633
         },
         "benchmark_probabilities": {
           "hold": 0.619565,
@@ -1553,15 +1662,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 0.909072,
+        "brier": 0.792293,
         "benchmark_brier": 0.873582
       },
       {
         "origin": "20200529",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.545427,
-          "hike": 0.1316,
-          "cut": 0.322973
+          "hold": 0.502147,
+          "hike": 0.126597,
+          "cut": 0.371256
         },
         "benchmark_probabilities": {
           "hold": 0.612903,
@@ -1570,15 +1680,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.328267,
+        "brier": 0.401716,
         "benchmark_brier": 0.252746
       },
       {
         "origin": "20200630",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.559148,
-          "hike": 0.13643,
-          "cut": 0.304422
+          "hold": 0.520218,
+          "hike": 0.132461,
+          "cut": 0.347321
         },
         "benchmark_probabilities": {
           "hold": 0.617021,
@@ -1587,15 +1698,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.305636,
+        "brier": 0.368368,
         "benchmark_brier": 0.247397
       },
       {
         "origin": "20200731",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.571085,
-          "hike": 0.134928,
-          "cut": 0.293988
+          "hold": 0.534411,
+          "hike": 0.132249,
+          "cut": 0.333341
         },
         "benchmark_probabilities": {
           "hold": 0.621053,
@@ -1604,15 +1716,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.288602,
+        "brier": 0.345379,
         "benchmark_brier": 0.242216
       },
       {
         "origin": "20200831",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.646073,
-          "hike": 0.175369,
-          "cut": 0.178558
+          "hold": 0.623517,
+          "hike": 0.176672,
+          "cut": 0.199812
         },
         "benchmark_probabilities": {
           "hold": 0.625,
@@ -1621,15 +1734,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.187901,
+        "brier": 0.212877,
         "benchmark_brier": 0.237196
       },
       {
         "origin": "20200929",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.598259,
-          "hike": 0.240963,
-          "cut": 0.160778
+          "hold": 0.563426,
+          "hike": 0.262055,
+          "cut": 0.174519
         },
         "benchmark_probabilities": {
           "hold": 0.628866,
@@ -1638,15 +1752,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.245308,
+        "brier": 0.289727,
         "benchmark_brier": 0.232331
       },
       {
         "origin": "20201030",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.583881,
-          "hike": 0.263538,
-          "cut": 0.152581
+          "hold": 0.558382,
+          "hike": 0.274443,
+          "cut": 0.167175
         },
         "benchmark_probabilities": {
           "hold": 0.632653,
@@ -1655,15 +1770,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.265888,
+        "brier": 0.298293,
         "benchmark_brier": 0.227613
       },
       {
         "origin": "20201130",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.580202,
-          "hike": 0.235348,
-          "cut": 0.18445
+          "hold": 0.544427,
+          "hike": 0.248776,
+          "cut": 0.206796
         },
         "benchmark_probabilities": {
           "hold": 0.636364,
@@ -1672,15 +1788,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.265641,
+        "brier": 0.312201,
         "benchmark_brier": 0.223038
       },
       {
         "origin": "20201231",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.617879,
-          "hike": 0.229449,
-          "cut": 0.152672
+          "hold": 0.591415,
+          "hike": 0.24316,
+          "cut": 0.165425
         },
         "benchmark_probabilities": {
           "hold": 0.64,
@@ -1689,15 +1806,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.221972,
+        "brier": 0.253434,
         "benchmark_brier": 0.2186
       },
       {
         "origin": "20210129",
+        "selected_candidate": "baseline",
         "probabilities": {
-          "hold": 0.584807,
-          "hike": 0.270692,
-          "cut": 0.1445
+          "hold": 0.581993,
+          "hike": 0.274202,
+          "cut": 0.143805
         },
         "benchmark_probabilities": {
           "hold": 0.643564,
@@ -1706,11 +1824,12 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.26654,
+        "brier": 0.270597,
         "benchmark_brier": 0.214293
       },
       {
         "origin": "20210226",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.645413,
           "hike": 0.199514,
@@ -1728,6 +1847,7 @@
       },
       {
         "origin": "20210331",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.664027,
           "hike": 0.176428,
@@ -1745,6 +1865,7 @@
       },
       {
         "origin": "20210430",
+        "selected_candidate": "baseline",
         "probabilities": {
           "hold": 0.64291,
           "hike": 0.211032,
@@ -1762,10 +1883,11 @@
       },
       {
         "origin": "20210531",
+        "selected_candidate": "baseline",
         "probabilities": {
-          "hold": 0.593286,
-          "hike": 0.27927,
-          "cut": 0.127444
+          "hold": 0.592187,
+          "hike": 0.280606,
+          "cut": 0.127208
         },
         "benchmark_probabilities": {
           "hold": 0.657143,
@@ -1774,15 +1896,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.887683,
+        "brier": 0.884395,
         "benchmark_brier": 1.379229
       },
       {
         "origin": "20210630",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.574306,
-          "hike": 0.298825,
-          "cut": 0.12687
+          "hold": 0.549769,
+          "hike": 0.316009,
+          "cut": 0.134222
         },
         "benchmark_probabilities": {
           "hold": 0.650943,
@@ -1791,15 +1914,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.83757,
+        "brier": 0.788105,
         "benchmark_brier": 1.353329
       },
       {
         "origin": "20210730",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.628565,
-          "hike": 0.232578,
-          "cut": 0.138856
+          "hold": 0.614229,
+          "hike": 0.235811,
+          "cut": 0.14996
         },
         "benchmark_probabilities": {
           "hold": 0.64486,
@@ -1808,15 +1932,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.003312,
+        "brier": 0.983751,
         "benchmark_brier": 1.328151
       },
       {
         "origin": "20210831",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.663757,
-          "hike": 0.201426,
-          "cut": 0.134817
+          "hold": 0.649125,
+          "hike": 0.207764,
+          "cut": 0.143112
         },
         "benchmark_probabilities": {
           "hold": 0.638889,
@@ -1825,15 +1950,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.096469,
+        "brier": 1.069483,
         "benchmark_brier": 1.303669
       },
       {
         "origin": "20210930",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.633306,
-          "hike": 0.241614,
-          "cut": 0.12508
+          "hold": 0.618361,
+          "hike": 0.249867,
+          "cut": 0.131772
         },
         "benchmark_probabilities": {
           "hold": 0.633028,
@@ -1842,15 +1968,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.991869,
+        "brier": 0.962435,
         "benchmark_brier": 1.279859
       },
       {
         "origin": "20211029",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.606632,
-          "hike": 0.276865,
-          "cut": 0.116504
+          "hold": 0.600454,
+          "hike": 0.275868,
+          "cut": 0.123679
         },
         "benchmark_probabilities": {
           "hold": 0.627273,
@@ -1859,15 +1986,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.904499,
+        "brier": 0.900209,
         "benchmark_brier": 1.256694
       },
       {
         "origin": "20211130",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.596879,
-          "hike": 0.288491,
-          "cut": 0.11463
+          "hold": 0.573421,
+          "hike": 0.308468,
+          "cut": 0.118111
         },
         "benchmark_probabilities": {
           "hold": 0.621622,
@@ -1876,15 +2004,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.875649,
+        "brier": 0.820978,
         "benchmark_brier": 1.234153
       },
       {
         "origin": "20211231",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.602304,
-          "hike": 0.282024,
-          "cut": 0.115672
+          "hold": 0.579827,
+          "hike": 0.300743,
+          "cut": 0.11943
         },
         "benchmark_probabilities": {
           "hold": 0.616071,
@@ -1893,15 +2022,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.89164,
+        "brier": 0.839422,
         "benchmark_brier": 1.212213
       },
       {
         "origin": "20220128",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.526594,
-          "hike": 0.372274,
-          "cut": 0.101132
+          "hold": 0.502902,
+          "hike": 0.393513,
+          "cut": 0.103585
         },
         "benchmark_probabilities": {
           "hold": 0.610619,
@@ -1910,15 +2040,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.681569,
+        "brier": 0.631466,
         "benchmark_brier": 1.190853
       },
       {
         "origin": "20220228",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.509658,
-          "hike": 0.392462,
-          "cut": 0.09788
+          "hold": 0.481967,
+          "hike": 0.418759,
+          "cut": 0.099273
         },
         "benchmark_probabilities": {
           "hold": 0.605263,
@@ -1927,15 +2058,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.638434,
+        "brier": 0.579988,
         "benchmark_brier": 1.170052
       },
       {
         "origin": "20220331",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.435015,
-          "hike": 0.48144,
-          "cut": 0.083545
+          "hold": 0.409969,
+          "hike": 0.505588,
+          "cut": 0.084443
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -1944,15 +2076,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.465123,
+        "brier": 0.419649,
         "benchmark_brier": 1.149792
       },
       {
         "origin": "20220429",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.525417,
-          "hike": 0.373677,
-          "cut": 0.100906
+          "hold": 0.512664,
+          "hike": 0.38174,
+          "cut": 0.105596
         },
         "benchmark_probabilities": {
           "hold": 0.594828,
@@ -1961,15 +2094,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.678525,
+        "brier": 0.65622,
         "benchmark_brier": 1.130054
       },
       {
         "origin": "20220531",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.533892,
-          "hike": 0.363574,
-          "cut": 0.102534
+          "hold": 0.503087,
+          "hike": 0.397353,
+          "cut": 0.09956
         },
         "benchmark_probabilities": {
           "hold": 0.589744,
@@ -1978,15 +2112,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.700593,
+        "brier": 0.626192,
         "benchmark_brier": 1.110819
       },
       {
         "origin": "20220630",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.415904,
-          "hike": 0.504221,
-          "cut": 0.079874
+          "hold": 0.413221,
+          "hike": 0.505003,
+          "cut": 0.081776
         },
         "benchmark_probabilities": {
           "hold": 0.584746,
@@ -1995,15 +2130,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.425153,
+        "brier": 0.42246,
         "benchmark_brier": 1.092071
       },
       {
         "origin": "20220729",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.429976,
-          "hike": 0.487447,
-          "cut": 0.082577
+          "hold": 0.376651,
+          "hike": 0.545768,
+          "cut": 0.077581
         },
         "benchmark_probabilities": {
           "hold": 0.579832,
@@ -2012,15 +2148,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.454408,
+        "brier": 0.354211,
         "benchmark_brier": 1.073794
       },
       {
         "origin": "20220831",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.392367,
-          "hike": 0.532278,
-          "cut": 0.075354
+          "hold": 0.352274,
+          "hike": 0.575167,
+          "cut": 0.07256
         },
         "benchmark_probabilities": {
           "hold": 0.575,
@@ -2029,15 +2166,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.378394,
+        "brier": 0.309845,
         "benchmark_brier": 1.055972
       },
       {
         "origin": "20220930",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.357524,
-          "hike": 0.573814,
-          "cut": 0.068662
+          "hold": 0.311213,
+          "hike": 0.624685,
+          "cut": 0.064102
         },
         "benchmark_probabilities": {
           "hold": 0.570248,
@@ -2046,15 +2184,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.314173,
+        "brier": 0.241824,
         "benchmark_brier": 1.03859
       },
       {
         "origin": "20221031",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.450679,
-          "hike": 0.462768,
-          "cut": 0.086553
+          "hold": 0.421949,
+          "hike": 0.49114,
+          "cut": 0.086911
         },
         "benchmark_probabilities": {
           "hold": 0.565574,
@@ -2063,15 +2202,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.499221,
+        "brier": 0.444533,
         "benchmark_brier": 1.021634
       },
       {
         "origin": "20221130",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.526537,
-          "hike": 0.359323,
-          "cut": 0.11414
+          "hold": 0.500208,
+          "hike": 0.380986,
+          "cut": 0.118806
         },
         "benchmark_probabilities": {
           "hold": 0.560976,
@@ -2080,15 +2220,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.700736,
+        "brier": 0.647501,
         "benchmark_brier": 1.00509
       },
       {
         "origin": "20221230",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.507031,
-          "hike": 0.351311,
-          "cut": 0.141659
+          "hold": 0.482965,
+          "hike": 0.36242,
+          "cut": 0.154616
         },
         "benchmark_probabilities": {
           "hold": 0.556452,
@@ -2097,15 +2238,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.697945,
+        "brier": 0.663669,
         "benchmark_brier": 0.988944
       },
       {
         "origin": "20230131",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.58898,
-          "hike": 0.292108,
-          "cut": 0.118913
+          "hold": 0.553849,
+          "hike": 0.326941,
+          "cut": 0.119211
         },
         "benchmark_probabilities": {
           "hold": 0.552,
@@ -2114,15 +2256,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.268405,
+        "brier": 0.320152,
         "benchmark_brier": 0.301184
       },
       {
         "origin": "20230228",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.534339,
-          "hike": 0.332397,
-          "cut": 0.133264
+          "hold": 0.509638,
+          "hike": 0.34761,
+          "cut": 0.142753
         },
         "benchmark_probabilities": {
           "hold": 0.555556,
@@ -2131,15 +2274,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.345087,
+        "brier": 0.381666,
         "benchmark_brier": 0.296422
       },
       {
         "origin": "20230331",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.573805,
-          "hike": 0.261462,
-          "cut": 0.164733
+          "hold": 0.54115,
+          "hike": 0.288212,
+          "cut": 0.170638
         },
         "benchmark_probabilities": {
           "hold": 0.559055,
@@ -2148,15 +2292,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.277142,
+        "brier": 0.322727,
         "benchmark_brier": 0.291773
       },
       {
         "origin": "20230428",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.583384,
-          "hike": 0.265827,
-          "cut": 0.150788
+          "hold": 0.551518,
+          "hike": 0.293734,
+          "cut": 0.154749
         },
         "benchmark_probabilities": {
           "hold": 0.5625,
@@ -2165,15 +2310,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.26697,
+        "brier": 0.311363,
         "benchmark_brier": 0.287231
       },
       {
         "origin": "20230531",
+        "selected_candidate": "macro_balanced",
         "probabilities": {
-          "hold": 0.556421,
-          "hike": 0.336718,
-          "cut": 0.106861
+          "hold": 0.498792,
+          "hike": 0.39847,
+          "cut": 0.102739
         },
         "benchmark_probabilities": {
           "hold": 0.565891,
@@ -2182,15 +2328,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.321561,
+        "brier": 0.420543,
         "benchmark_brier": 0.282796
       },
       {
         "origin": "20230630",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.559963,
-          "hike": 0.332496,
-          "cut": 0.107541
+          "hold": 0.573844,
+          "hike": 0.312593,
+          "cut": 0.113563
         },
         "benchmark_probabilities": {
           "hold": 0.569231,
@@ -2199,15 +2346,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.315751,
+        "brier": 0.29222,
         "benchmark_brier": 0.278462
       },
       {
         "origin": "20230731",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.571566,
-          "hike": 0.318665,
-          "cut": 0.109769
+          "hold": 0.58503,
+          "hike": 0.299193,
+          "cut": 0.115777
         },
         "benchmark_probabilities": {
           "hold": 0.572519,
@@ -2216,15 +2364,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.297152,
+        "brier": 0.27512,
         "benchmark_brier": 0.274226
       },
       {
         "origin": "20230831",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.612079,
-          "hike": 0.270372,
-          "cut": 0.11755
+          "hold": 0.61598,
+          "hike": 0.262118,
+          "cut": 0.121902
         },
         "benchmark_probabilities": {
           "hold": 0.575758,
@@ -2233,15 +2382,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.237402,
+        "brier": 0.231037,
         "benchmark_brier": 0.270087
       },
       {
         "origin": "20230927",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.589692,
-          "hike": 0.297058,
-          "cut": 0.11325
+          "hold": 0.58976,
+          "hike": 0.293528,
+          "cut": 0.116713
         },
         "benchmark_probabilities": {
           "hold": 0.578947,
@@ -2250,15 +2400,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.269422,
+        "brier": 0.268078,
         "benchmark_brier": 0.266041
       },
       {
         "origin": "20231031",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.587212,
-          "hike": 0.300014,
-          "cut": 0.112774
+          "hold": 0.580408,
+          "hike": 0.304731,
+          "cut": 0.114862
         },
         "benchmark_probabilities": {
           "hold": 0.58209,
@@ -2267,15 +2418,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.27312,
+        "brier": 0.282112,
         "benchmark_brier": 0.262085
       },
       {
         "origin": "20231130",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.588309,
-          "hike": 0.298706,
-          "cut": 0.112985
+          "hold": 0.604665,
+          "hike": 0.275673,
+          "cut": 0.119662
         },
         "benchmark_probabilities": {
           "hold": 0.585185,
@@ -2284,15 +2436,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.27148,
+        "brier": 0.246605,
         "benchmark_brier": 0.258217
       },
       {
         "origin": "20231229",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.609064,
-          "hike": 0.242534,
-          "cut": 0.148402
+          "hold": 0.616923,
+          "hike": 0.221403,
+          "cut": 0.161674
         },
         "benchmark_probabilities": {
           "hold": 0.588235,
@@ -2301,15 +2454,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.233676,
+        "brier": 0.221906,
         "benchmark_brier": 0.254433
       },
       {
         "origin": "20240131",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.636895,
-          "hike": 0.21652,
-          "cut": 0.146585
+          "hold": 0.640459,
+          "hike": 0.202617,
+          "cut": 0.156925
         },
         "benchmark_probabilities": {
           "hold": 0.591241,
@@ -2318,15 +2472,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.200213,
+        "brier": 0.194949,
         "benchmark_brier": 0.250733
       },
       {
         "origin": "20240229",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.682796,
-          "hike": 0.158888,
-          "cut": 0.158316
+          "hold": 0.681447,
+          "hike": 0.158573,
+          "cut": 0.15998
         },
         "benchmark_probabilities": {
           "hold": 0.594203,
@@ -2335,15 +2490,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.150927,
+        "brier": 0.152215,
         "benchmark_brier": 0.247112
       },
       {
         "origin": "20240329",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.677379,
-          "hike": 0.174173,
-          "cut": 0.148448
+          "hold": 0.674336,
+          "hike": 0.169721,
+          "cut": 0.155943
         },
         "benchmark_probabilities": {
           "hold": 0.597122,
@@ -2352,15 +2508,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.156457,
+        "brier": 0.15918,
         "benchmark_brier": 0.243569
       },
       {
         "origin": "20240430",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.694348,
-          "hike": 0.172303,
-          "cut": 0.133349
+          "hold": 0.692862,
+          "hike": 0.170021,
+          "cut": 0.137117
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -2369,15 +2526,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.140894,
+        "brier": 0.142042,
         "benchmark_brier": 0.240102
       },
       {
         "origin": "20240531",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.691969,
-          "hike": 0.146283,
-          "cut": 0.161748
+          "hold": 0.688928,
+          "hike": 0.147841,
+          "cut": 0.163231
         },
         "benchmark_probabilities": {
           "hold": 0.602837,
@@ -2386,15 +2544,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.142444,
+        "brier": 0.145267,
         "benchmark_brier": 0.236708
       },
       {
         "origin": "20240628",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.681366,
-          "hike": 0.149431,
-          "cut": 0.169203
+          "hold": 0.672197,
+          "hike": 0.147649,
+          "cut": 0.180154
         },
         "benchmark_probabilities": {
           "hold": 0.605634,
@@ -2403,15 +2562,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.152487,
+        "brier": 0.161711,
         "benchmark_brier": 0.233386
       },
       {
         "origin": "20240731",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.658386,
-          "hike": 0.126443,
-          "cut": 0.215171
+          "hold": 0.643294,
+          "hike": 0.127307,
+          "cut": 0.229399
         },
         "benchmark_probabilities": {
           "hold": 0.608392,
@@ -2420,15 +2580,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.065416,
+        "brier": 1.023859,
         "benchmark_brier": 1.041322
       },
       {
         "origin": "20240830",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.658284,
-          "hike": 0.146786,
-          "cut": 0.194929
+          "hold": 0.64399,
+          "hike": 0.143578,
+          "cut": 0.212432
         },
         "benchmark_probabilities": {
           "hold": 0.604167,
@@ -2437,15 +2598,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.103023,
+        "brier": 1.0556,
         "benchmark_brier": 1.02691
       },
       {
         "origin": "20240930",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.565167,
-          "hike": 0.10854,
-          "cut": 0.326292
+          "hold": 0.54601,
+          "hike": 0.108055,
+          "cut": 0.345935
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -2454,15 +2616,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 0.785078,
+        "brier": 0.737603,
         "benchmark_brier": 1.012794
       },
       {
         "origin": "20241031",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.680821,
-          "hike": 0.135112,
-          "cut": 0.184067
+          "hold": 0.669326,
+          "hike": 0.135917,
+          "cut": 0.194757
         },
         "benchmark_probabilities": {
           "hold": 0.59589,
@@ -2471,15 +2634,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.147519,
+        "brier": 1.114887,
         "benchmark_brier": 0.998968
       },
       {
         "origin": "20241129",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.667526,
-          "hike": 0.139303,
-          "cut": 0.193171
+          "hold": 0.6563,
+          "hike": 0.138641,
+          "cut": 0.205059
         },
         "benchmark_probabilities": {
           "hold": 0.591837,
@@ -2488,15 +2652,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.115968,
+        "brier": 1.081882,
         "benchmark_brier": 0.985423
       },
       {
         "origin": "20241231",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.646565,
-          "hike": 0.187321,
-          "cut": 0.166114
+          "hold": 0.646269,
+          "hike": 0.176666,
+          "cut": 0.177065
         },
         "benchmark_probabilities": {
           "hold": 0.587838,
@@ -2505,15 +2670,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.148502,
+        "brier": 1.126097,
         "benchmark_brier": 0.972151
       },
       {
         "origin": "20250131",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.653039,
-          "hike": 0.125416,
-          "cut": 0.221545
+          "hold": 0.641351,
+          "hike": 0.126922,
+          "cut": 0.231727
         },
         "benchmark_probabilities": {
           "hold": 0.583893,
@@ -2522,15 +2688,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.048181,
+        "brier": 1.017684,
         "benchmark_brier": 0.959146
       },
       {
         "origin": "20250228",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.685709,
-          "hike": 0.169331,
-          "cut": 0.144959
+          "hold": 0.683642,
+          "hike": 0.164838,
+          "cut": 0.15152
         },
         "benchmark_probabilities": {
           "hold": 0.58,
@@ -2539,15 +2706,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.229965,
+        "brier": 1.214457,
         "benchmark_brier": 0.9464
       },
       {
         "origin": "20250331",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.690736,
-          "hike": 0.132656,
-          "cut": 0.176608
+          "hold": 0.68535,
+          "hike": 0.13563,
+          "cut": 0.17902
         },
         "benchmark_probabilities": {
           "hold": 0.576159,
@@ -2556,15 +2724,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.172687,
+        "brier": 1.162107,
         "benchmark_brier": 0.933906
       },
       {
         "origin": "20250430",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.652489,
-          "hike": 0.155454,
-          "cut": 0.192057
+          "hold": 0.640041,
+          "hike": 0.150319,
+          "cut": 0.20964
         },
         "benchmark_probabilities": {
           "hold": 0.572368,
@@ -2573,15 +2742,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.102679,
+        "brier": 1.056917,
         "benchmark_brier": 0.921659
       },
       {
         "origin": "20250530",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.689566,
-          "hike": 0.15549,
-          "cut": 0.154944
+          "hold": 0.682896,
+          "hike": 0.154454,
+          "cut": 0.16265
         },
         "benchmark_probabilities": {
           "hold": 0.568627,
@@ -2590,15 +2760,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.144554,
+        "brier": 0.150866,
         "benchmark_brier": 0.282199
       },
       {
         "origin": "20250630",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.688889,
-          "hike": 0.171888,
-          "cut": 0.139223
+          "hold": 0.687464,
+          "hike": 0.168048,
+          "cut": 0.144487
         },
         "benchmark_probabilities": {
           "hold": 0.571429,
@@ -2607,15 +2778,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.145719,
+        "brier": 0.146795,
         "benchmark_brier": 0.278546
       },
       {
         "origin": "20250731",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.686433,
-          "hike": 0.149831,
-          "cut": 0.163736
+          "hold": 0.681948,
+          "hike": 0.150348,
+          "cut": 0.167704
         },
         "benchmark_probabilities": {
           "hold": 0.574194,
@@ -2624,15 +2796,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.147583,
+        "brier": 0.151887,
         "benchmark_brier": 0.274964
       },
       {
         "origin": "20250829",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.685282,
-          "hike": 0.162421,
-          "cut": 0.152297
+          "hold": 0.680329,
+          "hike": 0.159722,
+          "cut": 0.159949
         },
         "benchmark_probabilities": {
           "hold": 0.576923,
@@ -2641,15 +2814,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.148622,
+        "brier": 0.153284,
         "benchmark_brier": 0.27145
       },
       {
         "origin": "20250930",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.709439,
-          "hike": 0.150444,
-          "cut": 0.140117
+          "hold": 0.704964,
+          "hike": 0.152136,
+          "cut": 0.1429
         },
         "benchmark_probabilities": {
           "hold": 0.579618,
@@ -2658,15 +2832,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.126692,
+        "brier": 0.130612,
         "benchmark_brier": 0.268003
       },
       {
         "origin": "20251031",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.666458,
-          "hike": 0.205548,
-          "cut": 0.127993
+          "hold": 0.6661,
+          "hike": 0.20208,
+          "cut": 0.13182
         },
         "benchmark_probabilities": {
           "hold": 0.582278,
@@ -2675,15 +2850,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.169883,
+        "brier": 0.169702,
         "benchmark_brier": 0.264621
       },
       {
         "origin": "20251128",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.657054,
-          "hike": 0.216759,
-          "cut": 0.126187
+          "hold": 0.648734,
+          "hike": 0.222883,
+          "cut": 0.128384
         },
         "benchmark_probabilities": {
           "hold": 0.584906,
@@ -2692,15 +2868,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.18052,
+        "brier": 0.189547,
         "benchmark_brier": 0.261303
       },
       {
         "origin": "20251231",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.663647,
-          "hike": 0.172596,
-          "cut": 0.163757
+          "hold": 0.655665,
+          "hike": 0.183653,
+          "cut": 0.160682
         },
         "benchmark_probabilities": {
           "hold": 0.5875,
@@ -2709,15 +2886,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.169739,
+        "brier": 0.178114,
         "benchmark_brier": 0.258047
       },
       {
         "origin": "20260130",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.669391,
-          "hike": 0.191611,
-          "cut": 0.138998
+          "hold": 0.654284,
+          "hike": 0.207316,
+          "cut": 0.1384
         },
         "benchmark_probabilities": {
           "hold": 0.590062,
@@ -2726,15 +2904,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.165338,
+        "brier": 0.181654,
         "benchmark_brier": 0.254851
       },
       {
         "origin": "20260227",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.67955,
-          "hike": 0.179474,
-          "cut": 0.140976
+          "hold": 0.667974,
+          "hike": 0.190843,
+          "cut": 0.141184
         },
         "benchmark_probabilities": {
           "hold": 0.592593,
@@ -2743,15 +2922,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.154774,
+        "brier": 0.166595,
         "benchmark_brier": 0.251715
       },
       {
         "origin": "20260331",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.572131,
-          "hike": 0.317991,
-          "cut": 0.109878
+          "hold": 0.541467,
+          "hike": 0.351378,
+          "cut": 0.107156
         },
         "benchmark_probabilities": {
           "hold": 0.595092,
@@ -2760,15 +2940,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.296264,
+        "brier": 0.345201,
         "benchmark_brier": 0.248636
       },
       {
         "origin": "20260430",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.533678,
-          "hike": 0.363829,
-          "cut": 0.102493
+          "hold": 0.511411,
+          "hike": 0.387381,
+          "cut": 0.101208
         },
         "benchmark_probabilities": {
           "hold": 0.597561,
@@ -2777,15 +2958,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.700031,
+        "brier": 0.647086,
         "benchmark_brier": 1.111466
       },
       {
         "origin": "20260529",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.551343,
-          "hike": 0.342771,
-          "cut": 0.105885
+          "hold": 0.516269,
+          "hike": 0.381562,
+          "cut": 0.102169
         },
         "benchmark_probabilities": {
           "hold": 0.593939,
@@ -2794,15 +2976,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.747141,
+        "brier": 0.659437,
         "benchmark_brier": 1.098035
       },
       {
         "origin": "20260630",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.517697,
-          "hike": 0.382879,
-          "cut": 0.099424
+          "hold": 0.485453,
+          "hike": 0.418476,
+          "cut": 0.096071
         },
         "benchmark_probabilities": {
           "hold": 0.590361,
@@ -2811,15 +2994,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.658734,
+        "brier": 0.583065,
         "benchmark_brier": 1.084845
       },
       {
         "origin": "20260731",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.615325,
-          "hike": 0.252182,
-          "cut": 0.132493
+          "hold": 0.583508,
+          "hike": 0.289183,
+          "cut": 0.127309
         },
         "benchmark_probabilities": {
           "hold": 0.586826,
@@ -2828,15 +3012,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.229125,
+        "brier": 0.2733,
         "benchmark_brier": 0.257521
       },
       {
         "origin": "20260814",
+        "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.576328,
-          "hike": 0.312989,
-          "cut": 0.110684
+          "hold": 0.550983,
+          "hike": 0.339978,
+          "cut": 0.109039
         },
         "benchmark_probabilities": {
           "hold": 0.589286,
@@ -2845,7 +3030,7 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.289711,
+        "brier": 0.329091,
         "benchmark_brier": 0.254464
       }
     ],
@@ -2871,7 +3056,7 @@
       "first_2y_date": "20210310",
       "observations": 3377
     },
-    "calibration_weight": 0.616,
+    "calibration_weight": 0.617,
     "quality_gate": {
       "passed": false,
       "strict_passed": false,
@@ -2893,7 +3078,7 @@
       },
       "observed": {
         "samples": 166,
-        "brier_skill_score": 0.1094,
+        "brier_skill_score": 0.1112,
         "accuracy": 0.6325,
         "accuracy_wilson_lower_95": 0.557,
         "active_input_coverage": 1.0,
@@ -2926,37 +3111,41 @@
       "source_mode": "official_yoy",
       "valid": true,
       "rows": 180
-    }
+    },
+    "live_probability_candidate": "market_gap_heavy"
   },
   "fx": {
     "samples": 607,
-    "rmse_pct": 4.018,
-    "mae_pct": 3.147,
-    "active_direction_accuracy": 0.4861,
-    "all_origin_direction_accuracy": 0.4861,
-    "persistence_skill_pct": -0.104,
+    "rmse_pct": 4.017,
+    "mae_pct": 3.142,
+    "active_direction_accuracy": 0.526,
+    "all_origin_direction_accuracy": 0.526,
+    "persistence_skill_pct": -0.088,
     "active_signal_coverage": 1.0,
     "interval_80_coverage": 0.7825,
     "horizon_specific_oos": true,
     "oos_by_horizon": {
       "1m": {
         "samples": 616,
-        "rmse_pct": 2.323,
+        "rmse_pct": 2.324,
         "mae_pct": 1.825,
         "random_walk_rmse_pct": 2.324,
-        "persistence_skill_pct": 0.04,
-        "direction_accuracy": 0.5248,
-        "active_direction_accuracy": 0.5248,
+        "persistence_skill_pct": 0.026,
+        "direction_accuracy": 0.5284,
+        "active_direction_accuracy": 0.5284,
         "active_signal_coverage": 1.0,
         "interval_80_coverage": 0.7938,
         "weights": {
-          "contrarian_60": 0.1779,
+          "contrarian_120": 0.1788,
+          "contrarian_60": 0.1421,
           "macro_public_factors": 0.0,
-          "mean_reversion_252": 0.1707,
-          "momentum_120": 0.1427,
-          "momentum_20": 0.1739,
-          "momentum_60": 0.1388,
-          "trend_acceleration": 0.196
+          "mean_reversion_252": 0.1481,
+          "momentum_120": 0.0992,
+          "momentum_20": 0.1513,
+          "momentum_60": 0.1279,
+          "rate_gap_carry": 0.0,
+          "risk_regime": 0.0,
+          "trend_acceleration": 0.1526
         },
         "macro_oos_gate": {
           "passed": false,
@@ -2965,8 +3154,71 @@
           "direction_accuracy": 0.2367,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
-        "shrinkage": 0.462,
-        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "shrinkage": 0.4495,
+        "method": "expanding_walk_forward_weekly_origins_prequential_regime_candidate_tournament",
+        "candidate_oos": {
+          "contrarian_120": {
+            "samples": 300,
+            "skill_pct": 0.27,
+            "direction_accuracy": 0.28,
+            "live_weight": 0.178766
+          },
+          "contrarian_60": {
+            "samples": 300,
+            "skill_pct": -0.053,
+            "direction_accuracy": 0.26,
+            "live_weight": 0.142108
+          },
+          "macro_public_factors": {
+            "samples": 300,
+            "skill_pct": -1.863,
+            "direction_accuracy": 0.2367,
+            "live_weight": 0.0
+          },
+          "mean_reversion_252": {
+            "samples": 300,
+            "skill_pct": 0.405,
+            "direction_accuracy": 0.1433,
+            "live_weight": 0.148131
+          },
+          "momentum_120": {
+            "samples": 300,
+            "skill_pct": -4.564,
+            "direction_accuracy": 0.35,
+            "live_weight": 0.099232
+          },
+          "momentum_20": {
+            "samples": 300,
+            "skill_pct": -1.532,
+            "direction_accuracy": 0.38,
+            "live_weight": 0.151309
+          },
+          "momentum_60": {
+            "samples": 300,
+            "skill_pct": -5.526,
+            "direction_accuracy": 0.4067,
+            "live_weight": 0.127883
+          },
+          "rate_gap_carry": {
+            "samples": 124,
+            "skill_pct": 6.083,
+            "direction_accuracy": 0.4839,
+            "live_weight": 0.0
+          },
+          "risk_regime": {
+            "samples": 124,
+            "skill_pct": 6.212,
+            "direction_accuracy": 0.0726,
+            "live_weight": 0.0
+          },
+          "trend_acceleration": {
+            "samples": 300,
+            "skill_pct": 1.124,
+            "direction_accuracy": 0.3067,
+            "live_weight": 0.152571
+          }
+        },
+        "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
         "benchmark": "random_walk_no_change_evaluation_only",
         "grade": "B",
         "model_quality_score": 71,
@@ -2974,22 +3226,25 @@
       },
       "3m": {
         "samples": 607,
-        "rmse_pct": 4.018,
-        "mae_pct": 3.147,
+        "rmse_pct": 4.017,
+        "mae_pct": 3.142,
         "random_walk_rmse_pct": 4.013,
-        "persistence_skill_pct": -0.104,
-        "direction_accuracy": 0.4861,
-        "active_direction_accuracy": 0.4861,
+        "persistence_skill_pct": -0.088,
+        "direction_accuracy": 0.526,
+        "active_direction_accuracy": 0.526,
         "active_signal_coverage": 1.0,
         "interval_80_coverage": 0.7825,
         "weights": {
-          "contrarian_60": 0.2163,
+          "contrarian_120": 0.1654,
+          "contrarian_60": 0.1327,
           "macro_public_factors": 0.0,
-          "mean_reversion_252": 0.2016,
-          "momentum_120": 0.1258,
-          "momentum_20": 0.1314,
-          "momentum_60": 0.1101,
-          "trend_acceleration": 0.2149
+          "mean_reversion_252": 0.1282,
+          "momentum_120": 0.0582,
+          "momentum_20": 0.0872,
+          "momentum_60": 0.0654,
+          "rate_gap_carry": 0.2239,
+          "risk_regime": 0.0,
+          "trend_acceleration": 0.1389
         },
         "macro_oos_gate": {
           "passed": false,
@@ -2998,31 +3253,97 @@
           "direction_accuracy": 0.2833,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
-        "shrinkage": 0.4457,
-        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "shrinkage": 0.4352,
+        "method": "expanding_walk_forward_weekly_origins_prequential_regime_candidate_tournament",
+        "candidate_oos": {
+          "contrarian_120": {
+            "samples": 300,
+            "skill_pct": 1.953,
+            "direction_accuracy": 0.3833,
+            "live_weight": 0.165403
+          },
+          "contrarian_60": {
+            "samples": 300,
+            "skill_pct": 2.48,
+            "direction_accuracy": 0.3867,
+            "live_weight": 0.132721
+          },
+          "macro_public_factors": {
+            "samples": 300,
+            "skill_pct": -6.411,
+            "direction_accuracy": 0.2833,
+            "live_weight": 0.0
+          },
+          "mean_reversion_252": {
+            "samples": 300,
+            "skill_pct": 2.245,
+            "direction_accuracy": 0.2833,
+            "live_weight": 0.128193
+          },
+          "momentum_120": {
+            "samples": 300,
+            "skill_pct": -7.018,
+            "direction_accuracy": 0.44,
+            "live_weight": 0.058205
+          },
+          "momentum_20": {
+            "samples": 300,
+            "skill_pct": -6.146,
+            "direction_accuracy": 0.4233,
+            "live_weight": 0.087169
+          },
+          "momentum_60": {
+            "samples": 300,
+            "skill_pct": -9.317,
+            "direction_accuracy": 0.45,
+            "live_weight": 0.065424
+          },
+          "rate_gap_carry": {
+            "samples": 116,
+            "skill_pct": 14.478,
+            "direction_accuracy": 0.6552,
+            "live_weight": 0.22395
+          },
+          "risk_regime": {
+            "samples": 116,
+            "skill_pct": 12.756,
+            "direction_accuracy": 0.1379,
+            "live_weight": 0.0
+          },
+          "trend_acceleration": {
+            "samples": 300,
+            "skill_pct": 2.491,
+            "direction_accuracy": 0.3733,
+            "live_weight": 0.138935
+          }
+        },
+        "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
         "benchmark": "random_walk_no_change_evaluation_only",
         "grade": "C",
-        "model_quality_score": 65,
+        "model_quality_score": 69,
         "strict_skill_passed": false
       },
       "6m": {
         "samples": 582,
-        "rmse_pct": 4.964,
-        "mae_pct": 4.097,
+        "rmse_pct": 4.961,
+        "mae_pct": 4.099,
         "random_walk_rmse_pct": 4.949,
-        "persistence_skill_pct": -0.317,
-        "direction_accuracy": 0.4793,
-        "active_direction_accuracy": 0.4793,
+        "persistence_skill_pct": -0.253,
+        "direction_accuracy": 0.4414,
+        "active_direction_accuracy": 0.4414,
         "active_signal_coverage": 1.0,
-        "interval_80_coverage": 0.811,
+        "interval_80_coverage": 0.8076,
         "weights": {
-          "contrarian_60": 0.2023,
+          "contrarian_120": 0.159,
+          "contrarian_60": 0.1527,
           "macro_public_factors": 0.0,
-          "mean_reversion_252": 0.2185,
-          "momentum_120": 0.1192,
-          "momentum_20": 0.1335,
-          "momentum_60": 0.1126,
-          "trend_acceleration": 0.2138
+          "mean_reversion_252": 0.135,
+          "momentum_120": 0.0517,
+          "momentum_20": 0.0609,
+          "momentum_60": 0.0455,
+          "rate_gap_carry": 0.253,
+          "risk_regime": 0.0,
+          "trend_acceleration": 0.1421
         },
         "macro_oos_gate": {
           "passed": false,
@@ -3031,31 +3352,97 @@
           "direction_accuracy": 0.2533,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
-        "shrinkage": 0.445,
-        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "shrinkage": 0.4458,
+        "method": "expanding_walk_forward_weekly_origins_prequential_regime_candidate_tournament",
+        "candidate_oos": {
+          "contrarian_120": {
+            "samples": 300,
+            "skill_pct": 1.861,
+            "direction_accuracy": 0.4867,
+            "live_weight": 0.159043
+          },
+          "contrarian_60": {
+            "samples": 300,
+            "skill_pct": 0.381,
+            "direction_accuracy": 0.4367,
+            "live_weight": 0.1527
+          },
+          "macro_public_factors": {
+            "samples": 300,
+            "skill_pct": -14.244,
+            "direction_accuracy": 0.2533,
+            "live_weight": 0.0
+          },
+          "mean_reversion_252": {
+            "samples": 300,
+            "skill_pct": 1.755,
+            "direction_accuracy": 0.4267,
+            "live_weight": 0.134975
+          },
+          "momentum_120": {
+            "samples": 300,
+            "skill_pct": -8.139,
+            "direction_accuracy": 0.4033,
+            "live_weight": 0.051703
+          },
+          "momentum_20": {
+            "samples": 300,
+            "skill_pct": -6.854,
+            "direction_accuracy": 0.4733,
+            "live_weight": 0.060921
+          },
+          "momentum_60": {
+            "samples": 300,
+            "skill_pct": -9.49,
+            "direction_accuracy": 0.45,
+            "live_weight": 0.045496
+          },
+          "rate_gap_carry": {
+            "samples": 104,
+            "skill_pct": 16.654,
+            "direction_accuracy": 0.6442,
+            "live_weight": 0.253031
+          },
+          "risk_regime": {
+            "samples": 104,
+            "skill_pct": 11.183,
+            "direction_accuracy": 0.1923,
+            "live_weight": 0.0
+          },
+          "trend_acceleration": {
+            "samples": 300,
+            "skill_pct": 1.446,
+            "direction_accuracy": 0.42,
+            "live_weight": 0.142131
+          }
+        },
+        "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
         "benchmark": "random_walk_no_change_evaluation_only",
         "grade": "C",
-        "model_quality_score": 64,
+        "model_quality_score": 63,
         "strict_skill_passed": false
       },
       "12m": {
         "samples": 532,
-        "rmse_pct": 6.328,
-        "mae_pct": 5.232,
+        "rmse_pct": 6.325,
+        "mae_pct": 5.223,
         "random_walk_rmse_pct": 6.324,
-        "persistence_skill_pct": -0.072,
-        "direction_accuracy": 0.473,
-        "active_direction_accuracy": 0.473,
+        "persistence_skill_pct": -0.011,
+        "direction_accuracy": 0.4923,
+        "active_direction_accuracy": 0.4923,
         "active_signal_coverage": 1.0,
-        "interval_80_coverage": 0.765,
+        "interval_80_coverage": 0.7632,
         "weights": {
-          "contrarian_60": 0.205,
+          "contrarian_120": 0.0417,
+          "contrarian_60": 0.048,
           "macro_public_factors": 0.0,
-          "mean_reversion_252": 0.2071,
-          "momentum_120": 0.1346,
-          "momentum_20": 0.129,
-          "momentum_60": 0.1148,
-          "trend_acceleration": 0.2095
+          "mean_reversion_252": 0.0345,
+          "momentum_120": 0.0269,
+          "momentum_20": 0.0251,
+          "momentum_60": 0.0178,
+          "rate_gap_carry": 0.7551,
+          "risk_regime": 0.0,
+          "trend_acceleration": 0.0509
         },
         "macro_oos_gate": {
           "passed": false,
@@ -3064,11 +3451,74 @@
           "direction_accuracy": 0.32,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
-        "shrinkage": 0.4495,
-        "method": "expanding_walk_forward_weekly_origins_continuous_adaptive_ensemble",
+        "shrinkage": 0.4583,
+        "method": "expanding_walk_forward_weekly_origins_prequential_regime_candidate_tournament",
+        "candidate_oos": {
+          "contrarian_120": {
+            "samples": 300,
+            "skill_pct": 0.379,
+            "direction_accuracy": 0.4567,
+            "live_weight": 0.041654
+          },
+          "contrarian_60": {
+            "samples": 300,
+            "skill_pct": 0.281,
+            "direction_accuracy": 0.4333,
+            "live_weight": 0.047981
+          },
+          "macro_public_factors": {
+            "samples": 300,
+            "skill_pct": -21.407,
+            "direction_accuracy": 0.32,
+            "live_weight": 0.0
+          },
+          "mean_reversion_252": {
+            "samples": 300,
+            "skill_pct": 0.244,
+            "direction_accuracy": 0.4567,
+            "live_weight": 0.034547
+          },
+          "momentum_120": {
+            "samples": 300,
+            "skill_pct": -6.826,
+            "direction_accuracy": 0.4433,
+            "live_weight": 0.026886
+          },
+          "momentum_20": {
+            "samples": 300,
+            "skill_pct": -7.891,
+            "direction_accuracy": 0.4867,
+            "live_weight": 0.025092
+          },
+          "momentum_60": {
+            "samples": 300,
+            "skill_pct": -9.665,
+            "direction_accuracy": 0.4667,
+            "live_weight": 0.017845
+          },
+          "rate_gap_carry": {
+            "samples": 79,
+            "skill_pct": 45.849,
+            "direction_accuracy": 0.8354,
+            "live_weight": 0.755066
+          },
+          "risk_regime": {
+            "samples": 79,
+            "skill_pct": 25.622,
+            "direction_accuracy": 0.1519,
+            "live_weight": 0.0
+          },
+          "trend_acceleration": {
+            "samples": 300,
+            "skill_pct": 0.521,
+            "direction_accuracy": 0.4467,
+            "live_weight": 0.050929
+          }
+        },
+        "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
         "benchmark": "random_walk_no_change_evaluation_only",
         "grade": "C",
-        "model_quality_score": 62,
+        "model_quality_score": 64,
         "strict_skill_passed": false
       }
     },
@@ -3095,17 +3545,16 @@
       "level": "검증 C등급",
       "observed": {
         "samples": 607,
-        "rmse_pct": 4.018,
+        "rmse_pct": 4.017,
         "random_walk_rmse_pct": 4.013,
-        "persistence_skill_pct": -0.104,
-        "active_direction_accuracy": 0.4861,
+        "persistence_skill_pct": -0.088,
+        "active_direction_accuracy": 0.526,
         "active_signal_coverage": 1.0,
         "interval_80_coverage": 0.7825,
-        "model_quality_score": 65
+        "model_quality_score": 69
       },
       "reasons": [
-        "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다.",
-        "방향 적중력이 약해 확률 분포를 넓게 유지합니다."
+        "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다."
       ],
       "primary_horizon": "3m",
       "passed_horizons": [
@@ -3126,10 +3575,10 @@
           "level": "검증 B등급",
           "observed": {
             "samples": 616,
-            "rmse_pct": 2.323,
+            "rmse_pct": 2.324,
             "random_walk_rmse_pct": 2.324,
-            "persistence_skill_pct": 0.04,
-            "active_direction_accuracy": 0.5248,
+            "persistence_skill_pct": 0.026,
+            "active_direction_accuracy": 0.5284,
             "active_signal_coverage": 1.0,
             "interval_80_coverage": 0.7938,
             "model_quality_score": 71
@@ -3144,17 +3593,16 @@
           "level": "검증 C등급",
           "observed": {
             "samples": 607,
-            "rmse_pct": 4.018,
+            "rmse_pct": 4.017,
             "random_walk_rmse_pct": 4.013,
-            "persistence_skill_pct": -0.104,
-            "active_direction_accuracy": 0.4861,
+            "persistence_skill_pct": -0.088,
+            "active_direction_accuracy": 0.526,
             "active_signal_coverage": 1.0,
             "interval_80_coverage": 0.7825,
-            "model_quality_score": 65
+            "model_quality_score": 69
           },
           "reasons": [
-            "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다.",
-            "방향 적중력이 약해 확률 분포를 넓게 유지합니다."
+            "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다."
           ]
         },
         "6m": {
@@ -3165,13 +3613,13 @@
           "level": "검증 C등급",
           "observed": {
             "samples": 582,
-            "rmse_pct": 4.964,
+            "rmse_pct": 4.961,
             "random_walk_rmse_pct": 4.949,
-            "persistence_skill_pct": -0.317,
-            "active_direction_accuracy": 0.4793,
+            "persistence_skill_pct": -0.253,
+            "active_direction_accuracy": 0.4414,
             "active_signal_coverage": 1.0,
-            "interval_80_coverage": 0.811,
-            "model_quality_score": 64
+            "interval_80_coverage": 0.8076,
+            "model_quality_score": 63
           },
           "reasons": [
             "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다.",
@@ -3186,13 +3634,13 @@
           "level": "검증 C등급",
           "observed": {
             "samples": 532,
-            "rmse_pct": 6.328,
+            "rmse_pct": 6.325,
             "random_walk_rmse_pct": 6.324,
-            "persistence_skill_pct": -0.072,
-            "active_direction_accuracy": 0.473,
+            "persistence_skill_pct": -0.011,
+            "active_direction_accuracy": 0.4923,
             "active_signal_coverage": 1.0,
-            "interval_80_coverage": 0.765,
-            "model_quality_score": 62
+            "interval_80_coverage": 0.7632,
+            "model_quality_score": 64
           },
           "reasons": [
             "랜덤워크 대비 RMSE 우위가 확인되지 않아 예측폭을 자동 축소합니다.",
@@ -3215,31 +3663,35 @@
   },
   "krw_strength": {
     "grade": "B",
-    "model_quality_score": 85,
+    "model_quality_score": 84,
     "separate_oos_validated": true,
     "independent_oos_primary_grade": "B",
-    "independent_oos_quality_score": 79,
+    "independent_oos_quality_score": 77,
     "independent_oos_validation": {
       "separate_oos_validated": true,
       "target_definition": "-0.50*log(USD/KRW)+0.25*log(BIS_NEER)+0.25*log(BIS_REER); positive=KRW appreciation",
       "samples_available_months": 164,
       "primary_horizon": "3m",
       "primary_grade": "B",
-      "primary_quality_score": 79,
+      "primary_quality_score": 77,
       "oos_by_horizon": {
         "3m": {
           "samples": 137,
-          "rmse": 0.031236,
+          "rmse": 0.031833,
           "zero_benchmark_rmse": 0.032141,
-          "zero_benchmark_skill_pct": 2.816,
-          "direction_accuracy": 0.534,
-          "active_direction_coverage": 0.7518,
+          "zero_benchmark_skill_pct": 0.958,
+          "direction_accuracy": 0.53,
+          "active_direction_coverage": 0.7299,
           "strict_skill_passed": true,
           "grade": "B",
-          "forecast_quality_score": 79,
+          "forecast_quality_score": 77,
           "selected_model_counts": {
-            "zero": 24,
-            "contrarian3": 113
+            "zero": 28,
+            "reversal_blend": 28,
+            "contrarian3": 63,
+            "contrarian6": 11,
+            "contrarian12": 4,
+            "mom12": 3
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
@@ -3247,17 +3699,19 @@
         },
         "6m": {
           "samples": 134,
-          "rmse": 0.038189,
+          "rmse": 0.038641,
           "zero_benchmark_rmse": 0.038165,
-          "zero_benchmark_skill_pct": -0.063,
-          "direction_accuracy": 0.5769,
-          "active_direction_coverage": 0.3881,
+          "zero_benchmark_skill_pct": -1.249,
+          "direction_accuracy": 0.5395,
+          "active_direction_coverage": 0.5672,
           "strict_skill_passed": false,
           "grade": "C",
-          "forecast_quality_score": 66,
+          "forecast_quality_score": 64,
           "selected_model_counts": {
-            "zero": 81,
-            "contrarian3": 53
+            "zero": 52,
+            "contrarian12": 36,
+            "contrarian3": 43,
+            "contrarian6": 3
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
@@ -3265,17 +3719,17 @@
         },
         "12m": {
           "samples": 128,
-          "rmse": 0.051208,
+          "rmse": 0.050932,
           "zero_benchmark_rmse": 0.051106,
-          "zero_benchmark_skill_pct": -0.198,
-          "direction_accuracy": 0.5,
-          "active_direction_coverage": 0.0156,
-          "strict_skill_passed": false,
-          "grade": "C",
-          "forecast_quality_score": 64,
+          "zero_benchmark_skill_pct": 0.342,
+          "direction_accuracy": 0.5263,
+          "active_direction_coverage": 0.7422,
+          "strict_skill_passed": true,
+          "grade": "B",
+          "forecast_quality_score": 76,
           "selected_model_counts": {
-            "zero": 126,
-            "contrarian3": 2
+            "zero": 28,
+            "contrarian12": 100
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
@@ -3283,7 +3737,8 @@
         }
       },
       "no_lookahead": true,
-      "selection_method": "expanding_origin_prequential_candidate_selection"
+      "selection_method": "expanding_origin_prequential_recent_plus_long_candidate_selection",
+      "selection_rule": "60% recent-48 + 40% expanding matured squared error; no lookahead"
     },
     "quality_score_semantics": "70% independent KRW-strength OOS quality + 30% weighted factor coverage; not a probability",
     "validation_basis": "independent observable KRW-strength target OOS + weighted factor coverage"
