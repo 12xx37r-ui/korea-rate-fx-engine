@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.0",
-  "generated_at_utc": "2026-08-16T05:46:52.849068+00:00",
+  "generated_at_utc": "2026-08-16T06:01:53.744981+00:00",
   "vkospi": {
     "available": true,
     "latest": 5531.96,

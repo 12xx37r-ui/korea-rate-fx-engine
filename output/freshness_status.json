@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "patch_version": "V219-retry-and-live-source-refresh",
-  "generated_at_utc": "2026-08-16T05:47:19.299887+00:00",
-  "engine_generated_at": "2026-08-16T14:44:28.138876+09:00",
+  "generated_at_utc": "2026-08-16T06:02:16.137838+00:00",
+  "engine_generated_at": "2026-08-16T14:58:54.887300+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
@@ -24,16 +24,14 @@
     },
     {
       "source": "ecos",
-      "status": "LKG",
-      "collector_status": "degraded",
+      "status": "LIVE",
+      "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260814",
-      "age_hours": 53.79,
+      "age_hours": 54.04,
       "max_age_hours": 96.0,
-      "last_good_reused": true,
-      "warnings": [
-        "kr_base_rate: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/722Y001/D/20260723/20260816/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7fc4b65ae360>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지"
-      ]
+      "last_good_reused": false,
+      "warnings": []
     },
     {
       "source": "global_market",
@@ -41,7 +39,7 @@
       "collector_status": "degraded",
       "cadence": "daily/monthly",
       "observation_at": "20260816",
-      "age_hours": 5.79,
+      "age_hours": 6.04,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "warnings": [
@@ -63,26 +61,23 @@
     },
     {
       "source": "kosis",
-      "status": "LKG",
-      "collector_status": "degraded",
+      "status": "CACHE",
+      "collector_status": "ok",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1109.79,
+      "age_hours": 1110.04,
       "max_age_hours": 1080.0,
-      "last_good_reused": true,
-      "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fc49d0534a0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fc49d07c680>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
-      ]
+      "last_good_reused": false,
+      "warnings": []
     },
     {
       "source": "usdkrw_market_snapshot",
       "status": "CACHE",
       "cadence": "intraday-when-market-open",
       "observation_at": "2026-08-14T20:44:55+00:00",
-      "retrieved_at": "2026-08-16T05:45:59.106143+00:00",
+      "retrieved_at": "2026-08-16T06:01:29.600166+00:00",
       "market_state": "CLOSED",
-      "age_hours": 33.04,
+      "age_hours": 33.29,
       "max_age_hours": 3.0,
       "value": 1418.5,
       "provider": "Naver MarketIndex FX_USDKRW",
@@ -90,9 +85,9 @@
     }
   ],
   "summary": {
-    "live": 3,
-    "cache": 1,
-    "lkg": 2,
+    "live": 4,
+    "cache": 2,
+    "lkg": 0,
     "fallback": 0,
     "unavailable": 0
   }

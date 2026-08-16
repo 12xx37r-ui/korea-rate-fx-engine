@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-16T05:47:07.777212+00:00",
+  "generated_at_utc": "2026-08-16T06:02:04.587374+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
   "score": 70,
   "score_valid": true,
@@ -14,9 +14,7 @@
   "data_coverage_pct": 100,
   "active_weight": 1.0,
   "complete_for_market_card": true,
-  "stale_sections": [
-    "credit"
-  ],
+  "stale_sections": [],
   "components": {
     "flow": {
       "available": true,
@@ -193,7 +191,7 @@
   "score_after_pbr": 60,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-16T05:47:07.775397+00:00",
+    "generated_at_utc": "2026-08-16T06:02:04.585562+00:00",
     "regime": "crisis",
     "circuit_breaker": true,
     "circuit_breaker_reasons": [
@@ -2548,12 +2546,10 @@
         }
       ],
       "history_samples": 374,
-      "stale": true,
-      "source": "한국은행 ECOS",
+      "stale": false,
+      "source": "한국은행 ECOS 시장금리(일별)",
       "source_url": "https://ecos.bok.or.kr/",
-      "diagnostics": [
-        "credit_ecos:HttpError:요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20260630/20260816/010300000/?/? (Caused by ConnectTimeoutErro"
-      ]
+      "diagnostics": []
     }
   },
   "interpretation": {

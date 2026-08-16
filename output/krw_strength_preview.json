@@ -141,19 +141,19 @@
       "source": "Naver MarketIndex FX_USDKRW",
       "observation": "20260814",
       "market_time_utc": "2026-08-14T20:44:55+00:00",
-      "retrieved_at_utc": "2026-08-16T05:45:59.106143+00:00",
+      "retrieved_at_utc": "2026-08-16T06:01:29.600166+00:00",
       "market_state": "CLOSED",
       "live_overlay_applied": true
     },
     "krw_neer": {
       "source": "BIS EER",
-      "observation": null,
-      "value": null
+      "observation": "20260601",
+      "value": 81.99
     },
     "krw_reer": {
       "source": "BIS EER",
-      "observation": null,
-      "value": null
+      "observation": "20260601",
+      "value": 83.06
     },
     "us_2y": {
       "source": "FRED/Global collector",
@@ -278,5 +278,5 @@
     "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
     "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
   ],
-  "generated_at": "2026-08-16T14:44:28.138876+09:00"
+  "generated_at": "2026-08-16T14:58:54.887300+09:00"
 }
