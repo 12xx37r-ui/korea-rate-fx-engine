@@ -24,7 +24,7 @@ def test_v3_does_not_force_minimum_drift():
     assert all(abs(float(x['change_pct'])) < 7.6 for x in out['fx']['forecast_path'])
 
 
-def test_v217_market_overlay_is_additive_and_rebased():
+def test_v218_public_current_prefers_market_overlay_and_preserves_model_anchor():
     rate,fx,ecos,g=_sample()
     g=dict(g)
     g['usd_krw_market_snapshot']={
@@ -36,9 +36,10 @@ def test_v217_market_overlay_is_additive_and_rebased():
     fx=dict(fx)
     fx['forecast_path']=[{'months':3,'point_forecast':1414.0,'mid':1414.0,'change_pct':1.0,'range_80':[1330,1470]}]
     out=build_v3(rate,fx,ecos,{}, {},g,{'current_effective_rate':4.0,'meeting_path':[]})
-    assert out['fx']['current_usdkrw'] == 1400
+    assert out['fx']['current_usdkrw'] == 1418.5
     assert out['fx']['model_anchor_usdkrw'] == 1400
     assert out['fx']['market_spot'] == 1418.5
-    assert out['fx']['forecast_path'][0]['point_forecast'] == 1414.0
+    assert round(out['fx']['forecast_path'][0]['point_forecast'],2) == round(1414.0*(1418.5/1400.0),2)
+    assert out['fx']['model_forecast_path'][0]['point_forecast'] == 1414.0
     assert round(out['fx']['rebased_forecast_path'][0]['point_forecast'], 2) == round(1414.0*(1418.5/1400.0),2)
     assert out['source_freshness']['fx_market']['model_anchor_preserved'] is True

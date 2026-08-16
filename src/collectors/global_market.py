@@ -72,6 +72,8 @@ YAHOO_EQUITY: dict[str, str] = {
     "tsm": "TSM",
 }
 YAHOO_EQUITY_DAYS = 90  # 20d/60d 모멘텀 계산에 충분한 기간
+NAVER_USDKRW_URL = "https://m.stock.naver.com/front-api/marketIndex/exchange/main"
+NO_CACHE_HEADERS = {"Cache-Control": "no-cache, no-store, max-age=0", "Pragma": "no-cache"}
 
 
 def _safe_previous(path: Path) -> dict[str, Any]:
@@ -338,17 +340,17 @@ def _collect_yahoo_equity(previous: dict[str, Any]) -> dict[str, Any]:
 def _yahoo_usdkrw_bundle() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Fetch USD/KRW once and preserve both model history and market snapshot.
 
-    The historical 1d series remains unchanged for model compatibility.  Yahoo's
-    chart metadata from the *same request* is exposed separately so downstream
-    programs can distinguish the model anchor from the latest market snapshot.
-    No additional network call is introduced.
+    The historical 1d series remains unchanged for model compatibility. Yahoo's
+    chart metadata is still retained as a fallback market snapshot. V218 adds an
+    independent Naver MarketIndex quote request so the public engine can publish
+    a fresher USD/KRW value without changing the historical model input series.
     """
     url = "https://query1.finance.yahoo.com/v8/finance/chart/KRW=X"
     with requests.Session() as session:
-        session.headers.update({"User-Agent": "korea-rate-fx-engine/5.1"})
+        session.headers.update({"User-Agent": "korea-rate-fx-engine/5.2", **NO_CACHE_HEADERS})
         response = session.get(
             url,
-            params={"range": "1mo", "interval": "1d", "events": "history"},
+            params={"range": "1mo", "interval": "1d", "events": "history", "_ts": str(int(time.time()))},
             timeout=(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS),
         )
         response.raise_for_status()
@@ -401,6 +403,97 @@ def _yahoo_usdkrw_bundle() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         "model_history_interval": "1d",
     }
     return rows, snapshot
+
+
+def _walk_find_naver_usdkrw(node: Any) -> dict[str, Any] | None:
+    if isinstance(node, dict):
+        code = str(node.get("reutersCode") or node.get("symbolCode") or node.get("code") or "")
+        if code == "FX_USDKRW":
+            return node
+        for value in node.values():
+            found = _walk_find_naver_usdkrw(value)
+            if found:
+                return found
+    elif isinstance(node, list):
+        for value in node:
+            found = _walk_find_naver_usdkrw(value)
+            if found:
+                return found
+    return None
+
+
+def _parse_naver_datetime(item: dict[str, Any]) -> str | None:
+    raw = (item.get("localTradedAt") or item.get("localTradeDate") or item.get("tradeDate")
+           or item.get("date") or item.get("localDateTime"))
+    text = str(raw or "").strip()
+    if not text:
+        return None
+    candidates = [text, text.replace(".", "-").replace("/", "-")]
+    for candidate in candidates:
+        try:
+            dt = datetime.fromisoformat(candidate)
+            if dt.tzinfo is None:
+                # Naver MarketIndex timestamps are displayed in Korea local time.
+                dt = dt.replace(tzinfo=timezone(timedelta(hours=9)))
+            return dt.astimezone(timezone.utc).isoformat()
+        except Exception:
+            pass
+    for fmt in ("%Y%m%d%H%M%S", "%Y%m%d%H%M", "%Y%m%d", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d"):
+        try:
+            dt = datetime.strptime(text, fmt).replace(tzinfo=timezone(timedelta(hours=9)))
+            return dt.astimezone(timezone.utc).isoformat()
+        except Exception:
+            continue
+    return None
+
+
+def _naver_usdkrw_snapshot() -> dict[str, Any]:
+    """Independent latest USD/KRW quote used only as a public-current overlay.
+
+    One additional request per engine run. The model history is never sourced from
+    this endpoint; only the current public quote and market status are overlaid.
+    """
+    with requests.Session() as session:
+        session.headers.update({
+            "User-Agent": "Mozilla/5.0 (compatible; korea-rate-fx-engine/5.2)",
+            "Accept": "application/json,text/plain,*/*",
+            **NO_CACHE_HEADERS,
+        })
+        response = session.get(
+            NAVER_USDKRW_URL,
+            params={"_ts": str(int(time.time()))},
+            timeout=(CONNECT_TIMEOUT_SECONDS, 8),
+        )
+        response.raise_for_status()
+        payload = response.json()
+    item = _walk_find_naver_usdkrw(payload)
+    if not item:
+        raise ValueError("Naver MarketIndex response missing FX_USDKRW")
+    raw_price = item.get("closePrice") or item.get("price") or item.get("value")
+    try:
+        price = float(str(raw_price).replace(",", ""))
+    except (TypeError, ValueError):
+        raise ValueError(f"Naver FX_USDKRW invalid price: {raw_price!r}")
+    if not 800.0 <= price <= 2500.0:
+        raise ValueError(f"Naver FX_USDKRW out of range: {price}")
+    state = str(item.get("marketStatus") or item.get("marketState") or item.get("status") or "").upper() or None
+    return {
+        "symbol": "FX_USDKRW",
+        "price": price,
+        "market_time_utc": _parse_naver_datetime(item),
+        "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
+        "market_state": state,
+        "source": "Naver MarketIndex FX_USDKRW",
+        "source_url": NAVER_USDKRW_URL,
+        "provider_code": "FX_USDKRW",
+    }
+
+
+def _select_usdkrw_snapshot(naver: dict[str, Any], yahoo: dict[str, Any], previous: dict[str, Any]) -> dict[str, Any]:
+    for candidate in (naver, yahoo, previous):
+        if isinstance(candidate, dict) and candidate.get("price") is not None:
+            return dict(candidate)
+    return {}
 
 
 def _yahoo_usdkrw() -> list[dict[str, Any]]:
@@ -481,29 +574,39 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
 
     yahoo_old = previous.get("usd_krw_yahoo") if isinstance(previous.get("usd_krw_yahoo"), list) else []
     yahoo_snapshot_old = previous.get("usd_krw_market_snapshot") if isinstance(previous.get("usd_krw_market_snapshot"), dict) else {}
+    yahoo_snapshot: dict[str, Any] = {}
     try:
         request_count += 1
         yahoo_fresh, yahoo_snapshot = _yahoo_usdkrw_bundle()
         payload["usd_krw_yahoo"] = _merge_rows(yahoo_old, yahoo_fresh)
-        payload["usd_krw_market_snapshot"] = yahoo_snapshot or yahoo_snapshot_old
-        print(
-            f"[GLOBAL_MARKET] usd_krw_yahoo: fresh_rows={len(yahoo_fresh)} "
-            f"market_price={(yahoo_snapshot or {}).get('price')}",
-            flush=True,
-        )
         if not yahoo_fresh and yahoo_old:
             last_good_reused.append("usd_krw_yahoo")
-        if not yahoo_snapshot and yahoo_snapshot_old:
-            last_good_reused.append("usd_krw_market_snapshot")
     except Exception as exc:
         payload["usd_krw_yahoo"] = list(yahoo_old)
-        payload["usd_krw_market_snapshot"] = dict(yahoo_snapshot_old)
         errors["usd_krw_yahoo"] = f"{type(exc).__name__}: {exc}"
         if yahoo_old:
             last_good_reused.append("usd_krw_yahoo")
-        if yahoo_snapshot_old:
-            last_good_reused.append("usd_krw_market_snapshot")
-        print(f"[GLOBAL_MARKET] usd_krw_yahoo: failed once; last-good reused={bool(yahoo_old)}", flush=True)
+
+    naver_snapshot: dict[str, Any] = {}
+    try:
+        request_count += 1  # V218: one independent current-quote call per run.
+        naver_snapshot = _naver_usdkrw_snapshot()
+    except Exception as exc:
+        errors["usd_krw_naver"] = f"{type(exc).__name__}: {exc}"
+
+    chosen_snapshot = _select_usdkrw_snapshot(naver_snapshot, yahoo_snapshot, yahoo_snapshot_old)
+    payload["usd_krw_market_snapshot"] = chosen_snapshot
+    payload["usd_krw_market_snapshot_candidates"] = {
+        "naver": naver_snapshot,
+        "yahoo": yahoo_snapshot,
+    }
+    if not naver_snapshot and not yahoo_snapshot and yahoo_snapshot_old:
+        last_good_reused.append("usd_krw_market_snapshot")
+    print(
+        f"[GLOBAL_MARKET] USDKRW current overlay: source={chosen_snapshot.get('source')} "
+        f"price={chosen_snapshot.get('price')} state={chosen_snapshot.get('market_state')}",
+        flush=True,
+    )
 
     # Task 1: 반도체 마이크로 팩터 수집 (SOX, TWII, NVDA, TSM)
     semi_previous = {k: list(previous.get(k) or []) for k in YAHOO_EQUITY}

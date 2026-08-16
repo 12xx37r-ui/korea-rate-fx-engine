@@ -36,12 +36,13 @@ def test_global_market_uses_three_parallel_fred_groups_plus_yahoo(monkeypatch, t
 
     monkeypatch.setattr(global_market, "_fred_batch", fake_fred)
     monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}], {"price": 1418.5, "market_time_utc": "2026-08-09T04:00:00+00:00", "source": "Yahoo Finance chart metadata"}))
+    monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {})
     monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: ({"krw_neer":[{"date":"20260701","value":100.0,"source":"BIS"}], "krw_reer":[{"date":"20260701","value":101.0,"source":"BIS"}]}, "2000-01", "bootstrap"))
     monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
     assert len(calls) == 3
-    assert result.metadata["request_count"] == 3 + 1 + 1 + len(global_market.YAHOO_EQUITY)
+    assert result.metadata["request_count"] == 3 + 1 + 1 + 1 + len(global_market.YAHOO_EQUITY)
     assert result.metadata["fred_groups_parallel"] is True
     assert result.status == "ok"
 
@@ -66,12 +67,13 @@ def test_fred_group_failures_do_not_fan_out_and_reuse_last_good(monkeypatch, tmp
 
     monkeypatch.setattr(global_market, "_fred_batch", fail)
     monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date": "20260809", "value": 1407.5, "source": "Yahoo Finance"}], {"price": 1418.5, "market_time_utc": "2026-08-09T04:00:00+00:00", "source": "Yahoo Finance chart metadata"}))
+    monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {})
     monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: (_ for _ in ()).throw(AssertionError("fresh EER cache should skip BIS")))
     monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
 
     result = global_market.collect(tmp_path, timeout=30, retries=3)
     assert len(calls) == 3
-    assert result.metadata["request_count"] == 3 + 1 + len(global_market.YAHOO_EQUITY)
+    assert result.metadata["request_count"] == 3 + 1 + 1 + len(global_market.YAHOO_EQUITY)
     assert len(result.metadata["last_good_reused"]) >= sum(len(g) for g in global_market.FRED_GROUPS.values())
 
     data = json.loads((tmp_path / "raw_global_market.json").read_text(encoding="utf-8"))
@@ -100,3 +102,15 @@ def test_bis_eer_csv_parser_combined_nominal_real():
     out=global_market._parse_bis_eer_csv(text)
     assert out["krw_neer"][-1]["value"] == 101.2
     assert out["krw_reer"][-1]["value"] == 98.7
+
+
+def test_v218_naver_current_quote_is_preferred(monkeypatch, tmp_path: Path):
+    monkeypatch.setattr(global_market, "_fred_batch", lambda group,start: _fresh_for(group))
+    monkeypatch.setattr(global_market, "_yahoo_usdkrw_bundle", lambda: ([{"date":"20260814","value":1412.0,"source":"Yahoo Finance"}], {"price":1412.0,"source":"Yahoo Finance chart metadata"}))
+    monkeypatch.setattr(global_market, "_naver_usdkrw_snapshot", lambda: {"price":1418.5,"market_state":"CLOSE","source":"Naver MarketIndex FX_USDKRW","retrieved_at_utc":"2026-08-16T05:00:00+00:00"})
+    monkeypatch.setattr(global_market, "_bis_eer_api", lambda previous: ({"krw_neer":[{"date":"20260701","value":100.0}],"krw_reer":[{"date":"20260701","value":101.0}]},"2000-01","bootstrap"))
+    monkeypatch.setattr(global_market, "_collect_yahoo_equity", _fake_semiconductor)
+    global_market.collect(tmp_path, timeout=30, retries=3)
+    data=json.loads((tmp_path/"raw_global_market.json").read_text(encoding="utf-8"))
+    assert data["usd_krw_market_snapshot"]["price"] == 1418.5
+    assert data["usd_krw_market_snapshot"]["source"].startswith("Naver")
