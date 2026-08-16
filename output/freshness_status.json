@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "patch_version": "V217-additive-freshness-contract",
+  "generated_at_utc": "2026-08-16T04:49:37.127198+00:00",
+  "engine_generated_at": "2026-08-16T13:48:24.898134+09:00",
+  "compatibility": {
+    "existing_keys_removed": false,
+    "existing_field_semantics_changed": false,
+    "new_network_calls": 0,
+    "model_formulas_changed": false
+  },
+  "items": [
+    {
+      "source": "us_policy_engine",
+      "status": "LIVE",
+      "collector_status": "ok",
+      "cadence": "event/daily",
+      "observation_at": "2026-09-16",
+      "age_hours": 0.0,
+      "max_age_hours": 72.0,
+      "last_good_reused": false,
+      "warnings": []
+    },
+    {
+      "source": "ecos",
+      "status": "LIVE",
+      "collector_status": "ok",
+      "cadence": "daily/monthly",
+      "observation_at": "20260814",
+      "age_hours": 52.83,
+      "max_age_hours": 96.0,
+      "last_good_reused": false,
+      "warnings": []
+    },
+    {
+      "source": "global_market",
+      "status": "LIVE",
+      "collector_status": "degraded",
+      "cadence": "daily/monthly",
+      "observation_at": "20260816",
+      "age_hours": 4.83,
+      "max_age_hours": 96.0,
+      "last_good_reused": false,
+      "warnings": [
+        "fred_rates_risk: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
+        "fred_currency: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)",
+        "fred_commodities: ReadTimeout: HTTPSConnectionPool(host='fred.stlouisfed.org', port=443): Read timed out. (read timeout=15)"
+      ]
+    },
+    {
+      "source": "krx",
+      "status": "LIVE",
+      "collector_status": "ok",
+      "cadence": "trading-day",
+      "observation_at": null,
+      "age_hours": null,
+      "max_age_hours": 96.0,
+      "last_good_reused": false,
+      "warnings": []
+    },
+    {
+      "source": "kosis",
+      "status": "LKG",
+      "collector_status": "degraded",
+      "cadence": "monthly",
+      "observation_at": "202607",
+      "age_hours": 1108.83,
+      "max_age_hours": 1080.0,
+      "last_good_reused": true,
+      "warnings": [
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=MmI0YmZkNGUxMjczNTU5YTMwYjg5ZDBkNjM5M2M1MjA%3D&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f03f1af1bb0>, 'Connection to kosis.kr timed out. (connect timeout=4)'))",
+        "industrial_production: 외부호출 생략 · circuit open · 직전 정상 이력 유지=True"
+      ]
+    },
+    {
+      "source": "usdkrw_market_snapshot",
+      "status": "LIVE",
+      "cadence": "intraday-when-market-open",
+      "observation_at": "2026-08-16T03:30:34+00:00",
+      "age_hours": 1.32,
+      "max_age_hours": 3.0,
+      "value": 1412.0,
+      "provider": "Yahoo Finance chart metadata",
+      "note": "모델 기준 일봉과 분리된 보조 market snapshot이며 기존 current_usdkrw 의미를 변경하지 않습니다."
+    }
+  ],
+  "summary": {
+    "live": 5,
+    "cache": 0,
+    "lkg": 1,
+    "fallback": 0,
+    "unavailable": 0
+  }
+}

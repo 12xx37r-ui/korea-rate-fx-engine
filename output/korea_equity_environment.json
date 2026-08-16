@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-16T04:25:16.074966+00:00",
+  "generated_at_utc": "2026-08-16T04:49:25.717883+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
   "score": 70,
   "score_valid": true,
@@ -191,7 +191,7 @@
   "score_after_pbr": 60,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-16T04:25:16.073948+00:00",
+    "generated_at_utc": "2026-08-16T04:49:25.716144+00:00",
     "regime": "crisis",
     "circuit_breaker": true,
     "circuit_breaker_reasons": [

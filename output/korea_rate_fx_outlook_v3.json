@@ -343,7 +343,75 @@
     },
     "point_forecast_is_not_spot_copy": true,
     "production_use": true,
-    "production_model": "continuous_oos_weighted_ensemble_v4"
+    "production_model": "continuous_oos_weighted_ensemble_v4",
+    "model_anchor_usdkrw": 1412.0,
+    "market_spot": 1412.0,
+    "market_spot_as_of_utc": "2026-08-16T03:30:34+00:00",
+    "market_spot_source": "Yahoo Finance chart metadata",
+    "market_spot_status": "LIVE",
+    "market_spot_age_minutes": 79.05,
+    "rebased_forecast_path": [
+      {
+        "months": 1,
+        "model_change_pct": -0.097,
+        "market_spot_anchor": 1412.0,
+        "point_forecast": 1410.6,
+        "mid": 1410.6,
+        "range_50": [
+          1387.1,
+          1434.1
+        ],
+        "range_80": [
+          1366.0,
+          1455.3
+        ]
+      },
+      {
+        "months": 3,
+        "model_change_pct": 0.01,
+        "market_spot_anchor": 1412.0,
+        "point_forecast": 1412.1,
+        "mid": 1412.1,
+        "range_50": [
+          1370.0,
+          1454.3
+        ],
+        "range_80": [
+          1332.1,
+          1492.2
+        ]
+      },
+      {
+        "months": 6,
+        "model_change_pct": 0.042,
+        "market_spot_anchor": 1412.0,
+        "point_forecast": 1412.6,
+        "mid": 1412.6,
+        "range_50": [
+          1360.6,
+          1464.6
+        ],
+        "range_80": [
+          1313.7,
+          1511.5
+        ]
+      },
+      {
+        "months": 12,
+        "model_change_pct": -0.023,
+        "market_spot_anchor": 1412.0,
+        "point_forecast": 1411.7,
+        "mid": 1411.7,
+        "range_50": [
+          1345.3,
+          1478.1
+        ],
+        "range_80": [
+          1285.5,
+          1537.8
+        ]
+      }
+    ]
   },
   "krw_liquidity": {
     "schema_version": "1.1.0",
@@ -510,7 +578,7 @@
       "monetary_aggregate_available": true,
       "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
     },
-    "generated_at": "2026-08-16T13:24:23.175240+09:00"
+    "generated_at": "2026-08-16T13:48:24.898134+09:00"
   },
   "krw_strength": {
     "schema_version": "1.0.0",
@@ -722,7 +790,7 @@
       "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
       "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
     ],
-    "generated_at": "2026-08-16T13:24:23.175240+09:00"
+    "generated_at": "2026-08-16T13:48:24.898134+09:00"
   },
   "factor_panel": {
     "1m": {
@@ -926,6 +994,16 @@
       }
     }
   },
+  "source_freshness": {
+    "fx_market": {
+      "status": "LIVE",
+      "as_of_utc": "2026-08-16T03:30:34+00:00",
+      "age_minutes": 79.05,
+      "source": "Yahoo Finance chart metadata",
+      "model_anchor_preserved": true,
+      "rebased_path_available": true
+    }
+  },
   "certification": {
     "level": "검증 C등급",
     "rate_level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",
@@ -937,6 +1015,6 @@
     "v3_production_enabled": true,
     "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
   },
-  "generated_at": "2026-08-16T13:24:23.175240+09:00",
+  "generated_at": "2026-08-16T13:48:24.898134+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }

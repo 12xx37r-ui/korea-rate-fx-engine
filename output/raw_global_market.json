@@ -6207,5 +6207,16 @@
       "mom_20d_pct": 7.0236,
       "mom_60d_pct": 8.5938
     }
+  },
+  "usd_krw_market_snapshot": {
+    "symbol": "KRW=X",
+    "price": 1412.0,
+    "market_time_utc": "2026-08-16T03:30:34+00:00",
+    "exchange": "CCY",
+    "exchange_timezone": "Europe/London",
+    "currency": "KRW",
+    "source": "Yahoo Finance chart metadata",
+    "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/KRW=X",
+    "model_history_interval": "1d"
   }
 }
