@@ -54,6 +54,9 @@ jobs:
       - name: Build Korea comprehensive market output
         run: python -u scripts/run_korea_comprehensive_market.py
 
+      - name: Build additive freshness status
+        run: python -u scripts/freshness_audit_v217.py
+
       - name: Commit outputs
         run: |
           git config user.name "github-actions[bot]"
