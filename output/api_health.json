@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-16T22:00:49.942814+09:00",
+  "generated_at": "2026-08-17T02:33:09.330641+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -146,7 +146,7 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 31.82
+        "elapsed_seconds": 3.63
       }
     },
     "krx": {

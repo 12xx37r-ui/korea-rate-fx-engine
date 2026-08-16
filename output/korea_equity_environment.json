@@ -1,12 +1,12 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-16T13:01:53.951546+00:00",
+  "generated_at_utc": "2026-08-16T17:33:51.519031+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
   "score": 70,
   "score_valid": true,
   "bias": "우호",
-  "final_score": 62.814,
+  "final_score": 62.5863,
   "final_score_valid": true,
   "final_bias": "약우호",
   "circuit_breaker": false,
@@ -191,7 +191,7 @@
   "score_after_pbr": 60,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-16T13:01:53.949767+00:00",
+    "generated_at_utc": "2026-08-16T17:33:51.517236+00:00",
     "regime": "normal",
     "circuit_breaker": false,
     "circuit_breaker_reasons": [],
@@ -203,38 +203,38 @@
     "shock_multiplier": {
       "available": true,
       "penalty": 0.0,
-      "z_score": -0.0779,
-      "abs_z": 0.0779,
+      "z_score": -0.0061,
+      "abs_z": 0.0061,
       "regime_label": "정상",
       "formula": "penalty = z^2 * 3.0 (|z|>2 구간), (|z|-1)*5.0 (1<|z|<=2), 0 (정상)"
     },
     "emp": {
       "available": true,
-      "emp_score": -1.876,
+      "emp_score": -1.7242,
       "components_count": 2,
       "evidence": {
-        "fx_change_pct": -4.3121,
+        "fx_change_pct": -4.0085,
         "reserve_change_pct": null,
         "rate_differential_pct": -1.4
       },
       "interpretation": "양수=원화절하 압력 증가, 음수=원화절상 압력"
     },
     "emp_adjustment": {
-      "adjusted_score": 62.814,
+      "adjusted_score": 62.5863,
       "original_score": 60,
-      "emp_score": -1.876,
-      "adjustment": 2.814,
+      "emp_score": -1.7242,
+      "adjustment": 2.5863,
       "emp_applied": true
     },
     "macro_env_score_original": 60,
-    "macro_env_score_after_emp": 62.814,
-    "final_score": 62.814,
+    "macro_env_score_after_emp": 62.5863,
+    "final_score": 62.5863,
     "final_score_valid": true,
     "regime_evidence": {
-      "fx_3d_change_pct": -0.3423,
-      "fx_std_5d": 2.2562,
-      "fx_std_10d": 4.3917,
-      "fx_z_score": 0.0779,
+      "fx_3d_change_pct": -0.0261,
+      "fx_std_5d": 1.8328,
+      "fx_std_10d": 4.2509,
+      "fx_z_score": 0.0061,
       "vkospi_latest": null,
       "cds_proxy": 0.225
     }
