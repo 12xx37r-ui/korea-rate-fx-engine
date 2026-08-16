@@ -56,7 +56,7 @@ FRED_GROUPS: dict[str, dict[str, str]] = {
 
 BIS_EER_API_URL = "https://stats.bis.org/api/v1/data/WS_EER/M.N+R.B.KR/all"
 CONNECT_TIMEOUT_SECONDS = 3
-READ_TIMEOUT_SECONDS = 9
+READ_TIMEOUT_SECONDS = 15
 BIS_READ_TIMEOUT_SECONDS = 10
 BIS_REFRESH_MAX_AGE_DAYS = 45
 FRED_BOOTSTRAP_DAYS = 900
@@ -335,10 +335,17 @@ def _collect_yahoo_equity(previous: dict[str, Any]) -> dict[str, Any]:
     return {"rows": rows_by_key, "momentum": momentum, "errors": errors}
 
 
-def _yahoo_usdkrw() -> list[dict[str, Any]]:
+def _yahoo_usdkrw_bundle() -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Fetch USD/KRW once and preserve both model history and market snapshot.
+
+    The historical 1d series remains unchanged for model compatibility.  Yahoo's
+    chart metadata from the *same request* is exposed separately so downstream
+    programs can distinguish the model anchor from the latest market snapshot.
+    No additional network call is introduced.
+    """
     url = "https://query1.finance.yahoo.com/v8/finance/chart/KRW=X"
     with requests.Session() as session:
-        session.headers.update({"User-Agent": "korea-rate-fx-engine/4.5"})
+        session.headers.update({"User-Agent": "korea-rate-fx-engine/5.1"})
         response = session.get(
             url,
             params={"range": "1mo", "interval": "1d", "events": "history"},
@@ -348,8 +355,9 @@ def _yahoo_usdkrw() -> list[dict[str, Any]]:
         payload = response.json()
     result = (((payload or {}).get("chart") or {}).get("result") or [])
     if not result:
-        return []
+        return [], {}
     node = result[0] or {}
+    meta = node.get("meta") or {}
     timestamps = node.get("timestamp") or []
     quotes = ((((node.get("indicators") or {}).get("quote") or [{}])[0]) or {})
     closes = quotes.get("close") or []
@@ -364,6 +372,40 @@ def _yahoo_usdkrw() -> list[dict[str, Any]]:
             continue
         if 800.0 <= value <= 2500.0:
             rows.append({"date": date, "value": value, "source": "Yahoo Finance", "symbol": "KRW=X"})
+
+    market_price = meta.get("regularMarketPrice")
+    try:
+        market_price = float(market_price)
+    except (TypeError, ValueError):
+        market_price = None
+    if market_price is not None and not (800.0 <= market_price <= 2500.0):
+        market_price = None
+
+    market_time = meta.get("regularMarketTime")
+    market_time_utc = None
+    try:
+        if market_time not in (None, ""):
+            market_time_utc = datetime.fromtimestamp(int(market_time), tz=timezone.utc).isoformat()
+    except (TypeError, ValueError, OSError):
+        market_time_utc = None
+
+    snapshot = {
+        "symbol": "KRW=X",
+        "price": market_price,
+        "market_time_utc": market_time_utc,
+        "exchange": meta.get("exchangeName"),
+        "exchange_timezone": meta.get("exchangeTimezoneName"),
+        "currency": meta.get("currency"),
+        "source": "Yahoo Finance chart metadata",
+        "source_url": url,
+        "model_history_interval": "1d",
+    }
+    return rows, snapshot
+
+
+def _yahoo_usdkrw() -> list[dict[str, Any]]:
+    """Backward-compatible historical-series helper."""
+    rows, _ = _yahoo_usdkrw_bundle()
     return rows
 
 
@@ -438,18 +480,29 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             print(f"[GLOBAL_MARKET] BIS EER failed once; last-good retained | {type(exc).__name__}: {exc}", flush=True)
 
     yahoo_old = previous.get("usd_krw_yahoo") if isinstance(previous.get("usd_krw_yahoo"), list) else []
+    yahoo_snapshot_old = previous.get("usd_krw_market_snapshot") if isinstance(previous.get("usd_krw_market_snapshot"), dict) else {}
     try:
         request_count += 1
-        yahoo_fresh = _yahoo_usdkrw()
+        yahoo_fresh, yahoo_snapshot = _yahoo_usdkrw_bundle()
         payload["usd_krw_yahoo"] = _merge_rows(yahoo_old, yahoo_fresh)
-        print(f"[GLOBAL_MARKET] usd_krw_yahoo: fresh_rows={len(yahoo_fresh)}", flush=True)
+        payload["usd_krw_market_snapshot"] = yahoo_snapshot or yahoo_snapshot_old
+        print(
+            f"[GLOBAL_MARKET] usd_krw_yahoo: fresh_rows={len(yahoo_fresh)} "
+            f"market_price={(yahoo_snapshot or {}).get('price')}",
+            flush=True,
+        )
         if not yahoo_fresh and yahoo_old:
             last_good_reused.append("usd_krw_yahoo")
+        if not yahoo_snapshot and yahoo_snapshot_old:
+            last_good_reused.append("usd_krw_market_snapshot")
     except Exception as exc:
         payload["usd_krw_yahoo"] = list(yahoo_old)
+        payload["usd_krw_market_snapshot"] = dict(yahoo_snapshot_old)
         errors["usd_krw_yahoo"] = f"{type(exc).__name__}: {exc}"
         if yahoo_old:
             last_good_reused.append("usd_krw_yahoo")
+        if yahoo_snapshot_old:
+            last_good_reused.append("usd_krw_market_snapshot")
         print(f"[GLOBAL_MARKET] usd_krw_yahoo: failed once; last-good reused={bool(yahoo_old)}", flush=True)
 
     # Task 1: 반도체 마이크로 팩터 수집 (SOX, TWII, NVDA, TSM)

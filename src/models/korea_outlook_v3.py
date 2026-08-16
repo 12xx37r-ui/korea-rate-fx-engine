@@ -8,6 +8,7 @@ strength are dedicated continuous forecasts generated upstream and embedded here
 GAS can read one GitHub JSON instead of making extra public-data calls.
 """
 
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -18,6 +19,45 @@ def _float(value: Any) -> float | None:
         return float(value)
     except (TypeError, ValueError):
         return None
+
+
+def _iso_age_minutes(value: Any) -> float | None:
+    try:
+        text = str(value or "").strip()
+        if not text:
+            return None
+        dt = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return max(0.0, (datetime.now(timezone.utc) - dt.astimezone(timezone.utc)).total_seconds() / 60.0)
+    except Exception:
+        return None
+
+
+def _rebase_fx_forecasts(rows: list[dict[str, Any]], model_anchor: float | None, market_spot: float | None) -> list[dict[str, Any]]:
+    """Create an additive market-overlay path without changing the production model path."""
+    if not model_anchor or not market_spot or model_anchor <= 0 or market_spot <= 0:
+        return []
+    scale = market_spot / model_anchor
+    out: list[dict[str, Any]] = []
+    for row in rows or []:
+        item = {
+            "months": row.get("months"),
+            "model_change_pct": row.get("change_pct"),
+            "market_spot_anchor": round(market_spot, 6),
+        }
+        for key in ("point_forecast", "mid"):
+            value = _float(row.get(key))
+            item[key] = round(value * scale, 6) if value is not None else None
+        for key in ("range_50", "range_80"):
+            band = row.get(key)
+            if isinstance(band, list) and len(band) >= 2:
+                lo, hi = _float(band[0]), _float(band[1])
+                item[key] = [round(lo * scale, 6), round(hi * scale, 6)] if lo is not None and hi is not None else None
+            else:
+                item[key] = None
+        out.append(item)
+    return out
 
 
 def build_v3(
@@ -31,7 +71,7 @@ def build_v3(
     liquidity: dict[str, Any] | None = None,
     krw_strength: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    del ecos, kosis, krx, global_data, us  # retained in signature for compatibility/audit
+    del ecos, kosis, krx, us  # retained in signature for compatibility/audit
 
     rate_current = _float((rate_v2.get("current") or {}).get("kr_base_rate_pct")) or 0.0
     rate_path = rate_v2.get("meeting_path") or []
@@ -96,6 +136,18 @@ def build_v3(
             }
         )
 
+    market_snapshot = global_data.get("usd_krw_market_snapshot") if isinstance(global_data, dict) else {}
+    market_snapshot = market_snapshot if isinstance(market_snapshot, dict) else {}
+    market_spot = _float(market_snapshot.get("price"))
+    market_time_utc = market_snapshot.get("market_time_utc")
+    market_age_minutes = _iso_age_minutes(market_time_utc)
+    market_status = (
+        "LIVE" if market_spot is not None and market_age_minutes is not None and market_age_minutes <= 180
+        else "CACHE" if market_spot is not None
+        else "UNAVAILABLE"
+    )
+    rebased_forecasts = _rebase_fx_forecasts(forecasts, spot, market_spot)
+
     fx_gate = ((fx_v2.get("validation") or {}).get("quality_gate") or {})
     rate_validation = rate_v2.get("validation") or {}
     rate_gate = (rate_validation.get("quality_gate") or {})
@@ -134,6 +186,7 @@ def build_v3(
             "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 재구성 OOS와 실시간 원본 빈티지 엄격검증을 분리합니다.",
         },
         "fx": {
+            # Backward-compatible production/model anchor fields: unchanged semantics.
             "current_usdkrw": spot,
             "current_date": fx_v2.get("current_date"),
             "current_source": fx_v2.get("current_source"),
@@ -143,10 +196,28 @@ def build_v3(
             "point_forecast_is_not_spot_copy": non_copy,
             "production_use": bool(fx_v2.get("forecast_operational", True)),
             "production_model": fx_v2.get("production_model"),
+            # V217 additive market overlay. Existing consumers can ignore these keys.
+            "model_anchor_usdkrw": spot,
+            "market_spot": market_spot,
+            "market_spot_as_of_utc": market_time_utc,
+            "market_spot_source": market_snapshot.get("source"),
+            "market_spot_status": market_status,
+            "market_spot_age_minutes": round(market_age_minutes, 2) if market_age_minutes is not None else None,
+            "rebased_forecast_path": rebased_forecasts,
         },
         "krw_liquidity": liquidity or {},
         "krw_strength": krw_strength or {},
         "factor_panel": fx_v2.get("factor_panel") or {},
+        "source_freshness": {
+            "fx_market": {
+                "status": market_status,
+                "as_of_utc": market_time_utc,
+                "age_minutes": round(market_age_minutes, 2) if market_age_minutes is not None else None,
+                "source": market_snapshot.get("source"),
+                "model_anchor_preserved": True,
+                "rebased_path_available": bool(rebased_forecasts),
+            }
+        },
         "certification": {
             "level": fx_gate.get("level", "검증등급 산출"),
             "rate_level": rate_gate.get("level"),
