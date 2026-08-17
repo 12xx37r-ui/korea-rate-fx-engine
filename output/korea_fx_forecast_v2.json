@@ -4,38 +4,38 @@
   "status": "ok",
   "engine_scope": "korea_fx_continuous_v4",
   "forecast_operational": true,
-  "current_usdkrw": 1411.15,
+  "current_usdkrw": 1411.8199,
   "current_date": "20260817",
   "current_source": "Yahoo",
   "recent_change_pct": {
-    "5d": -0.375,
-    "20d": -3.214,
-    "60d": -7.041
+    "5d": -0.328,
+    "20d": -3.168,
+    "60d": -6.997
   },
   "forecast_path": [
     {
       "months": 1,
-      "mid": 1410.4,
-      "point_forecast": 1410.4,
-      "change_pct": -0.054,
+      "mid": 1411.1,
+      "point_forecast": 1411.1,
+      "change_pct": -0.053,
       "range_50": [
-        1386.9,
-        1433.9
+        1387.6,
+        1434.6
       ],
       "range_80": [
-        1365.8,
-        1455.0
+        1366.4,
+        1455.7
       ],
       "direction": "neutral",
-      "up_probability": 0.451,
+      "up_probability": 0.4512,
       "neutral_probability": 0.0807,
-      "down_probability": 0.4683,
+      "down_probability": 0.4682,
       "neutral_band_pct": 0.25,
       "production_model": "continuous_oos_weighted_ensemble_v4",
       "prediction_status": "forecast",
       "signal_active": true,
-      "signal_60d": -0.07041,
-      "forecast_drift": -0.00054,
+      "signal_60d": -0.06997,
+      "forecast_drift": -0.00053,
       "validation_shrinkage": 0.4495,
       "model_weights": {
         "contrarian_120": 0.1788,
@@ -50,15 +50,15 @@
         "trend_acceleration": 0.1526
       },
       "model_contributions_pct": {
-        "momentum_20": -0.1544,
-        "momentum_60": -0.1456,
-        "momentum_120": -0.0381,
-        "contrarian_60": 0.084,
-        "mean_reversion_252": 0.0228,
+        "momentum_20": -0.1522,
+        "momentum_60": -0.1447,
+        "momentum_120": -0.0376,
+        "contrarian_60": 0.0835,
+        "mean_reversion_252": 0.0225,
         "trend_acceleration": 0.0742,
         "rate_gap_carry": 0.0,
         "risk_regime": -0.0,
-        "contrarian_120": 0.037,
+        "contrarian_120": 0.0365,
         "macro_public_factors": -0.0
       },
       "quality_grade": "B",
@@ -66,16 +66,16 @@
     },
     {
       "months": 3,
-      "mid": 1412.8,
-      "point_forecast": 1412.8,
+      "mid": 1413.5,
+      "point_forecast": 1413.5,
       "change_pct": 0.119,
       "range_50": [
-        1370.5,
-        1455.1
+        1371.2,
+        1455.8
       ],
       "range_80": [
-        1332.4,
-        1493.2
+        1333.1,
+        1493.9
       ],
       "direction": "neutral",
       "up_probability": 0.4883,
@@ -85,7 +85,7 @@
       "production_model": "continuous_oos_weighted_ensemble_v4",
       "prediction_status": "forecast",
       "signal_active": true,
-      "signal_60d": -0.07041,
+      "signal_60d": -0.06997,
       "forecast_drift": 0.00119,
       "validation_shrinkage": 0.4352,
       "model_weights": {
@@ -101,15 +101,15 @@
         "trend_acceleration": 0.1389
       },
       "model_contributions_pct": {
-        "momentum_20": -0.1541,
-        "momentum_60": -0.1289,
-        "momentum_120": -0.0387,
-        "contrarian_60": 0.2242,
-        "mean_reversion_252": 0.0592,
-        "trend_acceleration": 0.1169,
+        "momentum_20": -0.1519,
+        "momentum_60": -0.1281,
+        "momentum_120": -0.0382,
+        "contrarian_60": 0.2228,
+        "mean_reversion_252": 0.0585,
+        "trend_acceleration": 0.117,
         "rate_gap_carry": 0.0973,
         "risk_regime": -0.0,
-        "contrarian_120": 0.0978,
+        "contrarian_120": 0.0966,
         "macro_public_factors": -0.0
       },
       "quality_grade": "C",
@@ -117,27 +117,27 @@
     },
     {
       "months": 6,
-      "mid": 1415.5,
-      "point_forecast": 1415.5,
-      "change_pct": 0.305,
+      "mid": 1416.1,
+      "point_forecast": 1416.1,
+      "change_pct": 0.304,
       "range_50": [
-        1363.1,
-        1467.9
+        1363.7,
+        1468.5
       ],
       "range_80": [
-        1315.9,
-        1515.0
+        1316.5,
+        1515.7
       ],
       "direction": "neutral",
-      "up_probability": 0.4965,
+      "up_probability": 0.4964,
       "neutral_probability": 0.0511,
       "down_probability": 0.4524,
       "neutral_band_pct": 0.354,
       "production_model": "continuous_oos_weighted_ensemble_v4",
       "prediction_status": "forecast",
       "signal_active": true,
-      "signal_60d": -0.07041,
-      "forecast_drift": 0.00305,
+      "signal_60d": -0.06997,
+      "forecast_drift": 0.00304,
       "validation_shrinkage": 0.4458,
       "model_weights": {
         "contrarian_120": 0.159,
@@ -152,15 +152,15 @@
         "trend_acceleration": 0.1421
       },
       "model_contributions_pct": {
-        "momentum_20": -0.1522,
-        "momentum_60": -0.1269,
-        "momentum_120": -0.0486,
-        "contrarian_60": 0.4128,
-        "mean_reversion_252": 0.1248,
-        "trend_acceleration": 0.1692,
+        "momentum_20": -0.1501,
+        "momentum_60": -0.1261,
+        "momentum_120": -0.048,
+        "contrarian_60": 0.4103,
+        "mean_reversion_252": 0.1233,
+        "trend_acceleration": 0.1693,
         "rate_gap_carry": 0.1554,
         "risk_regime": -0.0,
-        "contrarian_120": 0.1504,
+        "contrarian_120": 0.1485,
         "macro_public_factors": -0.0
       },
       "quality_grade": "C",
@@ -168,16 +168,16 @@
     },
     {
       "months": 12,
-      "mid": 1416.1,
-      "point_forecast": 1416.1,
+      "mid": 1416.8,
+      "point_forecast": 1416.8,
       "change_pct": 0.35,
       "range_50": [
-        1349.8,
-        1482.4
+        1350.4,
+        1483.1
       ],
       "range_80": [
-        1290.1,
-        1542.1
+        1290.7,
+        1542.8
       ],
       "direction": "neutral",
       "up_probability": 0.4914,
@@ -187,7 +187,7 @@
       "production_model": "continuous_oos_weighted_ensemble_v4",
       "prediction_status": "forecast",
       "signal_active": true,
-      "signal_60d": -0.07041,
+      "signal_60d": -0.06997,
       "forecast_drift": 0.0035,
       "validation_shrinkage": 0.4584,
       "model_weights": {
@@ -203,15 +203,15 @@
         "trend_acceleration": 0.0509
       },
       "model_contributions_pct": {
-        "momentum_20": -0.0887,
-        "momentum_60": -0.0702,
-        "momentum_120": -0.0358,
-        "contrarian_60": 0.1295,
-        "mean_reversion_252": 0.0478,
+        "momentum_20": -0.0875,
+        "momentum_60": -0.0697,
+        "momentum_120": -0.0353,
+        "contrarian_60": 0.1287,
+        "mean_reversion_252": 0.0473,
         "trend_acceleration": 0.0857,
         "rate_gap_carry": 0.656,
         "risk_regime": -0.0,
-        "contrarian_120": 0.0393,
+        "contrarian_120": 0.0389,
         "macro_public_factors": -0.0
       },
       "quality_grade": "C",
@@ -251,15 +251,15 @@
         "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
       },
       "candidate_returns_pct": {
-        "momentum_20": -1.0206,
-        "momentum_60": -1.1382,
-        "momentum_120": -0.384,
-        "contrarian_60": 0.5914,
-        "mean_reversion_252": 0.154,
-        "trend_acceleration": 0.4861,
+        "momentum_20": -1.006,
+        "momentum_60": -1.1311,
+        "momentum_120": -0.3792,
+        "contrarian_60": 0.5877,
+        "mean_reversion_252": 0.1522,
+        "trend_acceleration": 0.4863,
         "rate_gap_carry": 0.2508,
         "risk_regime": -0.1706,
-        "contrarian_120": 0.2069,
+        "contrarian_120": 0.2044,
         "macro_public_factors": -0.2502
       },
       "weights": {
@@ -275,15 +275,15 @@
         "trend_acceleration": 0.1526
       },
       "contributions_pct": {
-        "momentum_20": -0.1544,
-        "momentum_60": -0.1456,
-        "momentum_120": -0.0381,
-        "contrarian_60": 0.084,
-        "mean_reversion_252": 0.0228,
+        "momentum_20": -0.1522,
+        "momentum_60": -0.1447,
+        "momentum_120": -0.0376,
+        "contrarian_60": 0.0835,
+        "mean_reversion_252": 0.0225,
         "trend_acceleration": 0.0742,
         "rate_gap_carry": 0.0,
         "risk_regime": -0.0,
-        "contrarian_120": 0.037,
+        "contrarian_120": 0.0365,
         "macro_public_factors": -0.0
       }
     },
@@ -317,15 +317,15 @@
         "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
       },
       "candidate_returns_pct": {
-        "momentum_20": -1.7677,
-        "momentum_60": -1.9714,
-        "momentum_120": -0.6651,
-        "contrarian_60": 1.6898,
-        "mean_reversion_252": 0.4621,
-        "trend_acceleration": 0.8419,
+        "momentum_20": -1.7424,
+        "momentum_60": -1.959,
+        "momentum_120": -0.6568,
+        "contrarian_60": 1.6792,
+        "mean_reversion_252": 0.4566,
+        "trend_acceleration": 0.8423,
         "rate_gap_carry": 0.4344,
         "risk_regime": -0.2955,
-        "contrarian_120": 0.5912,
+        "contrarian_120": 0.5839,
         "macro_public_factors": -0.6434
       },
       "weights": {
@@ -341,15 +341,15 @@
         "trend_acceleration": 0.1389
       },
       "contributions_pct": {
-        "momentum_20": -0.1541,
-        "momentum_60": -0.1289,
-        "momentum_120": -0.0387,
-        "contrarian_60": 0.2242,
-        "mean_reversion_252": 0.0592,
-        "trend_acceleration": 0.1169,
+        "momentum_20": -0.1519,
+        "momentum_60": -0.1281,
+        "momentum_120": -0.0382,
+        "contrarian_60": 0.2228,
+        "mean_reversion_252": 0.0585,
+        "trend_acceleration": 0.117,
         "rate_gap_carry": 0.0973,
         "risk_regime": -0.0,
-        "contrarian_120": 0.0978,
+        "contrarian_120": 0.0966,
         "macro_public_factors": -0.0
       }
     },
@@ -383,15 +383,15 @@
         "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
       },
       "candidate_returns_pct": {
-        "momentum_20": -2.4999,
-        "momentum_60": -2.788,
-        "momentum_120": -0.9406,
-        "contrarian_60": 2.7036,
-        "mean_reversion_252": 0.9242,
-        "trend_acceleration": 1.1906,
+        "momentum_20": -2.4641,
+        "momentum_60": -2.7705,
+        "momentum_120": -0.9289,
+        "contrarian_60": 2.6867,
+        "mean_reversion_252": 0.9133,
+        "trend_acceleration": 1.1912,
         "rate_gap_carry": 0.6143,
         "risk_regime": -0.4179,
-        "contrarian_120": 0.9459,
+        "contrarian_120": 0.9342,
         "macro_public_factors": -1.0723
       },
       "weights": {
@@ -407,15 +407,15 @@
         "trend_acceleration": 0.1421
       },
       "contributions_pct": {
-        "momentum_20": -0.1522,
-        "momentum_60": -0.1269,
-        "momentum_120": -0.0486,
-        "contrarian_60": 0.4128,
-        "mean_reversion_252": 0.1248,
-        "trend_acceleration": 0.1692,
+        "momentum_20": -0.1501,
+        "momentum_60": -0.1261,
+        "momentum_120": -0.048,
+        "contrarian_60": 0.4103,
+        "mean_reversion_252": 0.1233,
+        "trend_acceleration": 0.1693,
         "rate_gap_carry": 0.1554,
         "risk_regime": -0.0,
-        "contrarian_120": 0.1504,
+        "contrarian_120": 0.1485,
         "macro_public_factors": -0.0
       }
     },
@@ -449,15 +449,15 @@
         "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
       },
       "candidate_returns_pct": {
-        "momentum_20": -3.5354,
-        "momentum_60": -3.9428,
-        "momentum_120": -1.3301,
-        "contrarian_60": 2.7036,
-        "mean_reversion_252": 1.3864,
-        "trend_acceleration": 1.6838,
+        "momentum_20": -3.4848,
+        "momentum_60": -3.9181,
+        "momentum_120": -1.3137,
+        "contrarian_60": 2.6867,
+        "mean_reversion_252": 1.3699,
+        "trend_acceleration": 1.6846,
         "rate_gap_carry": 0.8687,
         "risk_regime": -0.591,
-        "contrarian_120": 0.9459,
+        "contrarian_120": 0.9342,
         "macro_public_factors": -1.6084
       },
       "weights": {
@@ -473,15 +473,15 @@
         "trend_acceleration": 0.0509
       },
       "contributions_pct": {
-        "momentum_20": -0.0887,
-        "momentum_60": -0.0702,
-        "momentum_120": -0.0358,
-        "contrarian_60": 0.1295,
-        "mean_reversion_252": 0.0478,
+        "momentum_20": -0.0875,
+        "momentum_60": -0.0697,
+        "momentum_120": -0.0353,
+        "contrarian_60": 0.1287,
+        "mean_reversion_252": 0.0473,
         "trend_acceleration": 0.0857,
         "rate_gap_carry": 0.656,
         "risk_regime": -0.0,
-        "contrarian_120": 0.0393,
+        "contrarian_120": 0.0389,
         "macro_public_factors": -0.0
       }
     }
@@ -1022,10 +1022,10 @@
       }
     }
   },
-  "legacy_3m_center": 1412.8,
+  "legacy_3m_center": 1413.5,
   "legacy_3m_range": [
-    1332.4,
-    1493.2
+    1333.1,
+    1493.9
   ],
   "rate_regime_link": {
     "name": "inflation_defense",
@@ -1042,5 +1042,5 @@
     "랜덤워크는 검증 기준모형으로만 사용하며 실전 중심값으로 대체하지 않습니다.",
     "검증력이 약하면 예측폭과 품질등급을 낮추지만 예측 자체는 계속 산출합니다."
   ],
-  "generated_at": "2026-08-17T18:01:25.956197+09:00"
+  "generated_at": "2026-08-17T22:00:47.887354+09:00"
 }

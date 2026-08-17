@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-17T18:01:25.956197+09:00",
+  "generated_at": "2026-08-17T22:00:47.887354+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -64,7 +64,7 @@
           "nvda",
           "tsm"
         ],
-        "request_count": 12,
+        "request_count": 14,
         "bis_monthly_cache_skip_enabled": true,
         "fred_group_count": 3,
         "fred_groups_parallel": true,
@@ -112,8 +112,26 @@
                 ]
               }
             ],
-            "attempts": 2,
-            "fresh_series": 5
+            "attempts": 3,
+            "fresh_series": 5,
+            "first_errors": [
+              {
+                "keys": [
+                  "us_2y",
+                  "us_10y",
+                  "vix",
+                  "hy_oas"
+                ],
+                "start": "2026-06-29",
+                "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key=76aa1aefd6bb55ffcc6995b422d0ddf1&file_type=json&observation_start=2026-06-29&sort_order=asc"
+              }
+            ],
+            "recovered": [
+              "us_2y",
+              "us_10y",
+              "vix",
+              "hy_oas"
+            ]
           },
           "commodities": {
             "mode": "incremental",
@@ -133,8 +151,20 @@
                 ]
               }
             ],
-            "attempts": 2,
-            "fresh_series": 2
+            "attempts": 3,
+            "fresh_series": 2,
+            "first_errors": [
+              {
+                "keys": [
+                  "commodity_index"
+                ],
+                "start": "2026-05-17",
+                "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=PPIACO&api_key=76aa1aefd6bb55ffcc6995b422d0ddf1&file_type=json&observation_start=2026-05-17&sort_order=asc"
+              }
+            ],
+            "recovered": [
+              "commodity_index"
+            ]
           },
           "bis_eer": {
             "mode": "incremental",
@@ -146,7 +176,7 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 14.62
+        "elapsed_seconds": 92.74
       }
     },
     "krx": {

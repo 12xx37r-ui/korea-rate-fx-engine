@@ -1,15 +1,15 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-17T09:02:41.392803+00:00",
+  "generated_at_utc": "2026-08-17T13:03:20.658074+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
-    "current_score": 69,
+    "current_score": 67,
     "current_regime": "약호황",
-    "trend_score": 43,
+    "trend_score": 41,
     "trend_direction": "강한 개선",
-    "forward_overall": 70,
-    "forward_regime": "호황",
+    "forward_overall": 69,
+    "forward_regime": "약호황",
     "forward_confidence_pct": 100,
     "positive_factors": [
       "price_trend",
@@ -27,7 +27,7 @@
     }
   },
   "current_score": {
-    "score": 69,
+    "score": 67,
     "score_valid": true,
     "regime": "약호황",
     "coverage_pct": 100,
@@ -79,12 +79,12 @@
       },
       "breadth": {
         "available": true,
-        "score_normalized": 0.494033,
-        "advances": 2014,
-        "declines": 648,
-        "unchanged": 103,
-        "advance_share": 0.728391,
-        "advance_decline_balance": 0.494033,
+        "score_normalized": 0.283803,
+        "advances": 1727,
+        "declines": 942,
+        "unchanged": 97,
+        "advance_share": 0.624367,
+        "advance_decline_balance": 0.283803,
         "markets": [
           "kospi",
           "kosdaq"
@@ -93,24 +93,24 @@
         "dual_track": {
           "export_large_cap": {
             "market": "KOSPI",
-            "advances": 707,
-            "declines": 211,
+            "advances": 610,
+            "declines": 309,
             "valid_symbols": 945,
-            "ad_balance": 0.5403,
-            "signal": 0.5403,
+            "ad_balance": 0.3275,
+            "signal": 0.3275,
             "note": "반도체·수출 대형주 편중 -지수 왜곡 위험 구간"
           },
           "domestic_small_cap": {
             "market": "KOSDAQ",
-            "advances": 1307,
-            "declines": 437,
-            "valid_symbols": 1820,
-            "ad_balance": 0.4989,
-            "signal": 0.4989,
+            "advances": 1117,
+            "declines": 633,
+            "valid_symbols": 1821,
+            "ad_balance": 0.2766,
+            "signal": 0.2766,
             "note": "내수·바이오·중소형 성장주 -체감 시장 온도계"
           },
           "divergence": {
-            "kosdaq_minus_kospi_signal": -0.0414,
+            "kosdaq_minus_kospi_signal": -0.0509,
             "decoupling_detected": false,
             "interpretation": "동조 -디커플링 없음",
             "alert": null
@@ -193,10 +193,10 @@
       },
       "flow": {
         "available": true,
-        "score_normalized": 0.505928,
-        "combined_net_bps_of_turnover": 27.862,
-        "foreign_net_bps_of_turnover": 2.672,
-        "institution_net_bps_of_turnover": 25.19,
+        "score_normalized": 0.296832,
+        "combined_net_bps_of_turnover": 15.302,
+        "foreign_net_bps_of_turnover": 8.234,
+        "institution_net_bps_of_turnover": 7.068,
         "markets": [
           "kospi",
           "kosdaq"
@@ -228,19 +228,19 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.4777,
-        "raw_score_before_regime": 0.4777,
+        "score_normalized": 0.4767,
+        "raw_score_before_regime": 0.4767,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1411.15,
-          "usd_krw_1m_change_pct": -4.37,
-          "fx_1m_signal": 0.897,
-          "krw_strength_score": 57.89,
+          "usd_krw_current": 1411.82,
+          "usd_krw_1m_change_pct": -4.32,
+          "fx_1m_signal": 0.894,
+          "krw_strength_score": 57.88,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.1578,
+          "krw_strength_signal": 0.1576,
           "broad_dollar_1m_change_pct": -1.19,
           "dollar_signal": 0.3784,
-          "usd_krw_vol_1m_ann_pct": 9.58,
+          "usd_krw_vol_1m_ann_pct": 9.57,
           "usd_krw_level_percentile": 0.045,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
@@ -290,7 +290,7 @@
     "coverage_rule": "활성 가중치 합 100% (50% 미만 시 점수 미산출)"
   },
   "trend_score": {
-    "score": 43,
+    "score": 41,
     "score_valid": true,
     "direction": "강한 개선",
     "signal_count": 9,
@@ -298,25 +298,25 @@
     "history_samples": 3,
     "period_detail": {
       "credit_spread_trend_signal": -0.181,
-      "usd_krw_1m_trend_signal": 0.897
+      "usd_krw_1m_trend_signal": 0.894
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
   },
   "forward_score": {
     "overall": {
-      "score": 70,
+      "score": 69,
       "score_valid": true,
-      "regime": "호황",
+      "regime": "약호황",
       "direction": "상승 우세",
       "confidence_pct": 100
     },
     "periods": {
       "1m": {
         "available": true,
-        "score": 70,
+        "score": 67,
         "direction": "상승 우세",
-        "bias": "강약",
+        "bias": "약강",
         "signal_count": 6,
         "evidence": {}
       },
@@ -375,15 +375,15 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-17T09:02:41.392803+00:00",
-    "current_score": 69,
+    "generated_at_utc": "2026-08-17T13:03:20.658074+00:00",
+    "current_score": 67,
     "current_regime": "약호황",
-    "trend_score": 43,
+    "trend_score": 41,
     "trend_direction": "강한 개선",
     "trend_method": "embedded_series",
-    "forward_overall": 70,
+    "forward_overall": 69,
     "forward_confidence_pct": 100,
-    "forward_1m_score": 70,
+    "forward_1m_score": 67,
     "forward_1m_direction": "상승 우세",
     "forward_3m_score": 58,
     "forward_3m_direction": "소폭 상승 우세",
