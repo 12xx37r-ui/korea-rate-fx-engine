@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-17T14:02:57.399843+09:00",
+  "generated_at": "2026-08-17T18:01:25.956197+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -22,8 +22,8 @@
       "source": "ecos",
       "status": "ok",
       "message": "ECOS 국내 금리·환율·유동성 증분수집 완료",
-      "rows": 17375,
-      "latest_observation": "20260814",
+      "rows": 17376,
+      "latest_observation": "20260815",
       "payload_path": "output/raw_ecos.json",
       "warnings": [],
       "metadata": {
@@ -146,7 +146,7 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 3.28
+        "elapsed_seconds": 14.62
       }
     },
     "krx": {
@@ -170,15 +170,12 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "degraded",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
+      "status": "ok",
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
-      "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f368932d700>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f368932e9f0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
-      ],
+      "warnings": [],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
@@ -186,15 +183,9 @@
         "max_external_requests": 2,
         "circuit_open": false,
         "circuit_reason": "",
-        "network_failures": [
-          "cpi_core",
-          "industrial_production"
-        ],
+        "network_failures": [],
         "per_series_network_retries": 2,
-        "last_good_reused": [
-          "cpi_core",
-          "industrial_production"
-        ],
+        "last_good_reused": [],
         "cadence_skips": [],
         "weekend_cache_skip_enabled": true,
         "credential_status": "valid",
@@ -234,7 +225,7 @@
         "status": "valid",
         "action_required": false,
         "action": "없음",
-        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
+        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
       }
     ]
   },
@@ -248,7 +239,6 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
     "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
   ]
 }
