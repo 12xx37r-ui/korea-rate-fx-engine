@@ -3650,7 +3650,7 @@
     },
     {
       "date": "20260803",
-      "value": 120.7739,
+      "value": 119.6951,
       "source": "FRED",
       "series_id": "DTWEXBGS"
     },
@@ -3675,6 +3675,36 @@
     {
       "date": "20260807",
       "value": 119.0649,
+      "source": "FRED",
+      "series_id": "DTWEXBGS"
+    },
+    {
+      "date": "20260810",
+      "value": 119.1187,
+      "source": "FRED",
+      "series_id": "DTWEXBGS"
+    },
+    {
+      "date": "20260811",
+      "value": 119.179,
+      "source": "FRED",
+      "series_id": "DTWEXBGS"
+    },
+    {
+      "date": "20260812",
+      "value": 119.1179,
+      "source": "FRED",
+      "series_id": "DTWEXBGS"
+    },
+    {
+      "date": "20260813",
+      "value": 119.1848,
+      "source": "FRED",
+      "series_id": "DTWEXBGS"
+    },
+    {
+      "date": "20260814",
+      "value": 118.9028,
       "source": "FRED",
       "series_id": "DTWEXBGS"
     }
@@ -29982,7 +30012,7 @@
     },
     {
       "date": "20260803",
-      "value": 6.7657,
+      "value": 6.7563,
       "source": "FRED",
       "series_id": "DEXCHUS"
     },
@@ -30007,6 +30037,36 @@
     {
       "date": "20260807",
       "value": 6.7474,
+      "source": "FRED",
+      "series_id": "DEXCHUS"
+    },
+    {
+      "date": "20260810",
+      "value": 6.7452,
+      "source": "FRED",
+      "series_id": "DEXCHUS"
+    },
+    {
+      "date": "20260811",
+      "value": 6.745,
+      "source": "FRED",
+      "series_id": "DEXCHUS"
+    },
+    {
+      "date": "20260812",
+      "value": 6.7433,
+      "source": "FRED",
+      "series_id": "DEXCHUS"
+    },
+    {
+      "date": "20260813",
+      "value": 6.7428,
+      "source": "FRED",
+      "series_id": "DEXCHUS"
+    },
+    {
+      "date": "20260814",
+      "value": 6.7412,
       "source": "FRED",
       "series_id": "DEXCHUS"
     }
@@ -33662,7 +33722,7 @@
     },
     {
       "date": "20260803",
-      "value": 163.71,
+      "value": 156.96,
       "source": "FRED",
       "series_id": "DEXJPUS"
     },
@@ -33687,6 +33747,36 @@
     {
       "date": "20260807",
       "value": 157.54,
+      "source": "FRED",
+      "series_id": "DEXJPUS"
+    },
+    {
+      "date": "20260810",
+      "value": 158.9,
+      "source": "FRED",
+      "series_id": "DEXJPUS"
+    },
+    {
+      "date": "20260811",
+      "value": 159.25,
+      "source": "FRED",
+      "series_id": "DEXJPUS"
+    },
+    {
+      "date": "20260812",
+      "value": 159.23,
+      "source": "FRED",
+      "series_id": "DEXJPUS"
+    },
+    {
+      "date": "20260813",
+      "value": 159.35,
+      "source": "FRED",
+      "series_id": "DEXJPUS"
+    },
+    {
+      "date": "20260814",
+      "value": 159.21,
       "source": "FRED",
       "series_id": "DEXJPUS"
     }
@@ -37342,7 +37432,7 @@
     },
     {
       "date": "20260803",
-      "value": 1467.54,
+      "value": 1430.49,
       "source": "FRED",
       "series_id": "DEXKOUS"
     },
@@ -37367,6 +37457,36 @@
     {
       "date": "20260807",
       "value": 1409.94,
+      "source": "FRED",
+      "series_id": "DEXKOUS"
+    },
+    {
+      "date": "20260810",
+      "value": 1417.54,
+      "source": "FRED",
+      "series_id": "DEXKOUS"
+    },
+    {
+      "date": "20260811",
+      "value": 1412.93,
+      "source": "FRED",
+      "series_id": "DEXKOUS"
+    },
+    {
+      "date": "20260812",
+      "value": 1416.3,
+      "source": "FRED",
+      "series_id": "DEXKOUS"
+    },
+    {
+      "date": "20260813",
+      "value": 1418.0,
+      "source": "FRED",
+      "series_id": "DEXKOUS"
+    },
+    {
+      "date": "20260814",
+      "value": 1414.29,
       "source": "FRED",
       "series_id": "DEXKOUS"
     }
@@ -37566,7 +37686,7 @@
     },
     {
       "date": "20260817",
-      "value": 1414.9000244140625,
+      "value": 1414.8699951171875,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     }
@@ -43601,9 +43721,9 @@
   },
   "usd_krw_market_snapshot": {
     "symbol": "FX_USDKRW",
-    "price": 1417.0,
-    "market_time_utc": "2026-08-17T20:40:33+00:00",
-    "retrieved_at_utc": "2026-08-17T21:05:42.206161+00:00",
+    "price": 1417.5,
+    "market_time_utc": "2026-08-17T22:34:16+00:00",
+    "retrieved_at_utc": "2026-08-17T23:01:50.607401+00:00",
     "market_state": "OPEN",
     "source": "Naver MarketIndex FX_USDKRW",
     "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43614,9 +43734,9 @@
   "usd_krw_market_snapshot_candidates": {
     "naver": {
       "symbol": "FX_USDKRW",
-      "price": 1417.0,
-      "market_time_utc": "2026-08-17T20:40:33+00:00",
-      "retrieved_at_utc": "2026-08-17T21:05:42.206161+00:00",
+      "price": 1417.5,
+      "market_time_utc": "2026-08-17T22:34:16+00:00",
+      "retrieved_at_utc": "2026-08-17T23:01:50.607401+00:00",
       "market_state": "OPEN",
       "source": "Naver MarketIndex FX_USDKRW",
       "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43624,8 +43744,8 @@
     },
     "yahoo": {
       "symbol": "KRW=X",
-      "price": 1414.9,
-      "market_time_utc": "2026-08-17T21:05:37+00:00",
+      "price": 1414.87,
+      "market_time_utc": "2026-08-17T23:01:47+00:00",
       "exchange": "CCY",
       "exchange_timezone": "Europe/London",
       "currency": "KRW",

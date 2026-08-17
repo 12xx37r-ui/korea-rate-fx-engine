@@ -6754,7 +6754,7 @@
   },
   "supply_demand": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-08-17T21:05:51.533391Z",
+    "generated_at": "2026-08-17T23:01:59.852008Z",
     "available": true,
     "foreign_spot_flow": {
       "available": true,
@@ -6794,6 +6794,7 @@
         "basis:weekend_network_skip",
         "basis:weekend_network_skip",
         "basis:weekend_network_skip",
+        "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__",
         "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__",
         "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__",
         "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__",
