@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "patch_version": "V227-final-production-guardrails-and-secret-redaction",
-  "generated_at_utc": "2026-08-17T01:02:25.866478+00:00",
-  "engine_generated_at": "2026-08-17T10:01:19.520980+09:00",
+  "generated_at_utc": "2026-08-17T05:04:27.094635+00:00",
+  "engine_generated_at": "2026-08-17T14:02:57.399843+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
@@ -30,7 +30,7 @@
       "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260814",
-      "age_hours": 73.04,
+      "age_hours": 77.07,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -42,7 +42,7 @@
       "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260817",
-      "age_hours": 1.04,
+      "age_hours": 5.07,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -62,34 +62,37 @@
     },
     {
       "source": "kosis",
-      "status": "CACHE",
-      "collector_status": "ok",
+      "status": "LKG",
+      "collector_status": "degraded",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1129.04,
+      "age_hours": 1133.07,
       "max_age_hours": 1080.0,
-      "last_good_reused": false,
+      "last_good_reused": true,
       "cadence_skip": false,
-      "warnings": []
+      "warnings": [
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f368932d700>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
+        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f368932e9f0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
+      ]
     },
     {
       "source": "usdkrw_market_snapshot",
       "status": "LIVE",
       "cadence": "intraday-when-market-open",
-      "observation_at": "2026-08-17T01:00:07+00:00",
-      "retrieved_at": "2026-08-17T01:01:30.716890+00:00",
+      "observation_at": "2026-08-17T04:59:53+00:00",
+      "retrieved_at": "2026-08-17T05:03:06.742767+00:00",
       "market_state": "OPEN",
-      "age_hours": 0.04,
+      "age_hours": 0.08,
       "max_age_hours": 3.0,
-      "value": 1412.5,
+      "value": 1416.0,
       "provider": "Naver MarketIndex FX_USDKRW",
       "note": "V219는 매 실행마다 독립 현재환율을 새로 조회하고, 시장 timestamp가 충분히 최신할 때만 LIVE로 표시합니다."
     }
   ],
   "summary": {
     "live": 5,
-    "cache": 1,
-    "lkg": 0,
+    "cache": 0,
+    "lkg": 1,
     "fallback": 0,
     "unavailable": 0
   }
