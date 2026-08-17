@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.2-vkospi-source-guard",
-  "generated_at_utc": "2026-08-17T13:02:48.857955+00:00",
+  "generated_at_utc": "2026-08-17T21:06:03.731731+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -13,26 +13,26 @@
     "reason": "live VKOSPI source disabled: legacy pykrx ticker mapping is not verified for circuit-breaker use"
   },
   "semiconductor": {
-    "sox_latest": 12417.0498,
-    "sox_1d_pct": -0.3127,
-    "sox_5d_pct": 0.4877,
-    "nvda_1d_pct": -0.0621,
+    "sox_latest": 12621.0049,
+    "sox_1d_pct": 1.6425,
+    "sox_5d_pct": 5.2289,
+    "nvda_1d_pct": -0.0666,
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1411.8199,
-    "change_1d_pct": -0.329,
-    "change_3d_pct": -0.329,
-    "std_5d": 2.3039,
-    "std_10d": 3.9938
+    "latest_rate": 1414.9,
+    "change_1d_pct": -0.0332,
+    "change_3d_pct": -0.1115,
+    "std_5d": 1.7139,
+    "std_10d": 3.8392
   },
   "cds_proxy": {
     "available": true,
     "kr_gov_latest_pct": 4.313,
-    "us_10y_latest_pct": 4.63,
-    "kr_us_spread_pct": -0.317,
-    "hy_oas_pct": 2.71,
-    "cds_proxy_score": 0.225,
+    "us_10y_latest_pct": 4.68,
+    "kr_us_spread_pct": -0.367,
+    "hy_oas_pct": 2.67,
+    "cds_proxy_score": 0.167,
     "note": "CDS 직접 데이터 미확보: 한미 국채 스프레드 + HY OAS 가중치로 근사"
   },
   "foreign_futures": {
@@ -46,12 +46,6 @@
   },
   "semiconductor_raw": {
     "sox": [
-      {
-        "date": "20260520",
-        "value": 11813.2900390625,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
       {
         "date": "20260521",
         "value": 11964.080078125,
@@ -405,15 +399,15 @@
         "value": 12417.0498046875,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
+      },
+      {
+        "date": "20260817",
+        "value": 12621.0048828125,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
       }
     ],
     "nvda": [
-      {
-        "date": "20260520",
-        "value": 223.47000122070312,
-        "source": "Yahoo Finance",
-        "symbol": "NVDA"
-      },
       {
         "date": "20260521",
         "value": 219.50999450683594,
@@ -767,15 +761,15 @@
         "value": 225.16000366210938,
         "source": "Yahoo Finance",
         "symbol": "NVDA"
+      },
+      {
+        "date": "20260817",
+        "value": 225.00999450683594,
+        "source": "Yahoo Finance",
+        "symbol": "NVDA"
       }
     ],
     "soxx": [
-      {
-        "date": "20260520",
-        "value": 520.3099975585938,
-        "source": "Yahoo Finance",
-        "symbol": "SOXX"
-      },
       {
         "date": "20260521",
         "value": 524.7100219726562,
@@ -1129,15 +1123,15 @@
         "value": 550.4199829101562,
         "source": "Yahoo Finance",
         "symbol": "SOXX"
+      },
+      {
+        "date": "20260817",
+        "value": 559.1199951171875,
+        "source": "Yahoo Finance",
+        "symbol": "SOXX"
       }
     ],
     "sp500": [
-      {
-        "date": "20260520",
-        "value": 7432.97021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
       {
         "date": "20260521",
         "value": 7445.72021484375,
@@ -1491,9 +1485,15 @@
         "value": 7785.759765625,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
+      },
+      {
+        "date": "20260817",
+        "value": 7745.06005859375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
       }
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 0.52
+  "elapsed_seconds": 1.1
 }
