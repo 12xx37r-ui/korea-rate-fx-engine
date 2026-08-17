@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
   "patch_version": "V227-final-production-guardrails-and-secret-redaction",
-  "generated_at_utc": "2026-08-16T21:06:31.943918+00:00",
-  "engine_generated_at": "2026-08-17T06:05:28.611912+09:00",
+  "generated_at_utc": "2026-08-17T01:02:25.866478+00:00",
+  "engine_generated_at": "2026-08-17T10:01:19.520980+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
@@ -30,7 +30,7 @@
       "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260814",
-      "age_hours": 69.11,
+      "age_hours": 73.04,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -41,8 +41,8 @@
       "status": "LIVE",
       "collector_status": "ok",
       "cadence": "daily/monthly",
-      "observation_at": "20260816",
-      "age_hours": 21.11,
+      "observation_at": "20260817",
+      "age_hours": 1.04,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -66,25 +66,22 @@
       "collector_status": "ok",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1125.11,
+      "age_hours": 1129.04,
       "max_age_hours": 1080.0,
-      "last_good_reused": true,
-      "cadence_skip": true,
-      "warnings": [
-        "cpi_core: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True",
-        "industrial_production: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True"
-      ]
+      "last_good_reused": false,
+      "cadence_skip": false,
+      "warnings": []
     },
     {
       "source": "usdkrw_market_snapshot",
       "status": "LIVE",
       "cadence": "intraday-when-market-open",
-      "observation_at": "2026-08-16T21:02:33+00:00",
-      "retrieved_at": "2026-08-16T21:05:40.033687+00:00",
+      "observation_at": "2026-08-17T01:00:07+00:00",
+      "retrieved_at": "2026-08-17T01:01:30.716890+00:00",
       "market_state": "OPEN",
-      "age_hours": 0.07,
+      "age_hours": 0.04,
       "max_age_hours": 3.0,
-      "value": 1418.5,
+      "value": 1412.5,
       "provider": "Naver MarketIndex FX_USDKRW",
       "note": "V219는 매 실행마다 독립 현재환율을 새로 조회하고, 시장 timestamp가 충분히 최신할 때만 LIVE로 표시합니다."
     }

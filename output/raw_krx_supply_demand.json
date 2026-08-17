@@ -1,24 +1,24 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-16T21:05:44.742294Z",
+  "generated_at": "2026-08-17T01:01:40.209139Z",
   "available": true,
   "foreign_spot_flow": {
     "available": true,
-    "period_start": "20260717",
-    "period_end": "20260816",
+    "period_start": "20260718",
+    "period_end": "20260817",
     "net_value": 2904097512865.0,
     "buy_value": 245693345457862.0,
     "sell_value": 242789247944997.0,
-    "cum_5d_net": 2393029679119.0,
-    "cum_20d_net": 2068217599046.0,
-    "momentum_signal": "강한_순매수",
+    "cum_5d_net": 5704501160487.0,
+    "cum_20d_net": -561700728920.0,
+    "momentum_signal": "혼조",
     "diagnostics": [],
     "source": "KRX 투자자별 거래대금 (pykrx)"
   },
   "futures_flow": {
     "available": true,
-    "period_start": "20260717",
-    "period_end": "20260816",
+    "period_start": "20260718",
+    "period_end": "20260817",
     "net_contracts": null,
     "net_value_proxy": 2904097512865.0,
     "trend": "매수우위",
@@ -39,16 +39,17 @@
       "basis:weekend_network_skip",
       "basis:weekend_network_skip",
       "basis:weekend_network_skip",
-      "basis:weekend_network_skip"
+      "basis:weekend_network_skip",
+      "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__"
     ],
     "status": "CACHE",
-    "market_state": "CLOSED",
-    "cache_reason": "weekend"
+    "market_state": "UNKNOWN_OR_CLOSED",
+    "cache_reason": "current_basis_unavailable"
   },
   "flow_momentum_summary": {
-    "cum_5d_net": 2393029679119.0,
-    "cum_20d_net": 2068217599046.0,
-    "momentum_signal": "강한_순매수",
+    "cum_5d_net": 5704501160487.0,
+    "cum_20d_net": -561700728920.0,
+    "momentum_signal": "혼조",
     "futures_trend": "매수우위",
     "basis_signal": null
   }
