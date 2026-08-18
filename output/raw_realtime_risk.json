@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-18T13:04:05.328946+00:00",
+  "generated_at_utc": "2026-08-18T21:06:23.515554+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -14,26 +14,26 @@
     "identity_code": "E62001"
   },
   "semiconductor": {
-    "sox_latest": 12417.0498,
-    "sox_1d_pct": -0.3127,
-    "sox_5d_pct": 0.4877,
-    "nvda_1d_pct": -0.0621,
+    "sox_latest": 11992.4629,
+    "sox_1d_pct": -4.9801,
+    "sox_5d_pct": -0.8762,
+    "nvda_1d_pct": -2.3421,
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1410.38,
-    "change_1d_pct": -0.3173,
-    "change_3d_pct": -0.1147,
-    "std_5d": 2.2683,
-    "std_10d": 3.2126
+    "latest_rate": 1412.9,
+    "change_1d_pct": -0.1294,
+    "change_3d_pct": 0.0637,
+    "std_5d": 1.6329,
+    "std_10d": 3.0174
   },
   "cds_proxy": {
     "available": true,
-    "kr_gov_latest_pct": 4.313,
-    "us_10y_latest_pct": 4.68,
-    "kr_us_spread_pct": -0.367,
-    "hy_oas_pct": 2.67,
-    "cds_proxy_score": 0.167,
+    "kr_gov_latest_pct": 4.382,
+    "us_10y_latest_pct": 4.72,
+    "kr_us_spread_pct": -0.338,
+    "hy_oas_pct": 2.7,
+    "cds_proxy_score": 0.202,
     "note": "CDS 직접 데이터 미확보: 한미 국채 스프레드 + HY OAS 가중치로 근사"
   },
   "foreign_futures": {
@@ -47,36 +47,6 @@
   },
   "semiconductor_raw": {
     "sox": [
-      {
-        "date": "20260515",
-        "value": 11588.4599609375,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260518",
-        "value": 11302.51953125,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260519",
-        "value": 11305.5,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260520",
-        "value": 11813.2900390625,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260521",
-        "value": 11964.080078125,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
       {
         "date": "20260522",
         "value": 12202.5400390625,
@@ -312,6 +282,18 @@
         "symbol": "^SOX"
       },
       {
+        "date": "20260721",
+        "value": 12356.16015625,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260722",
+        "value": 12410.669921875,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
         "date": "20260723",
         "value": 12343.83984375,
         "source": "Yahoo Finance",
@@ -344,6 +326,12 @@
       {
         "date": "20260730",
         "value": 11302.990234375,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260731",
+        "value": 11311.080078125,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       },
@@ -406,21 +394,21 @@
         "value": 12417.0498046875,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
+      },
+      {
+        "date": "20260817",
+        "value": 12621.0,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260818",
+        "value": 11992.462890625,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
       }
     ],
     "nvda": [
-      {
-        "date": "20260520",
-        "value": 223.47000122070312,
-        "source": "Yahoo Finance",
-        "symbol": "NVDA"
-      },
-      {
-        "date": "20260521",
-        "value": 219.50999450683594,
-        "source": "Yahoo Finance",
-        "symbol": "NVDA"
-      },
       {
         "date": "20260522",
         "value": 215.3300018310547,
@@ -768,21 +756,21 @@
         "value": 225.16000366210938,
         "source": "Yahoo Finance",
         "symbol": "NVDA"
+      },
+      {
+        "date": "20260817",
+        "value": 225.00999450683594,
+        "source": "Yahoo Finance",
+        "symbol": "NVDA"
+      },
+      {
+        "date": "20260818",
+        "value": 219.74000549316406,
+        "source": "Yahoo Finance",
+        "symbol": "NVDA"
       }
     ],
     "soxx": [
-      {
-        "date": "20260520",
-        "value": 520.3099975585938,
-        "source": "Yahoo Finance",
-        "symbol": "SOXX"
-      },
-      {
-        "date": "20260521",
-        "value": 524.7100219726562,
-        "source": "Yahoo Finance",
-        "symbol": "SOXX"
-      },
       {
         "date": "20260522",
         "value": 537.3300170898438,
@@ -1130,39 +1118,21 @@
         "value": 550.4199829101562,
         "source": "Yahoo Finance",
         "symbol": "SOXX"
+      },
+      {
+        "date": "20260817",
+        "value": 559.1199951171875,
+        "source": "Yahoo Finance",
+        "symbol": "SOXX"
+      },
+      {
+        "date": "20260818",
+        "value": 531.3900146484375,
+        "source": "Yahoo Finance",
+        "symbol": "SOXX"
       }
     ],
     "sp500": [
-      {
-        "date": "20260515",
-        "value": 7408.5,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260518",
-        "value": 7403.0498046875,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260519",
-        "value": 7353.60986328125,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260520",
-        "value": 7432.97021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260521",
-        "value": 7445.72021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
       {
         "date": "20260522",
         "value": 7473.47021484375,
@@ -1398,6 +1368,18 @@
         "symbol": "^GSPC"
       },
       {
+        "date": "20260721",
+        "value": 7509.2001953125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260722",
+        "value": 7498.9599609375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
         "date": "20260723",
         "value": 7408.2998046875,
         "source": "Yahoo Finance",
@@ -1430,6 +1412,12 @@
       {
         "date": "20260730",
         "value": 7437.6298828125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260731",
+        "value": 7489.72021484375,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
       },
@@ -1492,9 +1480,21 @@
         "value": 7785.759765625,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
+      },
+      {
+        "date": "20260817",
+        "value": 7745.06005859375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260818",
+        "value": 7691.759765625,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
       }
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 4.65
+  "elapsed_seconds": 3.47
 }

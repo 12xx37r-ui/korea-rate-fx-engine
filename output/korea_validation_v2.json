@@ -1,12 +1,12 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-18T22:00:51.335046+09:00",
+  "generated_at": "2026-08-19T06:05:33.947435+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5119,
     "benchmark_brier": 0.5759,
-    "brier_skill_score": 0.1112,
+    "brier_skill_score": 0.1111,
     "accuracy": 0.6325,
     "accuracy_wilson_lower_95": 0.557,
     "log_loss": 0.8577,
@@ -3016,12 +3016,12 @@
         "benchmark_brier": 0.257521
       },
       {
-        "origin": "20260814",
+        "origin": "20260818",
         "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.550983,
-          "hike": 0.339978,
-          "cut": 0.109039
+          "hold": 0.544712,
+          "hike": 0.34749,
+          "cut": 0.107798
         },
         "benchmark_probabilities": {
           "hold": 0.589286,
@@ -3030,7 +3030,7 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.329091,
+        "brier": 0.339657,
         "benchmark_brier": 0.254464
       }
     ],
@@ -3054,7 +3054,7 @@
       "live_reference": "kr_gov_2y",
       "pre_2y_proxy": "kr_gov_3y",
       "first_2y_date": "20210310",
-      "observations": 3377
+      "observations": 3378
     },
     "calibration_weight": 0.617,
     "quality_gate": {
@@ -3078,7 +3078,7 @@
       },
       "observed": {
         "samples": 166,
-        "brier_skill_score": 0.1112,
+        "brier_skill_score": 0.1111,
         "accuracy": 0.6325,
         "accuracy_wilson_lower_95": 0.557,
         "active_input_coverage": 1.0,
@@ -3127,7 +3127,7 @@
     "oos_by_horizon": {
       "1m": {
         "samples": 617,
-        "rmse_pct": 2.326,
+        "rmse_pct": 2.325,
         "mae_pct": 1.827,
         "random_walk_rmse_pct": 2.326,
         "persistence_skill_pct": 0.037,
@@ -3136,12 +3136,12 @@
         "active_signal_coverage": 1.0,
         "interval_80_coverage": 0.7942,
         "weights": {
-          "contrarian_120": 0.1763,
-          "contrarian_60": 0.1402,
+          "contrarian_120": 0.1765,
+          "contrarian_60": 0.1404,
           "macro_public_factors": 0.0,
-          "mean_reversion_252": 0.1462,
+          "mean_reversion_252": 0.1464,
           "momentum_120": 0.0988,
-          "momentum_20": 0.157,
+          "momentum_20": 0.1565,
           "momentum_60": 0.1278,
           "rate_gap_carry": 0.0,
           "risk_regime": 0.0,
@@ -3150,72 +3150,72 @@
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -1.815,
+          "persistence_skill_pct": -1.818,
           "direction_accuracy": 0.2367,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
-        "shrinkage": 0.451,
+        "shrinkage": 0.4508,
         "method": "expanding_walk_forward_weekly_origins_prequential_regime_candidate_tournament",
         "candidate_oos": {
           "contrarian_120": {
             "samples": 300,
             "skill_pct": 0.268,
             "direction_accuracy": 0.2767,
-            "live_weight": 0.176317
+            "live_weight": 0.176508
           },
           "contrarian_60": {
             "samples": 300,
-            "skill_pct": -0.076,
+            "skill_pct": -0.075,
             "direction_accuracy": 0.26,
-            "live_weight": 0.14025
+            "live_weight": 0.140374
           },
           "macro_public_factors": {
             "samples": 300,
-            "skill_pct": -1.815,
+            "skill_pct": -1.818,
             "direction_accuracy": 0.2367,
             "live_weight": 0.0
           },
           "mean_reversion_252": {
             "samples": 300,
-            "skill_pct": 0.397,
+            "skill_pct": 0.398,
             "direction_accuracy": 0.14,
-            "live_weight": 0.146214
+            "live_weight": 0.146357
           },
           "momentum_120": {
             "samples": 300,
-            "skill_pct": -4.535,
+            "skill_pct": -4.538,
             "direction_accuracy": 0.3467,
-            "live_weight": 0.098818
+            "live_weight": 0.098815
           },
           "momentum_20": {
             "samples": 300,
-            "skill_pct": -1.262,
+            "skill_pct": -1.283,
             "direction_accuracy": 0.3833,
-            "live_weight": 0.156959
+            "live_weight": 0.156537
           },
           "momentum_60": {
             "samples": 300,
-            "skill_pct": -5.441,
+            "skill_pct": -5.446,
             "direction_accuracy": 0.4067,
-            "live_weight": 0.127792
+            "live_weight": 0.127808
           },
           "rate_gap_carry": {
             "samples": 125,
-            "skill_pct": 5.823,
+            "skill_pct": 5.884,
             "direction_accuracy": 0.48,
             "live_weight": 0.0
           },
           "risk_regime": {
             "samples": 125,
-            "skill_pct": 6.132,
+            "skill_pct": 6.183,
             "direction_accuracy": 0.072,
             "live_weight": 0.0
           },
           "trend_acceleration": {
             "samples": 300,
-            "skill_pct": 1.218,
+            "skill_pct": 1.213,
             "direction_accuracy": 0.31,
-            "live_weight": 0.15365
+            "live_weight": 0.153601
           }
         },
         "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
@@ -3228,7 +3228,7 @@
         "samples": 608,
         "rmse_pct": 4.024,
         "mae_pct": 3.148,
-        "random_walk_rmse_pct": 4.021,
+        "random_walk_rmse_pct": 4.02,
         "persistence_skill_pct": -0.088,
         "direction_accuracy": 0.5251,
         "active_direction_accuracy": 0.5251,
@@ -3236,20 +3236,20 @@
         "interval_80_coverage": 0.7812,
         "weights": {
           "contrarian_120": 0.168,
-          "contrarian_60": 0.1345,
+          "contrarian_60": 0.1344,
           "macro_public_factors": 0.0,
-          "mean_reversion_252": 0.131,
-          "momentum_120": 0.0587,
-          "momentum_20": 0.0861,
+          "mean_reversion_252": 0.1309,
+          "momentum_120": 0.0586,
+          "momentum_20": 0.0862,
           "momentum_60": 0.066,
-          "rate_gap_carry": 0.2166,
+          "rate_gap_carry": 0.2169,
           "risk_regime": 0.0,
           "trend_acceleration": 0.1391
         },
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -6.293,
+          "persistence_skill_pct": -6.298,
           "direction_accuracy": 0.2833,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
@@ -3258,63 +3258,63 @@
         "candidate_oos": {
           "contrarian_120": {
             "samples": 300,
-            "skill_pct": 1.979,
+            "skill_pct": 1.978,
             "direction_accuracy": 0.3833,
-            "live_weight": 0.167992
+            "live_weight": 0.167955
           },
           "contrarian_60": {
             "samples": 300,
             "skill_pct": 2.542,
             "direction_accuracy": 0.39,
-            "live_weight": 0.134476
+            "live_weight": 0.134395
           },
           "macro_public_factors": {
             "samples": 300,
-            "skill_pct": -6.293,
+            "skill_pct": -6.298,
             "direction_accuracy": 0.2833,
             "live_weight": 0.0
           },
           "mean_reversion_252": {
             "samples": 300,
-            "skill_pct": 2.291,
+            "skill_pct": 2.29,
             "direction_accuracy": 0.2867,
-            "live_weight": 0.131005
+            "live_weight": 0.130928
           },
           "momentum_120": {
             "samples": 300,
-            "skill_pct": -7.002,
+            "skill_pct": -7.004,
             "direction_accuracy": 0.44,
-            "live_weight": 0.058668
+            "live_weight": 0.05861
           },
           "momentum_20": {
             "samples": 300,
-            "skill_pct": -6.291,
+            "skill_pct": -6.289,
             "direction_accuracy": 0.42,
-            "live_weight": 0.086149
+            "live_weight": 0.086156
           },
           "momentum_60": {
             "samples": 300,
-            "skill_pct": -9.329,
+            "skill_pct": -9.331,
             "direction_accuracy": 0.4467,
-            "live_weight": 0.066021
+            "live_weight": 0.065973
           },
           "rate_gap_carry": {
             "samples": 117,
-            "skill_pct": 13.763,
+            "skill_pct": 13.815,
             "direction_accuracy": 0.6496,
-            "live_weight": 0.216569
+            "live_weight": 0.216883
           },
           "risk_regime": {
             "samples": 117,
-            "skill_pct": 12.298,
+            "skill_pct": 12.342,
             "direction_accuracy": 0.1453,
             "live_weight": 0.0
           },
           "trend_acceleration": {
             "samples": 300,
-            "skill_pct": 2.464,
+            "skill_pct": 2.466,
             "direction_accuracy": 0.3733,
-            "live_weight": 0.13912
+            "live_weight": 0.1391
           }
         },
         "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
@@ -3546,7 +3546,7 @@
       "observed": {
         "samples": 608,
         "rmse_pct": 4.024,
-        "random_walk_rmse_pct": 4.021,
+        "random_walk_rmse_pct": 4.02,
         "persistence_skill_pct": -0.088,
         "active_direction_accuracy": 0.5251,
         "active_signal_coverage": 1.0,
@@ -3575,7 +3575,7 @@
           "level": "검증 B등급",
           "observed": {
             "samples": 617,
-            "rmse_pct": 2.326,
+            "rmse_pct": 2.325,
             "random_walk_rmse_pct": 2.326,
             "persistence_skill_pct": 0.037,
             "active_direction_accuracy": 0.5292,
@@ -3594,7 +3594,7 @@
           "observed": {
             "samples": 608,
             "rmse_pct": 4.024,
-            "random_walk_rmse_pct": 4.021,
+            "random_walk_rmse_pct": 4.02,
             "persistence_skill_pct": -0.088,
             "active_direction_accuracy": 0.5251,
             "active_signal_coverage": 1.0,

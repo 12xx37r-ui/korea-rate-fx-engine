@@ -7405,6 +7405,12 @@
       "value": 4.17,
       "source": "FRED",
       "series_id": "DGS2"
+    },
+    {
+      "date": "20260817",
+      "value": 4.19,
+      "source": "FRED",
+      "series_id": "DGS2"
     }
   ],
   "us_10y": [
@@ -11101,6 +11107,12 @@
     {
       "date": "20260814",
       "value": 4.68,
+      "source": "FRED",
+      "series_id": "DGS10"
+    },
+    {
+      "date": "20260817",
+      "value": 4.72,
       "source": "FRED",
       "series_id": "DGS10"
     }
@@ -14805,6 +14817,12 @@
     {
       "date": "20260817",
       "value": 2.28,
+      "source": "FRED",
+      "series_id": "T10YIE"
+    },
+    {
+      "date": "20260818",
+      "value": 2.3,
       "source": "FRED",
       "series_id": "T10YIE"
     }
@@ -18623,6 +18641,12 @@
     {
       "date": "20260814",
       "value": 14.25,
+      "source": "FRED",
+      "series_id": "VIXCLS"
+    },
+    {
+      "date": "20260817",
+      "value": 15.19,
       "source": "FRED",
       "series_id": "VIXCLS"
     }
@@ -22507,6 +22531,12 @@
     {
       "date": "20260814",
       "value": 2.67,
+      "source": "FRED",
+      "series_id": "BAMLH0A0HYM2"
+    },
+    {
+      "date": "20260817",
+      "value": 2.7,
       "source": "FRED",
       "series_id": "BAMLH0A0HYM2"
     }
@@ -37686,13 +37716,13 @@
     },
     {
       "date": "20260817",
-      "value": 1414.8699951171875,
+      "value": 1414.72998046875,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     },
     {
       "date": "20260818",
-      "value": 1410.3800048828125,
+      "value": 1412.9000244140625,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     }
@@ -42060,7 +42090,13 @@
     },
     {
       "date": "20260817",
-      "value": 12621.0048828125,
+      "value": 12621.0,
+      "source": "Yahoo Finance",
+      "symbol": "^SOX"
+    },
+    {
+      "date": "20260818",
+      "value": 11992.462890625,
       "source": "Yahoo Finance",
       "symbol": "^SOX"
     }
@@ -43159,6 +43195,12 @@
       "value": 225.00999450683594,
       "source": "Yahoo Finance",
       "symbol": "NVDA"
+    },
+    {
+      "date": "20260818",
+      "value": 219.74000549316406,
+      "source": "Yahoo Finance",
+      "symbol": "NVDA"
     }
   ],
   "tsm": [
@@ -43707,13 +43749,19 @@
       "value": 430.9700012207031,
       "source": "Yahoo Finance",
       "symbol": "TSM"
+    },
+    {
+      "date": "20260818",
+      "value": 413.4100036621094,
+      "source": "Yahoo Finance",
+      "symbol": "TSM"
     }
   ],
   "semiconductor_momentum": {
     "sox": {
-      "latest": 12621.0048828125,
-      "mom_20d_pct": 7.4691,
-      "mom_60d_pct": 6.8373
+      "latest": 11992.462890625,
+      "mom_20d_pct": -2.9434,
+      "mom_60d_pct": 0.2372
     },
     "twii": {
       "latest": 45308.6796875,
@@ -43721,21 +43769,21 @@
       "mom_60d_pct": 7.1939
     },
     "nvda": {
-      "latest": 225.00999450683594,
-      "mom_20d_pct": 10.6897,
-      "mom_60d_pct": 0.6891
+      "latest": 219.74000549316406,
+      "mom_20d_pct": 6.0061,
+      "mom_60d_pct": 0.1048
     },
     "tsm": {
-      "latest": 430.9700012207031,
-      "mom_20d_pct": 7.1265,
-      "mom_60d_pct": 7.3079
+      "latest": 413.4100036621094,
+      "mom_20d_pct": -2.6377,
+      "mom_60d_pct": 1.5375
     }
   },
   "usd_krw_market_snapshot": {
     "symbol": "FX_USDKRW",
-    "price": 1410.7,
-    "market_time_utc": "2026-08-18T12:59:53+00:00",
-    "retrieved_at_utc": "2026-08-18T13:02:43.717756+00:00",
+    "price": 1413.0,
+    "market_time_utc": "2026-08-18T20:39:03+00:00",
+    "retrieved_at_utc": "2026-08-18T21:05:45.172598+00:00",
     "market_state": "OPEN",
     "source": "Naver MarketIndex FX_USDKRW",
     "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43746,9 +43794,9 @@
   "usd_krw_market_snapshot_candidates": {
     "naver": {
       "symbol": "FX_USDKRW",
-      "price": 1410.7,
-      "market_time_utc": "2026-08-18T12:59:53+00:00",
-      "retrieved_at_utc": "2026-08-18T13:02:43.717756+00:00",
+      "price": 1413.0,
+      "market_time_utc": "2026-08-18T20:39:03+00:00",
+      "retrieved_at_utc": "2026-08-18T21:05:45.172598+00:00",
       "market_state": "OPEN",
       "source": "Naver MarketIndex FX_USDKRW",
       "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43756,8 +43804,8 @@
     },
     "yahoo": {
       "symbol": "KRW=X",
-      "price": 1410.38,
-      "market_time_utc": "2026-08-18T13:02:41+00:00",
+      "price": 1412.9,
+      "market_time_utc": "2026-08-18T21:05:32+00:00",
       "exchange": "CCY",
       "exchange_timezone": "Europe/London",
       "currency": "KRW",

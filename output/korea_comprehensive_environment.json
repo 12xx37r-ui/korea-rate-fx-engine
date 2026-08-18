@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-18T13:05:11.021300+00:00",
+  "generated_at_utc": "2026-08-18T21:06:56.559549+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
     "current_score": 71,
@@ -169,21 +169,21 @@
       },
       "rate_liquidity_credit": {
         "available": true,
-        "score_normalized": -0.1334,
+        "score_normalized": -0.1297,
         "signal_count": 4,
         "evidence": {
-          "rate_cut_prob": 0.12,
-          "rate_hike_prob": 0.328,
-          "rate_direction_signal": -0.208,
+          "rate_cut_prob": 0.119,
+          "rate_hike_prob": 0.333,
+          "rate_direction_signal": -0.214,
           "next_meeting_action": "hold",
-          "term_spread_pct": 0.517,
-          "term_spread_signal": 0.3447,
-          "term_spread_percentile": 0.993,
-          "credit_spread_signal": -0.8719,
-          "credit_spread_pct": 0.696,
-          "liquidity_score": 0.1009,
+          "term_spread_pct": 0.535,
+          "term_spread_signal": 0.3567,
+          "term_spread_percentile": 0.999,
+          "credit_spread_signal": -0.8531,
+          "credit_spread_pct": 0.695,
+          "liquidity_score": 0.0959,
           "liquidity_grade": "유동성 중립",
-          "liquidity_signal": 0.2018
+          "liquidity_signal": 0.1918
         },
         "pending": [],
         "source": "korea_rate_forecast_v2 + raw_ecos + korea_equity_environment + korea_krw_liquidity",
@@ -191,20 +191,20 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5021,
-        "raw_score_before_regime": 0.5021,
+        "score_normalized": 0.4965,
+        "raw_score_before_regime": 0.4965,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1410.38,
-          "usd_krw_1m_change_pct": -4.32,
-          "fx_1m_signal": 0.8936,
-          "krw_strength_score": 59.52,
+          "usd_krw_current": 1412.9,
+          "usd_krw_1m_change_pct": -4.15,
+          "fx_1m_signal": 0.8815,
+          "krw_strength_score": 59.28,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.1904,
+          "krw_strength_signal": 0.1856,
           "broad_dollar_1m_change_pct": -1.35,
           "dollar_signal": 0.4222,
-          "usd_krw_vol_1m_ann_pct": 9.38,
-          "usd_krw_level_percentile": 0.044,
+          "usd_krw_vol_1m_ann_pct": 9.37,
+          "usd_krw_level_percentile": 0.103,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
           "fx_crisis_thresholds": {
@@ -218,15 +218,15 @@
       },
       "market_risk": {
         "available": true,
-        "score_normalized": 0.9375,
+        "score_normalized": 0.8187,
         "signal_count": 2,
         "evidence": {
-          "vix_current": 14.25,
-          "vix_percentile": 0.016,
-          "vix_signal": 0.9675,
-          "hy_oas_current": 2.67,
-          "hy_oas_percentile": 0.046,
-          "hy_oas_signal": 0.9075
+          "vix_current": 15.19,
+          "vix_percentile": 0.101,
+          "vix_signal": 0.7975,
+          "hy_oas_current": 2.7,
+          "hy_oas_percentile": 0.08,
+          "hy_oas_signal": 0.84
         },
         "pending": [],
         "source": "raw_global_market (FRED)",
@@ -234,12 +234,12 @@
       },
       "external": {
         "available": true,
-        "score_normalized": -0.0015,
+        "score_normalized": 0.0079,
         "signal_count": 2,
         "evidence": {
-          "us_10y_current": 4.68,
-          "us_10y_1m_change": 0.13,
-          "us10y_signal": -0.2543,
+          "us_10y_current": 4.72,
+          "us_10y_1m_change": 0.12,
+          "us10y_signal": -0.2355,
           "usd_cny_current": 6.7412,
           "usd_cny_1m_change_pct": -0.51,
           "cny_signal": 0.2513
@@ -260,8 +260,8 @@
     "method": "embedded_series",
     "history_samples": 4,
     "period_detail": {
-      "credit_spread_trend_signal": -0.181,
-      "usd_krw_1m_trend_signal": 0.8936
+      "credit_spread_trend_signal": -0.1316,
+      "usd_krw_1m_trend_signal": 0.8815
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
@@ -277,7 +277,7 @@
     "periods": {
       "1m": {
         "available": true,
-        "score": 78,
+        "score": 77,
         "direction": "상승 우세",
         "bias": "강약",
         "signal_count": 6,
@@ -290,8 +290,8 @@
         "bias": "중립",
         "signal_count": 8,
         "evidence": {
-          "rate_3m_signal": -0.208,
-          "liq_3m_signal": 0.2932
+          "rate_3m_signal": -0.214,
+          "liq_3m_signal": 0.284
         }
       },
       "6m": {
@@ -338,7 +338,7 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-18T13:05:11.021300+00:00",
+    "generated_at_utc": "2026-08-18T21:06:56.559549+00:00",
     "current_score": 71,
     "current_regime": "호황",
     "trend_score": 49,
@@ -346,7 +346,7 @@
     "trend_method": "embedded_series",
     "forward_overall": 72,
     "forward_confidence_pct": 100,
-    "forward_1m_score": 78,
+    "forward_1m_score": 77,
     "forward_1m_direction": "상승 우세",
     "forward_3m_score": 58,
     "forward_3m_direction": "소폭 상승 우세",
