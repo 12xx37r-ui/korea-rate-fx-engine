@@ -1,8 +1,8 @@
 {
   "schema_version": "1.1.0",
   "patch_version": "V228-zero-call-freshness-unification",
-  "generated_at_utc": "2026-08-18T03:23:47.163165+00:00",
-  "engine_generated_at": "2026-08-18T12:21:00.678477+09:00",
+  "generated_at_utc": "2026-08-18T05:29:39.741638+00:00",
+  "engine_generated_at": "2026-08-18T14:27:02.941746+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
@@ -30,7 +30,7 @@
       "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260818",
-      "age_hours": 3.4,
+      "age_hours": 5.49,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -42,7 +42,7 @@
       "collector_status": "ok",
       "cadence": "daily/market",
       "observation_at": "20260818",
-      "age_hours": 3.4,
+      "age_hours": 5.49,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -62,37 +62,34 @@
     },
     {
       "source": "kosis",
-      "status": "LKG",
-      "collector_status": "degraded",
+      "status": "CACHE",
+      "collector_status": "ok",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1155.4,
+      "age_hours": 1157.49,
       "max_age_hours": 1080.0,
-      "last_good_reused": true,
+      "last_good_reused": false,
       "cadence_skip": false,
-      "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fe237928a70>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fe237929dc0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
-      ]
+      "warnings": []
     },
     {
       "source": "usdkrw_market_spot",
       "status": "LIVE",
       "cadence": "intraday-when-market-open",
-      "observation_at": "2026-08-18T03:18:23+00:00",
-      "retrieved_at": "2026-08-18T03:21:12.348637+00:00",
+      "observation_at": "2026-08-18T05:26:34+00:00",
+      "retrieved_at": "2026-08-18T05:27:13.232149+00:00",
       "market_state": "OPEN",
-      "age_hours": 0.09,
+      "age_hours": 0.05,
       "max_age_hours": 3.0,
-      "value": 1409.3,
+      "value": 1410.2,
       "provider": "Naver MarketIndex FX_USDKRW"
     },
     {
       "source": "kr_policy_rate",
       "status": "CACHE",
       "cadence": "event",
-      "observation_at": "2026-08-18T12:21:00.678477+09:00",
-      "age_hours": 0.05,
+      "observation_at": "2026-08-18T14:27:02.941746+09:00",
+      "age_hours": 0.04,
       "max_age_hours": 1080.0,
       "value": 2.75,
       "note": "정책금리는 이벤트형 값이라 엔진 생성시각이 오래됐다는 이유만으로 값 자체를 stale로 보지 않습니다. provider 재조회 상태는 ecos 행을 확인합니다."
@@ -102,7 +99,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 96.0,
       "value": 118.9028
     },
@@ -111,7 +108,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 96.0,
       "value": 4.17
     },
@@ -120,7 +117,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 96.0,
       "value": 4.68
     },
@@ -129,7 +126,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 27.4,
+      "age_hours": 29.49,
       "max_age_hours": 96.0,
       "value": 2.28
     },
@@ -138,7 +135,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 96.0,
       "value": 14.25
     },
@@ -147,7 +144,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 120.0,
       "value": 2.67
     },
@@ -156,7 +153,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260811",
-      "age_hours": 171.4,
+      "age_hours": 173.49,
       "max_age_hours": 96.0,
       "value": 84.77
     },
@@ -165,7 +162,7 @@
       "status": "CACHE",
       "cadence": "monthly",
       "observation_at": "20260701",
-      "age_hours": 1155.4,
+      "age_hours": 1157.49,
       "max_age_hours": 1080.0,
       "value": 284.057
     },
@@ -174,7 +171,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 96.0,
       "value": 6.7412
     },
@@ -183,7 +180,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 96.0,
       "value": 159.21
     },
@@ -192,7 +189,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 99.4,
+      "age_hours": 101.49,
       "max_age_hours": 120.0,
       "value": 1414.29
     },
@@ -201,7 +198,7 @@
       "status": "CACHE",
       "cadence": "monthly",
       "observation_at": "20260601",
-      "age_hours": 1875.4,
+      "age_hours": 1877.49,
       "max_age_hours": 1080.0,
       "value": 81.99
     },
@@ -210,7 +207,7 @@
       "status": "CACHE",
       "cadence": "monthly",
       "observation_at": "20260601",
-      "age_hours": 1875.4,
+      "age_hours": 1877.49,
       "max_age_hours": 1080.0,
       "value": 83.06
     },
@@ -219,7 +216,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 27.4,
+      "age_hours": 29.49,
       "max_age_hours": 96.0,
       "value": 12621.0048828125
     },
@@ -228,16 +225,16 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260818",
-      "age_hours": 3.4,
+      "age_hours": 5.49,
       "max_age_hours": 96.0,
-      "value": 45411.28125
+      "value": 45308.23828125
     },
     {
       "source": "nvda",
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 27.4,
+      "age_hours": 29.49,
       "max_age_hours": 96.0,
       "value": 225.00999450683594
     },
@@ -246,7 +243,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 27.4,
+      "age_hours": 29.49,
       "max_age_hours": 96.0,
       "value": 430.9700012207031
     },
@@ -254,8 +251,8 @@
       "source": "krw_liquidity",
       "status": "LIVE",
       "cadence": "derived-from-collected-inputs",
-      "observation_at": "2026-08-18T12:21:00.678477+09:00",
-      "age_hours": 0.05,
+      "observation_at": "2026-08-18T14:27:02.941746+09:00",
+      "age_hours": 0.04,
       "derived": true,
       "note": "실측 입력에서 계산된 파생지표. 원천별 상태는 위 항목을 사용합니다."
     },
@@ -263,16 +260,16 @@
       "source": "krw_strength",
       "status": "LIVE",
       "cadence": "derived-from-collected-inputs",
-      "observation_at": "2026-08-18T12:21:00.678477+09:00",
-      "age_hours": 0.05,
+      "observation_at": "2026-08-18T14:27:02.941746+09:00",
+      "age_hours": 0.04,
       "derived": true,
       "note": "실측 입력에서 계산된 파생지표. 원천별 상태는 위 항목을 사용합니다."
     }
   ],
   "summary": {
     "LIVE": 14,
-    "CACHE": 11,
-    "LKG": 1,
+    "CACHE": 12,
+    "LKG": 0,
     "FALLBACK": 0,
     "UNAVAILABLE": 0
   }
