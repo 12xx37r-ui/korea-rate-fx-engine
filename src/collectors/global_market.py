@@ -4,6 +4,7 @@ import csv
 import io
 import os
 import time
+from email.utils import parsedate_to_datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -182,6 +183,28 @@ def _group_start(previous: dict[str, Any], group: dict[str, str]) -> tuple[str, 
     return min(item["start"] for item in plan), "mixed_incremental_bootstrap"
 
 
+class FredRateLimitError(RuntimeError):
+    def __init__(self, message: str, retry_after_seconds: float | None = None):
+        super().__init__(message)
+        self.retry_after_seconds = retry_after_seconds
+
+
+def _retry_after_seconds(response: requests.Response) -> float | None:
+    value = response.headers.get("Retry-After")
+    if not value:
+        return None
+    try:
+        return max(0.0, float(value))
+    except (TypeError, ValueError):
+        try:
+            dt = parsedate_to_datetime(str(value))
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return max(0.0, dt.timestamp() - time.time())
+        except Exception:
+            return None
+
+
 def _fred_series_api(series_id: str, start_date: str) -> list[dict[str, Any]]:
     """Fetch one FRED series from the official observations API.
 
@@ -205,6 +228,11 @@ def _fred_series_api(series_id: str, start_date: str) -> list[dict[str, Any]]:
             },
             timeout=(CONNECT_TIMEOUT_SECONDS, READ_TIMEOUT_SECONDS),
         )
+        if getattr(response, "status_code", None) == 429:
+            raise FredRateLimitError(
+                f"FRED rate limited series {series_id}",
+                _retry_after_seconds(response),
+            )
         response.raise_for_status()
         data = response.json()
     observations = data.get("observations") if isinstance(data, dict) else None
@@ -704,7 +732,9 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             errors[f"fred_{name}_{'_'.join(subset)}"] = f"{type(first_exc).__name__}: {first_exc}"
 
     for retry_index, (name, subset, start_date, mode, first_exc) in enumerate(retry_jobs, start=1):
-        time.sleep(FRED_RETRY_BACKOFF_SECONDS + min(1.5, 0.25 * retry_index))
+        retry_after = getattr(first_exc, "retry_after_seconds", None)
+        bounded_retry_after = min(30.0, max(0.0, float(retry_after))) if retry_after is not None else 0.0
+        time.sleep(max(FRED_RETRY_BACKOFF_SECONDS + min(1.5, 0.25 * retry_index), bounded_retry_after))
         retry_start = start_date
         if mode == "incremental":
             retry_start = _fred_retry_start(start_date, previous, subset)
