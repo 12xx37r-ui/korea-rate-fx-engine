@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-18T11:27:28.348491+09:00",
+  "generated_at": "2026-08-18T11:46:57.236282+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -146,7 +146,7 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 4.51
+        "elapsed_seconds": 3.14
       }
     },
     "krx": {
@@ -160,8 +160,8 @@
       "metadata": {
         "supply_demand_available": true,
         "flow_momentum_summary": {
-          "cum_5d_net": 7560639076671.0,
-          "cum_20d_net": -1724047842773.0,
+          "cum_5d_net": 7335615195555.0,
+          "cum_20d_net": -1948351770437.0,
           "momentum_signal": "혼조",
           "futures_trend": "매수우위",
           "basis_signal": null
@@ -197,12 +197,14 @@
     },
     "reb": {
       "source": "reb",
-      "status": "not_configured",
-      "message": "config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다.",
-      "rows": 0,
+      "status": "degraded",
+      "message": "R-ONE 공식 부동산 지표를 수집했습니다.",
+      "rows": 1,
       "latest_observation": null,
-      "payload_path": null,
-      "warnings": [],
+      "payload_path": "output/raw_reb.json",
+      "warnings": [
+        "detailed REB series not configured: official portal headline fallback used"
+      ],
       "metadata": {}
     }
   },
@@ -239,6 +241,6 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "reb: config/reb_series.json에 실제 R-ONE 통계코드를 입력해야 합니다."
+    "reb: R-ONE 공식 부동산 지표를 수집했습니다."
   ]
 }

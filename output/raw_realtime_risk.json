@@ -1,16 +1,14 @@
 {
   "schema_version": "1.0.0",
-  "collector_version": "realtime-risk-collector-v1.2-vkospi-source-guard",
-  "generated_at_utc": "2026-08-18T02:28:35.928502+00:00",
+  "collector_version": "realtime-risk-collector-v1.3-vkospi-e62001",
+  "generated_at_utc": "2026-08-18T02:48:04.872798+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
     "std_10d": null,
     "rows": [],
     "stale": false,
-    "source": null,
-    "source_validation": "unavailable",
-    "reason": "live VKOSPI source disabled: legacy pykrx ticker mapping is not verified for circuit-breaker use"
+    "source": null
   },
   "semiconductor": {
     "sox_latest": 12621.0049,
@@ -20,11 +18,11 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1410.63,
-    "change_1d_pct": -0.2997,
-    "change_3d_pct": -0.097,
-    "std_5d": 2.1935,
-    "std_10d": 3.1861
+    "latest_rate": 1409.28,
+    "change_1d_pct": -0.3951,
+    "change_3d_pct": -0.1926,
+    "std_5d": 2.6177,
+    "std_10d": 3.3469
   },
   "cds_proxy": {
     "available": true,
@@ -39,8 +37,8 @@
     "available": true,
     "period_start": "20260719",
     "period_end": "20260818",
-    "foreign_net_value": 3878562120229.0,
-    "foreign_buy_value": 251927262679271.0,
+    "foreign_net_value": 3661831258663.0,
+    "foreign_buy_value": 252445898114575.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
@@ -1495,5 +1493,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 1.79
+  "elapsed_seconds": 2.7
 }

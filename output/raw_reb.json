@@ -1,0 +1,9 @@
+{
+  "official_headline": {
+    "headline_apartment_sale_change_pct": 0.4,
+    "observation_period": "2026-06",
+    "source": "한국부동산원 R-ONE 공식 포털",
+    "source_url": "https://www.reb.or.kr/r-one/portal/main/indexPage.do",
+    "source_method": "official_portal_headline_fallback"
+  }
+}
