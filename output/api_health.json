@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-18T11:46:57.236282+09:00",
+  "generated_at": "2026-08-18T12:21:00.678477+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -146,7 +146,7 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 3.14
+        "elapsed_seconds": 3.91
       }
     },
     "krx": {
@@ -160,8 +160,8 @@
       "metadata": {
         "supply_demand_available": true,
         "flow_momentum_summary": {
-          "cum_5d_net": 7335615195555.0,
-          "cum_20d_net": -1948351770437.0,
+          "cum_5d_net": 7313080691041.0,
+          "cum_20d_net": -1971360498486.0,
           "momentum_signal": "혼조",
           "futures_trend": "매수우위",
           "basis_signal": null
@@ -170,12 +170,15 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "ok",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2",
+      "status": "degraded",
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
-      "warnings": [],
+      "warnings": [
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fe237928a70>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
+        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fe237929dc0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
+      ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
@@ -183,9 +186,15 @@
         "max_external_requests": 2,
         "circuit_open": false,
         "circuit_reason": "",
-        "network_failures": [],
+        "network_failures": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "per_series_network_retries": 2,
-        "last_good_reused": [],
+        "last_good_reused": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "cadence_skips": [],
         "weekend_cache_skip_enabled": true,
         "credential_status": "valid",
@@ -197,14 +206,12 @@
     },
     "reb": {
       "source": "reb",
-      "status": "degraded",
-      "message": "R-ONE 공식 부동산 지표를 수집했습니다.",
+      "status": "ok",
+      "message": "R-ONE 공식 부동산 지표를 수집했습니다. (공식 포털 headline fallback)",
       "rows": 1,
       "latest_observation": null,
       "payload_path": "output/raw_reb.json",
-      "warnings": [
-        "detailed REB series not configured: official portal headline fallback used"
-      ],
+      "warnings": [],
       "metadata": {}
     }
   },
@@ -227,7 +234,7 @@
         "status": "valid",
         "action_required": false,
         "action": "없음",
-        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
+        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
       }
     ]
   },
@@ -241,6 +248,6 @@
     "raw_series_merge_enabled": true
   },
   "warnings": [
-    "reb: R-ONE 공식 부동산 지표를 수집했습니다."
+    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
   ]
 }
