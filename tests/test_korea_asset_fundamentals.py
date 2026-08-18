@@ -46,9 +46,7 @@ def test_aggregate_forward_proxy_uses_harmonic_earnings_weighting():
     assert out["available"] is True
     assert out["sample_size"] == 2
     assert out["market_cap_coverage"] == 1.0
-    # 1000 / (600/10 + 400/20) = 12.5
     assert out["forward_per"] == 12.5
-    # forward earnings 80, current earnings 66.6667 => +20%
     assert out["eps_growth_pct"] == pytest.approx(20.0, abs=1e-3)
 
 
@@ -268,7 +266,7 @@ def test_collect_writes_schema_13_output(monkeypatch, tmp_path):
     monkeypatch.setattr(
         kaf,
         "_collect_reit",
-        lambda session, timeout: {
+        lambda session, timeout, previous_reit=None: {
             "ticker": "329200",
             "distribution_yield": 9.9,
             "available": True,
