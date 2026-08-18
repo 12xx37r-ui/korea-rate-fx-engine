@@ -78,5 +78,15 @@
     "credit": {
       "spread_pct_point": 0.696
     }
+  },
+  {
+    "date": "2026-08-18",
+    "generated_at_utc": "2026-08-18T02:29:03.014429+00:00",
+    "earnings": {
+      "growth_proxy_pct": null
+    },
+    "credit": {
+      "spread_pct_point": 0.696
+    }
   }
 ]

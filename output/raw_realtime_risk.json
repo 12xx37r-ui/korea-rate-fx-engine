@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.2-vkospi-source-guard",
-  "generated_at_utc": "2026-08-17T23:02:12.012233+00:00",
+  "generated_at_utc": "2026-08-18T02:28:35.928502+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -20,11 +20,11 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1414.87,
-    "change_1d_pct": -0.0353,
-    "change_3d_pct": -0.1137,
-    "std_5d": 1.7147,
-    "std_10d": 3.8394
+    "latest_rate": 1410.63,
+    "change_1d_pct": -0.2997,
+    "change_3d_pct": -0.097,
+    "std_5d": 2.1935,
+    "std_10d": 3.1861
   },
   "cds_proxy": {
     "available": true,
@@ -37,10 +37,10 @@
   },
   "foreign_futures": {
     "available": true,
-    "period_start": "20260718",
-    "period_end": "20260817",
-    "foreign_net_value": 2904097512865.0,
-    "foreign_buy_value": 245693345457862.0,
+    "period_start": "20260719",
+    "period_end": "20260818",
+    "foreign_net_value": 3878562120229.0,
+    "foreign_buy_value": 251927262679271.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
@@ -1495,5 +1495,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 0.54
+  "elapsed_seconds": 1.79
 }

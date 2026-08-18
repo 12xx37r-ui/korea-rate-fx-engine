@@ -1,15 +1,15 @@
 {
-  "schema_version": "1.0.0",
-  "patch_version": "V227-final-production-guardrails-and-secret-redaction",
-  "generated_at_utc": "2026-08-17T23:02:44.673682+00:00",
-  "engine_generated_at": "2026-08-18T08:01:19.037780+09:00",
+  "schema_version": "1.1.0",
+  "patch_version": "V228-zero-call-freshness-unification",
+  "generated_at_utc": "2026-08-18T02:29:15.937381+00:00",
+  "engine_generated_at": "2026-08-18T11:27:28.348491+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
-    "new_network_calls": 1,
-    "conditional_retry_calls": "FRED failed groups + KOSIS failed requests only",
-    "model_formulas_changed": true,
-    "model_change_scope": "Korea rate/FX/KRW-strength candidate tournaments with V227 production guardrails; OOS/past-only selection"
+    "new_network_calls_added_by_patch": 0,
+    "collector_network_policy_changed": false,
+    "model_formulas_changed": false,
+    "output_values_changed": false
   },
   "items": [
     {
@@ -29,8 +29,8 @@
       "status": "LIVE",
       "collector_status": "ok",
       "cadence": "daily/monthly",
-      "observation_at": "20260815",
-      "age_hours": 71.05,
+      "observation_at": "20260818",
+      "age_hours": 2.49,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -40,9 +40,9 @@
       "source": "global_market",
       "status": "LIVE",
       "collector_status": "ok",
-      "cadence": "daily/monthly",
-      "observation_at": "20260817",
-      "age_hours": 23.05,
+      "cadence": "daily/market",
+      "observation_at": "20260818",
+      "age_hours": 2.49,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -66,31 +66,211 @@
       "collector_status": "ok",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1151.05,
+      "age_hours": 1154.49,
       "max_age_hours": 1080.0,
       "last_good_reused": false,
       "cadence_skip": false,
       "warnings": []
     },
     {
-      "source": "usdkrw_market_snapshot",
+      "source": "usdkrw_market_spot",
       "status": "LIVE",
       "cadence": "intraday-when-market-open",
-      "observation_at": "2026-08-17T22:34:16+00:00",
-      "retrieved_at": "2026-08-17T23:01:50.607401+00:00",
+      "observation_at": "2026-08-18T02:26:13+00:00",
+      "retrieved_at": "2026-08-18T02:27:40.020353+00:00",
       "market_state": "OPEN",
-      "age_hours": 0.47,
+      "age_hours": 0.05,
       "max_age_hours": 3.0,
-      "value": 1417.5,
-      "provider": "Naver MarketIndex FX_USDKRW",
-      "note": "V219는 매 실행마다 독립 현재환율을 새로 조회하고, 시장 timestamp가 충분히 최신할 때만 LIVE로 표시합니다."
+      "value": 1410.8,
+      "provider": "Naver MarketIndex FX_USDKRW"
+    },
+    {
+      "source": "kr_policy_rate",
+      "status": "CACHE",
+      "cadence": "event",
+      "observation_at": "2026-08-18T11:27:28.348491+09:00",
+      "age_hours": 0.03,
+      "max_age_hours": 1080.0,
+      "value": 2.75,
+      "note": "정책금리는 이벤트형 값이라 엔진 생성시각이 오래됐다는 이유만으로 값 자체를 stale로 보지 않습니다. provider 재조회 상태는 ecos 행을 확인합니다."
+    },
+    {
+      "source": "broad_dollar",
+      "status": "CACHE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 96.0,
+      "value": 118.9028
+    },
+    {
+      "source": "us_2y",
+      "status": "CACHE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 96.0,
+      "value": 4.17
+    },
+    {
+      "source": "us_10y",
+      "status": "CACHE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 96.0,
+      "value": 4.68
+    },
+    {
+      "source": "us_breakeven_10y",
+      "status": "LIVE",
+      "cadence": "trading-day",
+      "observation_at": "20260817",
+      "age_hours": 26.49,
+      "max_age_hours": 96.0,
+      "value": 2.28
+    },
+    {
+      "source": "vix",
+      "status": "CACHE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 96.0,
+      "value": 14.25
+    },
+    {
+      "source": "hy_oas",
+      "status": "LIVE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 120.0,
+      "value": 2.67
+    },
+    {
+      "source": "wti",
+      "status": "CACHE",
+      "cadence": "trading-day",
+      "observation_at": "20260811",
+      "age_hours": 170.49,
+      "max_age_hours": 96.0,
+      "value": 84.77
+    },
+    {
+      "source": "commodity_index",
+      "status": "CACHE",
+      "cadence": "monthly",
+      "observation_at": "20260701",
+      "age_hours": 1154.49,
+      "max_age_hours": 1080.0,
+      "value": 284.057
+    },
+    {
+      "source": "usd_cny",
+      "status": "CACHE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 96.0,
+      "value": 6.7412
+    },
+    {
+      "source": "usd_jpy",
+      "status": "CACHE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 96.0,
+      "value": 159.21
+    },
+    {
+      "source": "usd_krw_fred",
+      "status": "LIVE",
+      "cadence": "trading-day",
+      "observation_at": "20260814",
+      "age_hours": 98.49,
+      "max_age_hours": 120.0,
+      "value": 1414.29
+    },
+    {
+      "source": "krw_neer",
+      "status": "CACHE",
+      "cadence": "monthly",
+      "observation_at": "20260601",
+      "age_hours": 1874.49,
+      "max_age_hours": 1080.0,
+      "value": 81.99
+    },
+    {
+      "source": "krw_reer",
+      "status": "CACHE",
+      "cadence": "monthly",
+      "observation_at": "20260601",
+      "age_hours": 1874.49,
+      "max_age_hours": 1080.0,
+      "value": 83.06
+    },
+    {
+      "source": "sox",
+      "status": "LIVE",
+      "cadence": "trading-day",
+      "observation_at": "20260817",
+      "age_hours": 26.49,
+      "max_age_hours": 96.0,
+      "value": 12621.0048828125
+    },
+    {
+      "source": "twii",
+      "status": "LIVE",
+      "cadence": "trading-day",
+      "observation_at": "20260818",
+      "age_hours": 2.49,
+      "max_age_hours": 96.0,
+      "value": 45658.94921875
+    },
+    {
+      "source": "nvda",
+      "status": "LIVE",
+      "cadence": "trading-day",
+      "observation_at": "20260817",
+      "age_hours": 26.49,
+      "max_age_hours": 96.0,
+      "value": 225.00999450683594
+    },
+    {
+      "source": "tsm",
+      "status": "LIVE",
+      "cadence": "trading-day",
+      "observation_at": "20260817",
+      "age_hours": 26.49,
+      "max_age_hours": 96.0,
+      "value": 430.9700012207031
+    },
+    {
+      "source": "krw_liquidity",
+      "status": "LIVE",
+      "cadence": "derived-from-collected-inputs",
+      "observation_at": "2026-08-18T11:27:28.348491+09:00",
+      "age_hours": 0.03,
+      "derived": true,
+      "note": "실측 입력에서 계산된 파생지표. 원천별 상태는 위 항목을 사용합니다."
+    },
+    {
+      "source": "krw_strength",
+      "status": "LIVE",
+      "cadence": "derived-from-collected-inputs",
+      "observation_at": "2026-08-18T11:27:28.348491+09:00",
+      "age_hours": 0.03,
+      "derived": true,
+      "note": "실측 입력에서 계산된 파생지표. 원천별 상태는 위 항목을 사용합니다."
     }
   ],
   "summary": {
-    "live": 5,
-    "cache": 1,
-    "lkg": 0,
-    "fallback": 0,
-    "unavailable": 0
+    "LIVE": 14,
+    "CACHE": 12,
+    "LKG": 0,
+    "FALLBACK": 0,
+    "UNAVAILABLE": 0
   }
 }

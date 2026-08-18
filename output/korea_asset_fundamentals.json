@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-17T23:02:11.162109+00:00",
+  "generated_at_utc": "2026-08-18T02:28:33.899598+00:00",
   "indices": {
     "kospi200": {
       "per": 18.63,
@@ -24,6 +24,8 @@
       "proxy_symbols": [],
       "stale": false,
       "diagnostics": [
+        "20260818:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260818:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260817:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.300"
       ]
@@ -49,6 +51,8 @@
       "proxy_symbols": [],
       "stale": false,
       "diagnostics": [
+        "20260818:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260818:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260817:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "forward_proxy_insufficient:sample=0,coverage=0.000,required_sample=5,required_coverage=0.250"
       ]
@@ -76,6 +80,7 @@
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
       "mirae_official:HTTPError:403 Client Error: Forbidden for url: https://www.tigeretf.com/ko/product/search/detail/refDiv.do?ksdFund=KR7329200000&listCnt=100&pageIndex=1",
       "official_and_naver_unavailable_public_snapshot_used",
+      "reit:live_failed_last_good_reused",
       "reit:live_failed_last_good_reused",
       "reit:live_failed_last_good_reused",
       "reit:live_failed_last_good_reused",

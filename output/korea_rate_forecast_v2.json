@@ -9,7 +9,7 @@
     "market_policy_gap_pctp": 0.889,
     "core_cpi_yoy": 0.025,
     "industrial_3m_annualized": 0.05511,
-    "usdkrw_3m_change": -0.05887,
+    "usdkrw_3m_change": -0.05892,
     "us_current_effective_rate_pct": 3.63,
     "us_3meeting_rate_change_pctp": 0.115,
     "us_path_filter": {
@@ -3183,5 +3183,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-18T08:01:19.037780+09:00"
+  "generated_at": "2026-08-18T11:27:28.348491+09:00"
 }
