@@ -10,6 +10,7 @@ OUT = ROOT / "output" / "korea_rate_fx_outlook_v3.json"
 STATUS = ROOT / "output" / "fast_market_refresh_status.json"
 YAHOO = "https://query1.finance.yahoo.com/v8/finance/chart/KRW=X"
 TIMEOUT = (3, 8)
+FULL_GUARD_MINUTES = 120
 
 def now_iso():
     return datetime.now(timezone.utc).isoformat()
@@ -113,6 +114,17 @@ def main():
     payload=read_json(OUT)
     if not payload:
         raise SystemExit("canonical output missing: output/korea_rate_fx_outlook_v3.json")
+    full_dt=parse_dt(payload.get("generated_at"))
+    if full_dt is not None:
+        full_age=(datetime.now(timezone.utc)-full_dt).total_seconds()/60.0
+        if 0 <= full_age <= FULL_GUARD_MINUTES:
+            skipped={"schema_version":"1.0","generated_at_utc":now_iso(),"status":"SKIP_RECENT_FULL",
+                     "reason":"full output is recent","full_generated_at_utc":full_dt.isoformat(),
+                     "full_age_minutes":round(full_age,2),"guard_minutes":FULL_GUARD_MINUTES,
+                     "network_calls":0,"canonical_file_changed":False}
+            write_json(STATUS,skipped)
+            print(json.dumps(skipped,ensure_ascii=False))
+            return
     old_obs=parse_dt(((payload.get("fx") or {}).get("market_spot_as_of_utc")))
     session=requests.Session()
     session.headers.update({"User-Agent":"korea-rate-fx-engine-fast-refresh/1.0","Accept":"application/json"})
