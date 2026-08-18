@@ -5,6 +5,8 @@ on:
   schedule:
     # Full engine runs at 22:20 UTC on weekdays.
     # Skip the 22 UTC fast slot; fast runs only through the long gap between full runs.
+    # Staggered provider slot: Korea :17, Fed :37, Global :57.
+    # Python guard skips all network calls when the latest full output is <=120 minutes old.
     - cron: "17 0-20/2 * * 1-5"
 
 permissions:
