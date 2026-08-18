@@ -3,14 +3,16 @@ name: Fast Market Refresh V230
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 */2 * * 1-5"
+    # Full engine runs at 22:20 UTC on weekdays.
+    # Skip the 22 UTC fast slot; fast runs only through the long gap between full runs.
+    - cron: "17 0-20/2 * * 1-5"
 
 permissions:
   contents: write
 
 concurrency:
-  group: korea-fast-market-${{ github.ref }}
-  cancel-in-progress: true
+  group: korea-rate-fx-engine-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   refresh:
