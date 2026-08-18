@@ -596,6 +596,73 @@ def _probabilities(mu: float, sigma: float, horizon_obs: int) -> dict[str, float
     }
 
 
+
+def _recent_trend_context(recent: dict[str, float | None], forecast_3m: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Explain observed FX trend separately from the OOS forecast.
+
+    This is diagnostics/presentation metadata only.  It does not alter candidate
+    returns, OOS weights, shrinkage, probabilities, or point forecasts.
+    """
+    d5 = recent.get("5d")
+    d20 = recent.get("20d")
+    d60 = recent.get("60d")
+
+    direction = "mixed"
+    strength = "neutral"
+    label = "최근 추세 혼조"
+    if d20 is not None and d60 is not None:
+        if d20 < 0 and d60 < 0:
+            direction = "down"
+            if d60 <= -6.0 or d20 <= -3.0:
+                strength = "strong"
+                label = "강한 하락세(원화 강세)"
+            else:
+                strength = "moderate"
+                label = "하락세(원화 강세)"
+        elif d20 > 0 and d60 > 0:
+            direction = "up"
+            if d60 >= 6.0 or d20 >= 3.0:
+                strength = "strong"
+                label = "강한 상승세(원화 약세)"
+            else:
+                strength = "moderate"
+                label = "상승세(원화 약세)"
+        elif abs(d20) < 0.75 and abs(d60) < 1.5:
+            direction = "neutral"
+            strength = "neutral"
+            label = "최근 추세 중립"
+
+    forecast_3m = forecast_3m or {}
+    fdir = str(forecast_3m.get("direction") or "").lower()
+    fchg = _to_float(forecast_3m.get("change_pct"))
+    if direction == "down" and fdir == "neutral":
+        relation = "recent_down_forecast_neutral"
+        explanation = "최근 원/달러는 하락 추세지만 3개월 OOS 모델은 추세 지속을 확신하지 않아 중립 전망을 유지합니다."
+    elif direction == "up" and fdir == "neutral":
+        relation = "recent_up_forecast_neutral"
+        explanation = "최근 원/달러는 상승 추세지만 3개월 OOS 모델은 추세 지속을 확신하지 않아 중립 전망을 유지합니다."
+    elif direction in {"up", "down"} and fdir == direction:
+        relation = "trend_and_forecast_aligned"
+        explanation = "최근 관측 추세와 3개월 OOS 모델 방향이 같은 쪽을 가리킵니다."
+    elif direction in {"up", "down"} and fdir in {"up", "down"} and fdir != direction:
+        relation = "trend_and_forecast_diverge"
+        explanation = "최근 관측 추세와 3개월 OOS 모델 방향이 반대입니다. 평균회귀·금리차·위험요인 등 검증 가중치가 최근 모멘텀보다 크게 반영된 결과입니다."
+    else:
+        relation = "mixed"
+        explanation = "최근 관측 추세와 3개월 모델 전망을 별도로 해석해야 합니다."
+
+    return {
+        "direction": direction,
+        "strength": strength,
+        "label": label,
+        "change_pct": {"5d": d5, "20d": d20, "60d": d60},
+        "forecast_3m_direction": fdir or None,
+        "forecast_3m_change_pct": fchg,
+        "relation": relation,
+        "explanation": explanation,
+        "affects_forecast_calculation": False,
+    }
+
 def build_fx_forecast_v4(
     ecos: dict[str, Any],
     global_data: dict[str, Any] | None = None,
@@ -716,6 +783,8 @@ def build_fx_forecast_v4(
     recent = {}
     for name, obs in (("5d", 5), ("20d", 20), ("60d", 60)):
         recent[name] = round((values[-1] / values[-obs - 1] - 1.0) * 100.0, 3) if len(values) > obs else None
+    forecast_3m = next((row for row in forecast_path if int(row.get("months") or 0) == 3), None)
+    recent_trend = _recent_trend_context(recent, forecast_3m)
 
     return {
         "schema_version": "4.0.0",
@@ -727,6 +796,7 @@ def build_fx_forecast_v4(
         "current_date": spot_meta.get("date") or dates[-1],
         "current_source": spot_meta.get("source") or "ECOS",
         "recent_change_pct": recent,
+        "recent_trend": recent_trend,
         "forecast_path": forecast_path,
         "production_model": "continuous_oos_weighted_ensemble_v4",
         "active_model_blocked": False,
