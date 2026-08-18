@@ -10,7 +10,7 @@
     "item_code2": "?",
     "item_code3": "?"
   },
-  "generated_at_utc": "2026-08-18T21:06:35.597763+00:00",
+  "generated_at_utc": "2026-08-18T23:03:55.151341+00:00",
   "rows": [
     {
       "STAT_CODE": "817Y002",
@@ -6013,7 +6013,7 @@
       "DATA_VALUE": "4.542"
     }
   ],
-  "fresh_rows": 34,
+  "fresh_rows": 30,
   "stale": false,
   "source": "한국은행 ECOS 시장금리(일별)",
   "source_url": "https://ecos.bok.or.kr/",

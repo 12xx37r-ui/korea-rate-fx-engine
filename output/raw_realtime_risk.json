@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-18T21:06:23.515554+00:00",
+  "generated_at_utc": "2026-08-18T23:03:43.038247+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -21,11 +21,11 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1412.9,
-    "change_1d_pct": -0.1294,
-    "change_3d_pct": 0.0637,
-    "std_5d": 1.6329,
-    "std_10d": 3.0174
+    "latest_rate": 1412.28,
+    "change_1d_pct": -0.1732,
+    "change_3d_pct": 0.0198,
+    "std_5d": 1.7533,
+    "std_10d": 3.0482
   },
   "cds_proxy": {
     "available": true,
@@ -1134,6 +1134,24 @@
     ],
     "sp500": [
       {
+        "date": "20260519",
+        "value": 7353.60986328125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260520",
+        "value": 7432.97021484375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260521",
+        "value": 7445.72021484375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
         "date": "20260522",
         "value": 7473.47021484375,
         "source": "Yahoo Finance",
@@ -1368,18 +1386,6 @@
         "symbol": "^GSPC"
       },
       {
-        "date": "20260721",
-        "value": 7509.2001953125,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260722",
-        "value": 7498.9599609375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
         "date": "20260723",
         "value": 7408.2998046875,
         "source": "Yahoo Finance",
@@ -1412,12 +1418,6 @@
       {
         "date": "20260730",
         "value": 7437.6298828125,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260731",
-        "value": 7489.72021484375,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
       },
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 3.47
+  "elapsed_seconds": 3.23
 }

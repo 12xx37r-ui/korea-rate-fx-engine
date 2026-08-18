@@ -4,15 +4,15 @@
     "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1412.9000244140625,
+    "usdkrw": 1412.280029296875,
     "kr_gov_2y_pct": 3.676,
     "kr_gov_3y_pct": 3.847,
     "kr_gov_10y_pct": 4.382,
-    "krw_strength_score": 0.712,
+    "krw_strength_score": 0.7131,
     "krw_strength_grade": "강강",
     "krw_absolute_level_score": 0.7778,
     "krw_absolute_level_grade": "강강",
-    "krw_short_term_momentum_score": 0.5898,
+    "krw_short_term_momentum_score": 0.593,
     "krw_short_term_momentum_grade": "강약",
     "usdkrw_1y_percentile": 0.1111
   },
@@ -34,10 +34,10 @@
         "probability": 0.154
       }
     },
-    "usdkrw_mid": 1414.7,
+    "usdkrw_mid": 1414.1,
     "usdkrw_range": [
-      1333.9,
-      1495.5
+      1333.3,
+      1494.8
     ],
     "usdkrw_direction": "neutral",
     "usdkrw_up_probability": 0.489,
@@ -76,22 +76,22 @@
       0.0586,
       0.0862,
       0.066,
-      0.2169,
+      0.2168,
       0.0,
       0.1391
     ],
     "fx_backtest_samples": 608,
     "fx_backtest_rmse_pct": 4.024,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.03519,
-    "fx_3m_change": -0.07769,
-    "fx_forecast_bias_pct": 0.00127,
+    "fx_1m_change": -0.03562,
+    "fx_3m_change": -0.07809,
+    "fx_forecast_bias_pct": 0.00129,
     "policy_market_gap_pctp": 0.926,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "4.0.0-probability-validation-split"
   },
-  "generated_at": "2026-08-19T06:05:33.947435+09:00",
+  "generated_at": "2026-08-19T08:02:55.397001+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }
