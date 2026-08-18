@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-18T14:27:02.941746+09:00",
+  "generated_at": "2026-08-18T22:00:51.335046+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -20,22 +20,45 @@
     },
     "ecos": {
       "source": "ecos",
-      "status": "ok",
+      "status": "degraded",
       "message": "ECOS 국내 금리·환율·유동성 증분수집 완료",
       "rows": 17377,
-      "latest_observation": "20260818",
+      "latest_observation": "20260814",
       "payload_path": "output/raw_ecos.json",
-      "warnings": [],
+      "warnings": [
+        "kr_base_rate: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/722Y001/D/20260725/20260818/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7fb477856e40>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
+        "usdkrw: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/731Y001/D/20260728/20260818/0000001/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7fb4778577a0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
+        "kr_gov_2y: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/817Y002/D/20260724/20260818/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7fb4778800b0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지"
+      ],
       "metadata": {
         "resolution_path": "output/ecos_resolution.json",
         "cache_version": 2,
         "incremental_fetch": true,
         "daily_overlap_days": 21,
         "monthly_overlap_months": 4,
-        "last_good_reused": [],
-        "circuit_breaker_open": false,
-        "circuit_breaker_reason": null,
-        "circuit_last_good_reused": [],
+        "last_good_reused": [
+          "current_account",
+          "fx_reserves",
+          "kr_base_rate",
+          "kr_gov_10y",
+          "kr_gov_2y",
+          "kr_gov_3y",
+          "kr_lf",
+          "kr_m1",
+          "kr_m2",
+          "usdkrw"
+        ],
+        "circuit_breaker_open": true,
+        "circuit_breaker_reason": "HttpError: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/817Y002/D/20260724/20260818/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7fb4778800b0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)'))",
+        "circuit_last_good_reused": [
+          "current_account",
+          "fx_reserves",
+          "kr_gov_10y",
+          "kr_gov_3y",
+          "kr_lf",
+          "kr_m1",
+          "kr_m2"
+        ],
         "ecos_connect_timeout_seconds": 4,
         "ecos_read_timeout_seconds": 10,
         "ecos_request_retries": 1,
@@ -64,7 +87,7 @@
           "nvda",
           "tsm"
         ],
-        "request_count": 12,
+        "request_count": 14,
         "bis_monthly_cache_skip_enabled": true,
         "fred_group_count": 3,
         "fred_groups_parallel": true,
@@ -88,8 +111,26 @@
                 ]
               }
             ],
-            "attempts": 1,
-            "fresh_series": 4
+            "attempts": 2,
+            "fresh_series": 4,
+            "first_errors": [
+              {
+                "keys": [
+                  "broad_dollar",
+                  "usd_cny",
+                  "usd_jpy",
+                  "usd_krw_fred"
+                ],
+                "start": "2026-06-30",
+                "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=DTWEXBGS&api_key=76aa1aefd6bb55ffcc6995b422d0ddf1&file_type=json&observation_start=2026-06-30&sort_order=asc"
+              }
+            ],
+            "recovered": [
+              "broad_dollar",
+              "usd_cny",
+              "usd_jpy",
+              "usd_krw_fred"
+            ]
           },
           "rates_risk": {
             "mode": "incremental",
@@ -112,8 +153,20 @@
                 ]
               }
             ],
-            "attempts": 2,
-            "fresh_series": 5
+            "attempts": 3,
+            "fresh_series": 5,
+            "first_errors": [
+              {
+                "keys": [
+                  "us_breakeven_10y"
+                ],
+                "start": "2026-07-03",
+                "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://api.stlouisfed.org/fred/series/observations?series_id=T10YIE&api_key=76aa1aefd6bb55ffcc6995b422d0ddf1&file_type=json&observation_start=2026-07-03&sort_order=asc"
+              }
+            ],
+            "recovered": [
+              "us_breakeven_10y"
+            ]
           },
           "commodities": {
             "mode": "incremental",
@@ -146,7 +199,7 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 3.88
+        "elapsed_seconds": 99.98
       }
     },
     "krx": {
@@ -160,8 +213,8 @@
       "metadata": {
         "supply_demand_available": true,
         "flow_momentum_summary": {
-          "cum_5d_net": 6813618770387.0,
-          "cum_20d_net": -2470801360692.0,
+          "cum_5d_net": 6660110227108.0,
+          "cum_20d_net": -2624302169654.0,
           "momentum_signal": "혼조",
           "futures_trend": "매수우위",
           "basis_signal": null
@@ -170,12 +223,15 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "ok",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2",
+      "status": "degraded",
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
-      "warnings": [],
+      "warnings": [
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fb45e2ebdd0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
+        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7fb45e30d010>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
+      ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
@@ -183,9 +239,15 @@
         "max_external_requests": 2,
         "circuit_open": false,
         "circuit_reason": "",
-        "network_failures": [],
+        "network_failures": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "per_series_network_retries": 2,
-        "last_good_reused": [],
+        "last_good_reused": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "cadence_skips": [],
         "weekend_cache_skip_enabled": true,
         "credential_status": "valid",
@@ -225,7 +287,7 @@
         "status": "valid",
         "action_required": false,
         "action": "없음",
-        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
+        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
       }
     ]
   },
@@ -238,5 +300,8 @@
     "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
-  "warnings": []
+  "warnings": [
+    "ecos: ECOS 국내 금리·환율·유동성 증분수집 완료",
+    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
+  ]
 }

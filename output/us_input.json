@@ -1059,10 +1059,12 @@
       {
         "group": "zq_continuous",
         "symbol": "ZQ=F",
-        "market_time_utc": "2026-08-18T02:48:47+00:00",
+        "market_time_utc": "2026-08-18T11:24:11+00:00",
         "age_minutes": 15.96,
         "status": "LIVE",
-        "market_state": null
+        "market_state": null,
+        "fast_refresh_price": 96.275,
+        "fast_refreshed_at_utc": "2026-08-18T11:46:30.161406+00:00"
       },
       {
         "group": "zq_curve",
@@ -1123,10 +1125,12 @@
       {
         "group": "zq_curve",
         "symbol": "ZQQ26.CBT",
-        "market_time_utc": "2026-08-17T22:49:57+00:00",
+        "market_time_utc": "2026-08-18T11:25:41+00:00",
         "age_minutes": 254.8,
         "status": "CACHE",
-        "market_state": null
+        "market_state": null,
+        "fast_refresh_price": 96.37,
+        "fast_refreshed_at_utc": "2026-08-18T11:46:30.563511+00:00"
       },
       {
         "group": "zq_curve",
@@ -1139,10 +1143,12 @@
       {
         "group": "zq_curve",
         "symbol": "ZQU26.CBT",
-        "market_time_utc": "2026-08-17T22:51:04+00:00",
+        "market_time_utc": "2026-08-18T11:25:55+00:00",
         "age_minutes": 253.68,
         "status": "CACHE",
-        "market_state": null
+        "market_state": null,
+        "fast_refresh_price": 96.33,
+        "fast_refreshed_at_utc": "2026-08-18T11:46:30.959263+00:00"
       },
       {
         "group": "zq_curve",
@@ -1155,10 +1161,12 @@
       {
         "group": "zq_curve",
         "symbol": "ZQV26.CBT",
-        "market_time_utc": "2026-08-18T02:48:47+00:00",
+        "market_time_utc": "2026-08-18T11:24:11+00:00",
         "age_minutes": 15.96,
         "status": "LIVE",
-        "market_state": null
+        "market_state": null,
+        "fast_refresh_price": 96.275,
+        "fast_refreshed_at_utc": "2026-08-18T11:46:31.363469+00:00"
       },
       {
         "group": "zq_curve",
@@ -1259,10 +1267,12 @@
       {
         "group": "sofr_curve",
         "symbol": "SR1Q26.CME",
-        "market_time_utc": "2026-08-18T02:52:58+00:00",
+        "market_time_utc": "2026-08-18T11:27:36+00:00",
         "age_minutes": 11.78,
         "status": "LIVE",
-        "market_state": null
+        "market_state": null,
+        "fast_refresh_price": 96.363,
+        "fast_refreshed_at_utc": "2026-08-18T11:46:31.769498+00:00"
       },
       {
         "group": "sofr_curve",
@@ -1275,10 +1285,12 @@
       {
         "group": "sofr_curve",
         "symbol": "SR1U26.CME",
-        "market_time_utc": "2026-08-18T02:53:01+00:00",
+        "market_time_utc": "2026-08-18T11:27:36+00:00",
         "age_minutes": 11.73,
         "status": "LIVE",
-        "market_state": null
+        "market_state": null,
+        "fast_refresh_price": 96.32,
+        "fast_refreshed_at_utc": "2026-08-18T11:46:32.269424+00:00"
       },
       {
         "group": "sofr_curve",
@@ -1291,10 +1303,12 @@
       {
         "group": "sofr_curve",
         "symbol": "SR1V26.CME",
-        "market_time_utc": "2026-08-18T01:51:26+00:00",
+        "market_time_utc": "2026-08-18T11:30:00+00:00",
         "age_minutes": 73.31,
         "status": "LIVE",
-        "market_state": null
+        "market_state": null,
+        "fast_refresh_price": 96.255,
+        "fast_refreshed_at_utc": "2026-08-18T11:46:32.665203+00:00"
       },
       {
         "group": "sofr_curve",
@@ -1409,6 +1423,64 @@
         "market_state": null
       }
     ]
+  },
+  "fast_market_snapshot": {
+    "version": "V230",
+    "generated_at_utc": "2026-08-18T11:46:32.665251+00:00",
+    "scope": "nearest ZQ/SOFR only",
+    "quotes": {
+      "ZQ=F": {
+        "symbol": "ZQ=F",
+        "price": 96.275,
+        "market_time_utc": "2026-08-18T11:24:11+00:00",
+        "retrieved_at_utc": "2026-08-18T11:46:30.161406+00:00",
+        "source": "Yahoo Finance chart metadata"
+      },
+      "ZQQ26.CBT": {
+        "symbol": "ZQQ26.CBT",
+        "price": 96.37,
+        "market_time_utc": "2026-08-18T11:25:41+00:00",
+        "retrieved_at_utc": "2026-08-18T11:46:30.563511+00:00",
+        "source": "Yahoo Finance chart metadata"
+      },
+      "ZQU26.CBT": {
+        "symbol": "ZQU26.CBT",
+        "price": 96.33,
+        "market_time_utc": "2026-08-18T11:25:55+00:00",
+        "retrieved_at_utc": "2026-08-18T11:46:30.959263+00:00",
+        "source": "Yahoo Finance chart metadata"
+      },
+      "ZQV26.CBT": {
+        "symbol": "ZQV26.CBT",
+        "price": 96.275,
+        "market_time_utc": "2026-08-18T11:24:11+00:00",
+        "retrieved_at_utc": "2026-08-18T11:46:31.363469+00:00",
+        "source": "Yahoo Finance chart metadata"
+      },
+      "SR1Q26.CME": {
+        "symbol": "SR1Q26.CME",
+        "price": 96.363,
+        "market_time_utc": "2026-08-18T11:27:36+00:00",
+        "retrieved_at_utc": "2026-08-18T11:46:31.769498+00:00",
+        "source": "Yahoo Finance chart metadata"
+      },
+      "SR1U26.CME": {
+        "symbol": "SR1U26.CME",
+        "price": 96.32,
+        "market_time_utc": "2026-08-18T11:27:36+00:00",
+        "retrieved_at_utc": "2026-08-18T11:46:32.269424+00:00",
+        "source": "Yahoo Finance chart metadata"
+      },
+      "SR1V26.CME": {
+        "symbol": "SR1V26.CME",
+        "price": 96.255,
+        "market_time_utc": "2026-08-18T11:30:00+00:00",
+        "retrieved_at_utc": "2026-08-18T11:46:32.665203+00:00",
+        "source": "Yahoo Finance chart metadata"
+      }
+    },
+    "full_engine_recomputed": false,
+    "representative_probabilities_changed": false
   },
   "schema_version": "4.0.0-probability-validation-split",
   "fed": {
