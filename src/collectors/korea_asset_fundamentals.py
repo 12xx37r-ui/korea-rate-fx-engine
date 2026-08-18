@@ -26,6 +26,8 @@ INDEX_CONFIG = {
         "ticker": "2203",
         "market": "KOSDAQ",
         "max_constituents": 24,
+        "adaptive_max_constituents": 40,
+        "adaptive_batch_size": 8,
         "minimum_market_cap_coverage": 0.25,
         "minimum_samples": 5,
     },
@@ -398,48 +400,61 @@ def _collect_forward_proxy(cfg: dict[str, Any], current_as_of: str, timeout: int
     universe = _get_index_constituents_and_caps(cfg, current_as_of)
     if not universe.get("available"):
         return {
-            "available": False,
-            "forward_per": None,
-            "eps_growth_pct": None,
-            "proxy_symbols": [],
-            "sample_size": 0,
-            "market_cap_coverage": 0.0,
+            "available": False, "forward_per": None, "eps_growth_pct": None,
+            "proxy_symbols": [], "sample_size": 0, "market_cap_coverage": 0.0,
             "diagnostics": universe.get("diagnostics") or [],
         }
 
     ranked_all = list(universe.get("ranked_caps") or [])
-    selected = ranked_all[: int(cfg.get("max_constituents") or 24)]
+    base_limit = int(cfg.get("max_constituents") or 24)
+    adaptive_limit = min(len(ranked_all), max(base_limit, int(cfg.get("adaptive_max_constituents") or base_limit)))
+    batch_size = max(1, int(cfg.get("adaptive_batch_size") or 8))
     metrics_by_code: dict[str, dict[str, Any]] = {}
-    workers = min(4, max(2, len(selected)))
-    with ThreadPoolExecutor(max_workers=workers) as executor:
-        futures = {
-            executor.submit(_naver_integration_metrics, code, timeout): code
-            for code, _ in selected
-        }
-        for future in as_completed(futures):
-            code = futures[future]
-            try:
-                metrics_by_code[code] = future.result()
-            except Exception as exc:
-                metrics_by_code[code] = {
-                    "code": code,
-                    "available": False,
-                    "diagnostics": [f"naver_future:{type(exc).__name__}:{str(exc)[:120]}"],
-                }
 
-    aggregate = _aggregate_forward_proxy(
-        selected,
-        float(universe.get("total_market_cap") or 0),
-        metrics_by_code,
-        float(cfg.get("minimum_market_cap_coverage") or 0.25),
-        int(cfg.get("minimum_samples") or 5),
-    )
+    def fetch_batch(batch: list[tuple[str, float]]) -> None:
+        if not batch:
+            return
+        workers = min(4, max(2, len(batch)))
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {executor.submit(_naver_integration_metrics, code, timeout): code
+                       for code, _ in batch if code not in metrics_by_code}
+            for future in as_completed(futures):
+                code = futures[future]
+                try:
+                    metrics_by_code[code] = future.result()
+                except Exception as exc:
+                    metrics_by_code[code] = {
+                        "code": code, "available": False,
+                        "diagnostics": [f"naver_future:{type(exc).__name__}:{str(exc)[:120]}"],
+                    }
+
+    selected = ranked_all[:base_limit]
+    fetch_batch(selected)
+    minimum_coverage = float(cfg.get("minimum_market_cap_coverage") or 0.25)
+    minimum_samples = int(cfg.get("minimum_samples") or 5)
+
+    def aggregate_now(items):
+        return _aggregate_forward_proxy(items, float(universe.get("total_market_cap") or 0),
+                                        metrics_by_code, minimum_coverage, minimum_samples)
+
+    aggregate = aggregate_now(selected)
+    queried = len(selected)
+    while not aggregate.get("available") and queried < adaptive_limit:
+        next_end = min(adaptive_limit, queried + batch_size)
+        fetch_batch(ranked_all[queried:next_end])
+        queried = next_end
+        selected = ranked_all[:queried]
+        aggregate = aggregate_now(selected)
+
+    if queried > base_limit:
+        aggregate.setdefault("diagnostics", []).append(
+            f"adaptive_forward_expansion:queried={queried},base={base_limit},max={adaptive_limit}"
+        )
     aggregate["constituent_count"] = int(universe.get("constituent_count") or 0)
-    aggregate["queried_constituent_count"] = len(selected)
+    aggregate["queried_constituent_count"] = queried
     aggregate["as_of"] = universe.get("as_of") or current_as_of
-    aggregate["diagnostics"] = (
-        (universe.get("diagnostics") or []) + (aggregate.get("diagnostics") or [])
-    )[-20:]
+    aggregate["diagnostics"] = ((universe.get("diagnostics") or []) +
+                                (aggregate.get("diagnostics") or []))[-24:]
     return aggregate
 
 
@@ -696,101 +711,111 @@ def _fetch_public_reit_snapshot(
     return {"available": False, "diagnostics": diagnostics[-8:]}
 
 
-def _collect_reit(session: requests.Session, timeout: int) -> dict[str, Any]:
-    official = _fetch_mirae_distribution_history(session, timeout)
+def _collect_reit(session: requests.Session, timeout: int, previous_reit: dict[str, Any] | None = None) -> dict[str, Any]:
+    previous_reit = previous_reit or {}
     snapshot = _naver_integration_metrics(REIT_CODE, timeout, session=session)
-    diagnostics = (official.get("diagnostics") or []) + (snapshot.get("diagnostics") or [])
-
     price = _naver_realtime_price(session, timeout) or _positive_num(snapshot.get("last_close_price"))
-    rows = list(official.get("rows") or [])
-    cutoff = date.today() - timedelta(days=370)
-    trailing = [item for item in rows if date.fromisoformat(item["date"]) >= cutoff]
-    ttm = sum(float(item["amount"]) for item in trailing) if trailing else None
-    distribution_yield = (ttm / price * 100.0) if ttm is not None and price else None
-    latest = trailing[-1]["amount"] if trailing else None
+    diagnostics = list(snapshot.get("diagnostics") or [])
 
-    source = official.get("source")
-    source_url = official.get("source_url")
-    source_method = official.get("source_method")
-    yield_method = "trailing_12m_cash_distributions/current_price" if distribution_yield is not None else None
-    naver_fallback_attempted = False
-    public_fallback_attempted = False
+    previous_ttm = _positive_num(previous_reit.get("trailing_12m_distribution"))
+    previous_as_of = str(previous_reit.get("as_of") or "")
+    previous_age_days = None
+    try:
+        previous_age_days = (date.today() - date.fromisoformat(previous_as_of[:10])).days
+    except Exception:
+        pass
+    cadence_cache_usable = (previous_ttm is not None and previous_age_days is not None
+                            and 0 <= previous_age_days <= 35 and price is not None)
 
-    if distribution_yield is None:
-        naver_fallback_attempted = True
-        naver_yield = _positive_num(snapshot.get("dividend_yield"))
-        naver_dividend = _positive_num(snapshot.get("dividend"))
-        implied_yield = (naver_dividend / price * 100.0) if naver_dividend and price else None
-        consistent = (
-            naver_yield is not None
-            and implied_yield is not None
-            and abs(implied_yield - naver_yield) <= max(0.35, naver_yield * 0.15)
-        )
-        if consistent:
-            ttm = naver_dividend
-            distribution_yield = implied_yield
-            yield_method = "naver_public_snapshot_dps/current_price_cross_checked"
-        elif naver_yield is not None:
-            distribution_yield = naver_yield
-            if naver_dividend is not None:
-                ttm = naver_dividend
-            yield_method = "naver_public_distribution_yield"
-        if distribution_yield is not None:
-            source = "NAVER 증권 공개 ETF 분배지표"
-            source_url = NAVER_INTEGRATION_URL.format(code=REIT_CODE)
-            source_method = "naver_public_reit_snapshot_fallback"
-            diagnostics.append("official_history_unavailable_naver_snapshot_used")
+    rows, trailing = [], []
+    ttm = distribution_yield = latest = None
+    source = source_url = source_method = yield_method = None
+    naver_fallback_attempted = public_fallback_attempted = cadence_cache_used = False
 
-    if distribution_yield is None:
-        public_fallback_attempted = True
-        public_snapshot = _fetch_public_reit_snapshot(session, timeout)
-        diagnostics.extend(public_snapshot.get("diagnostics") or [])
-        if public_snapshot.get("available"):
-            public_price = _positive_num(public_snapshot.get("current_price"))
-            if price is None and public_price is not None:
-                price = public_price
-            public_ttm = _positive_num(public_snapshot.get("trailing_12m_distribution"))
-            public_yield = _positive_num(public_snapshot.get("distribution_yield"))
-            implied_public_yield = (public_ttm / price * 100.0) if public_ttm and price else None
-            if public_yield is not None and implied_public_yield is not None:
-                if abs(implied_public_yield - public_yield) <= max(0.45, public_yield * 0.20):
-                    distribution_yield = implied_public_yield
-                    ttm = public_ttm
-                    yield_method = "public_snapshot_dps/current_price_cross_checked"
-                else:
-                    distribution_yield = public_yield
-                    yield_method = "public_distribution_yield"
-                    diagnostics.append("public_snapshot_dps_yield_crosscheck_mismatch")
-            elif public_yield is not None:
-                distribution_yield = public_yield
-                ttm = public_ttm
-                yield_method = "public_distribution_yield"
+    if cadence_cache_usable:
+        ttm = previous_ttm
+        distribution_yield = ttm / float(price) * 100.0
+        latest = _positive_num(previous_reit.get("latest_distribution"))
+        rows = list(previous_reit.get("distribution_history_12m") or [])
+        trailing = rows
+        source = "NAVER 현재가 + last-good 분배금 기준"
+        source_url = NAVER_INTEGRATION_URL.format(code=REIT_CODE)
+        source_method = "cadence_cache_distribution_fresh_price"
+        yield_method = "cached_ttm_distribution/current_live_price"
+        cadence_cache_used = True
+        diagnostics.append(f"reit_distribution_cadence_cache_used:age_days={previous_age_days},window_days=35")
+    else:
+        official = _fetch_mirae_distribution_history(session, timeout)
+        diagnostics = (official.get("diagnostics") or []) + diagnostics
+        rows = list(official.get("rows") or [])
+        cutoff = date.today() - timedelta(days=370)
+        trailing = [item for item in rows if date.fromisoformat(item["date"]) >= cutoff]
+        ttm = sum(float(item["amount"]) for item in trailing) if trailing else None
+        distribution_yield = (ttm / price * 100.0) if ttm is not None and price else None
+        latest = trailing[-1]["amount"] if trailing else None
+        source, source_url, source_method = official.get("source"), official.get("source_url"), official.get("source_method")
+        yield_method = "trailing_12m_cash_distributions/current_price" if distribution_yield is not None else None
+
+        if distribution_yield is None:
+            naver_fallback_attempted = True
+            naver_yield = _positive_num(snapshot.get("dividend_yield"))
+            naver_dividend = _positive_num(snapshot.get("dividend"))
+            implied_yield = (naver_dividend / price * 100.0) if naver_dividend and price else None
+            consistent = (naver_yield is not None and implied_yield is not None and
+                          abs(implied_yield - naver_yield) <= max(0.35, naver_yield * 0.15))
+            if consistent:
+                ttm, distribution_yield = naver_dividend, implied_yield
+                yield_method = "naver_public_snapshot_dps/current_price_cross_checked"
+            elif naver_yield is not None:
+                distribution_yield = naver_yield
+                if naver_dividend is not None: ttm = naver_dividend
+                yield_method = "naver_public_distribution_yield"
             if distribution_yield is not None:
-                source = public_snapshot.get("source")
-                source_url = public_snapshot.get("source_url")
-                source_method = public_snapshot.get("source_method")
-                diagnostics.append("official_and_naver_unavailable_public_snapshot_used")
+                source = "NAVER 증권 공개 ETF 분배지표"
+                source_url = NAVER_INTEGRATION_URL.format(code=REIT_CODE)
+                source_method = "naver_public_reit_snapshot_fallback"
+                diagnostics.append("official_history_unavailable_naver_snapshot_used")
+
+        if distribution_yield is None:
+            public_fallback_attempted = True
+            public_snapshot = _fetch_public_reit_snapshot(session, timeout)
+            diagnostics.extend(public_snapshot.get("diagnostics") or [])
+            if public_snapshot.get("available"):
+                public_price = _positive_num(public_snapshot.get("current_price"))
+                if price is None and public_price is not None: price = public_price
+                public_ttm = _positive_num(public_snapshot.get("trailing_12m_distribution"))
+                public_yield = _positive_num(public_snapshot.get("distribution_yield"))
+                implied = (public_ttm / price * 100.0) if public_ttm and price else None
+                if public_yield is not None and implied is not None and abs(implied-public_yield) <= max(0.45, public_yield*0.20):
+                    distribution_yield, ttm = implied, public_ttm
+                    yield_method = "public_snapshot_dps/current_price_cross_checked"
+                elif public_yield is not None:
+                    distribution_yield, ttm = public_yield, public_ttm
+                    yield_method = "public_distribution_yield"
+                if distribution_yield is not None:
+                    source, source_url, source_method = public_snapshot.get("source"), public_snapshot.get("source_url"), public_snapshot.get("source_method")
+                    diagnostics.append("official_and_naver_unavailable_public_snapshot_used")
 
     return {
-        "ticker": REIT_CODE,
-        "current_price": _round(price, 2),
+        "ticker": REIT_CODE, "current_price": _round(price, 2),
         "distribution_yield": _round(distribution_yield),
         "trailing_12m_distribution": _round(ttm, 2),
-        "distribution_count_12m": len(trailing),
-        "latest_distribution": _round(latest, 2),
-        "distribution_history_12m": trailing,
-        "yield_method": yield_method or "unavailable",
-        "as_of": date.today().isoformat(),
-        "source": source,
-        "source_url": source_url or NAVER_REIT_PAGE,
-        "source_method": source_method,
-        "official_history_available": bool(trailing),
+        "distribution_count_12m": len(trailing), "latest_distribution": _round(latest, 2),
+        "distribution_history_12m": trailing, "yield_method": yield_method or "unavailable",
+        "as_of": date.today().isoformat() if distribution_yield is not None else (previous_as_of or date.today().isoformat()),
+        "price_as_of": date.today().isoformat() if price is not None else None,
+        "distribution_basis_as_of": previous_as_of if cadence_cache_used else date.today().isoformat(),
+        "distribution_basis_age_days": previous_age_days if cadence_cache_used else 0,
+        "distribution_cadence_cache_used": cadence_cache_used,
+        "source": source, "source_url": source_url or NAVER_REIT_PAGE, "source_method": source_method,
+        "official_history_available": bool(trailing) and not cadence_cache_used,
         "naver_fallback_attempted": naver_fallback_attempted,
         "public_fallback_attempted": public_fallback_attempted,
         "available": distribution_yield is not None,
-        "stale": False,
+        "stale": not (distribution_yield is not None and price is not None),
         "diagnostics": diagnostics[-18:],
     }
+
 
 def _reuse_last_good(
     current: dict[str, Any], old: dict[str, Any], label: str
@@ -840,13 +865,13 @@ def collect(output_dir: Path, timeout: int = 25) -> dict[str, Any]:
             warnings.append(f"{key}: forward consensus unavailable")
         indices[key] = row
 
-    reit_live = _collect_reit(session, timeout)
+    reit_live = _collect_reit(session, timeout, previous.get("reit") or {})
     reit, reused = _reuse_last_good(reit_live, previous.get("reit") or {}, "reit")
     used_previous = used_previous or reused
     if not reit.get("available"):
         errors.append("reit: distribution_yield unavailable")
-    elif not reit.get("official_history_available"):
-        warnings.append("reit: official distribution history unavailable; NAVER snapshot fallback used")
+    elif not reit.get("official_history_available") and not reit.get("distribution_cadence_cache_used"):
+        warnings.append("reit: official distribution history unavailable; fallback source used")
 
     result = {
         "schema_version": "1.3.0",

@@ -63,15 +63,19 @@ def collect(output_dir: Path, timeout: int, retries: int) -> SourceResult:
             if not key:
                 warnings.append("REB_API_KEY absent: official portal headline fallback used")
             elif not series:
-                warnings.append("detailed REB series not configured: official portal headline fallback used")
+                # Valid official headline fallback is an intentional coverage mode,
+                # not a degraded collection failure. Keep status=ok and expose the
+                # mode in the message instead of manufacturing a warning.
+                pass
         except Exception as exc:
             warnings.append(f"official_headline: {type(exc).__name__}: {str(exc)[:160]}")
 
     path = output_dir / "raw_reb.json"
     if payloads:
         write_json(path, payloads)
+        mode = "상세 R-ONE 시리즈" if series and key else "공식 포털 headline fallback"
         return SourceResult("reb", "ok" if not warnings else "degraded",
-                            "R-ONE 공식 부동산 지표를 수집했습니다.", rows=len(payloads),
+                            f"R-ONE 공식 부동산 지표를 수집했습니다. ({mode})", rows=len(payloads),
                             payload_path=str(path), warnings=warnings)
 
     # Do not overwrite last-good raw_reb.json with an empty object.

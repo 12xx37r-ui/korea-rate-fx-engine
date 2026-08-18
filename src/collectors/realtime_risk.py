@@ -11,6 +11,7 @@ from __future__ import annotations
 """
 
 import math
+import os
 import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -19,7 +20,7 @@ from typing import Any
 from src.core.io import read_json, write_json
 
 
-COLLECTOR_VERSION = "realtime-risk-collector-v1.3-vkospi-e62001"
+COLLECTOR_VERSION = "realtime-risk-collector-v1.4-vkospi-diagnostics"
 YAHOO_SYMBOLS = {
     "sox": "^SOX",
     "nvda": "NVDA",
@@ -30,6 +31,7 @@ YAHOO_TIMEOUT = (3, 9)
 VKOSPI_INDEX_CODE = "E62001"
 VKOSPI_POLL_URL = "https://polling.finance.naver.com/api/realtime"
 VKOSPI_BASIC_URL = "https://m.stock.naver.com/api/index/E62001/basic"
+KRX_DERIV_INDEX_URL = "https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd"
 
 
 def _num(value: Any) -> float | None:
@@ -116,6 +118,58 @@ def _vkospi_naver_live() -> dict[str, Any]:
     raise RuntimeError("; ".join(errors[-4:]))
 
 
+
+def _vkospi_krx_daily() -> dict[str, Any]:
+    """Official KRX daily derivative-index fallback.
+
+    Called only if both NAVER E62001 paths fail. The endpoint is daily/EOD, so
+    it intentionally searches only a few recent business dates and accepts a
+    row only when KRX itself labels it V-KOSPI 200.
+    """
+    import requests
+    key = os.getenv("KRX_API_KEY", "").strip()
+    if not key:
+        raise RuntimeError("KRX_API_KEY unavailable")
+    errors: list[str] = []
+    d = date.today()
+    tried = 0
+    while tried < 4:
+        d -= timedelta(days=1)
+        if d.weekday() >= 5:
+            continue
+        tried += 1
+        bas_dd = d.strftime("%Y%m%d")
+        try:
+            response = requests.get(
+                KRX_DERIV_INDEX_URL,
+                params={"basDd": bas_dd},
+                headers={"AUTH_KEY": key, "Accept": "application/json"},
+                timeout=YAHOO_TIMEOUT,
+            )
+            response.raise_for_status()
+            rows = (response.json() or {}).get("OutBlock_1") or []
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                name = str(row.get("IDX_NM") or "").upper().replace(" ", "")
+                if "V-KOSPI200" not in name and "VKOSPI200" not in name:
+                    continue
+                raw = str(row.get("CLSPRC_IDX") or "").replace(",", "").strip()
+                value = _num(raw)
+                if value is not None and 5.0 <= value <= 150.0:
+                    return {
+                        "value": value,
+                        "date": str(row.get("BAS_DD") or bas_dd),
+                        "source": "KRX OPEN API derivative-index daily",
+                        "source_validation": "verified",
+                        "code": VKOSPI_INDEX_CODE,
+                        "freshness_class": "EOD",
+                    }
+            errors.append(f"{bas_dd}:vkospi_row_not_found")
+        except Exception as exc:
+            errors.append(f"{bas_dd}:{type(exc).__name__}:{str(exc)[:100]}")
+    raise RuntimeError("; ".join(errors[-4:]))
+
 def _safe_read(path: Path, default: Any) -> Any:
     try:
         return read_json(path) if path.exists() else default
@@ -200,20 +254,37 @@ def _rolling_std(rows: list[dict[str, Any]], window: int = 10) -> float | None:
 
 def _collect_vkospi(previous_vkospi: list[dict[str, Any]]) -> dict[str, Any]:
     verified_previous = _sanitize_verified_vkospi_rows(previous_vkospi)
+    errors: list[str] = []
+    live = None
     try:
         live = _vkospi_naver_live()
+    except Exception as exc:
+        errors.append(f"naver:{type(exc).__name__}:{str(exc)[:160]}")
+        try:
+            live = _vkospi_krx_daily()
+        except Exception as krx_exc:
+            errors.append(f"krx:{type(krx_exc).__name__}:{str(krx_exc)[:160]}")
+
+    if live is not None:
         by_date = {str(x.get("date")): dict(x) for x in verified_previous if x.get("date")}
         by_date[str(live["date"])] = live
         rows = [by_date[d] for d in sorted(by_date)][-90:]
-        return {"available": True, "rows": rows, "stale": False,
+        live_date = str(live.get("date") or "")
+        stale = False
+        try:
+            live_dt = datetime.strptime(live_date[:8], "%Y%m%d").date()
+            stale = (date.today() - live_dt).days > 3
+        except Exception:
+            pass
+        return {"available": True, "rows": rows, "stale": stale,
                 "source": live["source"], "source_validation": "verified",
-                "reason": None}
-    except Exception as exc:
-        return {"available": bool(verified_previous), "rows": verified_previous,
-                "stale": bool(verified_previous),
-                "source": "verified VKOSPI last-good" if verified_previous else None,
-                "source_validation": "verified" if verified_previous else "unavailable",
-                "reason": f"verified E62001 live fetch unavailable: {type(exc).__name__}: {str(exc)[:180]}"}
+                "reason": "; ".join(errors) if errors else None}
+
+    return {"available": bool(verified_previous), "rows": verified_previous,
+            "stale": bool(verified_previous),
+            "source": "verified VKOSPI last-good" if verified_previous else None,
+            "source_validation": "verified" if verified_previous else "unavailable",
+            "reason": "; ".join(errors[-2:]) or "verified VKOSPI source unavailable"}
 
 
 def _collect_foreign_futures(previous_futures: dict[str, Any]) -> dict[str, Any]:
@@ -343,6 +414,9 @@ def collect(output_dir: Path, timeout: int = 20) -> dict[str, Any]:
             "rows": vkospi_rows[-60:],
             "stale": vkospi_result.get("stale", False),
             "source": vkospi_result.get("source"),
+            "source_validation": vkospi_result.get("source_validation"),
+            "reason": vkospi_result.get("reason"),
+            "identity_code": VKOSPI_INDEX_CODE,
         },
         "semiconductor": {
             "sox_latest": _round(sox_latest),
