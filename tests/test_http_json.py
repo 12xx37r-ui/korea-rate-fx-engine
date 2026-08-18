@@ -17,6 +17,7 @@ def test_parse_single_quoted_object():
 
 def test_get_json_accepts_json_body_with_html_content_type():
     response = Mock()
+    response.status_code = 200
     response.text = '[{"ORG_ID":"101","TBL_ID":"DT_TEST"}]'
     response.headers = {"content-type": "text/html; charset=UTF-8"}
     response.raise_for_status.return_value = None
