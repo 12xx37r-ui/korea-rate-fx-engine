@@ -64,6 +64,30 @@ def _num(value: Any) -> float | None:
     return out if math.isfinite(out) else None
 
 
+
+
+def _naver_metric_num(value: Any) -> float | None:
+    """Parse NAVER metric strings such as '26.86배', '396원', '9.7%'.
+
+    This is deliberately separate from the generic numeric parser so market-cap
+    strings containing 조/억 are never accidentally interpreted as plain numbers.
+    """
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return _num(value)
+    raw = str(value).strip().replace(',', '')
+    if not raw or raw in {'-', '--', 'N/A', 'null', 'None', 'nan', 'NaN'}:
+        return None
+    m = re.search(r'[-+]?(?:\d+(?:\.\d*)?|\.\d+)', raw)
+    if not m:
+        return None
+    try:
+        v = float(m.group(0))
+    except ValueError:
+        return None
+    return v if math.isfinite(v) else None
+
 def _positive_num(value: Any) -> float | None:
     out = _num(value)
     return out if out is not None and out > 0 else None
@@ -205,16 +229,16 @@ def _naver_integration_metrics(
         infos = _extract_naver_total_infos(payload)
         return {
             "code": code,
-            "per": _positive_num(_info_value(infos, "per")),
-            "eps": _num(_info_value(infos, "eps")),
-            "forward_per": _positive_num(_info_value(infos, "cnsPer", "forwardPer")),
-            "forward_eps": _num(_info_value(infos, "cnsEps", "forwardEps")),
-            "pbr": _positive_num(_info_value(infos, "pbr")),
-            "dividend_yield": _positive_num(
+            "per": _naver_metric_num(_info_value(infos, "per")),
+            "eps": _naver_metric_num(_info_value(infos, "eps")),
+            "forward_per": _naver_metric_num(_info_value(infos, "cnsPer", "forwardPer")),
+            "forward_eps": _naver_metric_num(_info_value(infos, "cnsEps", "forwardEps")),
+            "pbr": _naver_metric_num(_info_value(infos, "pbr")),
+            "dividend_yield": _naver_metric_num(
                 _info_value(infos, "dividendYieldRatio", "dividendYield")
             ),
-            "dividend": _positive_num(_info_value(infos, "dividend", "dividendPerShare")),
-            "last_close_price": _positive_num(
+            "dividend": _naver_metric_num(_info_value(infos, "dividend", "dividendPerShare")),
+            "last_close_price": _naver_metric_num(
                 _info_value(infos, "lastClosePrice", "closePrice")
             ),
             "available": bool(infos),
@@ -386,7 +410,7 @@ def _collect_forward_proxy(cfg: dict[str, Any], current_as_of: str, timeout: int
     ranked_all = list(universe.get("ranked_caps") or [])
     selected = ranked_all[: int(cfg.get("max_constituents") or 24)]
     metrics_by_code: dict[str, dict[str, Any]] = {}
-    workers = min(8, max(2, len(selected)))
+    workers = min(4, max(2, len(selected)))
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {
             executor.submit(_naver_integration_metrics, code, timeout): code

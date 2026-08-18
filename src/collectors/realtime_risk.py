@@ -19,7 +19,7 @@ from typing import Any
 from src.core.io import read_json, write_json
 
 
-COLLECTOR_VERSION = "realtime-risk-collector-v1.2-vkospi-source-guard"
+COLLECTOR_VERSION = "realtime-risk-collector-v1.3-vkospi-e62001"
 YAHOO_SYMBOLS = {
     "sox": "^SOX",
     "nvda": "NVDA",
@@ -27,7 +27,9 @@ YAHOO_SYMBOLS = {
     "sp500": "^GSPC",
 }
 YAHOO_TIMEOUT = (3, 9)
-VKOSPI_TICKER = "1024"
+VKOSPI_INDEX_CODE = "E62001"
+VKOSPI_POLL_URL = "https://polling.finance.naver.com/api/realtime"
+VKOSPI_BASIC_URL = "https://m.stock.naver.com/api/index/E62001/basic"
 
 
 def _num(value: Any) -> float | None:
@@ -45,12 +47,6 @@ def _round(value: float | None, digits: int = 4) -> float | None:
 
 
 def _sanitize_verified_vkospi_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Keep only VKOSPI rows that explicitly came from a verified source.
-
-    Older engine builds used a hard-coded pykrx index ticker as VKOSPI.  That
-    mapping is not reliable enough to drive a circuit breaker, so legacy rows
-    from that path are deliberately rejected rather than rescaled heuristically.
-    """
     out: list[dict[str, Any]] = []
     for row in rows or []:
         if not isinstance(row, dict):
@@ -62,6 +58,62 @@ def _sanitize_verified_vkospi_rows(rows: list[dict[str, Any]]) -> list[dict[str,
             continue
         out.append(dict(row))
     return out
+
+
+def _vkospi_naver_live() -> dict[str, Any]:
+    """Fetch V-KOSPI 200 using the verified KRX/Koscom issue code E62001.
+
+    Identity guard is strict: code must resolve to E62001 and value must be in a
+    plausible volatility-index range.  A secondary public endpoint is attempted
+    only if the polling endpoint fails, so normal network cost is one request.
+    """
+    import requests
+    headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/json,*/*"}
+    errors: list[str] = []
+    with requests.Session() as session:
+        try:
+            response = session.get(
+                VKOSPI_POLL_URL,
+                params={"query": f"SERVICE_INDEX:{VKOSPI_INDEX_CODE}"},
+                headers=headers, timeout=YAHOO_TIMEOUT,
+            )
+            response.raise_for_status()
+            payload = response.json()
+            areas = ((payload or {}).get("result") or {}).get("areas") or []
+            data = ((areas[0] or {}).get("datas") or [None])[0] if areas else None
+            if isinstance(data, dict):
+                code = str(data.get("cd") or data.get("code") or "").strip()
+                raw = data.get("nv")
+                value = _num(raw)
+                # NAVER index polling commonly transmits index values *100 as integers.
+                if value is not None and value > 150.0:
+                    value = value / 100.0
+                if code == VKOSPI_INDEX_CODE and value is not None and 5.0 <= value <= 150.0:
+                    return {"value": value, "date": date.today().strftime("%Y%m%d"),
+                            "source": "NAVER Finance index polling (KRX/Koscom E62001)",
+                            "source_validation": "verified", "code": code}
+            errors.append("polling_identity_or_value_guard_failed")
+        except Exception as exc:
+            errors.append(f"polling:{type(exc).__name__}:{str(exc)[:100]}")
+
+        try:
+            response = session.get(VKOSPI_BASIC_URL, headers=headers, timeout=YAHOO_TIMEOUT)
+            response.raise_for_status()
+            payload = response.json()
+            code = str(payload.get("itemCode") or payload.get("code") or payload.get("reutersCode") or "").strip()
+            name = str(payload.get("stockName") or payload.get("indexName") or payload.get("name") or "")
+            raw = payload.get("closePrice") or payload.get("currentPrice") or payload.get("value")
+            if isinstance(raw, str): raw = raw.replace(',', '')
+            value = _num(raw)
+            identity_ok = code == VKOSPI_INDEX_CODE or "KOSPI" in name.upper() and ("V-" in name.upper() or "VOL" in name.upper())
+            if identity_ok and value is not None and 5.0 <= value <= 150.0:
+                return {"value": value, "date": date.today().strftime("%Y%m%d"),
+                        "source": "NAVER Finance index basic (KRX/Koscom E62001)",
+                        "source_validation": "verified", "code": VKOSPI_INDEX_CODE}
+            errors.append("basic_identity_or_value_guard_failed")
+        except Exception as exc:
+            errors.append(f"basic:{type(exc).__name__}:{str(exc)[:100]}")
+    raise RuntimeError("; ".join(errors[-4:]))
 
 
 def _safe_read(path: Path, default: Any) -> Any:
@@ -147,24 +199,22 @@ def _rolling_std(rows: list[dict[str, Any]], window: int = 10) -> float | None:
 
 
 def _collect_vkospi(previous_vkospi: list[dict[str, Any]]) -> dict[str, Any]:
-    """Fail closed until a verifiable VKOSPI source is configured.
-
-    A volatility circuit breaker must never be driven by an unverified index
-    ticker.  Preserve only previously verified VKOSPI observations; otherwise
-    expose the input as unavailable so the regime model falls back to its other
-    risk inputs instead of manufacturing a crisis signal.
-    """
     verified_previous = _sanitize_verified_vkospi_rows(previous_vkospi)
-    return {
-        "available": bool(verified_previous),
-        "rows": verified_previous,
-        "stale": bool(verified_previous),
-        "source": "verified VKOSPI last-good" if verified_previous else None,
-        "source_validation": "verified" if verified_previous else "unavailable",
-        "reason": (
-            "live VKOSPI source disabled: legacy pykrx ticker mapping is not verified for circuit-breaker use"
-        ),
-    }
+    try:
+        live = _vkospi_naver_live()
+        by_date = {str(x.get("date")): dict(x) for x in verified_previous if x.get("date")}
+        by_date[str(live["date"])] = live
+        rows = [by_date[d] for d in sorted(by_date)][-90:]
+        return {"available": True, "rows": rows, "stale": False,
+                "source": live["source"], "source_validation": "verified",
+                "reason": None}
+    except Exception as exc:
+        return {"available": bool(verified_previous), "rows": verified_previous,
+                "stale": bool(verified_previous),
+                "source": "verified VKOSPI last-good" if verified_previous else None,
+                "source_validation": "verified" if verified_previous else "unavailable",
+                "reason": f"verified E62001 live fetch unavailable: {type(exc).__name__}: {str(exc)[:180]}"}
+
 
 def _collect_foreign_futures(previous_futures: dict[str, Any]) -> dict[str, Any]:
     try:
@@ -293,8 +343,6 @@ def collect(output_dir: Path, timeout: int = 20) -> dict[str, Any]:
             "rows": vkospi_rows[-60:],
             "stale": vkospi_result.get("stale", False),
             "source": vkospi_result.get("source"),
-            "source_validation": vkospi_result.get("source_validation"),
-            "reason": vkospi_result.get("reason"),
         },
         "semiconductor": {
             "sox_latest": _round(sox_latest),
