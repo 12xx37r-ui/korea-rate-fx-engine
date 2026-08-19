@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-19T21:05:54.354076+00:00",
+  "generated_at_utc": "2026-08-19T23:03:57.644987+00:00",
   "indices": {
     "kospi200": {
       "per": 17.18,
@@ -20,7 +20,7 @@
       "as_of": "2026-08-19",
       "source": "KRX 지수 투자지표 (pykrx 세션) + KRX 지수 구성종목 + NAVER 공개 컨센서스",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "last_good_reuse",
+      "source_method": "pykrx_authenticated+constituent_market_cap_weighted_consensus",
       "proxy_symbols": [
         "005930",
         "000660",
@@ -46,14 +46,9 @@
         "010120",
         "000810"
       ],
-      "stale": true,
+      "stale": false,
       "diagnostics": [
-        "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "kospi200:live_failed_last_good_reused"
-      ],
-      "live_diagnostics": [
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+        "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']"
       ]
     },
     "kosdaq150": {
@@ -73,7 +68,7 @@
       "as_of": "2026-08-19",
       "source": "KRX 지수 투자지표 (pykrx 세션) + KRX 지수 구성종목 + NAVER 공개 컨센서스",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "last_good_reuse",
+      "source_method": "pykrx_authenticated+constituent_market_cap_weighted_consensus",
       "proxy_symbols": [
         "196170",
         "240810",
@@ -94,15 +89,10 @@
         "214150",
         "237690"
       ],
-      "stale": true,
+      "stale": false,
       "diagnostics": [
         "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "adaptive_forward_expansion:queried=40,base=24,max=40",
-        "kosdaq150:live_failed_last_good_reused"
-      ],
-      "live_diagnostics": [
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
-        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+        "adaptive_forward_expansion:queried=40,base=24,max=40"
       ]
     }
   },
@@ -139,7 +129,7 @@
     "mirae_official_reit_history_attempted": true,
     "naver_reit_snapshot_fallback_attempted": false,
     "public_reit_snapshot_fallback_attempted": false,
-    "used_previous_results": true,
+    "used_previous_results": false,
     "paid_api_required": false
   },
   "limitations": [

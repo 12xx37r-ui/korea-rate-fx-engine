@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-20T06:05:28.059952+09:00",
+  "generated_at": "2026-08-20T08:03:09.402169+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -20,45 +20,22 @@
     },
     "ecos": {
       "source": "ecos",
-      "status": "degraded",
+      "status": "ok",
       "message": "ECOS 국내 금리·환율·유동성 증분수집 완료",
       "rows": 17386,
       "latest_observation": "20260819",
       "payload_path": "output/raw_ecos.json",
-      "warnings": [
-        "kr_base_rate: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/722Y001/D/20260727/20260819/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f254c165e80>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
-        "usdkrw: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/731Y001/D/20260729/20260819/0000001/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f254c166840>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
-        "kr_gov_2y: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/817Y002/D/20260729/20260819/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f254c1671a0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지"
-      ],
+      "warnings": [],
       "metadata": {
         "resolution_path": "output/ecos_resolution.json",
         "cache_version": 2,
         "incremental_fetch": true,
         "daily_overlap_days": 21,
         "monthly_overlap_months": 4,
-        "last_good_reused": [
-          "current_account",
-          "fx_reserves",
-          "kr_base_rate",
-          "kr_gov_10y",
-          "kr_gov_2y",
-          "kr_gov_3y",
-          "kr_lf",
-          "kr_m1",
-          "kr_m2",
-          "usdkrw"
-        ],
-        "circuit_breaker_open": true,
-        "circuit_breaker_reason": "HttpError: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/817Y002/D/20260729/20260819/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f254c1671a0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)'))",
-        "circuit_last_good_reused": [
-          "current_account",
-          "fx_reserves",
-          "kr_gov_10y",
-          "kr_gov_3y",
-          "kr_lf",
-          "kr_m1",
-          "kr_m2"
-        ],
+        "last_good_reused": [],
+        "circuit_breaker_open": false,
+        "circuit_breaker_reason": null,
+        "circuit_last_good_reused": [],
         "ecos_connect_timeout_seconds": 4,
         "ecos_read_timeout_seconds": 10,
         "ecos_request_retries": 1,
@@ -118,7 +95,7 @@
             "mode": "incremental",
             "plan": [
               {
-                "start": "2026-07-03",
+                "start": "2026-07-04",
                 "mode": "incremental",
                 "keys": [
                   "us_2y",
@@ -128,7 +105,7 @@
                 ]
               },
               {
-                "start": "2026-07-04",
+                "start": "2026-07-05",
                 "mode": "incremental",
                 "keys": [
                   "us_breakeven_10y"
@@ -149,7 +126,7 @@
                 ]
               },
               {
-                "start": "2026-06-27",
+                "start": "2026-07-04",
                 "mode": "incremental",
                 "keys": [
                   "wti"
@@ -169,20 +146,26 @@
         "overlap_days": 45,
         "last_good_reused": [],
         "errors": {},
-        "elapsed_seconds": 3.35
+        "elapsed_seconds": 4.42
       }
     },
     "krx": {
       "source": "krx",
-      "status": "error",
+      "status": "ok",
       "message": "KRX 공식API + pykrx 외국인수급/선물/베이시스 수집",
       "rows": 1,
       "latest_observation": null,
       "payload_path": "output/raw_krx.json",
       "warnings": [],
       "metadata": {
-        "supply_demand_available": false,
-        "flow_momentum_summary": {}
+        "supply_demand_available": true,
+        "flow_momentum_summary": {
+          "cum_5d_net": 3172217602324.0,
+          "cum_20d_net": -2829403929147.0,
+          "momentum_signal": "혼조",
+          "futures_trend": "매도우위",
+          "basis_signal": null
+        }
       }
     },
     "kosis": {
@@ -255,8 +238,5 @@
     "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
-  "warnings": [
-    "ecos: ECOS 국내 금리·환율·유동성 증분수집 완료",
-    "krx: KRX 공식API + pykrx 외국인수급/선물/베이시스 수집"
-  ]
+  "warnings": []
 }

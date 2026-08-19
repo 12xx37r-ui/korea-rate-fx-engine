@@ -6753,8 +6753,9 @@
     }
   },
   "supply_demand": {
-    "available": false,
-    "error": "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
+    "schema_version": "1.0.0",
+    "generated_at": "2026-08-19T23:03:33.133472Z",
+    "available": true,
     "foreign_spot_flow": {
       "available": true,
       "period_start": "20260720",
@@ -6778,7 +6779,7 @@
       "source": "pykrx KOSPI 외국인 현물 (선물 API 불가 시 대용)",
       "note": "pykrx futures 모듈 미지원 환경: KOSPI 현물 순매수 대용",
       "diagnostics": [
-        "pykrx_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__init__.py)"
+        "pykrx_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__init__.py)"
       ]
     },
     "basis": {
@@ -6787,8 +6788,15 @@
       "kospi200_futures": null,
       "reason": "선물가격 조회 실패",
       "diagnostics": [
-        "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__"
+        "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__"
       ]
+    },
+    "flow_momentum_summary": {
+      "cum_5d_net": 3172217602324.0,
+      "cum_20d_net": -2829403929147.0,
+      "momentum_signal": "혼조",
+      "futures_trend": "매도우위",
+      "basis_signal": null
     }
   }
 }

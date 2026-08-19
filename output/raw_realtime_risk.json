@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-19T21:05:56.396875+00:00",
+  "generated_at_utc": "2026-08-19T23:04:01.347951+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -10,7 +10,7 @@
     "stale": false,
     "source": null,
     "source_validation": "unavailable",
-    "reason": "naver:RuntimeError:polling_identity_or_value_guard_failed; basic:HTTPError:409 Client Error: 409 for url: https://m.stock.naver.com/api/index/E62001/basic; krx:RuntimeError:20260818:HTTPError:403 Client Error: Forbidden for url: https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?basDd=20; 20260817:HTTPError:403 Client Error: Fo",
+    "reason": "naver:RuntimeError:polling_identity_or_value_guard_failed; basic:HTTPError:409 Client Error: 409 for url: https://m.stock.naver.com/api/index/E62001/basic; krx:RuntimeError:20260818:HTTPError:401 Client Error: Unauthorized for url: https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?basDd; 20260817:HTTPError:401 Client Error: Un",
     "identity_code": "E62001"
   },
   "semiconductor": {
@@ -21,11 +21,11 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1387.14,
-    "change_1d_pct": -1.8704,
-    "change_3d_pct": -1.9945,
-    "std_5d": 10.7731,
-    "std_10d": 8.5475
+    "latest_rate": 1387.97,
+    "change_1d_pct": -1.8117,
+    "change_3d_pct": -1.9359,
+    "std_5d": 10.443,
+    "std_10d": 8.3042
   },
   "cds_proxy": {
     "available": true,
@@ -38,8 +38,6 @@
   },
   "foreign_futures": {
     "available": true,
-    "stale": true,
-    "reason": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
     "period_start": "20260720",
     "period_end": "20260819",
     "foreign_net_value": -497737670000.0,
@@ -49,6 +47,24 @@
   },
   "semiconductor_raw": {
     "sox": [
+      {
+        "date": "20260520",
+        "value": 11813.2900390625,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260521",
+        "value": 11964.080078125,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260522",
+        "value": 12202.5400390625,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
       {
         "date": "20260526",
         "value": 12876.91015625,
@@ -278,18 +294,6 @@
         "symbol": "^SOX"
       },
       {
-        "date": "20260721",
-        "value": 12356.16015625,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260722",
-        "value": 12410.669921875,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
         "date": "20260723",
         "value": 12343.83984375,
         "source": "Yahoo Finance",
@@ -322,12 +326,6 @@
       {
         "date": "20260730",
         "value": 11302.990234375,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260731",
-        "value": 11311.080078125,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       },
@@ -1498,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 1.79
+  "elapsed_seconds": 3.4
 }

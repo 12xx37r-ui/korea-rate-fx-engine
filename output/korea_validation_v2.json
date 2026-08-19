@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-20T06:05:28.059952+09:00",
+  "generated_at": "2026-08-20T08:03:09.402169+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5119,
@@ -3103,7 +3103,7 @@
       "validation_integrity": 0.15
     },
     "optional_enhancement_sources": {
-      "krx_market": "error",
+      "krx_market": "ok",
       "reb_financial_stability": "ok",
       "used_in_fixed_rate_model": false
     },
@@ -3338,17 +3338,17 @@
           "contrarian_60": 0.153,
           "macro_public_factors": 0.0,
           "mean_reversion_252": 0.1369,
-          "momentum_120": 0.0512,
+          "momentum_120": 0.0511,
           "momentum_20": 0.0608,
           "momentum_60": 0.0461,
-          "rate_gap_carry": 0.2481,
+          "rate_gap_carry": 0.2482,
           "risk_regime": 0.0,
           "trend_acceleration": 0.1417
         },
         "macro_oos_gate": {
           "passed": false,
           "samples": 300,
-          "persistence_skill_pct": -14.148,
+          "persistence_skill_pct": -14.149,
           "direction_accuracy": 0.2567,
           "rule": "macro live weight only when past-only OOS persistence skill > 0 and direction accuracy >= 0.50"
         },
@@ -3357,9 +3357,9 @@
         "candidate_oos": {
           "contrarian_120": {
             "samples": 300,
-            "skill_pct": 1.909,
+            "skill_pct": 1.908,
             "direction_accuracy": 0.4867,
-            "live_weight": 0.162336
+            "live_weight": 0.162299
           },
           "contrarian_60": {
             "samples": 300,
@@ -3369,43 +3369,43 @@
           },
           "macro_public_factors": {
             "samples": 300,
-            "skill_pct": -14.148,
+            "skill_pct": -14.149,
             "direction_accuracy": 0.2567,
             "live_weight": 0.0
           },
           "mean_reversion_252": {
             "samples": 300,
-            "skill_pct": 1.764,
+            "skill_pct": 1.763,
             "direction_accuracy": 0.4267,
-            "live_weight": 0.136885
+            "live_weight": 0.136862
           },
           "momentum_120": {
             "samples": 300,
             "skill_pct": -8.183,
             "direction_accuracy": 0.4033,
-            "live_weight": 0.051154
+            "live_weight": 0.051148
           },
           "momentum_20": {
             "samples": 300,
             "skill_pct": -6.769,
             "direction_accuracy": 0.4733,
-            "live_weight": 0.060784
+            "live_weight": 0.060775
           },
           "momentum_60": {
             "samples": 300,
-            "skill_pct": -9.385,
+            "skill_pct": -9.386,
             "direction_accuracy": 0.4533,
-            "live_weight": 0.046119
+            "live_weight": 0.046103
           },
           "rate_gap_carry": {
             "samples": 105,
-            "skill_pct": 16.431,
+            "skill_pct": 16.442,
             "direction_accuracy": 0.6381,
-            "live_weight": 0.248064
+            "live_weight": 0.248153
           },
           "risk_regime": {
             "samples": 105,
-            "skill_pct": 11.203,
+            "skill_pct": 11.212,
             "direction_accuracy": 0.1905,
             "live_weight": 0.0
           },
@@ -3413,7 +3413,7 @@
             "samples": 300,
             "skill_pct": 1.397,
             "direction_accuracy": 0.4167,
-            "live_weight": 0.141691
+            "live_weight": 0.141693
           }
         },
         "selection_rule": "55% recent + 45% expanding matured OOS skill/direction; no lookahead",
