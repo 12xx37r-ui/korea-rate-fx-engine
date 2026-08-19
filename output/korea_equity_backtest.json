@@ -1,12 +1,12 @@
 {
   "model_version": "backtest-v1.0",
-  "generated_at_utc": "2026-08-19T09:07:02.223714+00:00",
+  "generated_at_utc": "2026-08-19T13:05:35.461739+00:00",
   "data_summary": {
     "price_samples": 320,
     "signal_samples": 20,
     "price_range": {
-      "start": "2025-04-24",
-      "end": "2026-08-18"
+      "start": "2025-04-25",
+      "end": "2026-08-19"
     }
   },
   "scenarios": {
