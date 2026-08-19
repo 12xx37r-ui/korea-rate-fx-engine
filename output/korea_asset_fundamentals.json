@@ -1,13 +1,13 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-18T23:03:39.508968+00:00",
+  "generated_at_utc": "2026-08-19T01:02:28.620354+00:00",
   "indices": {
     "kospi200": {
       "per": 18.35,
-      "forward_per": 6.1939,
-      "eps_growth_pct": 200.1044,
-      "growth_adjusted_per": 0.031,
+      "forward_per": 5.681,
+      "eps_growth_pct": 203.9351,
+      "growth_adjusted_per": 0.0279,
       "pbr": 2.26,
       "dividend_yield": 0.84,
       "available": true,
@@ -48,14 +48,16 @@
       ],
       "stale": false,
       "diagnostics": [
+        "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260819:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260818:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']"
       ]
     },
     "kosdaq150": {
       "per": 62.1,
-      "forward_per": 26.039,
-      "eps_growth_pct": 42.9409,
-      "growth_adjusted_per": 0.6064,
+      "forward_per": 25.2785,
+      "eps_growth_pct": 47.7981,
+      "growth_adjusted_per": 0.5289,
       "pbr": 4.23,
       "dividend_yield": 0.38,
       "available": true,
@@ -92,6 +94,8 @@
       ],
       "stale": false,
       "diagnostics": [
+        "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "20260819:pykrx_fields_empty:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "20260818:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
         "adaptive_forward_expansion:queried=40,base=24,max=40"
       ]
@@ -99,17 +103,17 @@
   },
   "reit": {
     "ticker": "329200",
-    "current_price": 4115.0,
-    "distribution_yield": 9.6233,
+    "current_price": 4075.0,
+    "distribution_yield": 9.7178,
     "trailing_12m_distribution": 396.0,
     "distribution_count_12m": 0,
     "latest_distribution": null,
     "distribution_history_12m": [],
     "yield_method": "cached_ttm_distribution/current_live_price",
-    "as_of": "2026-08-18",
-    "price_as_of": "2026-08-18",
+    "as_of": "2026-08-19",
+    "price_as_of": "2026-08-19",
     "distribution_basis_as_of": "2026-08-18",
-    "distribution_basis_age_days": 0,
+    "distribution_basis_age_days": 1,
     "distribution_cadence_cache_used": true,
     "source": "NAVER 현재가 + last-good 분배금 기준",
     "source_url": "https://m.stock.naver.com/api/stock/329200/integration",
@@ -120,7 +124,7 @@
     "available": true,
     "stale": false,
     "diagnostics": [
-      "reit_distribution_cadence_cache_used:age_days=0,window_days=35"
+      "reit_distribution_cadence_cache_used:age_days=1,window_days=35"
     ]
   },
   "source_status": {
