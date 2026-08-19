@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-19T09:56:47.683071+00:00",
+  "generated_at_utc": "2026-08-19T11:04:13.211912+00:00",
   "status": "SKIP_RECENT_FULL",
   "reason": "full output is recent",
   "full_generated_at_utc": "2026-08-19T09:04:19.925032+00:00",
-  "full_age_minutes": 52.46,
+  "full_age_minutes": 119.89,
   "guard_minutes": 120,
   "network_calls": 0,
   "canonical_file_changed": false
