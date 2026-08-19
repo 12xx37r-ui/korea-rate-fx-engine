@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "korea-equity-environment-collector-v1.2-close-per-earnings-fallback",
-  "generated_at_utc": "2026-08-19T05:05:09.264919+00:00",
+  "generated_at_utc": "2026-08-19T09:07:02.110407+00:00",
   "period_start": "20260714",
   "period_end": "20260818",
   "flows": {
@@ -3944,11 +3944,11 @@
   },
   "credit": {
     "available": true,
-    "corp_aa_minus_3y_pct": 4.542,
-    "corp_as_of": "20260818",
-    "gov_3y_pct": 3.847,
-    "gov_as_of": "20260818",
-    "spread_pct_point": 0.695,
+    "corp_aa_minus_3y_pct": 4.497,
+    "corp_as_of": "20260819",
+    "gov_3y_pct": 3.798,
+    "gov_as_of": "20260819",
+    "spread_pct_point": 0.699,
     "spread_history": [
       {
         "date": "20250206",
@@ -6199,9 +6199,15 @@
         "corp_aa_minus_3y_pct": 4.542,
         "gov_3y_pct": 3.847,
         "spread_pct_point": 0.695
+      },
+      {
+        "date": "20260819",
+        "corp_aa_minus_3y_pct": 4.497,
+        "gov_3y_pct": 3.798,
+        "spread_pct_point": 0.699
       }
     ],
-    "history_samples": 375,
+    "history_samples": 376,
     "stale": false,
     "source": "한국은행 ECOS 시장금리(일별)",
     "source_url": "https://ecos.bok.or.kr/",

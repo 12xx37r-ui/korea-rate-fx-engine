@@ -1,8 +1,8 @@
 {
   "schema_version": "1.1.0",
   "patch_version": "V228-zero-call-freshness-unification",
-  "generated_at_utc": "2026-08-19T05:05:29.017342+00:00",
-  "engine_generated_at": "2026-08-19T14:02:59.447722+09:00",
+  "generated_at_utc": "2026-08-19T09:07:22.817173+00:00",
+  "engine_generated_at": "2026-08-19T18:04:19.925032+09:00",
   "compatibility": {
     "existing_keys_removed": false,
     "existing_field_semantics_changed": false,
@@ -30,7 +30,7 @@
       "collector_status": "ok",
       "cadence": "daily/monthly",
       "observation_at": "20260819",
-      "age_hours": 5.09,
+      "age_hours": 9.12,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -42,7 +42,7 @@
       "collector_status": "ok",
       "cadence": "daily/market",
       "observation_at": "20260819",
-      "age_hours": 5.09,
+      "age_hours": 9.12,
       "max_age_hours": 96.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -66,7 +66,7 @@
       "collector_status": "ok",
       "cadence": "monthly",
       "observation_at": "202607",
-      "age_hours": 1181.09,
+      "age_hours": 1185.12,
       "max_age_hours": 1080.0,
       "last_good_reused": false,
       "cadence_skip": false,
@@ -76,20 +76,20 @@
       "source": "usdkrw_market_spot",
       "status": "LIVE",
       "cadence": "intraday-when-market-open",
-      "observation_at": "2026-08-19T05:00:13+00:00",
-      "retrieved_at": "2026-08-19T05:03:09.845348+00:00",
+      "observation_at": "2026-08-19T09:02:43+00:00",
+      "retrieved_at": "2026-08-19T09:04:57.628745+00:00",
       "market_state": "OPEN",
-      "age_hours": 0.09,
+      "age_hours": 0.08,
       "max_age_hours": 3.0,
-      "value": 1399.4,
+      "value": 1395.0,
       "provider": "Naver MarketIndex FX_USDKRW"
     },
     {
       "source": "kr_policy_rate",
       "status": "CACHE",
       "cadence": "event",
-      "observation_at": "2026-08-19T14:02:59.447722+09:00",
-      "age_hours": 0.04,
+      "observation_at": "2026-08-19T18:04:19.925032+09:00",
+      "age_hours": 0.05,
       "max_age_hours": 1080.0,
       "value": 2.75,
       "note": "정책금리는 이벤트형 값이라 엔진 생성시각이 오래됐다는 이유만으로 값 자체를 stale로 보지 않습니다. provider 재조회 상태는 ecos 행을 확인합니다."
@@ -99,7 +99,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 125.09,
+      "age_hours": 129.12,
       "max_age_hours": 96.0,
       "value": 118.9028
     },
@@ -108,7 +108,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 53.09,
+      "age_hours": 57.12,
       "max_age_hours": 96.0,
       "value": 4.19
     },
@@ -117,7 +117,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 53.09,
+      "age_hours": 57.12,
       "max_age_hours": 96.0,
       "value": 4.72
     },
@@ -126,7 +126,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260818",
-      "age_hours": 29.09,
+      "age_hours": 33.12,
       "max_age_hours": 96.0,
       "value": 2.3
     },
@@ -135,7 +135,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 53.09,
+      "age_hours": 57.12,
       "max_age_hours": 96.0,
       "value": 15.19
     },
@@ -144,7 +144,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260817",
-      "age_hours": 53.09,
+      "age_hours": 57.12,
       "max_age_hours": 120.0,
       "value": 2.7
     },
@@ -153,7 +153,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260811",
-      "age_hours": 197.09,
+      "age_hours": 201.12,
       "max_age_hours": 96.0,
       "value": 84.77
     },
@@ -162,7 +162,7 @@
       "status": "CACHE",
       "cadence": "monthly",
       "observation_at": "20260701",
-      "age_hours": 1181.09,
+      "age_hours": 1185.12,
       "max_age_hours": 1080.0,
       "value": 284.057
     },
@@ -171,7 +171,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 125.09,
+      "age_hours": 129.12,
       "max_age_hours": 96.0,
       "value": 6.7412
     },
@@ -180,7 +180,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 125.09,
+      "age_hours": 129.12,
       "max_age_hours": 96.0,
       "value": 159.21
     },
@@ -189,7 +189,7 @@
       "status": "CACHE",
       "cadence": "trading-day",
       "observation_at": "20260814",
-      "age_hours": 125.09,
+      "age_hours": 129.12,
       "max_age_hours": 120.0,
       "value": 1414.29
     },
@@ -198,7 +198,7 @@
       "status": "CACHE",
       "cadence": "monthly",
       "observation_at": "20260601",
-      "age_hours": 1901.09,
+      "age_hours": 1905.12,
       "max_age_hours": 1080.0,
       "value": 81.99
     },
@@ -207,7 +207,7 @@
       "status": "CACHE",
       "cadence": "monthly",
       "observation_at": "20260601",
-      "age_hours": 1901.09,
+      "age_hours": 1905.12,
       "max_age_hours": 1080.0,
       "value": 83.06
     },
@@ -216,25 +216,25 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260818",
-      "age_hours": 29.09,
+      "age_hours": 33.12,
       "max_age_hours": 96.0,
-      "value": 11992.462890625
+      "value": 11992.4599609375
     },
     {
       "source": "twii",
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260819",
-      "age_hours": 5.09,
+      "age_hours": 9.12,
       "max_age_hours": 96.0,
-      "value": 44592.28125
+      "value": 44719.3515625
     },
     {
       "source": "nvda",
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260818",
-      "age_hours": 29.09,
+      "age_hours": 33.12,
       "max_age_hours": 96.0,
       "value": 219.74000549316406
     },
@@ -243,7 +243,7 @@
       "status": "LIVE",
       "cadence": "trading-day",
       "observation_at": "20260818",
-      "age_hours": 29.09,
+      "age_hours": 33.12,
       "max_age_hours": 96.0,
       "value": 413.4100036621094
     },
@@ -251,8 +251,8 @@
       "source": "krw_liquidity",
       "status": "LIVE",
       "cadence": "derived-from-collected-inputs",
-      "observation_at": "2026-08-19T14:02:59.447722+09:00",
-      "age_hours": 0.04,
+      "observation_at": "2026-08-19T18:04:19.925032+09:00",
+      "age_hours": 0.05,
       "derived": true,
       "note": "실측 입력에서 계산된 파생지표. 원천별 상태는 위 항목을 사용합니다."
     },
@@ -260,8 +260,8 @@
       "source": "krw_strength",
       "status": "LIVE",
       "cadence": "derived-from-collected-inputs",
-      "observation_at": "2026-08-19T14:02:59.447722+09:00",
-      "age_hours": 0.04,
+      "observation_at": "2026-08-19T18:04:19.925032+09:00",
+      "age_hours": 0.05,
       "derived": true,
       "note": "실측 입력에서 계산된 파생지표. 원천별 상태는 위 항목을 사용합니다."
     }
