@@ -1,12 +1,12 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-19T13:05:35.421036+00:00",
+  "generated_at_utc": "2026-08-19T21:06:00.643392+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
-  "score": 47,
+  "score": 46,
   "score_valid": true,
   "bias": "중립",
-  "final_score": 40.5489,
+  "final_score": 39.5268,
   "final_score_valid": true,
   "final_bias": "약불리",
   "circuit_breaker": false,
@@ -14,7 +14,13 @@
   "data_coverage_pct": 100,
   "active_weight": 1.0,
   "complete_for_market_card": true,
-  "stale_sections": [],
+  "stale_sections": [
+    "flows.kospi",
+    "flows.kosdaq",
+    "breadth.kospi",
+    "breadth.kosdaq",
+    "credit"
+  ],
   "components": {
     "flow": {
       "available": true,
@@ -86,23 +92,23 @@
     },
     "semiconductor": {
       "available": true,
-      "score_normalized": 0.002617,
+      "score_normalized": -0.105582,
       "weights_used": 1.0,
       "evidence": {
         "sox": {
-          "latest": 11992.459961,
-          "mom_20d_pct": -2.9435,
-          "mom_60d_pct": 0.2372
+          "latest": 11738.225586,
+          "mom_20d_pct": -5.4183,
+          "mom_60d_pct": -3.8051
         },
         "nvda": {
-          "latest": 219.740005,
-          "mom_20d_pct": 6.0061,
-          "mom_60d_pct": 0.1048
+          "latest": 217.559998,
+          "mom_20d_pct": 2.5936,
+          "mom_60d_pct": 1.0356
         },
         "tsm": {
-          "latest": 413.410004,
-          "mom_20d_pct": -2.6377,
-          "mom_60d_pct": 1.5375
+          "latest": 412.089996,
+          "mom_20d_pct": -2.1652,
+          "mom_60d_pct": 1.8714
         },
         "twii": {
           "latest": 44719.351562,
@@ -123,23 +129,23 @@
   },
   "semiconductor_cycle": {
     "available": true,
-    "score_normalized": 0.002617,
+    "score_normalized": -0.105582,
     "weights_used": 1.0,
     "evidence": {
       "sox": {
-        "latest": 11992.459961,
-        "mom_20d_pct": -2.9435,
-        "mom_60d_pct": 0.2372
+        "latest": 11738.225586,
+        "mom_20d_pct": -5.4183,
+        "mom_60d_pct": -3.8051
       },
       "nvda": {
-        "latest": 219.740005,
-        "mom_20d_pct": 6.0061,
-        "mom_60d_pct": 0.1048
+        "latest": 217.559998,
+        "mom_20d_pct": 2.5936,
+        "mom_60d_pct": 1.0356
       },
       "tsm": {
-        "latest": 413.410004,
-        "mom_20d_pct": -2.6377,
-        "mom_60d_pct": 1.5375
+        "latest": 412.089996,
+        "mom_20d_pct": -2.1652,
+        "mom_60d_pct": 1.8714
       },
       "twii": {
         "latest": 44719.351562,
@@ -150,15 +156,80 @@
     "detail": "SOX 35% + NVDA 25% + TSM 25% + TWII 15% 가중 20d/60d 모멘텀 tanh 정규화"
   },
   "layered_signal": {
-    "available": false,
-    "error": "NameError: name '_clamp' is not defined"
+    "model_version": "layered-signal-v1.0",
+    "generated_at_utc": "2026-08-19T21:06:00.643383+00:00",
+    "layer1": {
+      "score": 36,
+      "favorable": false,
+      "threshold": 58
+    },
+    "layer2": {
+      "available": true,
+      "score": 42,
+      "score_normalized": -0.156,
+      "signals": [
+        "SOX_5일_약세_하락모멘텀"
+      ],
+      "oversold_exit_signal": false,
+      "oversold_indicators_count": 0,
+      "flow_momentum": {
+        "available": false,
+        "score_normalized": null,
+        "reason": "수급 데이터 없음"
+      },
+      "evidence": {
+        "rsi_14": 60.9267,
+        "ma20_deviation_pct": -0.3593,
+        "bollinger": {
+          "available": true,
+          "ma": 1016.2615,
+          "upper": 1146.5066,
+          "lower": 886.0164,
+          "current": 1012.61,
+          "b_pct": 0.486,
+          "z_score": -0.0561,
+          "bandwidth": 260.4903
+        },
+        "sox_5d_pct": -5.3322,
+        "vkospi": null,
+        "flow_momentum": {
+          "score_normalized": null,
+          "available": false
+        }
+      }
+    },
+    "combined_signal": {
+      "signal": "RISK_OFF",
+      "signal_korean": "위험 회피 - 거시 환경 불리",
+      "combined_score": 38,
+      "layer1_score": 36,
+      "layer1_favorable": false,
+      "layer2_score": 42.0,
+      "layer2_oversold_exit": false,
+      "layer2_available": true,
+      "circuit_breaker": false,
+      "regime": "normal",
+      "dynamic_weights_applied": {
+        "macro_env": 0.7,
+        "realtime_risk": 0.3
+      },
+      "shock_penalty_applied": 0.0
+    },
+    "interpretation": {
+      "BUY_SIGNAL": "Layer1(거시 우호) + Layer2(과매도 탈출) 동시 충족 시에만 발생하는 고확신 매수 신호",
+      "RISK_OFF": "거시 환경 불리: 비중 축소 권고",
+      "RISK_OFF_MAX": "서킷브레이커: 현금 비중 최대화/헤지 필요",
+      "WATCH_BUY": "Layer1 우호이나 기술적 확인 필요",
+      "CAUTION": "기술적 약세: 신규 진입 자제",
+      "NEUTRAL": "방향성 중립: 관망"
+    }
   },
   "pbr_valuation_band": {
     "available": true,
     "pbr": 3.155,
     "pbr_samples": 2,
     "band": "과열",
-    "adjusted_score": 37,
+    "adjusted_score": 36,
     "adjustment": -10.0,
     "signal_override": "과열_경고 (PBR 고평가)",
     "thresholds": {
@@ -170,10 +241,10 @@
     "interpretation": "KOSPI PBR 3.155x → 과열: 과열_경고 (PBR 고평가)"
   },
   "pbr_signal_override": "과열_경고 (PBR 고평가)",
-  "score_after_pbr": 37,
+  "score_after_pbr": 36,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-19T13:05:35.419273+00:00",
+    "generated_at_utc": "2026-08-19T21:06:00.642010+00:00",
     "regime": "normal",
     "circuit_breaker": false,
     "circuit_breaker_reasons": [],
@@ -185,40 +256,40 @@
     "shock_multiplier": {
       "available": true,
       "penalty": 0.0,
-      "z_score": -0.2338,
-      "abs_z": 0.2338,
+      "z_score": -0.2333,
+      "abs_z": 0.2333,
       "regime_label": "정상",
       "formula": "penalty = z^2 * 3.0 (|z|>2 구간), (|z|-1)*5.0 (1<|z|<=2), 0 (정상)"
     },
     "emp": {
       "available": true,
-      "emp_score": -2.3659,
+      "emp_score": -2.3512,
       "components_count": 2,
       "evidence": {
-        "fx_change_pct": -5.3078,
+        "fx_change_pct": -5.2785,
         "reserve_change_pct": null,
         "rate_differential_pct": -1.44
       },
       "interpretation": "양수=원화절하 압력 증가, 음수=원화절상 압력"
     },
     "emp_adjustment": {
-      "adjusted_score": 40.5489,
-      "original_score": 37,
-      "emp_score": -2.3659,
-      "adjustment": 3.5489,
+      "adjusted_score": 39.5268,
+      "original_score": 36,
+      "emp_score": -2.3512,
+      "adjustment": 3.5268,
       "emp_applied": true
     },
-    "macro_env_score_original": 37,
-    "macro_env_score_after_emp": 40.5489,
-    "final_score": 40.5489,
+    "macro_env_score_original": 36,
+    "macro_env_score_after_emp": 39.5268,
+    "final_score": 39.5268,
     "final_score_valid": true,
     "regime_evidence": {
-      "fx_3d_change_pct": -2.0249,
-      "fx_std_5d": 10.8347,
-      "fx_std_10d": 8.6613,
-      "fx_z_score": 0.2338,
+      "fx_3d_change_pct": -1.9945,
+      "fx_std_5d": 10.7731,
+      "fx_std_10d": 8.5475,
+      "fx_z_score": 0.2333,
       "vkospi_latest": null,
-      "cds_proxy": 0.157
+      "cds_proxy": 0.177
     }
   },
   "current_inputs": {
@@ -239,7 +310,7 @@
       "as_of": "2026-08-19",
       "source": "KRX 지수 투자지표 (pykrx 세션) + KRX 지수 구성종목 + NAVER 공개 컨센서스",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "pykrx_authenticated+constituent_market_cap_weighted_consensus",
+      "source_method": "last_good_reuse",
       "proxy_symbols": [
         "005930",
         "000660",
@@ -265,9 +336,14 @@
         "010120",
         "000810"
       ],
-      "stale": false,
+      "stale": true,
       "diagnostics": [
-        "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']"
+        "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
+        "kospi200:live_failed_last_good_reused"
+      ],
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
       ]
     },
     "kosdaq150": {
@@ -287,7 +363,7 @@
       "as_of": "2026-08-19",
       "source": "KRX 지수 투자지표 (pykrx 세션) + KRX 지수 구성종목 + NAVER 공개 컨센서스",
       "source_url": "https://data.krx.co.kr/",
-      "source_method": "pykrx_authenticated+constituent_market_cap_weighted_consensus",
+      "source_method": "last_good_reuse",
       "proxy_symbols": [
         "196170",
         "240810",
@@ -308,10 +384,15 @@
         "214150",
         "237690"
       ],
-      "stale": false,
+      "stale": true,
       "diagnostics": [
         "20260819:pykrx_columns:['종가', '등락률', 'PER', 'PBR', '배당수익률']",
-        "adaptive_forward_expansion:queried=40,base=24,max=40"
+        "adaptive_forward_expansion:queried=40,base=24,max=40",
+        "kosdaq150:live_failed_last_good_reused"
+      ],
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
       ]
     },
     "credit": {
@@ -2580,10 +2661,12 @@
         }
       ],
       "history_samples": 376,
-      "stale": false,
-      "source": "한국은행 ECOS 시장금리(일별)",
+      "stale": true,
+      "source": "한국은행 ECOS",
       "source_url": "https://ecos.bok.or.kr/",
-      "diagnostics": []
+      "diagnostics": [
+        "credit_ecos:HttpError:요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20260705/20260819/010300000/?/? (Caused by ConnectTimeoutErro"
+      ]
     }
   },
   "interpretation": {

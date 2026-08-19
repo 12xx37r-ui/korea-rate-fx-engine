@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "korea-equity-environment-collector-v1.2-close-per-earnings-fallback",
-  "generated_at_utc": "2026-08-19T13:05:35.351394+00:00",
+  "generated_at_utc": "2026-08-19T21:06:00.594075+00:00",
   "period_start": "20260715",
   "period_end": "20260819",
   "flows": {
@@ -20,9 +20,13 @@
       "source": "KRX 투자자별 거래대금 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
       "diagnostics": [
-        "buy_rows:11"
+        "buy_rows:11",
+        "flow_kospi:live_failed_last_good_reused"
       ],
-      "stale": false
+      "stale": true,
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+      ]
     },
     "kosdaq": {
       "available": true,
@@ -39,9 +43,13 @@
       "source": "KRX 투자자별 거래대금 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
       "diagnostics": [
-        "buy_rows:11"
+        "buy_rows:11",
+        "flow_kosdaq:live_failed_last_good_reused"
       ],
-      "stale": false
+      "stale": true,
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+      ]
     }
   },
   "breadth": {
@@ -58,8 +66,13 @@
       "advance_decline_balance": 0.336864,
       "source": "KRX 종목 가격변동 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
-      "diagnostics": [],
-      "stale": false
+      "diagnostics": [
+        "breadth_kospi:live_failed_last_good_reused"
+      ],
+      "stale": true,
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+      ]
     },
     "kosdaq": {
       "available": true,
@@ -74,8 +87,13 @@
       "advance_decline_balance": 0.300934,
       "source": "KRX 종목 가격변동 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
-      "diagnostics": [],
-      "stale": false
+      "diagnostics": [
+        "breadth_kosdaq:live_failed_last_good_reused"
+      ],
+      "stale": true,
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+      ]
     }
   },
   "valuation_history": {
@@ -2007,8 +2025,13 @@
       "sample_size": 320,
       "source": "KRX 지수 투자지표 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
-      "diagnostics": [],
-      "stale": false
+      "diagnostics": [
+        "valuation_kospi200:live_failed_last_good_reused"
+      ],
+      "stale": true,
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+      ]
     },
     "kosdaq150": {
       "available": true,
@@ -3938,8 +3961,13 @@
       "sample_size": 320,
       "source": "KRX 지수 투자지표 (pykrx)",
       "source_url": "https://data.krx.co.kr/",
-      "diagnostics": [],
-      "stale": false
+      "diagnostics": [
+        "valuation_kosdaq150:live_failed_last_good_reused"
+      ],
+      "stale": true,
+      "live_diagnostics": [
+        "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)"
+      ]
     }
   },
   "credit": {
@@ -6208,13 +6236,15 @@
       }
     ],
     "history_samples": 376,
-    "stale": false,
-    "source": "한국은행 ECOS 시장금리(일별)",
+    "stale": true,
+    "source": "한국은행 ECOS",
     "source_url": "https://ecos.bok.or.kr/",
-    "diagnostics": []
+    "diagnostics": [
+      "credit_ecos:HttpError:요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20260705/20260819/010300000/?/? (Caused by ConnectTimeoutErro"
+    ]
   },
   "source_status": {
-    "pykrx_available": true,
+    "pykrx_available": false,
     "krx_login_configured": true,
     "ecos_key_configured": true,
     "live_call_budget": {

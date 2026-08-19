@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-19T13:05:55.809723+00:00",
+  "generated_at_utc": "2026-08-19T21:06:15.261288+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
-    "current_score": 58,
+    "current_score": 57,
     "current_regime": "중립",
-    "trend_score": 12,
+    "trend_score": 11,
     "trend_direction": "개선",
     "forward_overall": 61,
     "forward_regime": "약호황",
@@ -27,7 +27,7 @@
     }
   },
   "current_score": {
-    "score": 58,
+    "score": 57,
     "score_valid": true,
     "regime": "중립",
     "coverage_pct": 100,
@@ -169,12 +169,12 @@
       },
       "rate_liquidity_credit": {
         "available": true,
-        "score_normalized": -0.1391,
+        "score_normalized": -0.1393,
         "signal_count": 4,
         "evidence": {
-          "rate_cut_prob": 0.121,
+          "rate_cut_prob": 0.12,
           "rate_hike_prob": 0.328,
-          "rate_direction_signal": -0.207,
+          "rate_direction_signal": -0.208,
           "next_meeting_action": "hold",
           "term_spread_pct": 0.539,
           "term_spread_signal": 0.3593,
@@ -191,19 +191,19 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5322,
-        "raw_score_before_regime": 0.5322,
+        "score_normalized": 0.5286,
+        "raw_score_before_regime": 0.5286,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1386.71,
-          "usd_krw_1m_change_pct": -4.89,
-          "fx_1m_signal": 0.9261,
-          "krw_strength_score": 62.42,
+          "usd_krw_current": 1387.14,
+          "usd_krw_1m_change_pct": -4.86,
+          "fx_1m_signal": 0.9247,
+          "krw_strength_score": 61.94,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.2484,
+          "krw_strength_signal": 0.2388,
           "broad_dollar_1m_change_pct": -1.35,
           "dollar_signal": 0.4222,
-          "usd_krw_vol_1m_ann_pct": 10.76,
+          "usd_krw_vol_1m_ann_pct": 10.88,
           "usd_krw_level_percentile": 0.014,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
@@ -218,15 +218,15 @@
       },
       "market_risk": {
         "available": true,
-        "score_normalized": 0.8187,
+        "score_normalized": 0.6088,
         "signal_count": 2,
         "evidence": {
-          "vix_current": 15.19,
-          "vix_percentile": 0.101,
-          "vix_signal": 0.7975,
-          "hy_oas_current": 2.7,
-          "hy_oas_percentile": 0.08,
-          "hy_oas_signal": 0.84
+          "vix_current": 15.84,
+          "vix_percentile": 0.205,
+          "vix_signal": 0.59,
+          "hy_oas_current": 2.75,
+          "hy_oas_percentile": 0.186,
+          "hy_oas_signal": 0.6275
         },
         "pending": [],
         "source": "raw_global_market (FRED)",
@@ -234,12 +234,12 @@
       },
       "external": {
         "available": true,
-        "score_normalized": 0.0079,
+        "score_normalized": 0.0463,
         "signal_count": 2,
         "evidence": {
-          "us_10y_current": 4.72,
-          "us_10y_1m_change": 0.12,
-          "us10y_signal": -0.2355,
+          "us_10y_current": 4.71,
+          "us_10y_1m_change": 0.08,
+          "us10y_signal": -0.1586,
           "usd_cny_current": 6.7412,
           "usd_cny_1m_change_pct": -0.51,
           "cny_signal": 0.2513
@@ -253,7 +253,7 @@
     "coverage_rule": "활성 가중치 합 100% (50% 미만 시 점수 미산출)"
   },
   "trend_score": {
-    "score": 12,
+    "score": 11,
     "score_valid": true,
     "direction": "개선",
     "signal_count": 9,
@@ -261,7 +261,7 @@
     "history_samples": 5,
     "period_detail": {
       "credit_spread_trend_signal": -0.0744,
-      "usd_krw_1m_trend_signal": 0.9261
+      "usd_krw_1m_trend_signal": 0.9247
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
@@ -277,7 +277,7 @@
     "periods": {
       "1m": {
         "available": true,
-        "score": 34,
+        "score": 32,
         "direction": "하락 우세",
         "bias": "약불리",
         "signal_count": 6,
@@ -290,7 +290,7 @@
         "bias": "중립",
         "signal_count": 8,
         "evidence": {
-          "rate_3m_signal": -0.207,
+          "rate_3m_signal": -0.208,
           "liq_3m_signal": 0.2922
         }
       },
@@ -338,15 +338,15 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-19T13:05:55.809723+00:00",
-    "current_score": 58,
+    "generated_at_utc": "2026-08-19T21:06:15.261288+00:00",
+    "current_score": 57,
     "current_regime": "중립",
-    "trend_score": 12,
+    "trend_score": 11,
     "trend_direction": "개선",
     "trend_method": "embedded_series",
     "forward_overall": 61,
     "forward_confidence_pct": 100,
-    "forward_1m_score": 34,
+    "forward_1m_score": 32,
     "forward_1m_direction": "하락 우세",
     "forward_3m_score": 55,
     "forward_3m_direction": "소폭 상승 우세",
