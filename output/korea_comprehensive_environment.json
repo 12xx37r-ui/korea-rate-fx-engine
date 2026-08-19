@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-19T01:03:05.531690+00:00",
+  "generated_at_utc": "2026-08-19T05:05:28.940776+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
     "current_score": 71,
@@ -121,10 +121,10 @@
       "earnings": {
         "available": true,
         "score_normalized": 0.999993,
-        "current_growth_proxy_pct": 125.867,
+        "current_growth_proxy_pct": 126.204,
         "baseline_growth_proxy_pct": null,
         "revision_pct_point": null,
-        "history_samples": 1,
+        "history_samples": 2,
         "mode": "forward_growth_level_bootstrap",
         "detail": "초기 이력 5회 전: 공개 forward 성장 대용치의 현재 수준을 사용. 5회 누적 후 최근 이력 대비 revision 변화로 자동 전환. | KOSPI200 vs KOSDAQ150 이익 이원화",
         "dual_track": {},
@@ -191,20 +191,20 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.4853,
-        "raw_score_before_regime": 0.4853,
+        "score_normalized": 0.5068,
+        "raw_score_before_regime": 0.5068,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1407.18,
-          "usd_krw_1m_change_pct": -3.49,
-          "fx_1m_signal": 0.8217,
-          "krw_strength_score": 60.6,
+          "usd_krw_current": 1399.48,
+          "usd_krw_1m_change_pct": -4.01,
+          "fx_1m_signal": 0.8712,
+          "krw_strength_score": 61.34,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.212,
+          "krw_strength_signal": 0.2268,
           "broad_dollar_1m_change_pct": -1.35,
           "dollar_signal": 0.4222,
-          "usd_krw_vol_1m_ann_pct": 9.38,
-          "usd_krw_level_percentile": 0.043,
+          "usd_krw_vol_1m_ann_pct": 9.65,
+          "usd_krw_level_percentile": 0.014,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
           "fx_crisis_thresholds": {
@@ -258,10 +258,10 @@
     "direction": "강한 개선",
     "signal_count": 9,
     "method": "embedded_series",
-    "history_samples": 4,
+    "history_samples": 5,
     "period_detail": {
       "credit_spread_trend_signal": -0.1316,
-      "usd_krw_1m_trend_signal": 0.8217
+      "usd_krw_1m_trend_signal": 0.8712
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
@@ -304,7 +304,7 @@
       },
       "12m": {
         "available": true,
-        "score": 73,
+        "score": 74,
         "direction": "상승 우세",
         "bias": "강약",
         "signal_count": 6,
@@ -338,7 +338,7 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-19T01:03:05.531690+00:00",
+    "generated_at_utc": "2026-08-19T05:05:28.940776+00:00",
     "current_score": 71,
     "current_regime": "호황",
     "trend_score": 49,
@@ -352,7 +352,7 @@
     "forward_3m_direction": "소폭 상승 우세",
     "forward_6m_score": 79,
     "forward_6m_direction": "상승 우세",
-    "forward_12m_score": 73,
+    "forward_12m_score": 74,
     "forward_12m_direction": "상승 우세",
     "coverage_pct": 100,
     "factors_available": [

@@ -11,7 +11,7 @@
     "industrial_3m_annualized": 0.05511,
     "usdkrw_3m_change": -0.06538,
     "us_current_effective_rate_pct": 3.63,
-    "us_3meeting_rate_change_pctp": 0.112,
+    "us_3meeting_rate_change_pctp": 0.113,
     "us_path_filter": {
       "mode": "monthly_curve_stabilized",
       "accepted": 11,
@@ -24,7 +24,7 @@
     "scores": {
       "inflation_defense": 1.3204,
       "growth_support": 0.0,
-      "fx_defense": 0.2233,
+      "fx_defense": 0.2267,
       "financial_stability": 0.35
     }
   },
@@ -3183,5 +3183,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-19T10:01:16.423541+09:00"
+  "generated_at": "2026-08-19T14:02:59.447722+09:00"
 }
