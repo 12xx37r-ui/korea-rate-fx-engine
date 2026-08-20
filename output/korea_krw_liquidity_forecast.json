@@ -6,14 +6,14 @@
   "data_mode": "monetary_plus_policy",
   "latest_observation": "20260820",
   "current": {
-    "liquidity_score": 0.0965,
+    "liquidity_score": 0.0943,
     "grade": "유동성 중립",
     "observations": {
       "m1_yoy": 10.085,
       "m2_yoy": 5.977,
       "lf_yoy": 8.52,
       "market_policy_gap_pctp": 0.922,
-      "expected_policy_change_3m_pctp": 0.053
+      "expected_policy_change_3m_pctp": 0.064
     }
   },
   "input_freshness": {
@@ -55,8 +55,8 @@
     "expected_policy_path": {
       "source": "korea_rate_forecast_v2",
       "cadence": "workflow",
-      "observation": "2026-08-21T01:40:52.006546+09:00",
-      "value": 0.053,
+      "observation": "2026-08-21T01:56:47.746150+09:00",
+      "value": 0.064,
       "available": true
     }
   },
@@ -70,7 +70,7 @@
   },
   "quality_improvement": {
     "score_inflation_forbidden": true,
-    "current_forecast_quality_score": 88,
+    "current_forecast_quality_score": 95,
     "current_input_quality_score": 99,
     "objective_next_targets": {
       "persistence_skill_pct_min": 7.5,
@@ -80,8 +80,8 @@
     },
     "observed_primary_oos": {
       "samples": 162,
-      "persistence_skill_pct": 7.399,
-      "direction_accuracy": 0.6,
+      "persistence_skill_pct": 11.996,
+      "direction_accuracy": 0.7015,
       "production_candidate": "balanced_10_05"
     },
     "safe_upgrade_paths": [
@@ -94,37 +94,37 @@
   "forecast_path": [
     {
       "months": 3,
-      "liquidity_score": 0.1424,
+      "liquidity_score": 0.1383,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 5.807,
-      "policy_impulse": -0.0707,
+      "expected_m2_yoy_pct": 5.801,
+      "policy_impulse": -0.0853,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
-      "forecast_quality_score": 88,
+      "forecast_quality_score": 95,
       "production_candidate": "balanced_10_05",
       "prediction_status": "forecast"
     },
     {
       "months": 6,
-      "liquidity_score": 0.1313,
+      "liquidity_score": 0.1271,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 6.366,
-      "policy_impulse": -0.0813,
+      "expected_m2_yoy_pct": 6.36,
+      "policy_impulse": -0.0973,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
-      "forecast_quality_score": 92,
+      "forecast_quality_score": 95,
       "production_candidate": "legacy_30_10",
       "prediction_status": "forecast"
     },
     {
       "months": 12,
-      "liquidity_score": 0.1164,
+      "liquidity_score": 0.1123,
       "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 6.276,
-      "policy_impulse": -0.0853,
-      "validation_shrinkage": 0.997,
-      "quality_grade": "B",
-      "forecast_quality_score": 80,
+      "expected_m2_yoy_pct": 6.27,
+      "policy_impulse": -0.1027,
+      "validation_shrinkage": 1.0,
+      "quality_grade": "A",
+      "forecast_quality_score": 92,
       "production_candidate": "legacy_30_10",
       "prediction_status": "forecast"
     }
@@ -135,19 +135,22 @@
     "oos_by_horizon": {
       "3m": {
         "samples": 162,
-        "rmse_pctp": 0.96,
+        "rmse_pctp": 0.913,
         "persistence_rmse_pctp": 1.037,
-        "persistence_skill_pct": 7.399,
-        "direction_accuracy": 0.6,
+        "persistence_skill_pct": 11.996,
+        "direction_accuracy": 0.7015,
         "strict_skill_passed": true,
         "grade": "A",
-        "forecast_quality_score": 88,
-        "method": "expanding_origin_prequential_candidate_selection_future_m2_yoy",
+        "forecast_quality_score": 95,
+        "method": "expanding_origin_prequential_recent_regime_candidate_selection_future_m2_yoy",
         "benchmark": "current_m2_yoy_persistence",
         "selected_model_counts": {
-          "persistence": 78,
-          "peer_10": 11,
-          "balanced_10_05": 73
+          "persistence": 83,
+          "balanced_10_05": 19,
+          "legacy_30_10": 6,
+          "moderate_15_10": 15,
+          "balanced_10_10": 12,
+          "peer_10": 27
         },
         "production_candidate": "balanced_10_05",
         "candidate_rmse_pctp": {
@@ -158,26 +161,28 @@
           "moderate_15_10": 0.961,
           "legacy_30_10": 1.067
         },
-        "selection_min_matured_errors": 24,
-        "selection_no_lookahead": true
+        "selection_min_matured_errors": 36,
+        "selection_no_lookahead": true,
+        "selection_rule": "65% recent-24 + 35% expanding squared error; past-only"
       },
       "6m": {
         "samples": 159,
-        "rmse_pctp": 1.42,
+        "rmse_pctp": 1.367,
         "persistence_rmse_pctp": 1.611,
-        "persistence_skill_pct": 11.874,
-        "direction_accuracy": 0.6235,
+        "persistence_skill_pct": 15.16,
+        "direction_accuracy": 0.7027,
         "strict_skill_passed": true,
         "grade": "A",
-        "forecast_quality_score": 92,
-        "method": "expanding_origin_prequential_candidate_selection_future_m2_yoy",
+        "forecast_quality_score": 95,
+        "method": "expanding_origin_prequential_recent_regime_candidate_selection_future_m2_yoy",
         "benchmark": "current_m2_yoy_persistence",
         "selected_model_counts": {
-          "persistence": 67,
-          "balanced_10_10": 7,
-          "peer_10": 5,
-          "balanced_10_05": 7,
-          "legacy_30_10": 73
+          "persistence": 73,
+          "balanced_10_05": 9,
+          "legacy_30_10": 68,
+          "moderate_15_10": 2,
+          "balanced_10_10": 6,
+          "peer_10": 1
         },
         "production_candidate": "legacy_30_10",
         "candidate_rmse_pctp": {
@@ -188,27 +193,28 @@
           "moderate_15_10": 1.414,
           "legacy_30_10": 1.395
         },
-        "selection_min_matured_errors": 24,
-        "selection_no_lookahead": true
+        "selection_min_matured_errors": 36,
+        "selection_no_lookahead": true,
+        "selection_rule": "65% recent-24 + 35% expanding squared error; past-only"
       },
       "12m": {
         "samples": 153,
-        "rmse_pctp": 2.565,
+        "rmse_pctp": 2.555,
         "persistence_rmse_pctp": 2.728,
-        "persistence_skill_pct": 5.964,
-        "direction_accuracy": 0.5476,
+        "persistence_skill_pct": 6.342,
+        "direction_accuracy": 0.7121,
         "strict_skill_passed": true,
-        "grade": "B",
-        "forecast_quality_score": 80,
-        "method": "expanding_origin_prequential_candidate_selection_future_m2_yoy",
+        "grade": "A",
+        "forecast_quality_score": 92,
+        "method": "expanding_origin_prequential_recent_regime_candidate_selection_future_m2_yoy",
         "benchmark": "current_m2_yoy_persistence",
         "selected_model_counts": {
-          "persistence": 61,
-          "legacy_30_10": 73,
-          "balanced_10_10": 4,
-          "peer_10": 2,
-          "moderate_15_10": 3,
-          "balanced_10_05": 10
+          "persistence": 81,
+          "legacy_30_10": 56,
+          "balanced_10_05": 9,
+          "moderate_15_10": 5,
+          "peer_10": 1,
+          "balanced_10_10": 1
         },
         "production_candidate": "legacy_30_10",
         "candidate_rmse_pctp": {
@@ -219,17 +225,18 @@
           "moderate_15_10": 2.566,
           "legacy_30_10": 2.541
         },
-        "selection_min_matured_errors": 24,
-        "selection_no_lookahead": true
+        "selection_min_matured_errors": 36,
+        "selection_no_lookahead": true,
+        "selection_rule": "65% recent-24 + 35% expanding squared error; past-only"
       }
     },
     "quality_grade": "A",
-    "forecast_quality_score": 88,
+    "forecast_quality_score": 95,
     "quality_score_semantics": "future_m2_yoy_oos_skill_accuracy_and_samples_not_probability"
   },
   "quality": {
-    "model_quality_score": 88,
-    "forecast_quality_score": 88,
+    "model_quality_score": 95,
+    "forecast_quality_score": 95,
     "forecast_quality_grade": "A",
     "input_data_quality_score": 99,
     "quality_score_semantics": "forecast_quality_is_oos_based; input_quality_is_coverage_availability",
@@ -238,5 +245,5 @@
     "monetary_aggregate_available": true,
     "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
   },
-  "generated_at": "2026-08-21T01:40:52.006546+09:00"
+  "generated_at": "2026-08-21T01:56:47.746150+09:00"
 }

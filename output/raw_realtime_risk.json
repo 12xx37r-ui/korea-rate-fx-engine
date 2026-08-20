@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-20T16:41:48.951701+00:00",
+  "generated_at_utc": "2026-08-20T16:57:35.745006+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -14,18 +14,18 @@
     "identity_code": "E62001"
   },
   "semiconductor": {
-    "sox_latest": 11762.3193,
-    "sox_1d_pct": 0.2052,
-    "sox_5d_pct": -5.569,
-    "nvda_1d_pct": -0.3034,
+    "sox_latest": 11773.6816,
+    "sox_1d_pct": 0.302,
+    "sox_5d_pct": -5.4778,
+    "nvda_1d_pct": -0.131,
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1395.3,
-    "change_1d_pct": 0.5281,
-    "change_3d_pct": -1.3734,
-    "std_5d": 11.4819,
-    "std_10d": 9.5118
+    "latest_rate": 1394.42,
+    "change_1d_pct": 0.4647,
+    "change_3d_pct": -1.4356,
+    "std_5d": 11.6409,
+    "std_10d": 9.6513
   },
   "cds_proxy": {
     "available": true,
@@ -403,7 +403,7 @@
       },
       {
         "date": "20260820",
-        "value": 11762.3193359375,
+        "value": 11773.681640625,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       }
@@ -765,7 +765,7 @@
       },
       {
         "date": "20260820",
-        "value": 216.89999389648438,
+        "value": 217.27499389648438,
         "source": "Yahoo Finance",
         "symbol": "NVDA"
       }
@@ -1127,7 +1127,7 @@
       },
       {
         "date": "20260820",
-        "value": 520.7750244140625,
+        "value": 521.3300170898438,
         "source": "Yahoo Finance",
         "symbol": "SOXX"
       }
@@ -1489,12 +1489,12 @@
       },
       {
         "date": "20260820",
-        "value": 7683.31982421875,
+        "value": 7680.10009765625,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
       }
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 2.04
+  "elapsed_seconds": 2.72
 }

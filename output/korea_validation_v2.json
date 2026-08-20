@@ -1,15 +1,15 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-21T01:40:52.006546+09:00",
+  "generated_at": "2026-08-21T01:56:47.746150+09:00",
   "rate": {
     "samples": 166,
-    "brier_score": 0.5119,
+    "brier_score": 0.5011,
     "benchmark_brier": 0.5759,
-    "brier_skill_score": 0.1111,
-    "accuracy": 0.6325,
-    "accuracy_wilson_lower_95": 0.557,
-    "log_loss": 0.8577,
+    "brier_skill_score": 0.1299,
+    "accuracy": 0.6566,
+    "accuracy_wilson_lower_95": 0.5816,
+    "log_loss": 0.8436,
     "class_frequency": {
       "hold": 0.5964,
       "hike": 0.1747,
@@ -30,6 +30,7 @@
       "candidate_names": [
         "baseline",
         "market_gap_heavy",
+        "market_gap_conviction",
         "macro_balanced",
         "high_inertia"
       ],
@@ -37,11 +38,12 @@
       "selection_rule": "55% recent-48 + 45% expanding Brier; past-only",
       "selected_model_counts": {
         "baseline": 47,
-        "macro_balanced": 43,
+        "macro_balanced": 23,
         "high_inertia": 22,
-        "market_gap_heavy": 54
+        "market_gap_heavy": 13,
+        "market_gap_conviction": 61
       },
-      "production_candidate": "market_gap_heavy",
+      "production_candidate": "market_gap_conviction",
       "no_lookahead": true
     },
     "rows": [
@@ -1937,11 +1939,11 @@
       },
       {
         "origin": "20210831",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.649125,
-          "hike": 0.207764,
-          "cut": 0.143112
+          "hold": 0.616231,
+          "hike": 0.246544,
+          "cut": 0.137225
         },
         "benchmark_probabilities": {
           "hold": 0.638889,
@@ -1950,16 +1952,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 1.069483,
+        "brier": 0.966266,
         "benchmark_brier": 1.303669
       },
       {
         "origin": "20210930",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.618361,
-          "hike": 0.249867,
-          "cut": 0.131772
+          "hold": 0.571255,
+          "hike": 0.304552,
+          "cut": 0.124193
         },
         "benchmark_probabilities": {
           "hold": 0.633028,
@@ -1968,16 +1970,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.962435,
+        "brier": 0.825404,
         "benchmark_brier": 1.279859
       },
       {
         "origin": "20211029",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.600454,
-          "hike": 0.275868,
-          "cut": 0.123679
+          "hold": 0.507103,
+          "hike": 0.385266,
+          "cut": 0.107631
         },
         "benchmark_probabilities": {
           "hold": 0.627273,
@@ -1986,16 +1988,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.900209,
+        "brier": 0.646635,
         "benchmark_brier": 1.256694
       },
       {
         "origin": "20211130",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.573421,
-          "hike": 0.308468,
-          "cut": 0.118111
+          "hold": 0.539088,
+          "hike": 0.346492,
+          "cut": 0.11442
         },
         "benchmark_probabilities": {
           "hold": 0.621622,
@@ -2004,16 +2006,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.820978,
+        "brier": 0.73078,
         "benchmark_brier": 1.234153
       },
       {
         "origin": "20211231",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.579827,
-          "hike": 0.300743,
-          "cut": 0.11943
+          "hold": 0.54449,
+          "hike": 0.339943,
+          "cut": 0.115567
         },
         "benchmark_probabilities": {
           "hold": 0.616071,
@@ -2022,16 +2024,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.839422,
+        "brier": 0.745499,
         "benchmark_brier": 1.212213
       },
       {
         "origin": "20220128",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.502902,
-          "hike": 0.393513,
-          "cut": 0.103585
+          "hold": 0.461458,
+          "hike": 0.440598,
+          "cut": 0.097944
         },
         "benchmark_probabilities": {
           "hold": 0.610619,
@@ -2040,16 +2042,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.631466,
+        "brier": 0.535467,
         "benchmark_brier": 1.190853
       },
       {
         "origin": "20220228",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.481967,
-          "hike": 0.418759,
-          "cut": 0.099273
+          "hold": 0.446264,
+          "hike": 0.459017,
+          "cut": 0.094719
         },
         "benchmark_probabilities": {
           "hold": 0.605263,
@@ -2057,17 +2059,17 @@
           "cut": 0.254386
         },
         "actual": "hike",
-        "hit": false,
-        "brier": 0.579988,
+        "hit": true,
+        "brier": 0.500786,
         "benchmark_brier": 1.170052
       },
       {
         "origin": "20220331",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.409969,
-          "hike": 0.505588,
-          "cut": 0.084443
+          "hold": 0.351312,
+          "hike": 0.574123,
+          "cut": 0.074565
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -2076,16 +2078,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.419649,
+        "brier": 0.310351,
         "benchmark_brier": 1.149792
       },
       {
         "origin": "20220429",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.512664,
-          "hike": 0.38174,
-          "cut": 0.105596
+          "hold": 0.451825,
+          "hike": 0.452277,
+          "cut": 0.095899
         },
         "benchmark_probabilities": {
           "hold": 0.594828,
@@ -2093,17 +2095,17 @@
           "cut": 0.25
         },
         "actual": "hike",
-        "hit": false,
-        "brier": 0.65622,
+        "hit": true,
+        "brier": 0.513343,
         "benchmark_brier": 1.130054
       },
       {
         "origin": "20220531",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.503087,
-          "hike": 0.397353,
-          "cut": 0.09956
+          "hold": 0.44391,
+          "hike": 0.461871,
+          "cut": 0.094219
         },
         "benchmark_probabilities": {
           "hold": 0.589744,
@@ -2111,17 +2113,17 @@
           "cut": 0.247863
         },
         "actual": "hike",
-        "hit": false,
-        "brier": 0.626192,
+        "hit": true,
+        "brier": 0.495517,
         "benchmark_brier": 1.110819
       },
       {
         "origin": "20220630",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.413221,
-          "hike": 0.505003,
-          "cut": 0.081776
+          "hold": 0.396357,
+          "hike": 0.519517,
+          "cut": 0.084126
         },
         "benchmark_probabilities": {
           "hold": 0.584746,
@@ -2130,16 +2132,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.42246,
+        "brier": 0.39504,
         "benchmark_brier": 1.092071
       },
       {
         "origin": "20220729",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.376651,
-          "hike": 0.545768,
-          "cut": 0.077581
+          "hold": 0.384003,
+          "hike": 0.534494,
+          "cut": 0.081504
         },
         "benchmark_probabilities": {
           "hold": 0.579832,
@@ -2148,16 +2150,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.354211,
+        "brier": 0.370797,
         "benchmark_brier": 1.073794
       },
       {
         "origin": "20220831",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.352274,
-          "hike": 0.575167,
-          "cut": 0.07256
+          "hold": 0.337979,
+          "hike": 0.590286,
+          "cut": 0.071735
         },
         "benchmark_probabilities": {
           "hold": 0.575,
@@ -2166,16 +2168,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.309845,
+        "brier": 0.287241,
         "benchmark_brier": 1.055972
       },
       {
         "origin": "20220930",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.311213,
-          "hike": 0.624685,
-          "cut": 0.064102
+          "hold": 0.349472,
+          "hike": 0.576353,
+          "cut": 0.074175
         },
         "benchmark_probabilities": {
           "hold": 0.570248,
@@ -2184,16 +2186,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.241824,
+        "brier": 0.30711,
         "benchmark_brier": 1.03859
       },
       {
         "origin": "20221031",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.421949,
-          "hike": 0.49114,
-          "cut": 0.086911
+          "hold": 0.382446,
+          "hike": 0.53638,
+          "cut": 0.081173
         },
         "benchmark_probabilities": {
           "hold": 0.565574,
@@ -2202,16 +2204,16 @@
         },
         "actual": "hike",
         "hit": true,
-        "brier": 0.444533,
+        "brier": 0.367798,
         "benchmark_brier": 1.021634
       },
       {
         "origin": "20221130",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.500208,
-          "hike": 0.380986,
-          "cut": 0.118806
+          "hold": 0.484175,
+          "hike": 0.401877,
+          "cut": 0.113948
         },
         "benchmark_probabilities": {
           "hold": 0.560976,
@@ -2220,16 +2222,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.647501,
+        "brier": 0.60516,
         "benchmark_brier": 1.00509
       },
       {
         "origin": "20221230",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.482965,
-          "hike": 0.36242,
-          "cut": 0.154616
+          "hold": 0.47109,
+          "hike": 0.391251,
+          "cut": 0.137658
         },
         "benchmark_probabilities": {
           "hold": 0.556452,
@@ -2238,16 +2240,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.663669,
+        "brier": 0.611451,
         "benchmark_brier": 0.988944
       },
       {
         "origin": "20230131",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.553849,
-          "hike": 0.326941,
-          "cut": 0.119211
+          "hold": 0.588957,
+          "hike": 0.276975,
+          "cut": 0.134069
         },
         "benchmark_probabilities": {
           "hold": 0.552,
@@ -2256,16 +2258,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.320152,
+        "brier": 0.263646,
         "benchmark_brier": 0.301184
       },
       {
         "origin": "20230228",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.509638,
-          "hike": 0.34761,
-          "cut": 0.142753
+          "hold": 0.508559,
+          "hike": 0.356552,
+          "cut": 0.134889
         },
         "benchmark_probabilities": {
           "hold": 0.555556,
@@ -2274,16 +2276,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.381666,
+        "brier": 0.386839,
         "benchmark_brier": 0.296422
       },
       {
         "origin": "20230331",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.54115,
-          "hike": 0.288212,
-          "cut": 0.170638
+          "hold": 0.566175,
+          "hike": 0.249112,
+          "cut": 0.184713
         },
         "benchmark_probabilities": {
           "hold": 0.559055,
@@ -2292,16 +2294,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.322727,
+        "brier": 0.28438,
         "benchmark_brier": 0.291773
       },
       {
         "origin": "20230428",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.551518,
-          "hike": 0.293734,
-          "cut": 0.154749
+          "hold": 0.576516,
+          "hike": 0.253662,
+          "cut": 0.169822
         },
         "benchmark_probabilities": {
           "hold": 0.5625,
@@ -2310,16 +2312,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.311363,
+        "brier": 0.272523,
         "benchmark_brier": 0.287231
       },
       {
         "origin": "20230531",
-        "selected_candidate": "macro_balanced",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.498792,
-          "hike": 0.39847,
-          "cut": 0.102739
+          "hold": 0.561003,
+          "hike": 0.319925,
+          "cut": 0.119072
         },
         "benchmark_probabilities": {
           "hold": 0.565891,
@@ -2328,16 +2330,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.420543,
+        "brier": 0.309248,
         "benchmark_brier": 0.282796
       },
       {
         "origin": "20230630",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.573844,
-          "hike": 0.312593,
-          "cut": 0.113563
+          "hold": 0.547993,
+          "hike": 0.335696,
+          "cut": 0.11631
         },
         "benchmark_probabilities": {
           "hold": 0.569231,
@@ -2346,16 +2348,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.29222,
+        "brier": 0.33053,
         "benchmark_brier": 0.278462
       },
       {
         "origin": "20230731",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.58503,
-          "hike": 0.299193,
-          "cut": 0.115777
+          "hold": 0.560309,
+          "hike": 0.320766,
+          "cut": 0.118924
         },
         "benchmark_probabilities": {
           "hold": 0.572519,
@@ -2364,16 +2366,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.27512,
+        "brier": 0.310362,
         "benchmark_brier": 0.274226
       },
       {
         "origin": "20230831",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.61598,
-          "hike": 0.262118,
-          "cut": 0.121902
+          "hold": 0.591943,
+          "hike": 0.282418,
+          "cut": 0.125639
         },
         "benchmark_probabilities": {
           "hold": 0.575758,
@@ -2382,16 +2384,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.231037,
+        "brier": 0.262056,
         "benchmark_brier": 0.270087
       },
       {
         "origin": "20230927",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.58976,
-          "hike": 0.293528,
-          "cut": 0.116713
+          "hold": 0.559224,
+          "hike": 0.322082,
+          "cut": 0.118694
         },
         "benchmark_probabilities": {
           "hold": 0.578947,
@@ -2400,16 +2402,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.268078,
+        "brier": 0.312109,
         "benchmark_brier": 0.266041
       },
       {
         "origin": "20231031",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.580408,
-          "hike": 0.304731,
-          "cut": 0.114862
+          "hold": 0.545051,
+          "hike": 0.339263,
+          "cut": 0.115686
         },
         "benchmark_probabilities": {
           "hold": 0.58209,
@@ -2418,16 +2420,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.282112,
+        "brier": 0.335462,
         "benchmark_brier": 0.262085
       },
       {
         "origin": "20231130",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.604665,
-          "hike": 0.275673,
-          "cut": 0.119662
+          "hold": 0.583842,
+          "hike": 0.292239,
+          "cut": 0.123919
         },
         "benchmark_probabilities": {
           "hold": 0.585185,
@@ -2436,16 +2438,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.246605,
+        "brier": 0.273947,
         "benchmark_brier": 0.258217
       },
       {
         "origin": "20231229",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.616923,
-          "hike": 0.221403,
-          "cut": 0.161674
+          "hold": 0.594855,
+          "hike": 0.228963,
+          "cut": 0.176182
         },
         "benchmark_probabilities": {
           "hold": 0.588235,
@@ -2454,16 +2456,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.221906,
+        "brier": 0.247606,
         "benchmark_brier": 0.254433
       },
       {
         "origin": "20240131",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.640459,
-          "hike": 0.202617,
-          "cut": 0.156925
+          "hold": 0.620055,
+          "hike": 0.210385,
+          "cut": 0.16956
         },
         "benchmark_probabilities": {
           "hold": 0.591241,
@@ -2472,16 +2474,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.194949,
+        "brier": 0.217371,
         "benchmark_brier": 0.250733
       },
       {
         "origin": "20240229",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.681447,
-          "hike": 0.158573,
-          "cut": 0.15998
+          "hold": 0.665298,
+          "hike": 0.166041,
+          "cut": 0.16866
         },
         "benchmark_probabilities": {
           "hold": 0.594203,
@@ -2490,16 +2492,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.152215,
+        "brier": 0.168041,
         "benchmark_brier": 0.247112
       },
       {
         "origin": "20240329",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.674336,
-          "hike": 0.169721,
-          "cut": 0.155943
+          "hold": 0.655624,
+          "hike": 0.176976,
+          "cut": 0.1674
         },
         "benchmark_probabilities": {
           "hold": 0.597122,
@@ -2508,16 +2510,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.15918,
+        "brier": 0.177938,
         "benchmark_brier": 0.243569
       },
       {
         "origin": "20240430",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.692862,
-          "hike": 0.170021,
-          "cut": 0.137117
+          "hold": 0.677333,
+          "hike": 0.178905,
+          "cut": 0.143762
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -2526,16 +2528,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.142042,
+        "brier": 0.156789,
         "benchmark_brier": 0.240102
       },
       {
         "origin": "20240531",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.688928,
-          "hike": 0.147841,
-          "cut": 0.163231
+          "hold": 0.672765,
+          "hike": 0.154841,
+          "cut": 0.172395
         },
         "benchmark_probabilities": {
           "hold": 0.602837,
@@ -2544,16 +2546,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.145267,
+        "brier": 0.160778,
         "benchmark_brier": 0.236708
       },
       {
         "origin": "20240628",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.672197,
-          "hike": 0.147649,
-          "cut": 0.180154
+          "hold": 0.649461,
+          "hike": 0.152999,
+          "cut": 0.19754
         },
         "benchmark_probabilities": {
           "hold": 0.605634,
@@ -2562,16 +2564,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.161711,
+        "brier": 0.185309,
         "benchmark_brier": 0.233386
       },
       {
         "origin": "20240731",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.643294,
-          "hike": 0.127307,
-          "cut": 0.229399
+          "hold": 0.613055,
+          "hike": 0.13012,
+          "cut": 0.256826
         },
         "benchmark_probabilities": {
           "hold": 0.608392,
@@ -2580,16 +2582,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.023859,
+        "brier": 0.945076,
         "benchmark_brier": 1.041322
       },
       {
         "origin": "20240830",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.64399,
-          "hike": 0.143578,
-          "cut": 0.212432
+          "hold": 0.614151,
+          "hike": 0.146854,
+          "cut": 0.238995
         },
         "benchmark_probabilities": {
           "hold": 0.604167,
@@ -2598,16 +2600,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.0556,
+        "brier": 0.977877,
         "benchmark_brier": 1.02691
       },
       {
         "origin": "20240930",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.54601,
-          "hike": 0.108055,
-          "cut": 0.345935
+          "hold": 0.499345,
+          "hike": 0.105985,
+          "cut": 0.39467
         },
         "benchmark_probabilities": {
           "hold": 0.6,
@@ -2616,16 +2618,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 0.737603,
+        "brier": 0.627002,
         "benchmark_brier": 1.012794
       },
       {
         "origin": "20241031",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.669326,
-          "hike": 0.135917,
-          "cut": 0.194757
+          "hold": 0.645108,
+          "hike": 0.140498,
+          "cut": 0.214394
         },
         "benchmark_probabilities": {
           "hold": 0.59589,
@@ -2634,16 +2636,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.114887,
+        "brier": 1.05308,
         "benchmark_brier": 0.998968
       },
       {
         "origin": "20241129",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.6563,
-          "hike": 0.138641,
-          "cut": 0.205059
+          "hold": 0.630286,
+          "hike": 0.1428,
+          "cut": 0.226914
         },
         "benchmark_probabilities": {
           "hold": 0.591837,
@@ -2652,16 +2654,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.081882,
+        "brier": 1.015313,
         "benchmark_brier": 0.985423
       },
       {
         "origin": "20241231",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.646269,
-          "hike": 0.176666,
-          "cut": 0.177065
+          "hold": 0.623978,
+          "hike": 0.18294,
+          "cut": 0.193082
         },
         "benchmark_probabilities": {
           "hold": 0.587838,
@@ -2670,16 +2672,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.126097,
+        "brier": 1.073932,
         "benchmark_brier": 0.972151
       },
       {
         "origin": "20250131",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.641351,
-          "hike": 0.126922,
-          "cut": 0.231727
+          "hold": 0.612998,
+          "hike": 0.130108,
+          "cut": 0.256894
         },
         "benchmark_probabilities": {
           "hold": 0.583893,
@@ -2688,16 +2690,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.017684,
+        "brier": 0.944901,
         "benchmark_brier": 0.959146
       },
       {
         "origin": "20250228",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.683642,
-          "hike": 0.164838,
-          "cut": 0.15152
+          "hold": 0.666053,
+          "hike": 0.172242,
+          "cut": 0.161704
         },
         "benchmark_probabilities": {
           "hold": 0.58,
@@ -2706,16 +2708,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.214457,
+        "brier": 1.176034,
         "benchmark_brier": 0.9464
       },
       {
         "origin": "20250331",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.68535,
-          "hike": 0.13563,
-          "cut": 0.17902
+          "hold": 0.66722,
+          "hike": 0.141616,
+          "cut": 0.191164
         },
         "benchmark_probabilities": {
           "hold": 0.576159,
@@ -2724,16 +2726,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.162107,
+        "brier": 1.119454,
         "benchmark_brier": 0.933906
       },
       {
         "origin": "20250430",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.640041,
-          "hike": 0.150319,
-          "cut": 0.20964
+          "hold": 0.610583,
+          "hike": 0.153798,
+          "cut": 0.235619
         },
         "benchmark_probabilities": {
           "hold": 0.572368,
@@ -2742,16 +2744,16 @@
         },
         "actual": "cut",
         "hit": false,
-        "brier": 1.056917,
+        "brier": 0.980745,
         "benchmark_brier": 0.921659
       },
       {
         "origin": "20250530",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.682896,
-          "hike": 0.154454,
-          "cut": 0.16265
+          "hold": 0.663571,
+          "hike": 0.160965,
+          "cut": 0.175464
         },
         "benchmark_probabilities": {
           "hold": 0.568627,
@@ -2760,16 +2762,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.150866,
+        "brier": 0.169882,
         "benchmark_brier": 0.282199
       },
       {
         "origin": "20250630",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.687464,
-          "hike": 0.168048,
-          "cut": 0.144487
+          "hold": 0.671083,
+          "hike": 0.175939,
+          "cut": 0.152978
         },
         "benchmark_probabilities": {
           "hold": 0.571429,
@@ -2778,16 +2780,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.146795,
+        "brier": 0.162543,
         "benchmark_brier": 0.278546
       },
       {
         "origin": "20250731",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.681948,
-          "hike": 0.150348,
-          "cut": 0.167704
+          "hold": 0.664005,
+          "hike": 0.157007,
+          "cut": 0.178988
         },
         "benchmark_probabilities": {
           "hold": 0.574194,
@@ -2796,16 +2798,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.151887,
+        "brier": 0.169581,
         "benchmark_brier": 0.274964
       },
       {
         "origin": "20250829",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.680329,
-          "hike": 0.159722,
-          "cut": 0.159949
+          "hold": 0.661298,
+          "hike": 0.166511,
+          "cut": 0.172191
         },
         "benchmark_probabilities": {
           "hold": 0.576923,
@@ -2814,16 +2816,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.153284,
+        "brier": 0.172095,
         "benchmark_brier": 0.27145
       },
       {
         "origin": "20250930",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.704964,
-          "hike": 0.152136,
-          "cut": 0.1429
+          "hold": 0.689646,
+          "hike": 0.160422,
+          "cut": 0.149932
         },
         "benchmark_probabilities": {
           "hold": 0.579618,
@@ -2832,16 +2834,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.130612,
+        "brier": 0.144534,
         "benchmark_brier": 0.268003
       },
       {
         "origin": "20251031",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.6661,
-          "hike": 0.20208,
-          "cut": 0.13182
+          "hold": 0.646582,
+          "hike": 0.216183,
+          "cut": 0.137236
         },
         "benchmark_probabilities": {
           "hold": 0.582278,
@@ -2850,16 +2852,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.169702,
+        "brier": 0.190473,
         "benchmark_brier": 0.264621
       },
       {
         "origin": "20251128",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.648734,
-          "hike": 0.222883,
-          "cut": 0.128384
+          "hold": 0.622565,
+          "hike": 0.245297,
+          "cut": 0.132138
         },
         "benchmark_probabilities": {
           "hold": 0.584906,
@@ -2868,16 +2870,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.189547,
+        "brier": 0.220089,
         "benchmark_brier": 0.261303
       },
       {
         "origin": "20251231",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.655665,
-          "hike": 0.183653,
-          "cut": 0.160682
+          "hold": 0.632283,
+          "hike": 0.20153,
+          "cut": 0.166187
         },
         "benchmark_probabilities": {
           "hold": 0.5875,
@@ -2886,16 +2888,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.178114,
+        "brier": 0.203448,
         "benchmark_brier": 0.258047
       },
       {
         "origin": "20260130",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.654284,
-          "hike": 0.207316,
-          "cut": 0.1384
+          "hold": 0.626001,
+          "hike": 0.23198,
+          "cut": 0.142019
         },
         "benchmark_probabilities": {
           "hold": 0.590062,
@@ -2904,16 +2906,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.181654,
+        "brier": 0.213859,
         "benchmark_brier": 0.254851
       },
       {
         "origin": "20260227",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.667974,
-          "hike": 0.190843,
-          "cut": 0.141184
+          "hold": 0.643821,
+          "hike": 0.210234,
+          "cut": 0.145946
         },
         "benchmark_probabilities": {
           "hold": 0.592593,
@@ -2922,16 +2924,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.166595,
+        "brier": 0.192362,
         "benchmark_brier": 0.251715
       },
       {
         "origin": "20260331",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.541467,
-          "hike": 0.351378,
-          "cut": 0.107156
+          "hold": 0.485647,
+          "hike": 0.411275,
+          "cut": 0.103078
         },
         "benchmark_probabilities": {
           "hold": 0.595092,
@@ -2940,16 +2942,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.345201,
+        "brier": 0.444331,
         "benchmark_brier": 0.248636
       },
       {
         "origin": "20260430",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.511411,
-          "hike": 0.387381,
-          "cut": 0.101208
+          "hold": 0.454635,
+          "hike": 0.448869,
+          "cut": 0.096495
         },
         "benchmark_probabilities": {
           "hold": 0.597561,
@@ -2958,16 +2960,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.647086,
+        "brier": 0.51975,
         "benchmark_brier": 1.111466
       },
       {
         "origin": "20260529",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.516269,
-          "hike": 0.381562,
-          "cut": 0.102169
+          "hold": 0.459708,
+          "hike": 0.44272,
+          "cut": 0.097572
         },
         "benchmark_probabilities": {
           "hold": 0.593939,
@@ -2976,16 +2978,16 @@
         },
         "actual": "hike",
         "hit": false,
-        "brier": 0.659437,
+        "brier": 0.531412,
         "benchmark_brier": 1.098035
       },
       {
         "origin": "20260630",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.485453,
-          "hike": 0.418476,
-          "cut": 0.096071
+          "hold": 0.43447,
+          "hike": 0.473315,
+          "cut": 0.092215
         },
         "benchmark_probabilities": {
           "hold": 0.590361,
@@ -2993,17 +2995,17 @@
           "cut": 0.23494
         },
         "actual": "hike",
-        "hit": false,
-        "brier": 0.583065,
+        "hit": true,
+        "brier": 0.474664,
         "benchmark_brier": 1.084845
       },
       {
         "origin": "20260731",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.583508,
-          "hike": 0.289183,
-          "cut": 0.127309
+          "hold": 0.534659,
+          "hike": 0.340232,
+          "cut": 0.125109
         },
         "benchmark_probabilities": {
           "hold": 0.586826,
@@ -3012,16 +3014,16 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.2733,
+        "brier": 0.347953,
         "benchmark_brier": 0.257521
       },
       {
         "origin": "20260820",
-        "selected_candidate": "market_gap_heavy",
+        "selected_candidate": "market_gap_conviction",
         "probabilities": {
-          "hold": 0.545393,
-          "hike": 0.346674,
-          "cut": 0.107933
+          "hold": 0.49212,
+          "hike": 0.403429,
+          "cut": 0.104451
         },
         "benchmark_probabilities": {
           "hold": 0.589286,
@@ -3030,7 +3032,7 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.3385,
+        "brier": 0.431607,
         "benchmark_brier": 0.254464
       }
     ],
@@ -3056,7 +3058,7 @@
       "first_2y_date": "20210310",
       "observations": 3380
     },
-    "calibration_weight": 0.617,
+    "calibration_weight": 0.628,
     "quality_gate": {
       "passed": false,
       "strict_passed": false,
@@ -3078,16 +3080,16 @@
       },
       "observed": {
         "samples": 166,
-        "brier_skill_score": 0.1111,
-        "accuracy": 0.6325,
-        "accuracy_wilson_lower_95": 0.557,
+        "brier_skill_score": 0.1299,
+        "accuracy": 0.6566,
+        "accuracy_wilson_lower_95": 0.5816,
         "active_input_coverage": 1.0,
         "release_lag_backtest": true,
         "walk_forward_backtest": true,
         "real_time_vintage": false,
         "reconstructed_oos_passed": true
       },
-      "forecast_quality_score": 84,
+      "forecast_quality_score": 87,
       "quality_score_semantics": "walk_forward_skill_accuracy_samples_and_active_input_coverage_not_probability",
       "reasons": [
         "실시간 원본 빈티지 검증이 아직 충분하지 않습니다."
@@ -3112,7 +3114,7 @@
       "valid": true,
       "rows": 180
     },
-    "live_probability_candidate": "market_gap_heavy"
+    "live_probability_candidate": "market_gap_conviction"
   },
   "fx": {
     "samples": 608,
@@ -3651,8 +3653,8 @@
     }
   },
   "liquidity": {
-    "model_quality_score": 88,
-    "forecast_quality_score": 88,
+    "model_quality_score": 95,
+    "forecast_quality_score": 95,
     "forecast_quality_grade": "A",
     "input_data_quality_score": 99,
     "quality_score_semantics": "forecast_quality_is_oos_based; input_quality_is_coverage_availability",
@@ -3677,9 +3679,9 @@
       "oos_by_horizon": {
         "3m": {
           "samples": 138,
-          "rmse": 0.031134,
+          "rmse": 0.031122,
           "zero_benchmark_rmse": 0.032056,
-          "zero_benchmark_skill_pct": 2.875,
+          "zero_benchmark_skill_pct": 2.913,
           "direction_accuracy": 0.5385,
           "active_direction_coverage": 0.7536,
           "strict_skill_passed": true,
@@ -3693,30 +3695,30 @@
           "selection_no_lookahead": true,
           "benchmark": "zero_change_in_independent_krw_strength_target",
           "production_guardrail": {
-            "mode": "legacy_pre_v226",
-            "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+            "mode": "v49_horizon_calibrated",
+            "reason": "V4.9 keeps 3m expanding selection and uses a 6m recent+long loss blend; both remain no-lookahead"
           }
         },
         "6m": {
           "samples": 135,
-          "rmse": 0.038051,
+          "rmse": 0.03756,
           "zero_benchmark_rmse": 0.038027,
-          "zero_benchmark_skill_pct": -0.063,
-          "direction_accuracy": 0.5769,
-          "active_direction_coverage": 0.3852,
-          "strict_skill_passed": false,
-          "grade": "C",
-          "forecast_quality_score": 66,
+          "zero_benchmark_skill_pct": 1.227,
+          "direction_accuracy": 0.5758,
+          "active_direction_coverage": 0.4889,
+          "strict_skill_passed": true,
+          "grade": "B",
+          "forecast_quality_score": 79,
           "selected_model_counts": {
-            "zero": 82,
-            "contrarian3": 53
+            "zero": 67,
+            "contrarian3": 68
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
           "benchmark": "zero_change_in_independent_krw_strength_target",
           "production_guardrail": {
-            "mode": "legacy_pre_v226",
-            "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+            "mode": "v49_horizon_calibrated",
+            "reason": "V4.9 keeps 3m expanding selection and uses a 6m recent+long loss blend; both remain no-lookahead"
           }
         },
         "12m": {
@@ -3738,13 +3740,13 @@
           "benchmark": "zero_change_in_independent_krw_strength_target",
           "production_guardrail": {
             "mode": "enhanced_v226",
-            "reason": "V226 3m/6m OOS regressed; 12m OOS improved"
+            "reason": "V226 12m enhanced candidate set retained"
           }
         }
       },
       "no_lookahead": true,
       "selection_method": "horizon_guarded_prequential_candidate_selection",
-      "selection_rule": "3m/6m frozen pre-V226 expanding selection; 12m V226 recent+long selection; no lookahead"
+      "selection_rule": "3m/6m horizon-calibrated expanding selection; 12m V226 recent+long selection; no lookahead"
     },
     "quality_score_semantics": "70% independent KRW-strength OOS quality + 30% weighted factor coverage; not a probability",
     "validation_basis": "independent observable KRW-strength target OOS + weighted factor coverage"
