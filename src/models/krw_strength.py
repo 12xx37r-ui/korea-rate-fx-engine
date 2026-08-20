@@ -1064,7 +1064,10 @@ def _strength_oos_candidates(levels: list[float], origin: int, horizon: int, *, 
         "mom3": _clip_strength_return(0.50 * d3 * scale3),
         "mom6": _clip_strength_return(0.55 * d6 * scale6),
         "mom12": _clip_strength_return(0.45 * d12 * scale12),
-        "contrarian3": _clip_strength_return(-0.30 * d3 * scale3),
+        # V4.9 horizon calibration: the same 3m reversal signal needs materially
+        # less amplitude at 6m.  Coefficients are fixed by horizon and still pass
+        # through the same prequential no-lookahead candidate tournament.
+        "contrarian3": _clip_strength_return(({3: -0.28, 6: -0.22}.get(horizon, -0.30)) * d3 * scale3),
         "blend": _clip_strength_return(0.32*d3*scale3 + 0.28*d6*scale6 + 0.15*d12*scale12),
     }
     if enhanced:
@@ -1130,6 +1133,14 @@ def _krw_strength_independent_oos(
                         recent = errs[-48:]
                         return 0.60 * mean(recent) + 0.40 * mean(errs)
                     selected = min(mature, key=candidate_score)
+                elif horizon == 6:
+                    # 6m KRW strength is more regime-sensitive than 3m.  Blend a
+                    # recent 36-origin loss window with the full matured record.
+                    def candidate_score_6m(name: str) -> float:
+                        errs = mature[name]
+                        recent = errs[-36:]
+                        return 0.60 * mean(recent) + 0.40 * mean(errs)
+                    selected = min(mature, key=candidate_score_6m)
                 else:
                     selected = min(mature, key=lambda name: mean(mature[name]))
             else:
@@ -1174,8 +1185,12 @@ def _krw_strength_independent_oos(
             "selection_no_lookahead": True,
             "benchmark": "zero_change_in_independent_krw_strength_target",
             "production_guardrail": {
-                "mode": "legacy_pre_v226" if horizon in (3, 6) else "enhanced_v226",
-                "reason": "V226 3m/6m OOS regressed; 12m OOS improved",
+                "mode": "v49_horizon_calibrated" if horizon in (3, 6) else "enhanced_v226",
+                "reason": (
+                    "V4.9 keeps 3m expanding selection and uses a 6m recent+long loss blend; both remain no-lookahead"
+                    if horizon in (3, 6)
+                    else "V226 12m enhanced candidate set retained"
+                ),
             },
         }
     primary = result.get("3m", {})
@@ -1189,7 +1204,7 @@ def _krw_strength_independent_oos(
         "oos_by_horizon": result,
         "no_lookahead": True,
         "selection_method": "horizon_guarded_prequential_candidate_selection",
-        "selection_rule": "3m/6m frozen pre-V226 expanding selection; 12m V226 recent+long selection; no lookahead",
+        "selection_rule": "3m/6m horizon-calibrated expanding selection; 12m V226 recent+long selection; no lookahead",
     }
 
 

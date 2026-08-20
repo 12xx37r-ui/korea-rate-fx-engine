@@ -127,6 +127,9 @@ RATE_PROBABILITY_SPECS: dict[str, dict[str, float]] = {
     # Pre-declared alternatives. They are never chosen on the same observation that
     # they are evaluated on; selection uses only matured prior OOS losses.
     "market_gap_heavy": {"hold": 1.62, "gap_hike": 0.90, "gap_cut": 1.18, "cpi_hike": 0.27, "cpi_cut": 0.24, "growth_hike": 0.22, "growth_cut": 0.29},
+    # V4.9: higher-conviction market-gap candidate.  It is not privileged in live
+    # selection; it must earn its place using only matured prior OOS Brier losses.
+    "market_gap_conviction": {"hold": 1.55, "gap_hike": 1.10, "gap_cut": 1.40, "cpi_hike": 0.27, "cpi_cut": 0.24, "growth_hike": 0.22, "growth_cut": 0.29},
     "macro_balanced": {"hold": 1.58, "gap_hike": 0.62, "gap_cut": 0.88, "cpi_hike": 0.38, "cpi_cut": 0.34, "growth_hike": 0.34, "growth_cut": 0.40},
     "high_inertia": {"hold": 1.82, "gap_hike": 0.68, "gap_cut": 0.94, "cpi_hike": 0.30, "cpi_cut": 0.26, "growth_hike": 0.25, "growth_cut": 0.31},
 }

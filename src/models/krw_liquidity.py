@@ -168,7 +168,9 @@ def _oos_validation(
     model_errors: list[float] = []
     bench_errors: list[float] = []
     hits: list[bool] = []
-    min_matured = 24
+    # V4.9: wait for a more stable candidate record, then adapt to the recent
+    # monetary regime without look-ahead.  The score remains entirely past-only.
+    min_matured = 36
 
     for idx in range(15, len(months_order) - months):
         cur_m = months_order[idx]
@@ -196,7 +198,14 @@ def _oos_validation(
             for name, spec in LIQUIDITY_CANDIDATES.items()
         }
         eligible = [name for name, losses in candidate_losses.items() if len(losses) >= min_matured]
-        selected = min(eligible, key=lambda name: mean(candidate_losses[name])) if eligible else "persistence"
+        if eligible:
+            def candidate_score(name: str) -> float:
+                losses = candidate_losses[name]
+                recent = losses[-24:]
+                return 0.65 * mean(recent) + 0.35 * mean(losses)
+            selected = min(eligible, key=candidate_score)
+        else:
+            selected = "persistence"
         pred = forecasts[selected]
         selected_counts[selected] = selected_counts.get(selected, 0) + 1
         model_errors.append(pred - actual)
@@ -239,13 +248,14 @@ def _oos_validation(
         "strict_skill_passed": strict,
         "grade": grade,
         "forecast_quality_score": score,
-        "method": "expanding_origin_prequential_candidate_selection_future_m2_yoy",
+        "method": "expanding_origin_prequential_recent_regime_candidate_selection_future_m2_yoy",
         "benchmark": "current_m2_yoy_persistence",
         "selected_model_counts": selected_counts,
         "production_candidate": final_candidate,
         "candidate_rmse_pctp": candidate_rmse,
         "selection_min_matured_errors": min_matured,
         "selection_no_lookahead": True,
+        "selection_rule": "65% recent-24 + 35% expanding squared error; past-only",
     }
 
 
