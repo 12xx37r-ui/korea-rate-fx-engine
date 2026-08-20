@@ -3168,7 +3168,7 @@
     },
     "optional_enhancement_sources": {
       "krx_market": "ok",
-      "reb_financial_stability": "error",
+      "reb_financial_stability": "ok",
       "used_in_fixed_rate_model": false
     },
     "core_cpi": {
@@ -3183,5 +3183,5 @@
     "미국 엔진 출력은 읽기 전용 입력이며 미국 계산은 변경하지 않습니다.",
     "실제 빈티지 데이터가 아닌 최신 이력으로 재구성된 구간은 개정 편향이 남을 수 있습니다."
   ],
-  "generated_at": "2026-08-20T22:00:51.214403+09:00"
+  "generated_at": "2026-08-21T01:40:52.006546+09:00"
 }

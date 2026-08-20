@@ -1,12 +1,12 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-20T13:03:11.556632+00:00",
+  "generated_at_utc": "2026-08-20T16:42:02.985922+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
   "score": 43,
   "score_valid": true,
   "bias": "중립",
-  "final_score": 35.5836,
+  "final_score": 35.5542,
   "final_score_valid": true,
   "final_bias": "약불리",
   "circuit_breaker": false,
@@ -14,7 +14,9 @@
   "data_coverage_pct": 100,
   "active_weight": 1.0,
   "complete_for_market_card": true,
-  "stale_sections": [],
+  "stale_sections": [
+    "credit"
+  ],
   "components": {
     "flow": {
       "available": true,
@@ -86,23 +88,23 @@
     },
     "semiconductor": {
       "available": true,
-      "score_normalized": -0.098798,
+      "score_normalized": -0.08179,
       "weights_used": 1.0,
       "evidence": {
         "sox": {
-          "latest": 11738.230469,
-          "mom_20d_pct": -5.4182,
-          "mom_60d_pct": -3.805
+          "latest": 11764.291992,
+          "mom_20d_pct": -4.695,
+          "mom_60d_pct": -8.6404
         },
         "nvda": {
-          "latest": 217.559998,
-          "mom_20d_pct": 2.5936,
-          "mom_60d_pct": 1.0356
+          "latest": 216.925003,
+          "mom_20d_pct": 3.9112,
+          "mom_60d_pct": 0.9611
         },
         "tsm": {
-          "latest": 412.089996,
-          "mom_20d_pct": -2.1652,
-          "mom_60d_pct": 1.8714
+          "latest": 415.769989,
+          "mom_20d_pct": 0.0457,
+          "mom_60d_pct": 0.8367
         },
         "twii": {
           "latest": 44933.738281,
@@ -123,23 +125,23 @@
   },
   "semiconductor_cycle": {
     "available": true,
-    "score_normalized": -0.098798,
+    "score_normalized": -0.08179,
     "weights_used": 1.0,
     "evidence": {
       "sox": {
-        "latest": 11738.230469,
-        "mom_20d_pct": -5.4182,
-        "mom_60d_pct": -3.805
+        "latest": 11764.291992,
+        "mom_20d_pct": -4.695,
+        "mom_60d_pct": -8.6404
       },
       "nvda": {
-        "latest": 217.559998,
-        "mom_20d_pct": 2.5936,
-        "mom_60d_pct": 1.0356
+        "latest": 216.925003,
+        "mom_20d_pct": 3.9112,
+        "mom_60d_pct": 0.9611
       },
       "tsm": {
-        "latest": 412.089996,
-        "mom_20d_pct": -2.1652,
-        "mom_60d_pct": 1.8714
+        "latest": 415.769989,
+        "mom_20d_pct": 0.0457,
+        "mom_60d_pct": 0.8367
       },
       "twii": {
         "latest": 44933.738281,
@@ -173,7 +175,7 @@
   "score_after_pbr": 33,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-20T13:03:11.554895+00:00",
+    "generated_at_utc": "2026-08-20T16:42:02.984102+00:00",
     "regime": "normal",
     "circuit_breaker": false,
     "circuit_breaker_reasons": [],
@@ -185,38 +187,38 @@
     "shock_multiplier": {
       "available": true,
       "penalty": 0.0,
-      "z_score": -0.1472,
-      "abs_z": 0.1472,
+      "z_score": -0.1444,
+      "abs_z": 0.1444,
       "regime_label": "정상",
       "formula": "penalty = z^2 * 3.0 (|z|>2 구간), (|z|-1)*5.0 (1<|z|<=2), 0 (정상)"
     },
     "emp": {
       "available": true,
-      "emp_score": -1.7224,
+      "emp_score": -1.7028,
       "components_count": 2,
       "evidence": {
-        "fx_change_pct": -4.0209,
+        "fx_change_pct": -3.9817,
         "reserve_change_pct": null,
         "rate_differential_pct": -1.44
       },
       "interpretation": "양수=원화절하 압력 증가, 음수=원화절상 압력"
     },
     "emp_adjustment": {
-      "adjusted_score": 35.5836,
+      "adjusted_score": 35.5542,
       "original_score": 33,
-      "emp_score": -1.7224,
-      "adjustment": 2.5836,
+      "emp_score": -1.7028,
+      "adjustment": 2.5542,
       "emp_applied": true
     },
     "macro_env_score_original": 33,
-    "macro_env_score_after_emp": 35.5836,
-    "final_score": 35.5836,
+    "macro_env_score_after_emp": 35.5542,
+    "final_score": 35.5542,
     "final_score_valid": true,
     "regime_evidence": {
-      "fx_3d_change_pct": -1.4137,
-      "fx_std_5d": 11.5839,
-      "fx_std_10d": 9.6016,
-      "fx_z_score": 0.1472,
+      "fx_3d_change_pct": -1.3734,
+      "fx_std_5d": 11.4819,
+      "fx_std_10d": 9.5118,
+      "fx_z_score": 0.1444,
       "vkospi_latest": null,
       "cds_proxy": 0.163
     }
@@ -2583,10 +2585,12 @@
         }
       ],
       "history_samples": 377,
-      "stale": false,
-      "source": "한국은행 ECOS 시장금리(일별)",
+      "stale": true,
+      "source": "한국은행 ECOS",
       "source_url": "https://ecos.bok.or.kr/",
-      "diagnostics": []
+      "diagnostics": [
+        "credit_ecos:HttpError:요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/QKIR95HC7B0IIJ6JLFPB/json/kr/1/1000/817Y002/D/20260706/20260820/010300000/?/? (Caused by ConnectTimeoutErro"
+      ]
     }
   },
   "interpretation": {
