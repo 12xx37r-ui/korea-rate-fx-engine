@@ -6754,17 +6754,17 @@
   },
   "supply_demand": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-08-20T05:04:08.626202Z",
+    "generated_at": "2026-08-20T09:02:08.562285Z",
     "available": true,
     "foreign_spot_flow": {
       "available": true,
       "period_start": "20260721",
       "period_end": "20260820",
-      "net_value": 191010315623.0,
-      "buy_value": 257969440647172.0,
-      "sell_value": 257778430331549.0,
-      "cum_5d_net": 4388205876376.0,
-      "cum_20d_net": -1613408563167.0,
+      "net_value": 696876479877.0,
+      "buy_value": 261166094030599.0,
+      "sell_value": 260469217550722.0,
+      "cum_5d_net": 4894020300645.0,
+      "cum_20d_net": -1107601230826.0,
       "momentum_signal": "혼조",
       "diagnostics": [],
       "source": "KRX 투자자별 거래대금 (pykrx)"
@@ -6774,26 +6774,26 @@
       "period_start": "20260721",
       "period_end": "20260820",
       "net_contracts": null,
-      "net_value_proxy": 191193374392.0,
+      "net_value_proxy": 696876479877.0,
       "trend": "매수우위",
       "source": "pykrx KOSPI 외국인 현물 (선물 API 불가 시 대용)",
       "note": "pykrx futures 모듈 미지원 환경: KOSPI 현물 순매수 대용",
       "diagnostics": [
-        "pykrx_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__init__.py)"
+        "pykrx_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__init__.py)"
       ]
     },
     "basis": {
       "available": false,
-      "kospi200_spot": 1082.07,
+      "kospi200_spot": 1080.98,
       "kospi200_futures": null,
       "reason": "선물가격 조회 실패",
       "diagnostics": [
-        "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__"
+        "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/pykrx/__"
       ]
     },
     "flow_momentum_summary": {
-      "cum_5d_net": 4388205876376.0,
-      "cum_20d_net": -1613408563167.0,
+      "cum_5d_net": 4894020300645.0,
+      "cum_20d_net": -1107601230826.0,
       "momentum_signal": "혼조",
       "futures_trend": "매수우위",
       "basis_signal": null

@@ -1,12 +1,12 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-20T14:03:31.043570+09:00",
+  "generated_at": "2026-08-20T18:01:31.765547+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5119,
     "benchmark_brier": 0.5759,
-    "brier_skill_score": 0.1112,
+    "brier_skill_score": 0.1111,
     "accuracy": 0.6325,
     "accuracy_wilson_lower_95": 0.557,
     "log_loss": 0.8577,
@@ -3016,12 +3016,12 @@
         "benchmark_brier": 0.257521
       },
       {
-        "origin": "20260819",
+        "origin": "20260820",
         "selected_candidate": "market_gap_heavy",
         "probabilities": {
-          "hold": 0.550308,
-          "hike": 0.340787,
-          "cut": 0.108905
+          "hold": 0.545393,
+          "hike": 0.346674,
+          "cut": 0.107933
         },
         "benchmark_probabilities": {
           "hold": 0.589286,
@@ -3030,7 +3030,7 @@
         },
         "actual": "hold",
         "hit": true,
-        "brier": 0.330219,
+        "brier": 0.3385,
         "benchmark_brier": 0.254464
       }
     ],
@@ -3054,7 +3054,7 @@
       "live_reference": "kr_gov_2y",
       "pre_2y_proxy": "kr_gov_3y",
       "first_2y_date": "20210310",
-      "observations": 3379
+      "observations": 3380
     },
     "calibration_weight": 0.617,
     "quality_gate": {
@@ -3078,7 +3078,7 @@
       },
       "observed": {
         "samples": 166,
-        "brier_skill_score": 0.1112,
+        "brier_skill_score": 0.1111,
         "accuracy": 0.6325,
         "accuracy_wilson_lower_95": 0.557,
         "active_input_coverage": 1.0,
@@ -3670,24 +3670,24 @@
     "independent_oos_validation": {
       "separate_oos_validated": true,
       "target_definition": "-0.50*log(USD/KRW)+0.25*log(BIS_NEER)+0.25*log(BIS_REER); positive=KRW appreciation",
-      "samples_available_months": 164,
+      "samples_available_months": 165,
       "primary_horizon": "3m",
       "primary_grade": "B",
       "primary_quality_score": 79,
       "oos_by_horizon": {
         "3m": {
-          "samples": 137,
-          "rmse": 0.031236,
-          "zero_benchmark_rmse": 0.032141,
-          "zero_benchmark_skill_pct": 2.816,
-          "direction_accuracy": 0.534,
-          "active_direction_coverage": 0.7518,
+          "samples": 138,
+          "rmse": 0.031134,
+          "zero_benchmark_rmse": 0.032056,
+          "zero_benchmark_skill_pct": 2.875,
+          "direction_accuracy": 0.5385,
+          "active_direction_coverage": 0.7536,
           "strict_skill_passed": true,
           "grade": "B",
           "forecast_quality_score": 79,
           "selected_model_counts": {
             "zero": 24,
-            "contrarian3": 113
+            "contrarian3": 114
           },
           "selection_min_matured_errors": 24,
           "selection_no_lookahead": true,
@@ -3698,17 +3698,17 @@
           }
         },
         "6m": {
-          "samples": 134,
-          "rmse": 0.038189,
-          "zero_benchmark_rmse": 0.038165,
+          "samples": 135,
+          "rmse": 0.038051,
+          "zero_benchmark_rmse": 0.038027,
           "zero_benchmark_skill_pct": -0.063,
           "direction_accuracy": 0.5769,
-          "active_direction_coverage": 0.3881,
+          "active_direction_coverage": 0.3852,
           "strict_skill_passed": false,
           "grade": "C",
           "forecast_quality_score": 66,
           "selected_model_counts": {
-            "zero": 81,
+            "zero": 82,
             "contrarian3": 53
           },
           "selection_min_matured_errors": 24,
@@ -3720,17 +3720,17 @@
           }
         },
         "12m": {
-          "samples": 128,
-          "rmse": 0.050932,
-          "zero_benchmark_rmse": 0.051106,
-          "zero_benchmark_skill_pct": 0.342,
+          "samples": 129,
+          "rmse": 0.050918,
+          "zero_benchmark_rmse": 0.051092,
+          "zero_benchmark_skill_pct": 0.34,
           "direction_accuracy": 0.5263,
-          "active_direction_coverage": 0.7422,
+          "active_direction_coverage": 0.7364,
           "strict_skill_passed": true,
           "grade": "B",
           "forecast_quality_score": 76,
           "selected_model_counts": {
-            "zero": 28,
+            "zero": 29,
             "contrarian12": 100
           },
           "selection_min_matured_errors": 24,

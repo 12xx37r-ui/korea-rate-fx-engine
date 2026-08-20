@@ -1,13 +1,13 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-20T05:06:00.551671+00:00",
+  "generated_at_utc": "2026-08-20T09:03:33.596702+00:00",
   "indices": {
     "kospi200": {
       "per": 17.18,
-      "forward_per": 6.1877,
-      "eps_growth_pct": 79.3089,
-      "growth_adjusted_per": 0.078,
+      "forward_per": 6.2444,
+      "eps_growth_pct": 79.0384,
+      "growth_adjusted_per": 0.079,
       "pbr": 2.11,
       "dividend_yield": 0.9,
       "available": true,
@@ -55,9 +55,9 @@
     },
     "kosdaq150": {
       "per": 61.73,
-      "forward_per": 25.4502,
-      "eps_growth_pct": 47.1051,
-      "growth_adjusted_per": 0.5403,
+      "forward_per": 25.6301,
+      "eps_growth_pct": 46.9742,
+      "growth_adjusted_per": 0.5456,
       "pbr": 4.2,
       "dividend_yield": 0.38,
       "available": true,
@@ -102,8 +102,8 @@
   },
   "reit": {
     "ticker": "329200",
-    "current_price": 4082.0,
-    "distribution_yield": 9.7011,
+    "current_price": 4080.0,
+    "distribution_yield": 9.7059,
     "trailing_12m_distribution": 396.0,
     "distribution_count_12m": 0,
     "latest_distribution": null,

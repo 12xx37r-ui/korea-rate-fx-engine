@@ -1,12 +1,12 @@
 {
   "schema_version": "3.0.0",
   "engine_version": "korea-equity-environment-v3.0-semiconductor-pbr-band",
-  "generated_at_utc": "2026-08-20T05:07:07.861125+00:00",
+  "generated_at_utc": "2026-08-20T09:04:39.585904+00:00",
   "scope": "한국 주식시장 직접환경 전용. 기존 금리·환율 엔진 출력과 독립",
   "score": 46,
   "score_valid": true,
   "bias": "중립",
-  "final_score": 38.6482,
+  "final_score": 38.5929,
   "final_score_valid": true,
   "final_bias": "약불리",
   "circuit_breaker": false,
@@ -67,8 +67,8 @@
     },
     "earnings_revision": {
       "available": true,
-      "score_normalized": 0.996409,
-      "current_growth_proxy_pct": 63.207,
+      "score_normalized": 0.996336,
+      "current_growth_proxy_pct": 63.006,
       "baseline_growth_proxy_pct": null,
       "revision_pct_point": null,
       "history_samples": 3,
@@ -77,16 +77,16 @@
     },
     "credit_spread": {
       "available": true,
-      "score_normalized": -0.909375,
-      "spread_pct_point": 0.699,
-      "percentile": 0.954688,
+      "score_normalized": -0.828125,
+      "spread_pct_point": 0.693,
+      "percentile": 0.914062,
       "history_samples": 320,
       "history_source": "same_run_ecos_history",
       "detail": "AA- 회사채3년-국고채3년의 동일날짜 스프레드 과거분포 백분위. 좁을수록 우호."
     },
     "semiconductor": {
       "available": true,
-      "score_normalized": -0.105559,
+      "score_normalized": -0.098798,
       "weights_used": 1.0,
       "evidence": {
         "sox": {
@@ -105,9 +105,9 @@
           "mom_60d_pct": 1.8714
         },
         "twii": {
-          "latest": 44699.789062,
-          "mom_20d_pct": -0.3367,
-          "mom_60d_pct": 2.6982
+          "latest": 44933.738281,
+          "mom_20d_pct": 0.1849,
+          "mom_60d_pct": 3.2357
         }
       },
       "detail": "SOX 35% + NVDA 25% + TSM 25% + TWII 15% 가중 20d/60d 모멘텀 tanh 정규화"
@@ -123,7 +123,7 @@
   },
   "semiconductor_cycle": {
     "available": true,
-    "score_normalized": -0.105559,
+    "score_normalized": -0.098798,
     "weights_used": 1.0,
     "evidence": {
       "sox": {
@@ -142,9 +142,9 @@
         "mom_60d_pct": 1.8714
       },
       "twii": {
-        "latest": 44699.789062,
-        "mom_20d_pct": -0.3367,
-        "mom_60d_pct": 2.6982
+        "latest": 44933.738281,
+        "mom_20d_pct": 0.1849,
+        "mom_60d_pct": 3.2357
       }
     },
     "detail": "SOX 35% + NVDA 25% + TSM 25% + TWII 15% 가중 20d/60d 모멘텀 tanh 정규화"
@@ -173,7 +173,7 @@
   "score_after_pbr": 36,
   "volatility_regime": {
     "model_version": "volatility-regime-v1.0",
-    "generated_at_utc": "2026-08-20T05:07:07.859317+00:00",
+    "generated_at_utc": "2026-08-20T09:04:39.584089+00:00",
     "regime": "normal",
     "circuit_breaker": false,
     "circuit_breaker_reasons": [],
@@ -185,48 +185,48 @@
     "shock_multiplier": {
       "available": true,
       "penalty": 0.0,
-      "z_score": -0.1532,
-      "abs_z": 0.1532,
+      "z_score": -0.1481,
+      "abs_z": 0.1481,
       "regime_label": "정상",
       "formula": "penalty = z^2 * 3.0 (|z|>2 구간), (|z|-1)*5.0 (1<|z|<=2), 0 (정상)"
     },
     "emp": {
       "available": true,
-      "emp_score": -1.7655,
+      "emp_score": -1.7286,
       "components_count": 2,
       "evidence": {
-        "fx_change_pct": -4.1069,
+        "fx_change_pct": -4.0333,
         "reserve_change_pct": null,
         "rate_differential_pct": -1.44
       },
       "interpretation": "양수=원화절하 압력 증가, 음수=원화절상 압력"
     },
     "emp_adjustment": {
-      "adjusted_score": 38.6482,
+      "adjusted_score": 38.5929,
       "original_score": 36,
-      "emp_score": -1.7655,
-      "adjustment": 2.6482,
+      "emp_score": -1.7286,
+      "adjustment": 2.5929,
       "emp_applied": true
     },
     "macro_env_score_original": 36,
-    "macro_env_score_after_emp": 38.6482,
-    "final_score": 38.6482,
+    "macro_env_score_after_emp": 38.5929,
+    "final_score": 38.5929,
     "final_score_valid": true,
     "regime_evidence": {
-      "fx_3d_change_pct": -1.5021,
-      "fx_std_5d": 11.8199,
-      "fx_std_10d": 9.806,
-      "fx_z_score": 0.1532,
+      "fx_3d_change_pct": -1.4264,
+      "fx_std_5d": 11.6169,
+      "fx_std_10d": 9.6304,
+      "fx_z_score": 0.1481,
       "vkospi_latest": null,
-      "cds_proxy": 0.177
+      "cds_proxy": 0.163
     }
   },
   "current_inputs": {
     "kospi200": {
       "per": 17.18,
-      "forward_per": 6.1877,
-      "eps_growth_pct": 79.3089,
-      "growth_adjusted_per": 0.078,
+      "forward_per": 6.2444,
+      "eps_growth_pct": 79.0384,
+      "growth_adjusted_per": 0.079,
       "pbr": 2.11,
       "dividend_yield": 0.9,
       "available": true,
@@ -274,9 +274,9 @@
     },
     "kosdaq150": {
       "per": 61.73,
-      "forward_per": 25.4502,
-      "eps_growth_pct": 47.1051,
-      "growth_adjusted_per": 0.5403,
+      "forward_per": 25.6301,
+      "eps_growth_pct": 46.9742,
+      "growth_adjusted_per": 0.5456,
       "pbr": 4.2,
       "dividend_yield": 0.38,
       "available": true,
@@ -320,11 +320,11 @@
     },
     "credit": {
       "available": true,
-      "corp_aa_minus_3y_pct": 4.497,
-      "corp_as_of": "20260819",
-      "gov_3y_pct": 3.798,
-      "gov_as_of": "20260819",
-      "spread_pct_point": 0.699,
+      "corp_aa_minus_3y_pct": 4.504,
+      "corp_as_of": "20260820",
+      "gov_3y_pct": 3.811,
+      "gov_as_of": "20260820",
+      "spread_pct_point": 0.693,
       "spread_history": [
         {
           "date": "20250206",
@@ -2581,9 +2581,15 @@
           "corp_aa_minus_3y_pct": 4.497,
           "gov_3y_pct": 3.798,
           "spread_pct_point": 0.699
+        },
+        {
+          "date": "20260820",
+          "corp_aa_minus_3y_pct": 4.504,
+          "gov_3y_pct": 3.811,
+          "spread_pct_point": 0.693
         }
       ],
-      "history_samples": 376,
+      "history_samples": 377,
       "stale": false,
       "source": "한국은행 ECOS 시장금리(일별)",
       "source_url": "https://ecos.bok.or.kr/",

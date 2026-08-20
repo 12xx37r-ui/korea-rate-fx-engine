@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-20T05:06:04.957224+00:00",
+  "generated_at_utc": "2026-08-20T09:03:36.636802+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -21,50 +21,32 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1393.48,
-    "change_1d_pct": 0.397,
-    "change_3d_pct": -1.5021,
-    "std_5d": 11.8199,
-    "std_10d": 9.806
+    "latest_rate": 1394.55,
+    "change_1d_pct": 0.4741,
+    "change_3d_pct": -1.4264,
+    "std_5d": 11.6169,
+    "std_10d": 9.6304
   },
   "cds_proxy": {
     "available": true,
-    "kr_gov_latest_pct": 4.337,
+    "kr_gov_latest_pct": 4.323,
     "us_10y_latest_pct": 4.71,
-    "kr_us_spread_pct": -0.373,
+    "kr_us_spread_pct": -0.387,
     "hy_oas_pct": 2.75,
-    "cds_proxy_score": 0.177,
+    "cds_proxy_score": 0.163,
     "note": "CDS 직접 데이터 미확보: 한미 국채 스프레드 + HY OAS 가중치로 근사"
   },
   "foreign_futures": {
     "available": true,
     "period_start": "20260721",
     "period_end": "20260820",
-    "foreign_net_value": 196822135643.0,
-    "foreign_buy_value": 258008739866384.0,
+    "foreign_net_value": 696876479877.0,
+    "foreign_buy_value": 261166094030599.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
   "semiconductor_raw": {
     "sox": [
-      {
-        "date": "20260520",
-        "value": 11813.2900390625,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260521",
-        "value": 11964.080078125,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260522",
-        "value": 12202.5400390625,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
       {
         "date": "20260526",
         "value": 12876.91015625,
@@ -294,6 +276,18 @@
         "symbol": "^SOX"
       },
       {
+        "date": "20260721",
+        "value": 12356.16015625,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260722",
+        "value": 12410.669921875,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
         "date": "20260723",
         "value": 12343.83984375,
         "source": "Yahoo Finance",
@@ -326,6 +320,12 @@
       {
         "date": "20260730",
         "value": 11302.990234375,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260731",
+        "value": 11311.080078125,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       },
@@ -1134,24 +1134,6 @@
     ],
     "sp500": [
       {
-        "date": "20260520",
-        "value": 7432.97021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260521",
-        "value": 7445.72021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260522",
-        "value": 7473.47021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
         "date": "20260526",
         "value": 7519.1201171875,
         "source": "Yahoo Finance",
@@ -1380,6 +1362,18 @@
         "symbol": "^GSPC"
       },
       {
+        "date": "20260721",
+        "value": 7509.2001953125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260722",
+        "value": 7498.9599609375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
         "date": "20260723",
         "value": 7408.2998046875,
         "source": "Yahoo Finance",
@@ -1412,6 +1406,12 @@
       {
         "date": "20260730",
         "value": 7437.6298828125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260731",
+        "value": 7489.72021484375,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
       },
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 4.1
+  "elapsed_seconds": 2.73
 }

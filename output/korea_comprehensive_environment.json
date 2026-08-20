@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-20T05:07:27.518079+00:00",
+  "generated_at_utc": "2026-08-20T09:04:59.984372+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
     "current_score": 57,
     "current_regime": "중립",
-    "trend_score": 11,
+    "trend_score": 12,
     "trend_direction": "개선",
     "forward_overall": 61,
     "forward_regime": "약호황",
@@ -120,8 +120,8 @@
       },
       "earnings": {
         "available": true,
-        "score_normalized": 0.996409,
-        "current_growth_proxy_pct": 63.207,
+        "score_normalized": 0.996336,
+        "current_growth_proxy_pct": 63.006,
         "baseline_growth_proxy_pct": null,
         "revision_pct_point": null,
         "history_samples": 3,
@@ -169,21 +169,21 @@
       },
       "rate_liquidity_credit": {
         "available": true,
-        "score_normalized": -0.1391,
+        "score_normalized": -0.1264,
         "signal_count": 4,
         "evidence": {
-          "rate_cut_prob": 0.121,
-          "rate_hike_prob": 0.328,
-          "rate_direction_signal": -0.207,
+          "rate_cut_prob": 0.12,
+          "rate_hike_prob": 0.332,
+          "rate_direction_signal": -0.212,
           "next_meeting_action": "hold",
-          "term_spread_pct": 0.539,
-          "term_spread_signal": 0.3593,
-          "term_spread_percentile": 0.999,
-          "credit_spread_signal": -0.9094,
-          "credit_spread_pct": 0.699,
-          "liquidity_score": 0.1004,
+          "term_spread_pct": 0.512,
+          "term_spread_signal": 0.3413,
+          "term_spread_percentile": 0.984,
+          "credit_spread_signal": -0.8281,
+          "credit_spread_pct": 0.693,
+          "liquidity_score": 0.0965,
           "liquidity_grade": "유동성 중립",
-          "liquidity_signal": 0.2008
+          "liquidity_signal": 0.193
         },
         "pending": [],
         "source": "korea_rate_forecast_v2 + raw_ecos + korea_equity_environment + korea_krw_liquidity",
@@ -191,19 +191,19 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5228,
-        "raw_score_before_regime": 0.5228,
+        "score_normalized": 0.5353,
+        "raw_score_before_regime": 0.5353,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1393.48,
-          "usd_krw_1m_change_pct": -4.85,
-          "fx_1m_signal": 0.9239,
-          "krw_strength_score": 61.11,
+          "usd_krw_current": 1394.55,
+          "usd_krw_1m_change_pct": -4.77,
+          "fx_1m_signal": 0.9203,
+          "krw_strength_score": 63.17,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.2222,
+          "krw_strength_signal": 0.2634,
           "broad_dollar_1m_change_pct": -1.35,
           "dollar_signal": 0.4222,
-          "usd_krw_vol_1m_ann_pct": 11.0,
+          "usd_krw_vol_1m_ann_pct": 11.05,
           "usd_krw_level_percentile": 0.042,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
@@ -253,15 +253,15 @@
     "coverage_rule": "활성 가중치 합 100% (50% 미만 시 점수 미산출)"
   },
   "trend_score": {
-    "score": 11,
+    "score": 12,
     "score_valid": true,
     "direction": "개선",
     "signal_count": 9,
     "method": "embedded_series",
     "history_samples": 6,
     "period_detail": {
-      "credit_spread_trend_signal": -0.0744,
-      "usd_krw_1m_trend_signal": 0.9239
+      "credit_spread_trend_signal": -0.033,
+      "usd_krw_1m_trend_signal": 0.9203
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
@@ -290,8 +290,8 @@
         "bias": "중립",
         "signal_count": 8,
         "evidence": {
-          "rate_3m_signal": -0.207,
-          "liq_3m_signal": 0.2922
+          "rate_3m_signal": -0.212,
+          "liq_3m_signal": 0.2848
         }
       },
       "6m": {
@@ -338,10 +338,10 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-20T05:07:27.518079+00:00",
+    "generated_at_utc": "2026-08-20T09:04:59.984372+00:00",
     "current_score": 57,
     "current_regime": "중립",
-    "trend_score": 11,
+    "trend_score": 12,
     "trend_direction": "개선",
     "trend_method": "embedded_series",
     "forward_overall": 61,
