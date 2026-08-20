@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-20T18:01:31.765547+09:00",
+  "generated_at": "2026-08-20T22:00:51.214403+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5119,
@@ -3104,7 +3104,7 @@
     },
     "optional_enhancement_sources": {
       "krx_market": "ok",
-      "reb_financial_stability": "ok",
+      "reb_financial_stability": "error",
       "used_in_fixed_rate_model": false
     },
     "core_cpi": {

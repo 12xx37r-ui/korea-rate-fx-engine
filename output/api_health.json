@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-20T18:01:31.765547+09:00",
+  "generated_at": "2026-08-20T22:00:51.214403+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -56,8 +56,8 @@
       "warnings": [
         "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
         "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
-        "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
         "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
+        "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
         "fred_commodities_wti: RuntimeError: FRED_API_KEY is not configured"
       ],
       "metadata": {
@@ -238,7 +238,7 @@
           },
           "bis_eer": {
             "mode": "incremental",
-            "start": "2024-06",
+            "start": "2024-07",
             "request_skipped": false
           }
         },
@@ -260,11 +260,11 @@
         "errors": {
           "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
           "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured"
         },
-        "elapsed_seconds": 13.5
+        "elapsed_seconds": 13.61
       }
     },
     "krx": {
@@ -315,12 +315,14 @@
     },
     "reb": {
       "source": "reb",
-      "status": "ok",
-      "message": "R-ONE 공식 부동산 지표를 수집했습니다. (공식 포털 headline fallback)",
-      "rows": 1,
+      "status": "error",
+      "message": "R-ONE 데이터 수집 실패; 기존 last-good 파일 유지",
+      "rows": 0,
       "latest_observation": null,
       "payload_path": "output/raw_reb.json",
-      "warnings": [],
+      "warnings": [
+        "official_headline: ConnectTimeout: HTTPSConnectionPool(host='www.reb.or.kr', port=443): Max retries exceeded with url: /r-one/portal/main/indexPage.do (Caused by ConnectTimeoutError(<HTTPSConnect"
+      ],
       "metadata": {}
     }
   },
@@ -356,5 +358,7 @@
     "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
-  "warnings": []
+  "warnings": [
+    "reb: R-ONE 데이터 수집 실패; 기존 last-good 파일 유지"
+  ]
 }
