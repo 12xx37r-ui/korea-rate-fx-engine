@@ -4,11 +4,11 @@
   "status": "ok",
   "forecast_operational": true,
   "current": {
-    "strength_score": 63.14,
+    "strength_score": 63.18,
     "grade": "원화 약강세",
-    "usdkrw": 1396.0,
+    "usdkrw": 1395.0,
     "usdkrw_source": "Naver MarketIndex FX_USDKRW",
-    "usdkrw_model_anchor": 1395.1801,
+    "usdkrw_model_anchor": 1393.87,
     "usdkrw_live_overlay_applied": true,
     "neer": 84.67,
     "reer": 85.5
@@ -18,16 +18,16 @@
       "months": 3,
       "strength_score": 74.35,
       "grade": "원화 강세",
-      "change_points": 11.21,
+      "change_points": 11.17,
       "direction": "up",
       "up_probability": 0.4578,
       "neutral_probability": 0.0449,
       "down_probability": 0.4973,
       "range_80": [
-        41.7,
+        42.6,
         77.7
       ],
-      "fx_anchor": 1399.1,
+      "fx_anchor": 1398.0,
       "quality_grade": "B",
       "model_quality_score": 85,
       "independent_oos_grade": "B",
@@ -37,18 +37,18 @@
     },
     {
       "months": 6,
-      "strength_score": 70.02,
+      "strength_score": 70.44,
       "grade": "원화 강세",
-      "change_points": 6.88,
+      "change_points": 7.26,
       "direction": "up",
-      "up_probability": 0.3865,
+      "up_probability": 0.3857,
       "neutral_probability": 0.0512,
-      "down_probability": 0.5624,
+      "down_probability": 0.5632,
       "range_80": [
-        30.6,
+        31.0,
         77.7
       ],
-      "fx_anchor": 1412.7,
+      "fx_anchor": 1411.8,
       "quality_grade": "B",
       "model_quality_score": 85,
       "independent_oos_grade": "B",
@@ -60,16 +60,16 @@
       "months": 12,
       "strength_score": 73.79,
       "grade": "원화 강세",
-      "change_points": 10.65,
+      "change_points": 10.62,
       "direction": "up",
       "up_probability": 0.4495,
       "neutral_probability": 0.0571,
-      "down_probability": 0.4934,
+      "down_probability": 0.4933,
       "range_80": [
         26.4,
         77.6
       ],
-      "fx_anchor": 1401.3,
+      "fx_anchor": 1400.3,
       "quality_grade": "B",
       "model_quality_score": 83,
       "independent_oos_grade": "B",
@@ -80,7 +80,7 @@
   ],
   "factor_panel": {
     "group_scores": {
-      "usdkrw_level_momentum": 0.7885,
+      "usdkrw_level_momentum": 0.7904,
       "effective_fx": -0.484,
       "global_currency": 0.1214,
       "rate_gap": -0.3322,
@@ -95,16 +95,16 @@
     },
     "details": {
       "usdkrw_level_momentum": {
-        "score": 0.7885,
-        "spot": 1396.0,
+        "score": 0.7904,
+        "spot": 1395.0,
         "one_year_percentile": 0.0516,
-        "ret20_pct": -3.209,
-        "ret60_pct": -8.652,
+        "ret20_pct": -3.278,
+        "ret60_pct": -8.718,
         "source": "Naver MarketIndex FX_USDKRW",
         "observation": "20260820",
-        "market_time_utc": "2026-08-20T17:18:53+00:00",
+        "market_time_utc": "2026-08-20T20:35:36+00:00",
         "live_overlay_applied": true,
-        "model_anchor_usdkrw": 1395.1801
+        "model_anchor_usdkrw": 1393.87
       },
       "krw_neer": {
         "score": -0.4852,
@@ -153,8 +153,8 @@
     "usdkrw": {
       "source": "Naver MarketIndex FX_USDKRW",
       "observation": "20260820",
-      "market_time_utc": "2026-08-20T17:18:53+00:00",
-      "retrieved_at_utc": "2026-08-20T17:20:19.042090+00:00",
+      "market_time_utc": "2026-08-20T20:35:36+00:00",
+      "retrieved_at_utc": "2026-08-20T21:06:02.286313+00:00",
       "market_state": "OPEN",
       "live_overlay_applied": true
     },
@@ -302,5 +302,5 @@
     "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
     "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
   ],
-  "generated_at": "2026-08-21T02:19:58.470143+09:00"
+  "generated_at": "2026-08-21T06:05:36.312103+09:00"
 }
