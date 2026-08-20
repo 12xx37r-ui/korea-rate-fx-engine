@@ -3,14 +3,14 @@ name: Korea Rate FX Engine
 on:
   workflow_dispatch:
   schedule:
-    - cron: "20 23 * * 1-5"  # 08:20 KST; 60m after Korea full run
+    - cron: "20 22 * * 1-5"  # 07:20 KST
 
 permissions:
   contents: write
 
 concurrency:
   group: korea-rate-fx-engine-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   collect-and-validate:
