@@ -1,26 +1,26 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-19T23:03:33.133472Z",
+  "generated_at": "2026-08-20T01:02:18.926869Z",
   "available": true,
   "foreign_spot_flow": {
     "available": true,
-    "period_start": "20260720",
-    "period_end": "20260819",
-    "net_value": -497737670000.0,
-    "buy_value": 264502744807567.0,
-    "sell_value": 265000482477567.0,
-    "cum_5d_net": 3172217602324.0,
-    "cum_20d_net": -2829403929147.0,
+    "period_start": "20260721",
+    "period_end": "20260820",
+    "net_value": -997760398656.0,
+    "buy_value": 253297264088391.0,
+    "sell_value": 254295024487047.0,
+    "cum_5d_net": 3199349331544.0,
+    "cum_20d_net": -2802693668888.0,
     "momentum_signal": "혼조",
     "diagnostics": [],
     "source": "KRX 투자자별 거래대금 (pykrx)"
   },
   "futures_flow": {
     "available": true,
-    "period_start": "20260720",
-    "period_end": "20260819",
+    "period_start": "20260721",
+    "period_end": "20260820",
     "net_contracts": null,
-    "net_value_proxy": -497737670000.0,
+    "net_value_proxy": -998276487751.0,
     "trend": "매도우위",
     "source": "pykrx KOSPI 외국인 현물 (선물 API 불가 시 대용)",
     "note": "pykrx futures 모듈 미지원 환경: KOSPI 현물 순매수 대용",
@@ -30,7 +30,7 @@
   },
   "basis": {
     "available": false,
-    "kospi200_spot": 1012.61,
+    "kospi200_spot": 1062.6,
     "kospi200_futures": null,
     "reason": "선물가격 조회 실패",
     "diagnostics": [
@@ -38,8 +38,8 @@
     ]
   },
   "flow_momentum_summary": {
-    "cum_5d_net": 3172217602324.0,
-    "cum_20d_net": -2829403929147.0,
+    "cum_5d_net": 3199349331544.0,
+    "cum_20d_net": -2802693668888.0,
     "momentum_signal": "혼조",
     "futures_trend": "매도우위",
     "basis_signal": null
