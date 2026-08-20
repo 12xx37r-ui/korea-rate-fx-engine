@@ -413,6 +413,10 @@ def _walk_forward(values: list[float], dates: list[str], horizon_obs: int, looku
         raw_pred = sum(weights[name] * candidates[name] for name in names)
         shrinkage = _validation_shrinkage(ensemble_errors, benchmark_errors)
         pred = _clip(raw_pred * shrinkage, -0.10, 0.10)
+        if horizon_obs == 63:
+            pred = _clip(float(candidates["rate_gap_carry"]) * 0.50 if "rate_gap_carry" in candidates else pred * 0.15, -0.10, 0.10)
+        elif horizon_obs == 126:
+            pred = _clip(float(candidates["rate_gap_carry"]) * 1.00 if "rate_gap_carry" in candidates else pred * 0.10, -0.10, 0.10)
 
         actual = values[t + horizon_obs] / values[t] - 1.0
         predictions.append(pred)
@@ -702,6 +706,10 @@ def build_fx_forecast_v4(
         raw_return = sum(float(weights.get(name, 0.0)) * value for name, value in candidates.items())
         shrinkage = float(validation.get("shrinkage") or 0.50)
         pred_return = _clip(raw_return * shrinkage, -0.10, 0.10)
+        if horizon_obs == 63:
+            pred_return = _clip(float(candidates["rate_gap_carry"]) * 0.50 if "rate_gap_carry" in candidates else pred_return * 0.15, -0.10, 0.10)
+        elif horizon_obs == 126:
+            pred_return = _clip(float(candidates["rate_gap_carry"]) * 1.00 if "rate_gap_carry" in candidates else pred_return * 0.10, -0.10, 0.10)
         sigma = float(validation.get("residual_sigma") or 0.04 * sqrt(max(1.0, horizon_obs / 63.0)))
         p = _probabilities(pred_return, sigma, horizon_obs)
 
