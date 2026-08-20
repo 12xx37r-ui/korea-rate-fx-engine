@@ -416,7 +416,15 @@ def _walk_forward(values: list[float], dates: list[str], horizon_obs: int, looku
         if horizon_obs == 63:
             pred = _clip(float(candidates["rate_gap_carry"]) * 0.50 if "rate_gap_carry" in candidates else pred * 0.15, -0.10, 0.10)
         elif horizon_obs == 126:
-            pred = _clip(float(candidates["rate_gap_carry"]) * 1.00 if "rate_gap_carry" in candidates else pred * 0.10, -0.10, 0.10)
+            # 6m: combine the medium-horizon carry signal with a slower technical
+            # reversal anchor.  Both inputs are observable at the forecast origin.
+            # If the rate-gap series is unavailable in older history, fall back to
+            # contrarian_120 instead of the weak generic ensemble tail.
+            slow = float(candidates.get("contrarian_120", pred))
+            if "rate_gap_carry" in candidates:
+                pred = _clip(0.50 * float(candidates["rate_gap_carry"]) + 0.50 * slow, -0.10, 0.10)
+            else:
+                pred = _clip(slow, -0.10, 0.10)
 
         actual = values[t + horizon_obs] / values[t] - 1.0
         predictions.append(pred)
@@ -709,7 +717,11 @@ def build_fx_forecast_v4(
         if horizon_obs == 63:
             pred_return = _clip(float(candidates["rate_gap_carry"]) * 0.50 if "rate_gap_carry" in candidates else pred_return * 0.15, -0.10, 0.10)
         elif horizon_obs == 126:
-            pred_return = _clip(float(candidates["rate_gap_carry"]) * 1.00 if "rate_gap_carry" in candidates else pred_return * 0.10, -0.10, 0.10)
+            slow = float(candidates.get("contrarian_120", pred_return))
+            if "rate_gap_carry" in candidates:
+                pred_return = _clip(0.50 * float(candidates["rate_gap_carry"]) + 0.50 * slow, -0.10, 0.10)
+            else:
+                pred_return = _clip(slow, -0.10, 0.10)
         sigma = float(validation.get("residual_sigma") or 0.04 * sqrt(max(1.0, horizon_obs / 63.0)))
         p = _probabilities(pred_return, sigma, horizon_obs)
 
