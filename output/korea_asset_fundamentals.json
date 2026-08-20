@@ -1,13 +1,13 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-20T01:03:01.599603+00:00",
+  "generated_at_utc": "2026-08-20T05:06:00.551671+00:00",
   "indices": {
     "kospi200": {
       "per": 17.18,
-      "forward_per": 6.1326,
-      "eps_growth_pct": 79.4838,
-      "growth_adjusted_per": 0.0772,
+      "forward_per": 6.1877,
+      "eps_growth_pct": 79.3089,
+      "growth_adjusted_per": 0.078,
       "pbr": 2.11,
       "dividend_yield": 0.9,
       "available": true,
@@ -55,9 +55,9 @@
     },
     "kosdaq150": {
       "per": 61.73,
-      "forward_per": 25.6147,
-      "eps_growth_pct": 46.7856,
-      "growth_adjusted_per": 0.5475,
+      "forward_per": 25.4502,
+      "eps_growth_pct": 47.1051,
+      "growth_adjusted_per": 0.5403,
       "pbr": 4.2,
       "dividend_yield": 0.38,
       "available": true,
@@ -102,8 +102,8 @@
   },
   "reit": {
     "ticker": "329200",
-    "current_price": 4095.0,
-    "distribution_yield": 9.6703,
+    "current_price": 4082.0,
+    "distribution_yield": 9.7011,
     "trailing_12m_distribution": 396.0,
     "distribution_count_12m": 0,
     "latest_distribution": null,
@@ -111,8 +111,8 @@
     "yield_method": "cached_ttm_distribution/current_live_price",
     "as_of": "2026-08-20",
     "price_as_of": "2026-08-20",
-    "distribution_basis_as_of": "2026-08-19",
-    "distribution_basis_age_days": 1,
+    "distribution_basis_as_of": "2026-08-20",
+    "distribution_basis_age_days": 0,
     "distribution_cadence_cache_used": true,
     "source": "NAVER 현재가 + last-good 분배금 기준",
     "source_url": "https://m.stock.naver.com/api/stock/329200/integration",
@@ -123,7 +123,7 @@
     "available": true,
     "stale": false,
     "diagnostics": [
-      "reit_distribution_cadence_cache_used:age_days=1,window_days=35"
+      "reit_distribution_cadence_cache_used:age_days=0,window_days=35"
     ]
   },
   "source_status": {

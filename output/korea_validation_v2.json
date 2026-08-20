@@ -1,7 +1,7 @@
 {
   "schema_version": "4.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-20T10:01:23.723693+09:00",
+  "generated_at": "2026-08-20T14:03:31.043570+09:00",
   "rate": {
     "samples": 166,
     "brier_score": 0.5119,
