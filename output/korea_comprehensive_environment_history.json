@@ -79,7 +79,7 @@
   },
   {
     "date": "2026-08-20",
-    "generated_at_utc": "2026-08-20T17:15:11.584460+00:00",
+    "generated_at_utc": "2026-08-20T17:20:54.638125+00:00",
     "current_score": 56,
     "factor_scores": {
       "price_trend": 0.1932,
@@ -88,7 +88,7 @@
       "valuation": -0.017969,
       "flow": -0.881202,
       "rate_liquidity_credit": -0.1388,
-      "fx": 0.5346,
+      "fx": 0.5344,
       "market_risk": 0.6088,
       "external": 0.0463
     }

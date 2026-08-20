@@ -6753,9 +6753,8 @@
     }
   },
   "supply_demand": {
-    "schema_version": "1.0.0",
-    "generated_at": "2026-08-20T17:14:19.264921Z",
-    "available": true,
+    "available": false,
+    "error": "pykrx_import:JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
     "foreign_spot_flow": {
       "available": true,
       "period_start": "20260721",
@@ -6790,13 +6789,6 @@
       "diagnostics": [
         "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__"
       ]
-    },
-    "flow_momentum_summary": {
-      "cum_5d_net": 4894020300645.0,
-      "cum_20d_net": -1107601230826.0,
-      "momentum_signal": "혼조",
-      "futures_trend": "매수우위",
-      "basis_signal": null
     }
   }
 }
