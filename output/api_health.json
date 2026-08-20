@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-21T06:05:36.312103+09:00",
+  "generated_at": "2026-08-21T08:13:22.899732+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -20,45 +20,22 @@
     },
     "ecos": {
       "source": "ecos",
-      "status": "degraded",
+      "status": "ok",
       "message": "ECOS 국내 금리·환율·유동성 증분수집 완료",
       "rows": 17391,
       "latest_observation": "20260820",
       "payload_path": "output/raw_ecos.json",
-      "warnings": [
-        "kr_base_rate: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/722Y001/D/20260728/20260820/0101000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f0f6a362c60>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
-        "usdkrw: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/731Y001/D/20260730/20260820/0000001/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f0f6a363590>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지",
-        "kr_gov_2y: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/817Y002/D/20260730/20260820/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f0f6a363ec0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)')); 직전 정상 이력 유지"
-      ],
+      "warnings": [],
       "metadata": {
         "resolution_path": "output/ecos_resolution.json",
         "cache_version": 2,
         "incremental_fetch": true,
         "daily_overlap_days": 21,
         "monthly_overlap_months": 4,
-        "last_good_reused": [
-          "current_account",
-          "fx_reserves",
-          "kr_base_rate",
-          "kr_gov_10y",
-          "kr_gov_2y",
-          "kr_gov_3y",
-          "kr_lf",
-          "kr_m1",
-          "kr_m2",
-          "usdkrw"
-        ],
-        "circuit_breaker_open": true,
-        "circuit_breaker_reason": "HttpError: 요청 실패: HTTPSConnectionPool(host='ecos.bok.or.kr', port=443): Max retries exceeded with url: /api/StatisticSearch/***/json/kr/1/1000/817Y002/D/20260730/20260820/010195000/?/? (Caused by ConnectTimeoutError(<HTTPSConnection(host='ecos.bok.or.kr', port=443) at 0x7f0f6a363ec0>, 'Connection to ecos.bok.or.kr timed out. (connect timeout=4)'))",
-        "circuit_last_good_reused": [
-          "current_account",
-          "fx_reserves",
-          "kr_gov_10y",
-          "kr_gov_3y",
-          "kr_lf",
-          "kr_m1",
-          "kr_m2"
-        ],
+        "last_good_reused": [],
+        "circuit_breaker_open": false,
+        "circuit_breaker_reason": null,
+        "circuit_last_good_reused": [],
         "ecos_connect_timeout_seconds": 4,
         "ecos_read_timeout_seconds": 10,
         "ecos_request_retries": 1,
@@ -78,9 +55,9 @@
       "payload_path": "output/raw_global_market.json",
       "warnings": [
         "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
-        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
         "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
         "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
+        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
         "fred_commodities_wti: RuntimeError: FRED_API_KEY is not configured"
       ],
       "metadata": {
@@ -282,12 +259,12 @@
         ],
         "errors": {
           "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
           "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
           "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured"
         },
-        "elapsed_seconds": 14.51
+        "elapsed_seconds": 16.12
       }
     },
     "krx": {
@@ -379,7 +356,5 @@
     "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
-  "warnings": [
-    "ecos: ECOS 국내 금리·환율·유동성 증분수집 완료"
-  ]
+  "warnings": []
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-20T21:06:43.165157+00:00",
+  "generated_at_utc": "2026-08-20T23:14:24.082498+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -21,11 +21,11 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1393.87,
-    "change_1d_pct": 0.3217,
-    "change_3d_pct": -1.4745,
-    "std_5d": 11.334,
-    "std_10d": 9.4227
+    "latest_rate": 1393.78,
+    "change_1d_pct": 0.3152,
+    "change_3d_pct": -1.4808,
+    "std_5d": 11.3524,
+    "std_10d": 9.4382
   },
   "cds_proxy": {
     "available": true,
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 4.26
+  "elapsed_seconds": 4.04
 }
