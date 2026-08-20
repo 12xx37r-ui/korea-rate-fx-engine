@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "korea-equity-environment-collector-v1.2-close-per-earnings-fallback",
-  "generated_at_utc": "2026-08-20T16:57:46.803731+00:00",
+  "generated_at_utc": "2026-08-20T17:14:52.456134+00:00",
   "period_start": "20260716",
   "period_end": "20260820",
   "flows": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-21T01:56:47.746150+09:00",
+  "generated_at": "2026-08-21T02:13:48.123505+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
     "level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",
@@ -9,9 +9,9 @@
     "candidate": true
   },
   "fx": {
-    "primary_level": "검증 C등급",
+    "primary_level": "검증 B등급",
     "primary_passed": true,
-    "strict_passed": false,
+    "strict_passed": true,
     "passed_horizons": [
       "1m",
       "3m",
@@ -19,7 +19,8 @@
       "12m"
     ],
     "strict_passed_horizons": [
-      "1m"
+      "1m",
+      "3m"
     ],
     "forecast_operational": true,
     "production_model": "continuous_oos_weighted_ensemble_v4"

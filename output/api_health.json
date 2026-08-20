@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-21T01:56:47.746150+09:00",
+  "generated_at": "2026-08-21T02:13:48.123505+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -54,10 +54,10 @@
       "latest_observation": "20260820",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
         "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
-        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
         "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
+        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
+        "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
         "fred_commodities_wti: RuntimeError: FRED_API_KEY is not configured"
       ],
       "metadata": {
@@ -258,13 +258,13 @@
           "wti"
         ],
         "errors": {
-          "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
           "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
           "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured"
         },
-        "elapsed_seconds": 13.68
+        "elapsed_seconds": 13.92
       }
     },
     "krx": {
