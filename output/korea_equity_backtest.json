@@ -1,6 +1,6 @@
 {
   "model_version": "backtest-v1.0",
-  "generated_at_utc": "2026-08-21T01:03:22.372605+00:00",
+  "generated_at_utc": "2026-08-21T05:05:54.598672+00:00",
   "data_summary": {
     "price_samples": 320,
     "signal_samples": 22,

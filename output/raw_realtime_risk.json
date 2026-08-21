@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-21T01:03:00.618275+00:00",
+  "generated_at_utc": "2026-08-21T05:04:43.058532+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -14,18 +14,18 @@
     "identity_code": "E62001"
   },
   "semiconductor": {
-    "sox_latest": 11800.0186,
+    "sox_latest": 11800.0195,
     "sox_1d_pct": 0.5264,
     "sox_5d_pct": -5.2664,
     "nvda_1d_pct": -0.3263,
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1387.48,
-    "change_1d_pct": -0.452,
-    "change_3d_pct": -1.8464,
-    "std_5d": 11.9078,
-    "std_10d": 11.5598
+    "latest_rate": 1381.0,
+    "change_1d_pct": -0.9169,
+    "change_3d_pct": -2.3048,
+    "std_5d": 13.4325,
+    "std_10d": 12.7867
   },
   "cds_proxy": {
     "available": true,
@@ -40,8 +40,8 @@
     "available": true,
     "period_start": "20260722",
     "period_end": "20260821",
-    "foreign_net_value": 507036250455.0,
-    "foreign_buy_value": 254116684668553.0,
+    "foreign_net_value": 495743854411.0,
+    "foreign_buy_value": 258158465250652.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
@@ -403,7 +403,7 @@
       },
       {
         "date": "20260820",
-        "value": 11800.0185546875,
+        "value": 11800.01953125,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       }
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 2.83
+  "elapsed_seconds": 3.36
 }

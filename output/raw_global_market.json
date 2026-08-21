@@ -37800,7 +37800,7 @@
     },
     {
       "date": "20260821",
-      "value": 1387.47998046875,
+      "value": 1381.0,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     }
@@ -42761,6 +42761,12 @@
       "value": 44933.73828125,
       "source": "Yahoo Finance",
       "symbol": "^TWII"
+    },
+    {
+      "date": "20260821",
+      "value": 45037.671875,
+      "source": "Yahoo Finance",
+      "symbol": "^TWII"
     }
   ],
   "nvda": [
@@ -43902,9 +43908,9 @@
       "mom_60d_pct": -8.363
     },
     "twii": {
-      "latest": 44933.73828125,
-      "mom_20d_pct": 0.1849,
-      "mom_60d_pct": 3.2357
+      "latest": 45037.671875,
+      "mom_20d_pct": 3.1676,
+      "mom_60d_pct": 1.7644
     },
     "nvda": {
       "latest": 216.85000610351562,
@@ -43919,9 +43925,9 @@
   },
   "usd_krw_market_snapshot": {
     "symbol": "FX_USDKRW",
-    "price": 1387.8,
-    "market_time_utc": "2026-08-21T00:58:43+00:00",
-    "retrieved_at_utc": "2026-08-21T01:01:48.226091+00:00",
+    "price": 1381.5,
+    "market_time_utc": "2026-08-21T05:01:03+00:00",
+    "retrieved_at_utc": "2026-08-21T05:03:11.858113+00:00",
     "market_state": "OPEN",
     "source": "Naver MarketIndex FX_USDKRW",
     "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43932,9 +43938,9 @@
   "usd_krw_market_snapshot_candidates": {
     "naver": {
       "symbol": "FX_USDKRW",
-      "price": 1387.8,
-      "market_time_utc": "2026-08-21T00:58:43+00:00",
-      "retrieved_at_utc": "2026-08-21T01:01:48.226091+00:00",
+      "price": 1381.5,
+      "market_time_utc": "2026-08-21T05:01:03+00:00",
+      "retrieved_at_utc": "2026-08-21T05:03:11.858113+00:00",
       "market_state": "OPEN",
       "source": "Naver MarketIndex FX_USDKRW",
       "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43942,8 +43948,8 @@
     },
     "yahoo": {
       "symbol": "KRW=X",
-      "price": 1387.48,
-      "market_time_utc": "2026-08-21T01:01:47+00:00",
+      "price": 1381.0,
+      "market_time_utc": "2026-08-21T05:03:08+00:00",
       "exchange": "CCY",
       "exchange_timezone": "Europe/London",
       "currency": "KRW",

@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-21T10:01:26.940473+09:00",
+  "generated_at": "2026-08-21T14:02:52.402986+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -56,9 +56,10 @@
       "warnings": [
         "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
         "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
-        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
         "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
-        "fred_commodities_wti: RuntimeError: FRED_API_KEY is not configured"
+        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
+        "fred_commodities_wti: RuntimeError: FRED_API_KEY is not configured",
+        "semi_sox: HTTPError: 429 Client Error: Too Many Requests for url: https://query1.finance.yahoo.com/v8/finance/chart/%5ESOX?range=90d&interval"
       ],
       "metadata": {
         "usable_series": 18,
@@ -248,6 +249,7 @@
           "broad_dollar",
           "commodity_index",
           "hy_oas",
+          "sox",
           "us_10y",
           "us_2y",
           "us_breakeven_10y",
@@ -260,11 +262,12 @@
         "errors": {
           "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
           "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
           "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured"
+          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured",
+          "semi_sox": "HTTPError: 429 Client Error: Too Many Requests for url: https://query1.finance.yahoo.com/v8/finance/chart/%5ESOX?range=90d&interval"
         },
-        "elapsed_seconds": 14.71
+        "elapsed_seconds": 13.39
       }
     },
     "krx": {
@@ -278,8 +281,8 @@
       "metadata": {
         "supply_demand_available": true,
         "flow_momentum_summary": {
-          "cum_5d_net": 6509444272459.0,
-          "cum_20d_net": -988191262936.0,
+          "cum_5d_net": 6513981855856.0,
+          "cum_20d_net": -984310279728.0,
           "momentum_signal": "혼조",
           "futures_trend": "매수우위",
           "basis_signal": null
@@ -288,15 +291,12 @@
     },
     "kosis": {
       "source": "kosis",
-      "status": "degraded",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
+      "status": "ok",
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
-      "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7ffb7f5d84d0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7ffb7f5d97f0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
-      ],
+      "warnings": [],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
@@ -304,15 +304,9 @@
         "max_external_requests": 2,
         "circuit_open": false,
         "circuit_reason": "",
-        "network_failures": [
-          "cpi_core",
-          "industrial_production"
-        ],
+        "network_failures": [],
         "per_series_network_retries": 2,
-        "last_good_reused": [
-          "cpi_core",
-          "industrial_production"
-        ],
+        "last_good_reused": [],
         "cadence_skips": [],
         "weekend_cache_skip_enabled": true,
         "credential_status": "valid",
@@ -352,7 +346,7 @@
         "status": "valid",
         "action_required": false,
         "action": "없음",
-        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
+        "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
       }
     ]
   },
@@ -365,7 +359,5 @@
     "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
-  "warnings": [
-    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
-  ]
+  "warnings": []
 }
