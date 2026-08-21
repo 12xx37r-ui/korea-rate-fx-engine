@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-21T06:43:42.221003+00:00",
+  "generated_at_utc": "2026-08-21T09:04:41.938432+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
     "current_score": 56,
@@ -11,8 +11,6 @@
     "forward_overall": 63,
     "forward_regime": "약호황",
     "forward_confidence_pct": 100,
-    "forward_v2_shadow_score": 59,
-    "forward_v2_confidence_pct": 58,
     "positive_factors": [
       "earnings",
       "fx",
@@ -169,21 +167,21 @@
       },
       "rate_liquidity_credit": {
         "available": true,
-        "score_normalized": -0.1388,
+        "score_normalized": -0.1354,
         "signal_count": 4,
         "evidence": {
-          "rate_cut_prob": 0.116,
-          "rate_hike_prob": 0.373,
-          "rate_direction_signal": -0.257,
+          "rate_cut_prob": 0.115,
+          "rate_hike_prob": 0.38,
+          "rate_direction_signal": -0.265,
           "next_meeting_action": "hold",
-          "term_spread_pct": 0.512,
-          "term_spread_signal": 0.3413,
-          "term_spread_percentile": 0.984,
-          "credit_spread_signal": -0.8281,
-          "credit_spread_pct": 0.693,
-          "liquidity_score": 0.0943,
+          "term_spread_pct": 0.522,
+          "term_spread_signal": 0.348,
+          "term_spread_percentile": 0.993,
+          "credit_spread_signal": -0.8031,
+          "credit_spread_pct": 0.688,
+          "liquidity_score": 0.0892,
           "liquidity_grade": "유동성 중립",
-          "liquidity_signal": 0.1886
+          "liquidity_signal": 0.1784
         },
         "pending": [],
         "source": "korea_rate_forecast_v2 + raw_ecos + korea_equity_environment + korea_krw_liquidity",
@@ -191,19 +189,19 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5378,
-        "raw_score_before_regime": 0.5378,
+        "score_normalized": 0.5452,
+        "raw_score_before_regime": 0.5452,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1386.32,
-          "usd_krw_1m_change_pct": -4.6,
-          "fx_1m_signal": 0.911,
-          "krw_strength_score": 64.01,
+          "usd_krw_current": 1382.21,
+          "usd_krw_1m_change_pct": -4.88,
+          "fx_1m_signal": 0.9257,
+          "krw_strength_score": 64.38,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.2802,
+          "krw_strength_signal": 0.2876,
           "broad_dollar_1m_change_pct": -1.35,
           "dollar_signal": 0.4222,
-          "usd_krw_vol_1m_ann_pct": 10.44,
+          "usd_krw_vol_1m_ann_pct": 10.59,
           "usd_krw_level_percentile": 0.014,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
@@ -260,8 +258,8 @@
     "method": "embedded_series",
     "history_samples": 7,
     "period_detail": {
-      "credit_spread_trend_signal": -0.033,
-      "usd_krw_1m_trend_signal": 0.911
+      "credit_spread_trend_signal": -0.0201,
+      "usd_krw_1m_trend_signal": 0.9257
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
@@ -290,8 +288,8 @@
         "bias": "중립",
         "signal_count": 8,
         "evidence": {
-          "rate_3m_signal": -0.257,
-          "liq_3m_signal": 0.2766
+          "rate_3m_signal": -0.265,
+          "liq_3m_signal": 0.2666
         }
       },
       "6m": {
@@ -312,210 +310,6 @@
       }
     },
     "coverage_note": "유효 팩터 9/9 · 유효 기간 4/4"
-  },
-  "forward_score_v2": {
-    "shadow_only": true,
-    "model_version": "forward-v2-normalized-weights-pre-oos",
-    "overall": {
-      "score": 59,
-      "confidence_pct": 58,
-      "confidence_status": "PRE_OOS_CAPPED"
-    },
-    "periods": {
-      "1m": {
-        "available": true,
-        "score": 45,
-        "signal_count": 6,
-        "weight_sum": 6.8,
-        "components": [
-          {
-            "label": "price_1m",
-            "signal": 0.0141,
-            "weight": 2.2
-          },
-          {
-            "label": "price_3m",
-            "signal": -0.8284,
-            "weight": 0.8
-          },
-          {
-            "label": "breadth",
-            "signal": 0.1924,
-            "weight": 1.2
-          },
-          {
-            "label": "flow",
-            "signal": -0.8812,
-            "weight": 1.2
-          },
-          {
-            "label": "market_risk",
-            "signal": 0.6088,
-            "weight": 1.0
-          },
-          {
-            "label": "krw_forward",
-            "signal": 0.5088,
-            "weight": 0.4
-          }
-        ],
-        "direction": "중립",
-        "bias": "약약",
-        "forecast_confidence_pct": 70,
-        "confidence_status": "PRE_OOS_CAPPED",
-        "horizon_months": 1
-      },
-      "3m": {
-        "available": true,
-        "score": 56,
-        "signal_count": 8,
-        "weight_sum": 7.7,
-        "components": [
-          {
-            "label": "price_3m",
-            "signal": -0.8284,
-            "weight": 1.0
-          },
-          {
-            "label": "price_6m",
-            "signal": 0.9738,
-            "weight": 0.5
-          },
-          {
-            "label": "earnings",
-            "signal": 0.9995,
-            "weight": 1.5
-          },
-          {
-            "label": "valuation",
-            "signal": -0.018,
-            "weight": 0.7
-          },
-          {
-            "label": "rate_direction",
-            "signal": -0.257,
-            "weight": 1.2
-          },
-          {
-            "label": "liquidity_3m",
-            "signal": 0.2766,
-            "weight": 1.2
-          },
-          {
-            "label": "krw_3m",
-            "signal": 0.5088,
-            "weight": 0.8
-          },
-          {
-            "label": "credit",
-            "signal": -0.8281,
-            "weight": 0.8
-          }
-        ],
-        "direction": "소폭 상승 우세",
-        "bias": "중립",
-        "forecast_confidence_pct": 62,
-        "confidence_status": "PRE_OOS_CAPPED",
-        "horizon_months": 3
-      },
-      "6m": {
-        "available": true,
-        "score": 69,
-        "signal_count": 8,
-        "weight_sum": 8.25,
-        "components": [
-          {
-            "label": "price_6m",
-            "signal": 0.9738,
-            "weight": 0.5
-          },
-          {
-            "label": "price_12m",
-            "signal": 1.0,
-            "weight": 0.25
-          },
-          {
-            "label": "earnings",
-            "signal": 0.9995,
-            "weight": 1.8
-          },
-          {
-            "label": "valuation",
-            "signal": -0.018,
-            "weight": 1.0
-          },
-          {
-            "label": "liquidity_6m",
-            "signal": 0.2542,
-            "weight": 1.5
-          },
-          {
-            "label": "krw_6m",
-            "signal": 0.4474,
-            "weight": 1.0
-          },
-          {
-            "label": "financial_cycle",
-            "signal": -0.1388,
-            "weight": 1.4
-          },
-          {
-            "label": "external",
-            "signal": 0.0463,
-            "weight": 0.8
-          }
-        ],
-        "direction": "상승 우세",
-        "bias": "약강",
-        "forecast_confidence_pct": 54,
-        "confidence_status": "PRE_OOS_CAPPED",
-        "horizon_months": 6
-      },
-      "12m": {
-        "available": true,
-        "score": 65,
-        "signal_count": 6,
-        "weight_sum": 7.8,
-        "components": [
-          {
-            "label": "price_12m",
-            "signal": 1.0,
-            "weight": 0.2
-          },
-          {
-            "label": "earnings",
-            "signal": 0.9995,
-            "weight": 2.0
-          },
-          {
-            "label": "valuation_mean_reversion_anchor",
-            "signal": -0.018,
-            "weight": 1.8
-          },
-          {
-            "label": "financial_cycle",
-            "signal": -0.1388,
-            "weight": 1.8
-          },
-          {
-            "label": "external",
-            "signal": 0.0463,
-            "weight": 1.2
-          },
-          {
-            "label": "krw_long",
-            "signal": 0.501,
-            "weight": 0.8
-          }
-        ],
-        "direction": "상승 우세",
-        "bias": "약강",
-        "forecast_confidence_pct": 46,
-        "confidence_status": "PRE_OOS_CAPPED",
-        "horizon_months": 12
-      }
-    },
-    "compatibility_note": "기존 forward_score 필드는 변경하지 않으며 소비 프로그램 전환 전까지 shadow 결과로만 제공합니다."
   },
   "derivative_overlay": {
     "available": false,
@@ -542,7 +336,7 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-21T06:43:42.221003+00:00",
+    "generated_at_utc": "2026-08-21T09:04:41.938432+00:00",
     "current_score": 56,
     "current_regime": "중립",
     "trend_score": 19,
@@ -550,8 +344,6 @@
     "trend_method": "embedded_series",
     "forward_overall": 63,
     "forward_confidence_pct": 100,
-    "forward_v2_shadow_score": 59,
-    "forward_v2_confidence_pct": 58,
     "forward_1m_score": 45,
     "forward_1m_direction": "중립",
     "forward_3m_score": 55,

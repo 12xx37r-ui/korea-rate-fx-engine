@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-21T06:42:13.706999+00:00",
+  "generated_at_utc": "2026-08-21T09:03:24.450302+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -21,27 +21,27 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1386.3199,
-    "change_1d_pct": -0.5352,
-    "change_3d_pct": -1.9284,
-    "std_5d": 12.1542,
-    "std_10d": 11.7652
+    "latest_rate": 1382.21,
+    "change_1d_pct": -0.8301,
+    "change_3d_pct": -2.2192,
+    "std_5d": 13.1224,
+    "std_10d": 12.5439
   },
   "cds_proxy": {
     "available": true,
-    "kr_gov_latest_pct": 4.323,
+    "kr_gov_latest_pct": 4.376,
     "us_10y_latest_pct": 4.71,
-    "kr_us_spread_pct": -0.387,
+    "kr_us_spread_pct": -0.334,
     "hy_oas_pct": 2.75,
-    "cds_proxy_score": 0.163,
+    "cds_proxy_score": 0.216,
     "note": "CDS 직접 데이터 미확보: 한미 국채 스프레드 + HY OAS 가중치로 근사"
   },
   "foreign_futures": {
     "available": true,
     "period_start": "20260722",
     "period_end": "20260821",
-    "foreign_net_value": 217320334295.0,
-    "foreign_buy_value": 260891960947112.0,
+    "foreign_net_value": 216975190075.0,
+    "foreign_buy_value": 261014626215492.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 4.03
+  "elapsed_seconds": 4.62
 }

@@ -111,12 +111,12 @@
   },
   {
     "date": "2026-08-21",
-    "generated_at_utc": "2026-08-21T06:43:30.935175+00:00",
+    "generated_at_utc": "2026-08-21T09:04:31.116710+00:00",
     "earnings": {
       "growth_proxy_pct": 83.5853
     },
     "credit": {
-      "spread_pct_point": 0.693
+      "spread_pct_point": 0.688
     }
   }
 ]

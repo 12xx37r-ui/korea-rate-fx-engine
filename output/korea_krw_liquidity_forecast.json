@@ -6,14 +6,14 @@
   "data_mode": "monetary_plus_policy",
   "latest_observation": "20260821",
   "current": {
-    "liquidity_score": 0.0943,
+    "liquidity_score": 0.0892,
     "grade": "유동성 중립",
     "observations": {
       "m1_yoy": 10.085,
       "m2_yoy": 5.977,
       "lf_yoy": 8.52,
-      "market_policy_gap_pctp": 0.922,
-      "expected_policy_change_3m_pctp": 0.064
+      "market_policy_gap_pctp": 0.959,
+      "expected_policy_change_3m_pctp": 0.066
     }
   },
   "input_freshness": {
@@ -48,15 +48,15 @@
     "kr_gov_2y_or_3y": {
       "source": "ECOS",
       "cadence": "trading-day",
-      "observation": "20260820",
-      "value": 3.672,
+      "observation": "20260821",
+      "value": 3.709,
       "available": true
     },
     "expected_policy_path": {
       "source": "korea_rate_forecast_v2",
       "cadence": "workflow",
-      "observation": "2026-08-21T15:39:40.142812+09:00",
-      "value": 0.064,
+      "observation": "2026-08-21T18:01:26.598428+09:00",
+      "value": 0.066,
       "available": true
     }
   },
@@ -94,10 +94,10 @@
   "forecast_path": [
     {
       "months": 3,
-      "liquidity_score": 0.1383,
+      "liquidity_score": 0.1333,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 5.801,
-      "policy_impulse": -0.0853,
+      "expected_m2_yoy_pct": 5.778,
+      "policy_impulse": -0.088,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
       "forecast_quality_score": 95,
@@ -106,10 +106,10 @@
     },
     {
       "months": 6,
-      "liquidity_score": 0.1271,
+      "liquidity_score": 0.1224,
       "grade": "유동성 소폭확장",
-      "expected_m2_yoy_pct": 6.36,
-      "policy_impulse": -0.0973,
+      "expected_m2_yoy_pct": 6.34,
+      "policy_impulse": -0.1013,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
       "forecast_quality_score": 95,
@@ -118,10 +118,10 @@
     },
     {
       "months": 12,
-      "liquidity_score": 0.1123,
+      "liquidity_score": 0.1086,
       "grade": "유동성 중립",
-      "expected_m2_yoy_pct": 6.27,
-      "policy_impulse": -0.1027,
+      "expected_m2_yoy_pct": 6.255,
+      "policy_impulse": -0.1053,
       "validation_shrinkage": 1.0,
       "quality_grade": "A",
       "forecast_quality_score": 92,
@@ -245,5 +245,5 @@
     "monetary_aggregate_available": true,
     "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
   },
-  "generated_at": "2026-08-21T15:39:40.142812+09:00"
+  "generated_at": "2026-08-21T18:01:26.598428+09:00"
 }
