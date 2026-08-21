@@ -4,17 +4,17 @@
     "kr_base_rate_pct": 2.75,
     "us_policy_rate_pct": 3.63,
     "us_kr_policy_gap_pctp": 0.88,
-    "usdkrw": 1381.0,
+    "usdkrw": 1386.3199462890625,
     "kr_gov_2y_pct": 3.672,
     "kr_gov_3y_pct": 3.811,
     "kr_gov_10y_pct": 4.323,
-    "krw_strength_score": 0.8623,
+    "krw_strength_score": 0.8427,
     "krw_strength_grade": "강강",
-    "krw_absolute_level_score": 0.9841,
+    "krw_absolute_level_score": 0.9683,
     "krw_absolute_level_grade": "강강",
-    "krw_short_term_momentum_score": 0.636,
+    "krw_short_term_momentum_score": 0.6094,
     "krw_short_term_momentum_grade": "강약",
-    "usdkrw_1y_percentile": 0.0079
+    "usdkrw_1y_percentile": 0.0159
   },
   "forecast": {
     "horizon": "향후 1~3개월",
@@ -23,7 +23,7 @@
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.573
+        "probability": 0.572
       },
       "hike_25bp": {
         "rate_pct": 3.0,
@@ -31,13 +31,13 @@
       },
       "cut_25bp": {
         "rate_pct": 2.5,
-        "probability": 0.153
+        "probability": 0.152
       }
     },
-    "usdkrw_mid": 1384.0,
+    "usdkrw_mid": 1389.4,
     "usdkrw_range": [
-      1305.5,
-      1462.6
+      1310.5,
+      1468.2
     ],
     "usdkrw_direction": "neutral",
     "usdkrw_up_probability": 0.4973,
@@ -45,7 +45,7 @@
     "usdkrw_down_probability": 0.4578,
     "usdkrw_model_quality_grade": "B",
     "usdkrw_model_quality_score": 72,
-    "krw_strength_score": 0.6254,
+    "krw_strength_score": 0.5994,
     "krw_strength_grade": "강약",
     "confidence": 0.74,
     "confidence_limit": "공식자료·시장금리·미국정책경로·워크포워드 검증 반영"
@@ -83,15 +83,15 @@
     "fx_backtest_samples": 608,
     "fx_backtest_rmse_pct": 4.016,
     "fx_prediction_interval": "워크포워드 오차 기반 약 80% 구간",
-    "fx_1m_change": -0.02788,
-    "fx_3m_change": -0.09735,
-    "fx_forecast_bias_pct": 0.00217,
+    "fx_1m_change": -0.02413,
+    "fx_3m_change": -0.09387,
+    "fx_forecast_bias_pct": 0.00222,
     "policy_market_gap_pctp": 0.922,
     "us_policy_engine_connected": true,
     "us_policy_next_meeting": "2026-09-16",
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "4.0.0-probability-validation-split"
   },
-  "generated_at": "2026-08-21T14:02:52.402986+09:00",
+  "generated_at": "2026-08-21T15:39:40.142812+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }
