@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-21T08:13:22.899732+09:00",
+  "generated_at": "2026-08-21T10:01:26.940473+09:00",
   "overall_level": "운영 예측 정상",
   "rate": {
     "level": "검증 B등급·재구성 OOS 통과·실시간 빈티지 누적",

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-20T23:14:56.333522+00:00",
+  "generated_at_utc": "2026-08-21T01:03:42.375644+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
     "current_score": 56,
@@ -118,8 +118,8 @@
       },
       "earnings": {
         "available": true,
-        "score_normalized": 0.99929,
-        "current_growth_proxy_pct": 79.434,
+        "score_normalized": 0.999556,
+        "current_growth_proxy_pct": 84.127,
         "baseline_growth_proxy_pct": null,
         "revision_pct_point": null,
         "history_samples": 3,
@@ -189,20 +189,20 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5363,
-        "raw_score_before_regime": 0.5363,
+        "score_normalized": 0.5352,
+        "raw_score_before_regime": 0.5352,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1393.78,
-          "usd_krw_1m_change_pct": -4.83,
-          "fx_1m_signal": 0.9229,
-          "krw_strength_score": 63.19,
+          "usd_krw_current": 1387.48,
+          "usd_krw_1m_change_pct": -4.52,
+          "fx_1m_signal": 0.9063,
+          "krw_strength_score": 63.85,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.2638,
+          "krw_strength_signal": 0.277,
           "broad_dollar_1m_change_pct": -1.35,
           "dollar_signal": 0.4222,
-          "usd_krw_vol_1m_ann_pct": 10.78,
-          "usd_krw_level_percentile": 0.042,
+          "usd_krw_vol_1m_ann_pct": 10.42,
+          "usd_krw_level_percentile": 0.014,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
           "fx_crisis_thresholds": {
@@ -259,7 +259,7 @@
     "history_samples": 6,
     "period_detail": {
       "credit_spread_trend_signal": -0.033,
-      "usd_krw_1m_trend_signal": 0.9229
+      "usd_krw_1m_trend_signal": 0.9063
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
@@ -294,7 +294,7 @@
       },
       "6m": {
         "available": true,
-        "score": 78,
+        "score": 79,
         "direction": "상승 우세",
         "bias": "강약",
         "signal_count": 7,
@@ -336,7 +336,7 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-20T23:14:56.333522+00:00",
+    "generated_at_utc": "2026-08-21T01:03:42.375644+00:00",
     "current_score": 56,
     "current_regime": "중립",
     "trend_score": 19,
@@ -348,7 +348,7 @@
     "forward_1m_direction": "중립",
     "forward_3m_score": 55,
     "forward_3m_direction": "소폭 상승 우세",
-    "forward_6m_score": 78,
+    "forward_6m_score": 79,
     "forward_6m_direction": "상승 우세",
     "forward_12m_score": 74,
     "forward_12m_direction": "상승 우세",

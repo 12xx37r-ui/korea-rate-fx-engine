@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-20T23:14:24.082498+00:00",
+  "generated_at_utc": "2026-08-21T01:03:00.618275+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -10,7 +10,7 @@
     "stale": false,
     "source": null,
     "source_validation": "unavailable",
-    "reason": "naver:RuntimeError:polling_identity_or_value_guard_failed; basic:HTTPError:409 Client Error: 409 for url: https://m.stock.naver.com/api/index/E62001/basic; krx:RuntimeError:20260819:HTTPError:401 Client Error: Unauthorized for url: https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?basDd; 20260818:HTTPError:401 Client Error: Un",
+    "reason": "naver:RuntimeError:polling_identity_or_value_guard_failed; basic:HTTPError:409 Client Error: 409 for url: https://m.stock.naver.com/api/index/E62001/basic; krx:RuntimeError:20260820:HTTPError:401 Client Error: Unauthorized for url: https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?basDd; 20260819:HTTPError:401 Client Error: Un",
     "identity_code": "E62001"
   },
   "semiconductor": {
@@ -21,11 +21,11 @@
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1393.78,
-    "change_1d_pct": 0.3152,
-    "change_3d_pct": -1.4808,
-    "std_5d": 11.3524,
-    "std_10d": 9.4382
+    "latest_rate": 1387.48,
+    "change_1d_pct": -0.452,
+    "change_3d_pct": -1.8464,
+    "std_5d": 11.9078,
+    "std_10d": 11.5598
   },
   "cds_proxy": {
     "available": true,
@@ -38,33 +38,15 @@
   },
   "foreign_futures": {
     "available": true,
-    "period_start": "20260721",
-    "period_end": "20260820",
-    "foreign_net_value": 696876479877.0,
-    "foreign_buy_value": 261166094030599.0,
+    "period_start": "20260722",
+    "period_end": "20260821",
+    "foreign_net_value": 507036250455.0,
+    "foreign_buy_value": 254116684668553.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
   "semiconductor_raw": {
     "sox": [
-      {
-        "date": "20260521",
-        "value": 11964.080078125,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260522",
-        "value": 12202.5400390625,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
-      {
-        "date": "20260526",
-        "value": 12876.91015625,
-        "source": "Yahoo Finance",
-        "symbol": "^SOX"
-      },
       {
         "date": "20260527",
         "value": 12702.1904296875,
@@ -288,6 +270,18 @@
         "symbol": "^SOX"
       },
       {
+        "date": "20260721",
+        "value": 12356.16015625,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260722",
+        "value": 12410.669921875,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
         "date": "20260723",
         "value": 12343.83984375,
         "source": "Yahoo Finance",
@@ -320,6 +314,12 @@
       {
         "date": "20260730",
         "value": 11302.990234375,
+        "source": "Yahoo Finance",
+        "symbol": "^SOX"
+      },
+      {
+        "date": "20260731",
+        "value": 11311.080078125,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       },
@@ -1134,24 +1134,6 @@
     ],
     "sp500": [
       {
-        "date": "20260521",
-        "value": 7445.72021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260522",
-        "value": 7473.47021484375,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
-        "date": "20260526",
-        "value": 7519.1201171875,
-        "source": "Yahoo Finance",
-        "symbol": "^GSPC"
-      },
-      {
         "date": "20260527",
         "value": 7520.35986328125,
         "source": "Yahoo Finance",
@@ -1374,6 +1356,18 @@
         "symbol": "^GSPC"
       },
       {
+        "date": "20260721",
+        "value": 7509.2001953125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260722",
+        "value": 7498.9599609375,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
         "date": "20260723",
         "value": 7408.2998046875,
         "source": "Yahoo Finance",
@@ -1406,6 +1400,12 @@
       {
         "date": "20260730",
         "value": 7437.6298828125,
+        "source": "Yahoo Finance",
+        "symbol": "^GSPC"
+      },
+      {
+        "date": "20260731",
+        "value": 7489.72021484375,
         "source": "Yahoo Finance",
         "symbol": "^GSPC"
       },
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 4.04
+  "elapsed_seconds": 2.83
 }
