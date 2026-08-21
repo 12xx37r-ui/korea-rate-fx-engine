@@ -1,11 +1,15 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-21T14:10:07.702261+00:00",
-  "status": "SKIP_RECENT_FULL",
-  "reason": "full output is recent",
-  "full_generated_at_utc": "2026-08-21T13:00:51.347204+00:00",
-  "full_age_minutes": 69.27,
-  "guard_minutes": 120,
-  "network_calls": 0,
-  "canonical_file_changed": false
+  "generated_at_utc": "2026-08-21T15:56:44.797864+00:00",
+  "status": "UPDATED",
+  "network_calls": 1,
+  "canonical_file_changed": true,
+  "snapshot": {
+    "price": 1384.63,
+    "market_time_utc": "2026-08-21T15:56:40+00:00",
+    "retrieved_at_utc": "2026-08-21T15:56:44.795909+00:00",
+    "source": "Yahoo Finance KRW=X chart metadata",
+    "exchange": "CCY",
+    "market_state": null
+  }
 }
