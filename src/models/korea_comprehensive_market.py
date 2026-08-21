@@ -1229,64 +1229,6 @@ def _build_forward_score(
     }
 
 
-def _weighted_signal_score_v2(items: list[tuple[float | None, float, str]]) -> dict[str, Any]:
-    """Compatibility-safe shadow score: explicit normalized weights, no legacy field changes."""
-    used=[]
-    num=den=0.0
-    for value, weight, label in items:
-        v=_num(value)
-        w=max(0.0, float(weight or 0.0))
-        if v is None or w <= 0:
-            continue
-        v=_clamp(v,-1,1)
-        num += v*w; den += w
-        used.append({"label":label,"signal":_r(v,4),"weight":_r(w,3)})
-    if den <= 0:
-        return {"available":False,"score":None,"signal_count":0,"components":[]}
-    avg=num/den
-    return {"available":True,"score":round(_clamp(50+avg*50,0,100)),"signal_count":len(used),"weight_sum":_r(den,3),"components":used}
-
-
-def _forward_period_v2(period_months: int, factors: dict[str, dict], rate_forecast: dict[str, Any], liquidity: dict[str, Any], strength: dict[str, Any]) -> dict[str, Any]:
-    """Shadow forward model v2.  Existing forward_score remains untouched for consumers."""
-    price_ev=(factors.get("price_trend") or {}).get("evidence") or {}
-    def fs(name):
-        f=factors.get(name) or {}; return _num(f.get("score_normalized")) if f.get("available") else None
-    liq_path=list(liquidity.get("forecast_path") or [])
-    str_path=list(strength.get("forecast_path") or [])
-    def path_signal(path, months, field, transform):
-        row=next((r for r in path if _num(r.get("months"))==months), path[-1] if path else None)
-        return transform(_num(row.get(field))) if row and _num(row.get(field)) is not None else None
-    liq=lambda m:path_signal(liq_path,m,"liquidity_score",lambda x:_clamp(x/0.5,-1,1))
-    krw=lambda m:path_signal(str_path,m,"strength_score",lambda x:_clamp((x-50)/50,-1,1))
-    rate_ev=(factors.get("rate_liquidity_credit") or {}).get("evidence") or {}
-    rate_dir=_num(rate_ev.get("rate_direction_signal")); credit=_num(rate_ev.get("credit_spread_signal"))
-    if period_months==1:
-        items=[(_num(price_ev.get("signal_1m")),2.2,"price_1m"),(_num(price_ev.get("signal_3m")),0.8,"price_3m"),(fs("breadth"),1.2,"breadth"),(fs("flow"),1.2,"flow"),(fs("market_risk"),1.0,"market_risk"),(krw(3),0.4,"krw_forward")]
-        cap=70
-    elif period_months==3:
-        items=[(_num(price_ev.get("signal_3m")),1.0,"price_3m"),(_num(price_ev.get("signal_6m")),0.5,"price_6m"),(fs("earnings"),1.5,"earnings"),(fs("valuation"),0.7,"valuation"),(rate_dir,1.2,"rate_direction"),(liq(3),1.2,"liquidity_3m"),(krw(3),0.8,"krw_3m"),(credit,0.8,"credit")]
-        cap=62
-    elif period_months==6:
-        items=[(_num(price_ev.get("signal_6m")),0.5,"price_6m"),(_num(price_ev.get("signal_12m")),0.25,"price_12m"),(fs("earnings"),1.8,"earnings"),(fs("valuation"),1.0,"valuation"),(liq(6),1.5,"liquidity_6m"),(krw(6),1.0,"krw_6m"),(fs("rate_liquidity_credit"),1.4,"financial_cycle"),(fs("external"),0.8,"external")]
-        cap=54
-    else:
-        items=[(_num(price_ev.get("signal_12m")),0.2,"price_12m"),(fs("earnings"),2.0,"earnings"),(fs("valuation"),1.8,"valuation_mean_reversion_anchor"),(fs("rate_liquidity_credit"),1.8,"financial_cycle"),(fs("external"),1.2,"external"),(krw(12),0.8,"krw_long")]
-        cap=46
-    out=_weighted_signal_score_v2(items)
-    possible=sum(w for _,w,_ in items); used=float(out.get("weight_sum") or 0)
-    coverage=100*used/max(possible,1e-9)
-    confidence=min(cap, coverage*0.72)  # pre-OOS conservative cap
-    out.update({"direction":_forward_direction(out.get("score")),"bias":_forward_bias(out.get("score")),"forecast_confidence_pct":round(confidence),"confidence_status":"PRE_OOS_CAPPED","horizon_months":period_months})
-    return out
-
-
-def _build_forward_score_v2(factors, rate_forecast, liquidity, strength):
-    periods={f"{m}m":_forward_period_v2(m,factors,rate_forecast,liquidity,strength) for m in (1,3,6,12)}
-    vals=[p["score"] for p in periods.values() if p.get("available") and p.get("score") is not None]
-    conf=[p["forecast_confidence_pct"] for p in periods.values() if p.get("available")]
-    return {"shadow_only":True,"model_version":"forward-v2-normalized-weights-pre-oos","overall":{"score":round(sum(vals)/len(vals)) if vals else None,"confidence_pct":round(sum(conf)/len(conf)) if conf else 0,"confidence_status":"PRE_OOS_CAPPED"},"periods":periods,"compatibility_note":"기존 forward_score 필드는 변경하지 않으며 소비 프로그램 전환 전까지 shadow 결과로만 제공합니다."}
-
 # ── 히스토리 관리 ─────────────────────────────────────────────────────────────
 def _update_history(path: Path, current_factors: dict, current_score: dict) -> list[dict]:
     existing = _safe_read(path, [])
@@ -1412,7 +1354,6 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
 
     # ── Forward Score ──
     forward_score = _build_forward_score(factors, rate_forecast, liquidity, strength)
-    forward_score_v2 = _build_forward_score_v2(factors, rate_forecast, liquidity, strength)
 
     # ── 요약 ──
     cur_s = current_score.get("score")
@@ -1426,8 +1367,6 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
         "forward_overall": fwd_s,
         "forward_regime": _current_regime(fwd_s),
         "forward_confidence_pct": (forward_score.get("overall") or {}).get("confidence_pct"),
-        "forward_v2_shadow_score": (forward_score_v2.get("overall") or {}).get("score"),
-        "forward_v2_confidence_pct": (forward_score_v2.get("overall") or {}).get("confidence_pct"),
         "positive_factors": current_score.get("positive_factors", []),
         "negative_factors": current_score.get("negative_factors", []),
         "data_quality": dq,
@@ -1450,8 +1389,6 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
         "trend_method":           trend_score.get("method_used", "embedded_series"),
         "forward_overall":        fwd_s,
         "forward_confidence_pct": (forward_score.get("overall") or {}).get("confidence_pct"),
-        "forward_v2_shadow_score": (forward_score_v2.get("overall") or {}).get("score"),
-        "forward_v2_confidence_pct": (forward_score_v2.get("overall") or {}).get("confidence_pct"),
         "forward_1m_score":       _fp("1m", "score"),
         "forward_1m_direction":   _fp("1m", "direction"),
         "forward_3m_score":       _fp("3m", "score"),
@@ -1486,7 +1423,6 @@ def build_and_write(output_dir: Path) -> dict[str, Any]:
         "current_score": current_score,
         "trend_score": trend_score,
         "forward_score": forward_score,
-        "forward_score_v2": forward_score_v2,
         "derivative_overlay": derivative_overlay,
         "pit_coverage": pit_report,
         "data_quality_gate": dq,
