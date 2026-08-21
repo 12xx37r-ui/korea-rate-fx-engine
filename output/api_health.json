@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-21T22:00:51.347204+09:00",
+  "generated_at": "2026-08-22T06:05:36.083309+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -54,10 +54,10 @@
       "latest_observation": "20260821",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
-        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
-        "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
         "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
+        "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
+        "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
+        "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
         "fred_commodities_wti: RuntimeError: FRED_API_KEY is not configured"
       ],
       "metadata": {
@@ -147,6 +147,13 @@
             "first_errors": [
               {
                 "keys": [
+                  "us_breakeven_10y"
+                ],
+                "start": "2026-07-05",
+                "error": "RuntimeError: FRED_API_KEY is not configured"
+              },
+              {
+                "keys": [
                   "us_2y",
                   "us_10y",
                   "vix",
@@ -154,29 +161,22 @@
                 ],
                 "start": "2026-07-04",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
-              },
-              {
-                "keys": [
-                  "us_breakeven_10y"
-                ],
-                "start": "2026-07-05",
-                "error": "RuntimeError: FRED_API_KEY is not configured"
               }
             ],
             "retry_errors": [
               {
                 "keys": [
-                  "us_2y",
-                  "us_10y",
-                  "vix",
-                  "hy_oas"
+                  "us_breakeven_10y"
                 ],
                 "start": "2026-07-07",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
               },
               {
                 "keys": [
-                  "us_breakeven_10y"
+                  "us_2y",
+                  "us_10y",
+                  "vix",
+                  "hy_oas"
                 ],
                 "start": "2026-07-07",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
@@ -258,13 +258,13 @@
           "wti"
         ],
         "errors": {
-          "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
           "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured"
         },
-        "elapsed_seconds": 14.48
+        "elapsed_seconds": 14.69
       }
     },
     "krx": {
@@ -294,8 +294,8 @@
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
       "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7faf847781d0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7faf84779580>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
+        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f31781e3da0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
+        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f3177ff9130>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
       ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
