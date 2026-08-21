@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-08-21T15:56:44.797864+00:00",
+  "generated_at_utc": "2026-08-21T17:50:49.974183+00:00",
   "status": "UPDATED",
   "network_calls": 1,
   "canonical_file_changed": true,
   "snapshot": {
-    "price": 1384.63,
-    "market_time_utc": "2026-08-21T15:56:40+00:00",
-    "retrieved_at_utc": "2026-08-21T15:56:44.795909+00:00",
+    "price": 1385.53,
+    "market_time_utc": "2026-08-21T17:50:46+00:00",
+    "retrieved_at_utc": "2026-08-21T17:50:49.972122+00:00",
     "source": "Yahoo Finance KRW=X chart metadata",
     "exchange": "CCY",
     "market_state": null
