@@ -37800,7 +37800,7 @@
     },
     {
       "date": "20260821",
-      "value": 1382.2099609375,
+      "value": 1384.97998046875,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
     }
@@ -43925,9 +43925,9 @@
   },
   "usd_krw_market_snapshot": {
     "symbol": "FX_USDKRW",
-    "price": 1382.2,
-    "market_time_utc": "2026-08-21T09:00:54+00:00",
-    "retrieved_at_utc": "2026-08-21T09:01:46.914509+00:00",
+    "price": 1385.7,
+    "market_time_utc": "2026-08-21T12:59:44+00:00",
+    "retrieved_at_utc": "2026-08-21T13:01:15.440229+00:00",
     "market_state": "OPEN",
     "source": "Naver MarketIndex FX_USDKRW",
     "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43938,9 +43938,9 @@
   "usd_krw_market_snapshot_candidates": {
     "naver": {
       "symbol": "FX_USDKRW",
-      "price": 1382.2,
-      "market_time_utc": "2026-08-21T09:00:54+00:00",
-      "retrieved_at_utc": "2026-08-21T09:01:46.914509+00:00",
+      "price": 1385.7,
+      "market_time_utc": "2026-08-21T12:59:44+00:00",
+      "retrieved_at_utc": "2026-08-21T13:01:15.440229+00:00",
       "market_state": "OPEN",
       "source": "Naver MarketIndex FX_USDKRW",
       "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43948,8 +43948,8 @@
     },
     "yahoo": {
       "symbol": "KRW=X",
-      "price": 1382.21,
-      "market_time_utc": "2026-08-21T09:01:45+00:00",
+      "price": 1384.98,
+      "market_time_utc": "2026-08-21T13:01:13+00:00",
       "exchange": "CCY",
       "exchange_timezone": "Europe/London",
       "currency": "KRW",

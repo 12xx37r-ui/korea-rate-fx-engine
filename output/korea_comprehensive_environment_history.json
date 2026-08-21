@@ -95,16 +95,16 @@
   },
   {
     "date": "2026-08-21",
-    "generated_at_utc": "2026-08-21T09:04:41.938099+00:00",
-    "current_score": 56,
+    "generated_at_utc": "2026-08-21T13:03:55.620358+00:00",
+    "current_score": 58,
     "factor_scores": {
-      "price_trend": 0.1932,
-      "breadth": 0.192405,
-      "earnings": 0.999531,
-      "valuation": -0.017969,
-      "flow": -0.881202,
+      "price_trend": 0.1049,
+      "breadth": 0.087192,
+      "earnings": 0.999532,
+      "valuation": 0.022656,
+      "flow": -0.479441,
       "rate_liquidity_credit": -0.1354,
-      "fx": 0.5452,
+      "fx": 0.5404,
       "market_risk": 0.6088,
       "external": 0.0463
     }

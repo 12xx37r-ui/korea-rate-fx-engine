@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21T18:01:26.598428+09:00",
+  "generated_at": "2026-08-21T22:00:51.347204+09:00",
   "status": "OK",
   "renewal_required": false,
   "alerts": [],
@@ -18,7 +18,7 @@
       "status": "valid",
       "action_required": false,
       "action": "없음",
-      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 2/2"
+      "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
     }
   ]
 }

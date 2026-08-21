@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-21T09:04:41.938432+00:00",
+  "generated_at_utc": "2026-08-21T13:03:55.620770+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
-    "current_score": 56,
+    "current_score": 58,
     "current_regime": "중립",
     "trend_score": 19,
     "trend_direction": "개선",
-    "forward_overall": 63,
+    "forward_overall": 62,
     "forward_regime": "약호황",
     "forward_confidence_pct": 100,
     "positive_factors": [
@@ -26,7 +26,7 @@
     }
   },
   "current_score": {
-    "score": 56,
+    "score": 58,
     "score_valid": true,
     "regime": "중립",
     "coverage_pct": 100,
@@ -52,22 +52,22 @@
     "factors": {
       "price_trend": {
         "available": true,
-        "score_normalized": 0.1932,
+        "score_normalized": 0.1049,
         "evidence": {
-          "current_close": 1080.98,
+          "current_close": 1096.25,
           "samples": 320,
-          "return_1m_pct": 0.07,
-          "signal_1m": 0.0141,
-          "return_3m_pct": -11.83,
-          "signal_3m": -0.8284,
-          "return_6m_pct": 32.43,
-          "signal_6m": 0.9738,
-          "return_12m_pct": 149.38,
+          "return_1m_pct": -2.67,
+          "signal_1m": -0.4885,
+          "return_3m_pct": -13.03,
+          "signal_3m": -0.8626,
+          "return_6m_pct": 34.58,
+          "signal_6m": 0.9803,
+          "return_12m_pct": 153.01,
           "signal_12m": 1.0,
-          "ma50": 1167.51,
+          "ma50": 1164.89,
           "above_ma50": false,
           "signal_ma50": -0.5,
-          "ma200": 898.3,
+          "ma200": 900.99,
           "above_ma200": true,
           "signal_ma200": 0.5
         },
@@ -77,12 +77,12 @@
       },
       "breadth": {
         "available": true,
-        "score_normalized": 0.192405,
-        "advances": 1597,
-        "declines": 1065,
+        "score_normalized": 0.087192,
+        "advances": 1451,
+        "declines": 1210,
         "unchanged": 103,
-        "advance_share": 0.577577,
-        "advance_decline_balance": 0.192405,
+        "advance_share": 0.524964,
+        "advance_decline_balance": 0.087192,
         "markets": [
           "kospi",
           "kosdaq"
@@ -91,24 +91,24 @@
         "dual_track": {
           "export_large_cap": {
             "market": "KOSPI",
-            "advances": 572,
-            "declines": 342,
-            "valid_symbols": 944,
-            "ad_balance": 0.2516,
-            "signal": 0.2516,
+            "advances": 512,
+            "declines": 399,
+            "valid_symbols": 943,
+            "ad_balance": 0.124,
+            "signal": 0.124,
             "note": "반도체·수출 대형주 편중 -지수 왜곡 위험 구간"
           },
           "domestic_small_cap": {
             "market": "KOSDAQ",
-            "advances": 1025,
-            "declines": 723,
+            "advances": 939,
+            "declines": 811,
             "valid_symbols": 1821,
-            "ad_balance": 0.1728,
-            "signal": 0.1728,
+            "ad_balance": 0.0731,
+            "signal": 0.0731,
             "note": "내수·바이오·중소형 성장주 -체감 시장 온도계"
           },
           "divergence": {
-            "kosdaq_minus_kospi_signal": -0.0788,
+            "kosdaq_minus_kospi_signal": -0.0509,
             "decoupling_detected": false,
             "interpretation": "동조 -디커플링 없음",
             "alert": null
@@ -118,8 +118,8 @@
       },
       "earnings": {
         "available": true,
-        "score_normalized": 0.999531,
-        "current_growth_proxy_pct": 83.585,
+        "score_normalized": 0.999532,
+        "current_growth_proxy_pct": 83.607,
         "baseline_growth_proxy_pct": null,
         "revision_pct_point": null,
         "history_samples": 4,
@@ -130,22 +130,22 @@
       },
       "valuation": {
         "available": true,
-        "score_normalized": -0.017969,
+        "score_normalized": 0.022656,
         "evidence": [
           {
             "index": "kospi200",
-            "per": 18.34,
-            "pbr": 2.26,
-            "per_percentile": 0.598437,
-            "pbr_percentile": 0.814063,
+            "per": 18.6,
+            "pbr": 2.29,
+            "per_percentile": 0.610938,
+            "pbr_percentile": 0.826562,
             "history_samples": 320
           },
           {
             "index": "kosdaq150",
-            "per": 63.41,
-            "pbr": 4.32,
-            "per_percentile": 0.079687,
-            "pbr_percentile": 0.54375,
+            "per": 60.03,
+            "pbr": 4.09,
+            "per_percentile": 0.064062,
+            "pbr_percentile": 0.453125,
             "history_samples": 320
           }
         ],
@@ -154,10 +154,10 @@
       },
       "flow": {
         "available": true,
-        "score_normalized": -0.881202,
-        "combined_net_bps_of_turnover": -69.056,
-        "foreign_net_bps_of_turnover": -23.615,
-        "institution_net_bps_of_turnover": -45.441,
+        "score_normalized": -0.479441,
+        "combined_net_bps_of_turnover": -26.113,
+        "foreign_net_bps_of_turnover": -9.322,
+        "institution_net_bps_of_turnover": -16.791,
         "markets": [
           "kospi",
           "kosdaq"
@@ -189,19 +189,19 @@
       },
       "fx": {
         "available": true,
-        "score_normalized": 0.5452,
-        "raw_score_before_regime": 0.5452,
+        "score_normalized": 0.5404,
+        "raw_score_before_regime": 0.5404,
         "signal_count": 3,
         "evidence": {
-          "usd_krw_current": 1382.21,
-          "usd_krw_1m_change_pct": -4.88,
-          "fx_1m_signal": 0.9257,
-          "krw_strength_score": 64.38,
+          "usd_krw_current": 1384.98,
+          "usd_krw_1m_change_pct": -4.69,
+          "fx_1m_signal": 0.9161,
+          "krw_strength_score": 64.14,
           "krw_strength_grade": "원화 약강세",
-          "krw_strength_signal": 0.2876,
+          "krw_strength_signal": 0.2828,
           "broad_dollar_1m_change_pct": -1.35,
           "dollar_signal": 0.4222,
-          "usd_krw_vol_1m_ann_pct": 10.59,
+          "usd_krw_vol_1m_ann_pct": 10.48,
           "usd_krw_level_percentile": 0.014,
           "fx_regime": "CAUTION",
           "fx_regime_multiplier": 1.5,
@@ -259,14 +259,14 @@
     "history_samples": 7,
     "period_detail": {
       "credit_spread_trend_signal": -0.0201,
-      "usd_krw_1m_trend_signal": 0.9257
+      "usd_krw_1m_trend_signal": 0.9161
     },
     "embedded_signal_count": 9,
     "note": "추세 점수는 현재 시계열 방향신호의 복합 평균입니다. committed history 5건 이상 누적 후 자동으로 이력 비교 방식으로 전환됩니다."
   },
   "forward_score": {
     "overall": {
-      "score": 63,
+      "score": 62,
       "score_valid": true,
       "regime": "약호황",
       "direction": "소폭 상승 우세",
@@ -275,9 +275,9 @@
     "periods": {
       "1m": {
         "available": true,
-        "score": 45,
-        "direction": "중립",
-        "bias": "약약",
+        "score": 39,
+        "direction": "소폭 하락 우세",
+        "bias": "약불리",
         "signal_count": 6,
         "evidence": {}
       },
@@ -302,7 +302,7 @@
       },
       "12m": {
         "available": true,
-        "score": 74,
+        "score": 75,
         "direction": "상승 우세",
         "bias": "강약",
         "signal_count": 6,
@@ -336,21 +336,21 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-21T09:04:41.938432+00:00",
-    "current_score": 56,
+    "generated_at_utc": "2026-08-21T13:03:55.620770+00:00",
+    "current_score": 58,
     "current_regime": "중립",
     "trend_score": 19,
     "trend_direction": "개선",
     "trend_method": "embedded_series",
-    "forward_overall": 63,
+    "forward_overall": 62,
     "forward_confidence_pct": 100,
-    "forward_1m_score": 45,
-    "forward_1m_direction": "중립",
+    "forward_1m_score": 39,
+    "forward_1m_direction": "소폭 하락 우세",
     "forward_3m_score": 55,
     "forward_3m_direction": "소폭 상승 우세",
     "forward_6m_score": 79,
     "forward_6m_direction": "상승 우세",
-    "forward_12m_score": 74,
+    "forward_12m_score": 75,
     "forward_12m_direction": "상승 우세",
     "coverage_pct": 100,
     "factors_available": [
