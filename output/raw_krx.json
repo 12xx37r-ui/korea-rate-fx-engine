@@ -6754,28 +6754,28 @@
   },
   "supply_demand": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-08-21T23:02:25.887166Z",
+    "generated_at": "2026-08-22T01:01:48.971984Z",
     "available": true,
     "foreign_spot_flow": {
       "available": true,
-      "period_start": "20260722",
-      "period_end": "20260821",
-      "net_value": 216975190075.0,
-      "buy_value": 261014626215492.0,
-      "sell_value": 260797651025417.0,
-      "cum_5d_net": 6218777382906.0,
-      "cum_20d_net": -1278811155253.0,
-      "momentum_signal": "혼조",
+      "period_start": "20260723",
+      "period_end": "20260822",
+      "net_value": -2412943137891.0,
+      "buy_value": 248139736994116.0,
+      "sell_value": 250552680132007.0,
+      "cum_5d_net": 6164590516487.0,
+      "cum_20d_net": 1621210238508.0,
+      "momentum_signal": "강한_순매수",
       "diagnostics": [],
       "source": "KRX 투자자별 거래대금 (pykrx)"
     },
     "futures_flow": {
       "available": true,
-      "period_start": "20260722",
-      "period_end": "20260821",
+      "period_start": "20260723",
+      "period_end": "20260822",
       "net_contracts": null,
-      "net_value_proxy": 216975190075.0,
-      "trend": "매수우위",
+      "net_value_proxy": -2412943137891.0,
+      "trend": "매도우위",
       "source": "pykrx KOSPI 외국인 현물 (선물 API 불가 시 대용)",
       "note": "pykrx futures 모듈 미지원 환경: KOSPI 현물 순매수 대용",
       "diagnostics": [
@@ -6788,14 +6788,18 @@
       "kospi200_futures": null,
       "reason": "선물가격 조회 실패",
       "diagnostics": [
-        "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__"
-      ]
+        "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__",
+        "basis:weekend_network_skip"
+      ],
+      "status": "CACHE",
+      "market_state": "CLOSED",
+      "cache_reason": "weekend"
     },
     "flow_momentum_summary": {
-      "cum_5d_net": 6218777382906.0,
-      "cum_20d_net": -1278811155253.0,
-      "momentum_signal": "혼조",
-      "futures_trend": "매수우위",
+      "cum_5d_net": 6164590516487.0,
+      "cum_20d_net": 1621210238508.0,
+      "momentum_signal": "강한_순매수",
+      "futures_trend": "매도우위",
       "basis_signal": null
     }
   }

@@ -155,7 +155,7 @@
     "explanation": "예상금리는 확률가중 평균이며 modal_rate_pct는 가장 가능성 높은 25bp 정책경로입니다. 재구성 OOS와 실시간 원본 빈티지 엄격검증을 분리합니다."
   },
   "fx": {
-    "current_usdkrw": 1387.5,
+    "current_usdkrw": 1388.0,
     "current_date": "20260821",
     "current_source": "Naver MarketIndex FX_USDKRW",
     "recent_change_pct": {
@@ -166,95 +166,95 @@
     "forecast_path": [
       {
         "months": 1,
-        "point_forecast": 1387.199458,
-        "mid": 1387.199458,
+        "point_forecast": 1387.69935,
+        "mid": 1387.69935,
         "change_pct": -0.019,
         "direction": "neutral",
         "up_probability": 0.4567,
         "neutral_probability": 0.0805,
         "down_probability": 0.4628,
         "range_50": [
-          1364.057762,
-          1410.341155
+          1364.549314,
+          1410.849386
         ],
         "range_80": [
-          1343.220217,
-          1431.1787
+          1343.70426,
+          1431.69444
         ],
         "quality_grade": "B",
         "model_quality_score": 71,
         "prediction_status": "forecast",
         "model_change_pct": -0.019,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       },
       {
         "months": 3,
-        "point_forecast": 1390.305054,
-        "mid": 1390.305054,
+        "point_forecast": 1390.806065,
+        "mid": 1390.806065,
         "change_pct": 0.204,
         "direction": "neutral",
         "up_probability": 0.4959,
         "neutral_probability": 0.0449,
         "down_probability": 0.4592,
         "range_50": [
-          1348.830325,
-          1431.879964
+          1349.31639,
+          1432.395957
         ],
         "range_80": [
-          1311.362816,
-          1469.247292
+          1311.835379,
+          1469.776751
         ],
         "quality_grade": "B",
         "model_quality_score": 72,
         "prediction_status": "forecast",
         "model_change_pct": 0.204,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       },
       {
         "months": 6,
-        "point_forecast": 1404.330325,
-        "mid": 1404.330325,
+        "point_forecast": 1404.83639,
+        "mid": 1404.83639,
         "change_pct": 1.215,
         "direction": "up",
         "up_probability": 0.5637,
         "neutral_probability": 0.0511,
         "down_probability": 0.3852,
         "range_50": [
-          1354.039711,
-          1454.620939
+          1354.527653,
+          1455.145126
         ],
         "range_80": [
-          1308.858303,
-          1499.902527
+          1309.329964,
+          1500.443032
         ],
         "quality_grade": "B",
         "model_quality_score": 74,
         "prediction_status": "forecast",
         "model_change_pct": 1.215,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       },
       {
         "months": 12,
-        "point_forecast": 1393.009928,
-        "mid": 1393.009928,
+        "point_forecast": 1393.511913,
+        "mid": 1393.511913,
         "change_pct": 0.395,
         "direction": "neutral",
         "up_probability": 0.494,
         "neutral_probability": 0.0571,
         "down_probability": 0.4489,
         "range_50": [
-          1327.792419,
-          1458.227437
+          1328.270903,
+          1458.752924
         ],
         "range_80": [
-          1269.086643,
-          1516.833032
+          1269.543971,
+          1517.379639
         ],
         "quality_grade": "C",
         "model_quality_score": 64,
         "prediction_status": "forecast",
         "model_change_pct": 0.395,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       }
     ],
     "quality_gate": {
@@ -454,105 +454,105 @@
         "prediction_status": "forecast"
       }
     ],
-    "market_spot": 1387.5,
-    "market_spot_as_of_utc": "2026-08-21T20:48:06+00:00",
+    "market_spot": 1388.0,
+    "market_spot_as_of_utc": "2026-08-21T23:50:38+00:00",
     "market_spot_source": "Naver MarketIndex FX_USDKRW",
     "market_spot_status": "CACHE",
     "market_state": "CLOSED",
-    "market_spot_retrieved_at_utc": "2026-08-21T23:02:15.798278+00:00",
-    "market_spot_age_minutes": 135.5,
+    "market_spot_retrieved_at_utc": "2026-08-22T01:01:42.855430+00:00",
+    "market_spot_age_minutes": 72.14,
     "rebased_forecast_path": [
       {
         "months": 1,
-        "point_forecast": 1387.199458,
-        "mid": 1387.199458,
+        "point_forecast": 1387.69935,
+        "mid": 1387.69935,
         "change_pct": -0.019,
         "direction": "neutral",
         "up_probability": 0.4567,
         "neutral_probability": 0.0805,
         "down_probability": 0.4628,
         "range_50": [
-          1364.057762,
-          1410.341155
+          1364.549314,
+          1410.849386
         ],
         "range_80": [
-          1343.220217,
-          1431.1787
+          1343.70426,
+          1431.69444
         ],
         "quality_grade": "B",
         "model_quality_score": 71,
         "prediction_status": "forecast",
         "model_change_pct": -0.019,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       },
       {
         "months": 3,
-        "point_forecast": 1390.305054,
-        "mid": 1390.305054,
+        "point_forecast": 1390.806065,
+        "mid": 1390.806065,
         "change_pct": 0.204,
         "direction": "neutral",
         "up_probability": 0.4959,
         "neutral_probability": 0.0449,
         "down_probability": 0.4592,
         "range_50": [
-          1348.830325,
-          1431.879964
+          1349.31639,
+          1432.395957
         ],
         "range_80": [
-          1311.362816,
-          1469.247292
+          1311.835379,
+          1469.776751
         ],
         "quality_grade": "B",
         "model_quality_score": 72,
         "prediction_status": "forecast",
         "model_change_pct": 0.204,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       },
       {
         "months": 6,
-        "point_forecast": 1404.330325,
-        "mid": 1404.330325,
+        "point_forecast": 1404.83639,
+        "mid": 1404.83639,
         "change_pct": 1.215,
         "direction": "up",
         "up_probability": 0.5637,
         "neutral_probability": 0.0511,
         "down_probability": 0.3852,
         "range_50": [
-          1354.039711,
-          1454.620939
+          1354.527653,
+          1455.145126
         ],
         "range_80": [
-          1308.858303,
-          1499.902527
+          1309.329964,
+          1500.443032
         ],
         "quality_grade": "B",
         "model_quality_score": 74,
         "prediction_status": "forecast",
         "model_change_pct": 1.215,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       },
       {
         "months": 12,
-        "point_forecast": 1393.009928,
-        "mid": 1393.009928,
+        "point_forecast": 1393.511913,
+        "mid": 1393.511913,
         "change_pct": 0.395,
         "direction": "neutral",
         "up_probability": 0.494,
         "neutral_probability": 0.0571,
         "down_probability": 0.4489,
         "range_50": [
-          1327.792419,
-          1458.227437
+          1328.270903,
+          1458.752924
         ],
         "range_80": [
-          1269.086643,
-          1516.833032
+          1269.543971,
+          1517.379639
         ],
         "quality_grade": "C",
         "model_quality_score": 64,
         "prediction_status": "forecast",
         "model_change_pct": 0.395,
-        "market_spot_anchor": 1387.5
+        "market_spot_anchor": 1388.0
       }
     ],
     "quality_improvement": {
@@ -633,7 +633,7 @@
       "expected_policy_path": {
         "source": "korea_rate_forecast_v2",
         "cadence": "workflow",
-        "observation": "2026-08-22T08:01:54.193419+09:00",
+        "observation": "2026-08-22T10:01:21.822021+09:00",
         "value": 0.066,
         "available": true
       }
@@ -823,7 +823,7 @@
       "monetary_aggregate_available": true,
       "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
     },
-    "generated_at": "2026-08-22T08:01:54.193419+09:00"
+    "generated_at": "2026-08-22T10:01:21.822021+09:00"
   },
   "krw_strength": {
     "schema_version": "1.0.0",
@@ -831,9 +831,9 @@
     "status": "ok",
     "forecast_operational": true,
     "current": {
-      "strength_score": 63.98,
+      "strength_score": 63.96,
       "grade": "원화 약강세",
-      "usdkrw": 1387.5,
+      "usdkrw": 1388.0,
       "usdkrw_source": "Naver MarketIndex FX_USDKRW",
       "usdkrw_model_anchor": 1385.0,
       "usdkrw_live_overlay_applied": true,
@@ -843,9 +843,9 @@
     "forecast_path": [
       {
         "months": 3,
-        "strength_score": 75.5,
+        "strength_score": 75.28,
         "grade": "원화 강세",
-        "change_points": 11.53,
+        "change_points": 11.33,
         "direction": "up",
         "up_probability": 0.4592,
         "neutral_probability": 0.0449,
@@ -854,7 +854,7 @@
           50.7,
           77.8
         ],
-        "fx_anchor": 1390.3,
+        "fx_anchor": 1390.8,
         "quality_grade": "B",
         "model_quality_score": 85,
         "independent_oos_grade": "B",
@@ -864,9 +864,9 @@
       },
       {
         "months": 6,
-        "strength_score": 72.42,
+        "strength_score": 71.99,
         "grade": "원화 강세",
-        "change_points": 8.45,
+        "change_points": 8.03,
         "direction": "up",
         "up_probability": 0.3852,
         "neutral_probability": 0.0511,
@@ -875,7 +875,7 @@
           34.3,
           77.7
         ],
-        "fx_anchor": 1404.3,
+        "fx_anchor": 1404.8,
         "quality_grade": "B",
         "model_quality_score": 85,
         "independent_oos_grade": "B",
@@ -887,7 +887,7 @@
         "months": 12,
         "strength_score": 74.67,
         "grade": "원화 강세",
-        "change_points": 10.7,
+        "change_points": 10.72,
         "direction": "up",
         "up_probability": 0.4489,
         "neutral_probability": 0.0571,
@@ -896,7 +896,7 @@
           28.8,
           77.7
         ],
-        "fx_anchor": 1393.0,
+        "fx_anchor": 1393.5,
         "quality_grade": "B",
         "model_quality_score": 83,
         "independent_oos_grade": "B",
@@ -907,7 +907,7 @@
     ],
     "factor_panel": {
       "group_scores": {
-        "usdkrw_level_momentum": 0.8247,
+        "usdkrw_level_momentum": 0.8237,
         "effective_fx": -0.484,
         "global_currency": 0.1214,
         "rate_gap": -0.3101,
@@ -922,14 +922,14 @@
       },
       "details": {
         "usdkrw_level_momentum": {
-          "score": 0.8247,
-          "spot": 1387.5,
+          "score": 0.8237,
+          "spot": 1388.0,
           "one_year_percentile": 0.0198,
-          "ret20_pct": -2.33,
-          "ret60_pct": -9.31,
+          "ret20_pct": -2.295,
+          "ret60_pct": -9.277,
           "source": "Naver MarketIndex FX_USDKRW",
           "observation": "20260821",
-          "market_time_utc": "2026-08-21T20:48:06+00:00",
+          "market_time_utc": "2026-08-21T23:50:38+00:00",
           "live_overlay_applied": true,
           "model_anchor_usdkrw": 1385.0
         },
@@ -980,8 +980,8 @@
       "usdkrw": {
         "source": "Naver MarketIndex FX_USDKRW",
         "observation": "20260821",
-        "market_time_utc": "2026-08-21T20:48:06+00:00",
-        "retrieved_at_utc": "2026-08-21T23:02:15.798278+00:00",
+        "market_time_utc": "2026-08-21T23:50:38+00:00",
+        "retrieved_at_utc": "2026-08-22T01:01:42.855430+00:00",
         "market_state": "CLOSED",
         "live_overlay_applied": true
       },
@@ -1129,7 +1129,7 @@
       "원화 강도 확률은 USD/KRW 예측분포의 방향을 반전해 사용하고 NEER·REER·금리차·대외건전성으로 점수를 보정합니다.",
       "독립 OOS는 USD/KRW·BIS NEER·BIS REER의 관측 가능한 복합 원화강도 목표를 과거시점 순차선택으로 검증합니다."
     ],
-    "generated_at": "2026-08-22T08:01:54.193419+09:00"
+    "generated_at": "2026-08-22T10:01:21.822021+09:00"
   },
   "factor_panel": {
     "1m": {
@@ -1400,14 +1400,14 @@
   "source_freshness": {
     "fx_market": {
       "status": "CACHE",
-      "as_of_utc": "2026-08-21T20:48:06+00:00",
-      "age_minutes": 135.5,
+      "as_of_utc": "2026-08-21T23:50:38+00:00",
+      "age_minutes": 72.14,
       "source": "Naver MarketIndex FX_USDKRW",
       "model_anchor_preserved": true,
       "public_current_uses_latest_overlay": true,
       "rebased_path_available": true,
       "market_state": "CLOSED",
-      "retrieved_at_utc": "2026-08-21T23:02:15.798278+00:00"
+      "retrieved_at_utc": "2026-08-22T01:01:42.855430+00:00"
     }
   },
   "certification": {
@@ -1421,6 +1421,6 @@
     "v3_production_enabled": true,
     "note": "V3는 별도 그림자 FX 예측을 만들지 않고 V4 FX·유동성·원화강도 결과를 하나의 JSON으로 통합합니다."
   },
-  "generated_at": "2026-08-22T08:01:54.193419+09:00",
+  "generated_at": "2026-08-22T10:01:21.822021+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }

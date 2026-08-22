@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-22T08:01:54.193419+09:00",
+  "generated_at": "2026-08-22T10:01:21.822021+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -116,7 +116,7 @@
                   "usd_jpy",
                   "usd_krw_fred"
                 ],
-                "start": "2026-07-07",
+                "start": "2026-07-08",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
               }
             ]
@@ -171,14 +171,14 @@
                   "vix",
                   "hy_oas"
                 ],
-                "start": "2026-07-07",
+                "start": "2026-07-08",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
               },
               {
                 "keys": [
                   "us_breakeven_10y"
                 ],
-                "start": "2026-07-07",
+                "start": "2026-07-08",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
               }
             ]
@@ -224,14 +224,14 @@
                 "keys": [
                   "commodity_index"
                 ],
-                "start": "2026-07-07",
+                "start": "2026-07-08",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
               },
               {
                 "keys": [
                   "wti"
                 ],
-                "start": "2026-07-07",
+                "start": "2026-07-08",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
               }
             ]
@@ -264,7 +264,7 @@
           "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured"
         },
-        "elapsed_seconds": 13.8
+        "elapsed_seconds": 13.69
       }
     },
     "krx": {
@@ -278,42 +278,42 @@
       "metadata": {
         "supply_demand_available": true,
         "flow_momentum_summary": {
-          "cum_5d_net": 6218777382906.0,
-          "cum_20d_net": -1278811155253.0,
-          "momentum_signal": "혼조",
-          "futures_trend": "매수우위",
+          "cum_5d_net": 6164590516487.0,
+          "cum_20d_net": 1621210238508.0,
+          "momentum_signal": "강한_순매수",
+          "futures_trend": "매도우위",
           "basis_signal": null
         }
       }
     },
     "kosis": {
       "source": "kosis",
-      "status": "degraded",
+      "status": "ok",
       "message": "KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2",
       "rows": 360,
       "latest_observation": "202607",
       "payload_path": "output/raw_kosis.json",
       "warnings": [
-        "cpi_core: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1J22042&itmId=T03&objL1=3&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f79b5bea990>, 'Connection to kosis.kr timed out. (connect timeout=6)'))",
-        "industrial_production: 요청 실패: HTTPSConnectionPool(host='kosis.kr', port=443): Max retries exceeded with url: /openapi/Param/statisticsParameterData.do?method=getList&apiKey=***&orgId=101&tblId=DT_1JH20202&itmId=T1&objL1=1&prdSe=M&newEstPrdCnt=18&format=json&jsonVD=Y (Caused by ConnectTimeoutError(<HTTPSConnection(host='kosis.kr', port=443) at 0x7f79b5bebce0>, 'Connection to kosis.kr timed out. (connect timeout=6)'))"
+        "cpi_core: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True",
+        "industrial_production: 주말 월간자료 외부호출 생략 · 직전 정상 이력 유지=True"
       ],
       "metadata": {
         "resolution_path": "output/kosis_resolution.json",
         "cache_version": 3,
-        "external_request_count": 2,
+        "external_request_count": 0,
         "max_external_requests": 2,
         "circuit_open": false,
         "circuit_reason": "",
-        "network_failures": [
-          "cpi_core",
-          "industrial_production"
-        ],
+        "network_failures": [],
         "per_series_network_retries": 2,
         "last_good_reused": [
           "cpi_core",
           "industrial_production"
         ],
-        "cadence_skips": [],
+        "cadence_skips": [
+          "cpi_core",
+          "industrial_production"
+        ],
         "weekend_cache_skip_enabled": true,
         "credential_status": "valid",
         "secret_name": "KOSIS_API_KEY",
@@ -365,7 +365,5 @@
     "strength_previous_forecast_used": false,
     "raw_series_merge_enabled": true
   },
-  "warnings": [
-    "kosis: KOSIS 국내 공식 지표 사용 가능 2/2 · 신규성공 0/2"
-  ]
+  "warnings": []
 }

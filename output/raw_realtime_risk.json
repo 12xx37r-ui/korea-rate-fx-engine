@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-21T23:03:10.519615+00:00",
+  "generated_at_utc": "2026-08-22T01:02:15.189366+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -10,7 +10,7 @@
     "stale": false,
     "source": null,
     "source_validation": "unavailable",
-    "reason": "naver:RuntimeError:polling_identity_or_value_guard_failed; basic:HTTPError:409 Client Error: 409 for url: https://m.stock.naver.com/api/index/E62001/basic; krx:RuntimeError:20260820:HTTPError:401 Client Error: Unauthorized for url: https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?basDd; 20260819:HTTPError:401 Client Error: Un",
+    "reason": "naver:RuntimeError:polling_identity_or_value_guard_failed; basic:HTTPError:409 Client Error: 409 for url: https://m.stock.naver.com/api/index/E62001/basic; krx:RuntimeError:20260821:HTTPError:401 Client Error: Unauthorized for url: https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd?basDd; 20260820:HTTPError:401 Client Error: Un",
     "identity_code": "E62001"
   },
   "semiconductor": {
@@ -38,10 +38,10 @@
   },
   "foreign_futures": {
     "available": true,
-    "period_start": "20260722",
-    "period_end": "20260821",
-    "foreign_net_value": 216975190075.0,
-    "foreign_buy_value": 261014626215492.0,
+    "period_start": "20260723",
+    "period_end": "20260822",
+    "foreign_net_value": -2412943137891.0,
+    "foreign_buy_value": 248139736994116.0,
     "source": "pykrx KOSPI 외국인 현물 (선물 대용)",
     "note": "pykrx는 선물 직접 조회 미지원 - KOSPI 외국인 현물 순매수를 대용으로 사용"
   },
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 2.99
+  "elapsed_seconds": 4.86
 }

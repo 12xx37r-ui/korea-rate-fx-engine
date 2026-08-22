@@ -108,5 +108,21 @@
       "market_risk": 0.6088,
       "external": 0.0463
     }
+  },
+  {
+    "date": "2026-08-22",
+    "generated_at_utc": "2026-08-22T01:02:46.504379+00:00",
+    "current_score": 58,
+    "factor_scores": {
+      "price_trend": 0.1049,
+      "breadth": 0.087192,
+      "earnings": 0.999532,
+      "valuation": 0.022656,
+      "flow": -0.479441,
+      "rate_liquidity_credit": -0.1354,
+      "fx": 0.5391,
+      "market_risk": 0.6088,
+      "external": 0.0463
+    }
   }
 ]
