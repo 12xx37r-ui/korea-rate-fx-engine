@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "collector_version": "realtime-risk-collector-v1.4-vkospi-diagnostics",
-  "generated_at_utc": "2026-08-22T01:02:15.189366+00:00",
+  "generated_at_utc": "2026-08-22T05:03:49.701169+00:00",
   "vkospi": {
     "available": false,
     "latest": null,
@@ -14,18 +14,18 @@
     "identity_code": "E62001"
   },
   "semiconductor": {
-    "sox_latest": 11740.374,
+    "sox_latest": 11740.3701,
     "sox_1d_pct": -0.5055,
     "sox_5d_pct": -5.4496,
     "nvda_1d_pct": -0.9822,
     "errors": {}
   },
   "usdkrw_volatility": {
-    "latest_rate": 1385.0,
-    "change_1d_pct": -0.4163,
-    "change_3d_pct": -2.0218,
-    "std_5d": 12.7681,
-    "std_10d": 12.3732
+    "latest_rate": 1383.9,
+    "change_1d_pct": -0.0794,
+    "change_3d_pct": -0.3959,
+    "std_5d": 10.8361,
+    "std_10d": 13.6871
   },
   "cds_proxy": {
     "available": true,
@@ -403,7 +403,7 @@
       },
       {
         "date": "20260821",
-        "value": 11740.3740234375,
+        "value": 11740.3701171875,
         "source": "Yahoo Finance",
         "symbol": "^SOX"
       }
@@ -1496,5 +1496,5 @@
     ]
   },
   "vkospi_rows": [],
-  "elapsed_seconds": 4.86
+  "elapsed_seconds": 2.78
 }

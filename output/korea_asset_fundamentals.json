@@ -1,7 +1,7 @@
 {
   "schema_version": "1.3.0",
   "engine_version": "korea-asset-fundamentals-v1.3",
-  "generated_at_utc": "2026-08-22T01:02:10.002159+00:00",
+  "generated_at_utc": "2026-08-22T05:03:46.591962+00:00",
   "indices": {
     "kospi200": {
       "per": 18.6,
@@ -104,8 +104,8 @@
     "yield_method": "cached_ttm_distribution/current_live_price",
     "as_of": "2026-08-22",
     "price_as_of": "2026-08-22",
-    "distribution_basis_as_of": "2026-08-21",
-    "distribution_basis_age_days": 1,
+    "distribution_basis_as_of": "2026-08-22",
+    "distribution_basis_age_days": 0,
     "distribution_cadence_cache_used": true,
     "source": "NAVER 현재가 + last-good 분배금 기준",
     "source_url": "https://m.stock.naver.com/api/stock/329200/integration",
@@ -116,7 +116,7 @@
     "available": true,
     "stale": false,
     "diagnostics": [
-      "reit_distribution_cadence_cache_used:age_days=1,window_days=35"
+      "reit_distribution_cadence_cache_used:age_days=0,window_days=35"
     ]
   },
   "source_status": {

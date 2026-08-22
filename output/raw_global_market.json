@@ -37803,6 +37803,12 @@
       "value": 1385.0,
       "source": "Yahoo Finance",
       "symbol": "KRW=X"
+    },
+    {
+      "date": "20260822",
+      "value": 1383.9000244140625,
+      "source": "Yahoo Finance",
+      "symbol": "KRW=X"
     }
   ],
   "krw_neer": [
@@ -42204,7 +42210,7 @@
     },
     {
       "date": "20260821",
-      "value": 11740.3740234375,
+      "value": 11740.3701171875,
       "source": "Yahoo Finance",
       "symbol": "^SOX"
     }
@@ -43921,8 +43927,8 @@
   ],
   "semiconductor_momentum": {
     "sox": {
-      "latest": 11740.3740234375,
-      "mom_20d_pct": -0.6642,
+      "latest": 11740.3701171875,
+      "mom_20d_pct": -0.6643,
       "mom_60d_pct": -7.5721
     },
     "twii": {
@@ -43945,7 +43951,7 @@
     "symbol": "FX_USDKRW",
     "price": 1388.0,
     "market_time_utc": "2026-08-21T23:50:38+00:00",
-    "retrieved_at_utc": "2026-08-22T01:01:42.855430+00:00",
+    "retrieved_at_utc": "2026-08-22T05:03:25.423760+00:00",
     "market_state": "CLOSED",
     "source": "Naver MarketIndex FX_USDKRW",
     "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43958,7 +43964,7 @@
       "symbol": "FX_USDKRW",
       "price": 1388.0,
       "market_time_utc": "2026-08-21T23:50:38+00:00",
-      "retrieved_at_utc": "2026-08-22T01:01:42.855430+00:00",
+      "retrieved_at_utc": "2026-08-22T05:03:25.423760+00:00",
       "market_state": "OPEN",
       "source": "Naver MarketIndex FX_USDKRW",
       "source_url": "https://m.stock.naver.com/front-api/marketIndex/exchange/main",
@@ -43966,8 +43972,8 @@
     },
     "yahoo": {
       "symbol": "KRW=X",
-      "price": 1385.0,
-      "market_time_utc": "2026-08-21T23:01:48+00:00",
+      "price": 1383.9,
+      "market_time_utc": "2026-08-22T03:30:33+00:00",
       "exchange": "CCY",
       "exchange_timezone": "Europe/London",
       "currency": "KRW",
