@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "model_version": "korea-comprehensive-market-v1.0-zero-new-api",
-  "generated_at_utc": "2026-08-22T09:02:41.847776+00:00",
+  "generated_at_utc": "2026-08-22T13:02:17.159383+00:00",
   "scope": "한국증시 종합환경 엔진. 기존 금리·환율·유동성·원화강도·주식환경 엔진 출력을 재사용. 신규 외부 API 호출 없음. 기존 스키마 변경 없음.",
   "summary": {
     "current_score": 46,
@@ -336,7 +336,7 @@
     "warnings": []
   },
   "_dashboard": {
-    "generated_at_utc": "2026-08-22T09:02:41.847776+00:00",
+    "generated_at_utc": "2026-08-22T13:02:17.159383+00:00",
     "current_score": 46,
     "current_regime": "약간 불리",
     "trend_score": -4,

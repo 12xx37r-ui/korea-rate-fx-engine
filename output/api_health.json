@@ -1,7 +1,7 @@
 {
   "schema_version": "4.3.0-ecos-fast-fail-low-call",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced",
-  "generated_at": "2026-08-22T18:01:28.587780+09:00",
+  "generated_at": "2026-08-22T22:00:55.002991+09:00",
   "sources": {
     "us_policy_engine": {
       "source": "us_policy_engine",
@@ -54,9 +54,9 @@
       "latest_observation": "20260822",
       "payload_path": "output/raw_global_market.json",
       "warnings": [
-        "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
-        "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
         "fred_commodities_commodity_index: RuntimeError: FRED_API_KEY is not configured",
+        "fred_rates_risk_us_2y_us_10y_vix_hy_oas: RuntimeError: FRED_API_KEY is not configured",
+        "fred_rates_risk_us_breakeven_10y: RuntimeError: FRED_API_KEY is not configured",
         "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred: RuntimeError: FRED_API_KEY is not configured",
         "fred_commodities_wti: RuntimeError: FRED_API_KEY is not configured"
       ],
@@ -147,13 +147,6 @@
             "first_errors": [
               {
                 "keys": [
-                  "us_breakeven_10y"
-                ],
-                "start": "2026-07-05",
-                "error": "RuntimeError: FRED_API_KEY is not configured"
-              },
-              {
-                "keys": [
                   "us_2y",
                   "us_10y",
                   "vix",
@@ -161,22 +154,29 @@
                 ],
                 "start": "2026-07-04",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
-              }
-            ],
-            "retry_errors": [
+              },
               {
                 "keys": [
                   "us_breakeven_10y"
                 ],
-                "start": "2026-07-08",
+                "start": "2026-07-05",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
-              },
+              }
+            ],
+            "retry_errors": [
               {
                 "keys": [
                   "us_2y",
                   "us_10y",
                   "vix",
                   "hy_oas"
+                ],
+                "start": "2026-07-08",
+                "error": "RuntimeError: FRED_API_KEY is not configured"
+              },
+              {
+                "keys": [
+                  "us_breakeven_10y"
                 ],
                 "start": "2026-07-08",
                 "error": "RuntimeError: FRED_API_KEY is not configured"
@@ -258,13 +258,13 @@
           "wti"
         ],
         "errors": {
-          "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
-          "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_commodity_index": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_rates_risk_us_2y_us_10y_vix_hy_oas": "RuntimeError: FRED_API_KEY is not configured",
+          "fred_rates_risk_us_breakeven_10y": "RuntimeError: FRED_API_KEY is not configured",
           "fred_currency_broad_dollar_usd_cny_usd_jpy_usd_krw_fred": "RuntimeError: FRED_API_KEY is not configured",
           "fred_commodities_wti": "RuntimeError: FRED_API_KEY is not configured"
         },
-        "elapsed_seconds": 13.95
+        "elapsed_seconds": 13.64
       }
     },
     "krx": {

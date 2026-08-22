@@ -55,7 +55,7 @@
     "expected_policy_path": {
       "source": "korea_rate_forecast_v2",
       "cadence": "workflow",
-      "observation": "2026-08-22T18:01:28.587780+09:00",
+      "observation": "2026-08-22T22:00:55.002991+09:00",
       "value": 0.066,
       "available": true
     }
@@ -245,5 +245,5 @@
     "monetary_aggregate_available": true,
     "note": "유동성 예측품질은 미래 M2 YoY 과거시점 순차 후보선택 OOS로 평가하며 입력자료 품질과 분리합니다. 검증력이 약하면 예측폭을 축소하지만 예측은 계속 산출합니다."
   },
-  "generated_at": "2026-08-22T18:01:28.587780+09:00"
+  "generated_at": "2026-08-22T22:00:55.002991+09:00"
 }
