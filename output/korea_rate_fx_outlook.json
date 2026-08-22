@@ -23,11 +23,11 @@
     "kr_base_rate_scenarios": {
       "hold": {
         "rate_pct": 2.75,
-        "probability": 0.568
+        "probability": 0.569
       },
       "hike_25bp": {
         "rate_pct": 3.0,
-        "probability": 0.28
+        "probability": 0.279
       },
       "cut_25bp": {
         "rate_pct": 2.5,
@@ -92,6 +92,6 @@
     "us_policy_expected_path_rows": 11,
     "us_policy_schema_version": "4.0.0-probability-validation-split"
   },
-  "generated_at": "2026-08-22T14:03:04.900208+09:00",
+  "generated_at": "2026-08-22T18:01:28.587780+09:00",
   "engine_version": "5.0.0-layered-regime-realtime-enhanced"
 }

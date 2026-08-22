@@ -6754,7 +6754,7 @@
   },
   "supply_demand": {
     "schema_version": "1.0.0",
-    "generated_at": "2026-08-22T05:03:30.554136Z",
+    "generated_at": "2026-08-22T09:01:53.580644Z",
     "available": true,
     "foreign_spot_flow": {
       "available": true,
@@ -6789,6 +6789,7 @@
       "reason": "선물가격 조회 실패",
       "diagnostics": [
         "k200_futures:ImportError:cannot import name 'futures' from 'pykrx' (/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/pykrx/__",
+        "basis:weekend_network_skip",
         "basis:weekend_network_skip",
         "basis:weekend_network_skip"
       ],
